@@ -1,4 +1,5 @@
-from sdf import Path
+from planner_and_control.msg import Path
+
 class Ego:
     def __init__(self):
         self.x = 1
@@ -8,6 +9,3 @@ class Ego:
         self.speed = -1
         self.steer = -1
         self.path = Path()
-        self.state = "driving"
-        self.behavior = "move"
-        self.trajectory = 0

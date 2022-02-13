@@ -7,7 +7,4 @@
 # new environment variables
 
 # modified environment variables
-export CMAKE_PREFIX_PATH="/home/hyunswim/TEAM-GIGACHA/devel:$CMAKE_PREFIX_PATH"
 export PWD='/home/hyunswim/TEAM-GIGACHA/build'
-export ROSLISP_PACKAGE_DIRECTORIES='/home/hyunswim/TEAM-GIGACHA/devel/share/common-lisp'
-export ROS_PACKAGE_PATH="/home/hyunswim/TEAM-GIGACHA/src:$ROS_PACKAGE_PATH"

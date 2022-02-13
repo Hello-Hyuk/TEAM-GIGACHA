@@ -131,6 +131,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/hyunswim/TEAM-GIGACHA/build/gtest/cmake_install.cmake")
+  include("/home/hyunswim/TEAM-GIGACHA/build/planner_and_control/cmake_install.cmake")
 
 endif()
 
