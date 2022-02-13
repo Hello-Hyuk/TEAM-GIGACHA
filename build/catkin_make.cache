@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/hyunswim/TEAM-GIGACHA/devel -DCMAKE_INSTALL_PREFIX=/home/hyunswim/TEAM-GIGACHA/install -G Unix Makefiles
