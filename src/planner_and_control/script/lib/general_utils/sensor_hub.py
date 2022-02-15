@@ -7,12 +7,20 @@ from planner_and_control.msg import Serial_Info
 class Sensor_hub:
     def __init__(self):
         rospy.init_node('Sensor_hub', anonymous = False)
-
         rospy.Subscriber("/pose", Local, self.localcallback) # local
-        rospy.Subscriber("/sensor", Local, self.localcallback) # fusion
-        rospy.Subscriber("/s", Local, self.localcallback) # Camera 1
-        rospy.Subscriber("/s", Local, self.localcallback) # Camera 3
+        rospy.Subscriber("/sensor", Local, self.Sensor_fusion_callback) # fusion
+        rospy.Subscriber("/s1", Local, self.camera1_callback) # Camera 1
+        rospy.Subscriber("/s3", Local, self.camera3_callback) # Camera 3
         rospy.Subscriber("/serial", Serial_Info, self.serial_callback) # serial
+
+
+
+
+
+
+
+
+
 
     def localcallback(self, msg):
         pass

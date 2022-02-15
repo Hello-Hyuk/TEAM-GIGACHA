@@ -1,0 +1,6 @@
+<launch>
+  <node name="Mission_Planner" pkg="planner_and_control" type="mission_planner.py" />
+  <node name="Behavior_Planner" pkg="planner_and_control" type="behavior_planner.py" />
+  <node name="Motion_Planner" pkg="planner_and_control" type="motion_planner.py" />
+
+</launch>
