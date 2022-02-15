@@ -24,8 +24,9 @@ class Controller:
         self.trajectory = msg
         
     def run(self):
-        
-        
+        publish_control_info(0,0)
+        self.ego.target_speed = 20.0
+
     def publish_control_info(self, estop, gear):
             self.control_msg.emergency_stop = estop
             self.control_msg.gear = gear

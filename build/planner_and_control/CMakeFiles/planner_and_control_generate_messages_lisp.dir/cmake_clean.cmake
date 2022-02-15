@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "/home/hyunswim/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Control_Info.lisp"
   "/home/hyunswim/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Local.lisp"
   "/home/hyunswim/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Path.lisp"
   "/home/hyunswim/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Serial_Info.lisp"

@@ -18,7 +18,7 @@ class egoUpdater:
         # self.ego.mode = msg.mode
         
     def serialCallback(self, msg):
-        # self.ego.auto_manual = msg.auto_manual
+        self.ego.auto_manual = msg.auto_manual
         self.ego.steer = msg.steer
         self.ego.speed = msg.speed
         self.ego.brake = msg.brake

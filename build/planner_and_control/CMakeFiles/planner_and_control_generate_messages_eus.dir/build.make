@@ -56,6 +56,7 @@ include planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Local.l
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Path.l
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Serial_Info.l
+planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Control_Info.l
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/manifest.l
 
 
@@ -74,14 +75,20 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hyunswim/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating EusLisp code from planner_and_control/Serial_Info.msg"
 	cd /home/hyunswim/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg -Iplanner_and_control:/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iplanner_and_control:/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg
 
+/home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Control_Info.l: /opt/ros/noetic/lib/geneus/gen_eus.py
+/home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Control_Info.l: /home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hyunswim/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp code from planner_and_control/Control_Info.msg"
+	cd /home/hyunswim/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg -Iplanner_and_control:/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iplanner_and_control:/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg
+
 /home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/manifest.l: /opt/ros/noetic/lib/geneus/gen_eus.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hyunswim/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp manifest code for planner_and_control"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hyunswim/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating EusLisp manifest code for planner_and_control"
 	cd /home/hyunswim/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py -m -o /home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control planner_and_control std_msgs planner_and_control
 
 planner_and_control_generate_messages_eus: planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus
 planner_and_control_generate_messages_eus: /home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Local.l
 planner_and_control_generate_messages_eus: /home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Path.l
 planner_and_control_generate_messages_eus: /home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Serial_Info.l
+planner_and_control_generate_messages_eus: /home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Control_Info.l
 planner_and_control_generate_messages_eus: /home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/manifest.l
 planner_and_control_generate_messages_eus: planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus.dir/build.make
 

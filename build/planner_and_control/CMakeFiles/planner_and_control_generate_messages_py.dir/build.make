@@ -56,6 +56,7 @@ include planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Local.py
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Path.py
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Serial_Info.py
+planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Control_Info.py
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py
 
 
@@ -74,17 +75,24 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/h
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hyunswim/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Python from MSG planner_and_control/Serial_Info"
 	cd /home/hyunswim/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg -Iplanner_and_control:/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iplanner_and_control:/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg
 
+/home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Control_Info.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
+/home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Control_Info.py: /home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hyunswim/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Python from MSG planner_and_control/Control_Info"
+	cd /home/hyunswim/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg -Iplanner_and_control:/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iplanner_and_control:/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg
+
 /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
 /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py: /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Local.py
 /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py: /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Path.py
 /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py: /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Serial_Info.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hyunswim/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Python msg __init__.py for planner_and_control"
+/home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py: /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Control_Info.py
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hyunswim/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating Python msg __init__.py for planner_and_control"
 	cd /home/hyunswim/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg --initpy
 
 planner_and_control_generate_messages_py: planner_and_control/CMakeFiles/planner_and_control_generate_messages_py
 planner_and_control_generate_messages_py: /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Local.py
 planner_and_control_generate_messages_py: /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Path.py
 planner_and_control_generate_messages_py: /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Serial_Info.py
+planner_and_control_generate_messages_py: /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Control_Info.py
 planner_and_control_generate_messages_py: /home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py
 planner_and_control_generate_messages_py: planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/build.make
 
