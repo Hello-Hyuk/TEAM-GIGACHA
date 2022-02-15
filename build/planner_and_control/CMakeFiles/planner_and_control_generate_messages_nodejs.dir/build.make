@@ -56,6 +56,7 @@ include planner_and_control/CMakeFiles/planner_and_control_generate_messages_nod
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs: /home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Local.js
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs: /home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Path.js
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs: /home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Serial_Info.js
+planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs: /home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Control_Info.js
 
 
 /home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Local.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
@@ -73,10 +74,16 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs: /ho
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hyunswim/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Javascript code from planner_and_control/Serial_Info.msg"
 	cd /home/hyunswim/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg -Iplanner_and_control:/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iplanner_and_control:/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg
 
+/home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Control_Info.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
+/home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Control_Info.js: /home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hyunswim/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Javascript code from planner_and_control/Control_Info.msg"
+	cd /home/hyunswim/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg -Iplanner_and_control:/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iplanner_and_control:/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg
+
 planner_and_control_generate_messages_nodejs: planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs
 planner_and_control_generate_messages_nodejs: /home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Local.js
 planner_and_control_generate_messages_nodejs: /home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Path.js
 planner_and_control_generate_messages_nodejs: /home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Serial_Info.js
+planner_and_control_generate_messages_nodejs: /home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Control_Info.js
 planner_and_control_generate_messages_nodejs: planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs.dir/build.make
 
 .PHONY : planner_and_control_generate_messages_nodejs

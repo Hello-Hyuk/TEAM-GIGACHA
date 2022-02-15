@@ -53,6 +53,7 @@ add_message_files(
   Local.msg
   Path.msg
   Serial_Info.msg
+  Control_Info.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -107,8 +108,8 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES planner_and_control
-#  CATKIN_DEPENDS roscpp rospy std_msgs
+  LIBRARIES planner_and_control
+  CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
 

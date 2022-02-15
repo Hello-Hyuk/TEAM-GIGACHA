@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "/home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Control_Info.py"
   "/home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Local.py"
   "/home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Path.py"
   "/home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Serial_Info.py"

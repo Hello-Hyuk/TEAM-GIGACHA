@@ -60,8 +60,12 @@
   <exec_depend>std_msgs</exec_depend>
 
   <build_depend>message_generation</build_depend>
-  <build_depend>message_runtime</build_depend>
+  <exec_depend>message_runtime</exec_depend>
   
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>actionlib_msgs</depend>
+
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->

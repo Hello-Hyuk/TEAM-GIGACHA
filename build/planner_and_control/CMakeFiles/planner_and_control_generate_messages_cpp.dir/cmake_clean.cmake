@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "/home/hyunswim/TEAM-GIGACHA/devel/include/planner_and_control/Control_Info.h"
   "/home/hyunswim/TEAM-GIGACHA/devel/include/planner_and_control/Local.h"
   "/home/hyunswim/TEAM-GIGACHA/devel/include/planner_and_control/Path.h"
   "/home/hyunswim/TEAM-GIGACHA/devel/include/planner_and_control/Serial_Info.h"
