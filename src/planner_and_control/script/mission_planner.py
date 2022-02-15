@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import rospy
 from lib.general_utils.ego import Ego
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Hander
