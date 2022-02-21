@@ -36,7 +36,6 @@ class GPS():
     def gps_Heading(self, data):
         self.yaw_gps = data.heading
 
-
 if __name__ == '__main__':
     try:
         gps=GPS()
