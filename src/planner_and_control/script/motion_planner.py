@@ -9,20 +9,17 @@ class Motion_Planner:
     def __init__(self):
         rospy.init_node('Motion_Planner', anonymous = False)
         rospy.Subscriber('/behavior', String, self.behavior_callback)
-        self.pub = rospy.Publisher('/trajectory', String, queue_size = 1)
+        self.pub = rospy.Publisher('/trajectory', Path, queue_size = 1)
         self.ego = Ego()
 
     
     def behavior_callback(self, msg):
-        self.trajectory = msg
+        self.behavior = msg
 
     def run(self):
-        # sample code
-        a = 0
-        b = 0
-        if a == b:
-            self.trajectory = "go"
-        #### sample code end
+       
+        if self.behavior == "go":
+            self.trajectory = self.ego.global_path
 
         self.pub.publish(self.trajectory)
 

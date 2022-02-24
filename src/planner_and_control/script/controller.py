@@ -9,7 +9,7 @@ from planner_and_control.msg import Control_Info
 class Controller:
     def __init__(self):
         rospy.init_node('controller', anonymous = False)
-        rospy.Subscriber('/trajectory', String, self.motion_callback)
+        rospy.Subscriber('/trajectory', Path, self.motion_callback)
         self.control_pub = rospy.Publisher('/controller', String, queue_size = 1)
         self.control_msg = String()
 
