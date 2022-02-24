@@ -28,7 +28,7 @@ class PurePursuit:
         #     self.ego.heading = (self.ego.heading + 180) % 360        
     
         alpha = self.ego.heading - tmp
-        angle = atan2(2.0 * self.WB * sin(radians(alpha.mode == "driving":
+        angle = atan2(2.0 * self.WB * sin(radians(alpha)) / lookahead, 1.0)
         #     lookahead = min(self.k * self.ego.speed + self.lookahead_default, 6) # look-ahead
         # else :
         #     lookahead = 0.5

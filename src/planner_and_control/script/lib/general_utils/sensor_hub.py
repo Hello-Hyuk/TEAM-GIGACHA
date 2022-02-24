@@ -1,5 +1,5 @@
 import rospy
-from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Hander
+from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from lib.general_utils.ego import Ego
 from planner_and_control.msg import Local
 from planner_and_control.msg import Serial_Info
@@ -38,5 +38,5 @@ class Sensor_hub:
         pass
 
 if __name__ == "__main__":
-    Activate_Signal_Interrupt_Hander()
+    Activate_Signal_Interrupt_Handler()
     ss = Sensor_hub()

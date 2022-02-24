@@ -1,7 +1,9 @@
 import rospy
 from lib.general_utils.ego import Ego
-from lib.general_utils.ego_updater import egoUpdater
-from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Hander
+# from lib.general_utils.ego_updater import egoUpdater
+from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
+from lib.controller_utils.pure_pursuit import PurePursuit
+from lib.controller_utils.longtidudinal_controller import longitudinalController
 from std_msgs.msg import String
 from planner_and_control.msg import Path
 from planner_and_control.msg import Control_Info
@@ -11,12 +13,12 @@ class Controller:
         rospy.init_node('controller', anonymous = False)
         rospy.Subscriber('/trajectory', Path, self.motion_callback)
         self.control_pub = rospy.Publisher('/controller', String, queue_size = 1)
-        self.control_msg = String()
+        self.control_msg = Control_Info()
 
         self.ego = Ego()
-        self.trajectory = String()          ## add motion trajectory 
+        self.trajectory = Path()          ## add motion trajectory 
 
-        self.update_ego = egoUpdater(self.ego)
+        # self.update_ego = egoUpdater(self.ego)
         self.ego.target_speed = 20.0
 
         self.lat_controller = PurePursuit(self.ego, self.trajectory)
@@ -26,7 +28,7 @@ class Controller:
         self.trajectory = msg
         
     def run(self):
-        publish_control_info(0,0)
+        self.publish_control_info(0,0)
         self.ego.target_speed = 20.0
 
     def publish_control_info(self, estop, gear):
@@ -40,7 +42,7 @@ class Controller:
         self.control_pub.publish(self.control_msg)
 
 if __name__ == "__main__":
-    Activate_Signal_Interrupt_Hander()
+    Activate_Signal_Interrupt_Handler()
     cc = Controller()
     rate = rospy.Rate(20)
     while not rospy.is_shutdown():

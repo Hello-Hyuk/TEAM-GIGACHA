@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from geometry_msgs.msg import Pose, PoseStamped
-from new_gigacha.msg import Local
+from planner_and_control.msg import Local
 from sensor_msgs.msg import NavSatFix, Imu
 from ublox_msgs.msg import NavPVT
 

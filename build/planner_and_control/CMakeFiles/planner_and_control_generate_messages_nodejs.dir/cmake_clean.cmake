@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
-  "/home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Control_Info.js"
-  "/home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Local.js"
-  "/home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Path.js"
-  "/home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Serial_Info.js"
+  "/home/inha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Control_Info.js"
+  "/home/inha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Local.js"
+  "/home/inha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Path.js"
+  "/home/inha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Serial_Info.js"
   "CMakeFiles/planner_and_control_generate_messages_nodejs"
 )
 
