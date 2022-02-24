@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 import rospy
-from lib.general_utils.ego import Ego
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from std_msgs.msg import String
 from planner_and_control.msg import Path
+from planner_and_control.msg import Ego
 
 class Motion_Planner:
     def __init__(self):
         rospy.init_node('Motion_Planner', anonymous = False)
         rospy.Subscriber('/behavior', String, self.behavior_callback)
+        rospy.Subscriber('/ego', Ego, self.ego_callback)
         self.pub = rospy.Publisher('/trajectory', Path, queue_size = 1)
         self.ego = Ego()
         self.behavior = ''
@@ -17,6 +18,9 @@ class Motion_Planner:
     def behavior_callback(self, msg):
         self.behavior = msg
 
+    def ego_callback(self, msg):
+        self.ego = msg
+        
     def run(self):
        
         if self.behavior == "go":

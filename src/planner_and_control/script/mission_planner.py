@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
 import rospy
-from lib.general_utils.ego import Ego
 from lib.general_utils.sensor_hub import Sensor_hub
-from lib.general_utils.read_global_path import read_global_path
 from lib.planner_utils.index_finder import IndexFinder
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from std_msgs.msg import String
+from planner_and_control.msg import Ego
 
 class Mission_Planner:
     def __init__(self):
         rospy.init_node('Mission_Planner', anonymous = False)
         self.pub = rospy.Publisher('/state', String, queue_size = 1)
+        rospy.Subscriber('/ego', Ego, self.ego_callback)
         self.ego = Ego()
-        self.ego.path = read_global_path('all_nodes')
         self.state = ''
-        # self.sensor_hub = Sensor_hub()
-        self.whereami = IndexFinder(self.ego)
 
+    def ego_callback(self, msg):
+        self.ego = msg
+        
     def run(self):
         self.whereami.run()
         a = 0

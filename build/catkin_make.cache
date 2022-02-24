@@ -1,2 +1,2 @@
 planner_and_control
--DCATKIN_DEVEL_PREFIX=/home/inha/TEAM-GIGACHA/devel -DCMAKE_INSTALL_PREFIX=/home/inha/TEAM-GIGACHA/install -G Unix Makefiles
+-DCATKIN_DEVEL_PREFIX=/home/hyunswim/TEAM-GIGACHA/devel -DCMAKE_INSTALL_PREFIX=/home/hyunswim/TEAM-GIGACHA/install -G Unix Makefiles
