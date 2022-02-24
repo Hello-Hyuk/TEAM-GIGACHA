@@ -3,6 +3,7 @@ from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from lib.general_utils.ego import Ego
 from planner_and_control.msg import Local
 from planner_and_control.msg import Serial_Info
+from planner_and_control.msg import Ego
 
 class Sensor_hub:
     def __init__(self):
@@ -13,6 +14,8 @@ class Sensor_hub:
         rospy.Subscriber("/s3", Local, self.camera3_callback) # Camera 3
         rospy.Subscriber("/serial", Serial_Info, self.serial_callback) # serial
 
+        rospy.init_node('Ego', anonymous = False)
+        rospy.Publisher("/ego", Ego, queue_size = 1)
 
 
 
