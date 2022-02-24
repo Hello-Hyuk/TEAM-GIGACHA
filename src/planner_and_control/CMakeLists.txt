@@ -54,6 +54,7 @@ add_message_files(
   Path.msg
   Serial_Info.msg
   Control_Info.msg
+  Ego.msg
 )
 
 ## Generate services in the 'srv' folder
