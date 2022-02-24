@@ -20,7 +20,7 @@ class PurePursuit:
         #     lookahead = 0.5
             
         target_index = int(self.ego.index + lookahead*10)
-        target_x, target_y = path.x[target_index], path.y[target_index]
+        target_x, target_y = self.path.x[target_index], self.path.y[target_index]
         print(f"target_index : {target_index}")
         tmp = degrees(atan2(target_y - self.ego.y, target_x - self.ego.x)) % 360
 
@@ -48,6 +48,6 @@ class PurePursuit:
     #         lookahead = 0.8
 
     #     target_index_v = int(self.ego.index + lookahead*25)
-    #     target_x_v, target_y_v = path.x[target_index_v], path.y[target_index_v]
+    #     target_x_v, target_y_v = self.path.x[target_index_v], self.path.y[target_index_v]
     #     curve_check = abs (self.ego.heading - degrees(atan2(target_y_v - self.ego.y, target_x_v - self.ego.x)) % 360  )
     #     return curve_check
