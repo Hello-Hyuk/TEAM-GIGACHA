@@ -20,6 +20,7 @@ class Motion_Planner:
 
     def ego_callback(self, msg):
         self.ego = msg
+        
     def run(self):
        
         if self.behavior == "go":

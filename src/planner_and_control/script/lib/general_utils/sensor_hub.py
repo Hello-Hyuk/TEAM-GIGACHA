@@ -1,6 +1,7 @@
 import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
-from lib.general_utils.ego import Ego
+from lib.planner_utils.index_finder import IndexFinder
+from lib.general_utils.read_global_path import read_global_path
 from planner_and_control.msg import Local
 from planner_and_control.msg import Serial_Info
 from planner_and_control.msg import Ego
@@ -14,19 +15,17 @@ class Sensor_hub:
         rospy.Subscriber("/s3", Local, self.camera3_callback) # Camera 3
         rospy.Subscriber("/serial", Serial_Info, self.serial_callback) # serial
 
-        rospy.init_node('Ego', anonymous = False)
-        rospy.Publisher("/ego", Ego, queue_size = 1)
+        self.pub = rospy.Publisher("/ego", Ego, queue_size = 1)
 
+        self.ego = Ego()
 
-
-
-
-
-
-
+        self.ego.global_path = read_global_path('all_nodes')
 
     def localcallback(self, msg):
-        pass
+        self.ego.x = msg.x
+        self.ego.y = msg.y
+        self.ego.heading = msg.heading
+        self.ego.index = IndexFinder(self.ego)
 
     def camera1_callback(self, msg):
         pass
@@ -38,8 +37,19 @@ class Sensor_hub:
         pass
 
     def serial_callback(self, msg):
-        pass
+        self.ego.speed = msg.speed
+        self.ego.steer = msg.steer
+        self.ego.brake = msg.brake
+        self.ego.gear = msg.gear
+        self.ego.auto_manual = msg.auto_manual
+
+    def run(self):
+        self.pub.publish(self.ego)
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
     ss = Sensor_hub()
+    rate = rospy.Rate(20)
+    while not rospy.is_shutdown():
+        ss.run()
+        rate.sleep
