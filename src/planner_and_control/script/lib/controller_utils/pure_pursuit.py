@@ -12,8 +12,8 @@ class PurePursuit:
         self.lookahead_default = 4 #look-ahead default
         self.path = trajectory
 
-    def run(self):
-
+    def run(self, ego):
+        self.ego = ego
         lookahead = min(self.k * self.ego.speed + self.lookahead_default, 6)
 
         # if self.ego.mode == "driving":
@@ -22,9 +22,10 @@ class PurePursuit:
         #     lookahead = 0.5
             
         target_index = int(self.ego.index + lookahead*10)
-        print(f"target_index : {target_index}")
+        print(self.ego.index)
         target_x = self.path.x[target_index]
         target_y = self.path.y[target_index]
+        print(target_index)
         tmp = degrees(atan2(target_y - self.ego.y, target_x - self.ego.x)) % 360
 
         # if self.ego.mode == "backward" :
@@ -42,15 +43,3 @@ class PurePursuit:
         #     angle = -angle
 
         return max(min(degrees(angle), 27.0), -27.0)
-     
-    # def deaccel(self):
-
-    #     if self.ego.mode == "driving":
-    #         lookahead = min(self.k * self.ego.speed + self.lookahead_default, 6) # look-ahead
-    #     else :
-    #         lookahead = 0.8
-
-    #     target_index_v = int(self.ego.index + lookahead*25)
-    #     target_x_v, target_y_v = self.path.x[target_index_v], self.path.y[target_index_v]
-    #     curve_check = abs (self.ego.heading - degrees(atan2(target_y_v - self.ego.y, target_x_v - self.ego.x)) % 360  )
-    #     return curve_check

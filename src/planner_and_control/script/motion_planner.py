@@ -36,4 +36,4 @@ if __name__ == "__main__":
     rate = rospy.Rate(20)
     while not rospy.is_shutdown():
         mp.run()
-        rate.sleep
+        rate.sleep()

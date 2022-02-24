@@ -20,6 +20,7 @@ class Sensor_hub:
         self.IF = IndexFinder(self.ego)
 
     def localcallback(self, msg):
+        print("do")
         self.ego.x = msg.x
         self.ego.y = msg.y
         self.ego.heading = msg.heading
@@ -45,7 +46,6 @@ class Sensor_hub:
 
     def run(self):
         self.pub.publish(self.ego)
-        print(self.ego)
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
