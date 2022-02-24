@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from geometry_msgs.msg import Pose, PoseStamped
-from new_gigacha.msg import Local
+from planner_and_control.msg import Local
 from tf.transformations import euler_from_quaternion
 import pymap3d
 from numpy import rad2deg
@@ -11,7 +11,7 @@ class Localization():
     def __init__(self):
         rospy.init_node('Localization', anonymous=False)
         self.pub = rospy.Publisher('/pose', Local, queue_size = 1)
-
+        self.msg = Local()
         #Visualization
         self.vis_pub = rospy.Publisher('/vis_pose', PoseStamped, queue_size=1)
         self.vis_msg = PoseStamped()

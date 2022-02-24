@@ -4,7 +4,7 @@ from lib.general_utils.ego import Ego
 from lib.general_utils.sensor_hub import Sensor_hub
 from lib.general_utils.read_global_path import read_global_path
 from lib.planner_utils.index_finder import IndexFinder
-from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Hander
+from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from std_msgs.msg import String
 
 class Mission_Planner:
@@ -14,7 +14,7 @@ class Mission_Planner:
         self.ego = Ego()
         self.ego.path = read_global_path('all_nodes')
         self.state = ''
-        self.sensor_hub = Sensor_hub()
+        # self.sensor_hub = Sensor_hub()
         self.whereami = IndexFinder(self.ego)
 
     def run(self):
@@ -28,7 +28,7 @@ class Mission_Planner:
         self.pub.publish(self.state)
 
 if __name__ == "__main__":
-    Activate_Signal_Interrupt_Hander()
+    Activate_Signal_Interrupt_Handler()
     mm = Mission_Planner()
     rate = rospy.Rate(20)
     while not rospy.is_shutdown():

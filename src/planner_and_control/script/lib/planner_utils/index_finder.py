@@ -9,9 +9,10 @@ class IndexFinder:
         self.current_x = self.ego.x
         self.current_y = self.ego.y
         self.ego.index=0
-        self.min_dis=float('inf') # 무한대
+        
 
     def run(self):
+        min_dis=float('inf') # 무한대
         for i in range(len(self.ego.path.x)) :
             dx = self.current_y - self.ego.path.y[i]
             dy = self.current_y - self.ego.path.y[i]

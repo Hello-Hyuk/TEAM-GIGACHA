@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from lib.general_utils.ego import Ego
-from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Hander
+from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from std_msgs.msg import String
 
 class Behavior_Planner:
@@ -24,7 +24,7 @@ class Behavior_Planner:
         self.pub.publish(self.behavior)
 
 if __name__ == "__main__":
-    Activate_Signal_Interrupt_Hander()
+    Activate_Signal_Interrupt_Handler()
     bp = Behavior_Planner()
     rate = rospy.Rate(20)
     while not rospy.is_shutdown():
