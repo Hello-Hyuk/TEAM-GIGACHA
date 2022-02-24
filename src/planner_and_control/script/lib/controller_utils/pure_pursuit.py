@@ -3,16 +3,14 @@ from planner_and_control.msg import Ego
 import rospy
 
 class PurePursuit:
-    def __init__(self, ego, trajectory):
+    def __init__(self, eg, trajectory):
+        self.ego = Ego()
+        self.ego = eg
+        
         self.WB = 1.04 # wheel base
         self.k = 0.3 #1.5
         self.lookahead_default = 4.0 #look-ahead default
-        rospy.Subscriber('/ego', Ego, self.ego_callback)
-        self.ego = Ego()
         self.path = trajectory
-
-    def ego_callback(self, msg):
-        self.ego = msg
 
     def run(self):
 

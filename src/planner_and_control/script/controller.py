@@ -1,5 +1,4 @@
 import rospy
-from lib.general_utils.ego import Ego
 # from lib.general_utils.ego_updater import egoUpdater
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from lib.controller_utils.pure_pursuit import PurePursuit
@@ -7,29 +6,33 @@ from lib.controller_utils.longtidudinal_controller import longitudinalController
 from std_msgs.msg import String
 from planner_and_control.msg import Path
 from planner_and_control.msg import Control_Info
+from planner_and_control.msg import Ego
 
 class Controller:
     def __init__(self):
         rospy.init_node('controller', anonymous = False)
         rospy.Subscriber('/trajectory', Path, self.motion_callback)
         self.control_pub = rospy.Publisher('/controller', String, queue_size = 1)
+        rospy.Subscriber('/ego', Ego, self.ego_callback)
         self.control_msg = Control_Info()
 
         self.ego = Ego()
         self.trajectory = Path()          ## add motion trajectory 
 
-        # self.update_ego = egoUpdater(self.ego)
-        self.ego.target_speed = 20.0
+        self.target_speed = 20.0
 
         self.lat_controller = PurePursuit(self.ego, self.trajectory)
-        self.lon_controller = longitudinalController(self.ego)
+        self.lon_controller = longitudinalController(self.ego, self.target_speed)
 
     def motion_callback(self, msg):
         self.trajectory = msg
         
+    def ego_callback(self, msg):
+        self.ego = msg
+
     def run(self):
         self.publish_control_info(0,0)
-        self.ego.target_speed = 20.0
+        self.target_speed = 20.0
 
     def publish_control_info(self, estop, gear):
         self.control_msg.emergency_stop = estop
