@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hyunswim/TEAM-GIGACHA/src
+CMAKE_SOURCE_DIR = /home/inha/TEAM-GIGACHA/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hyunswim/TEAM-GIGACHA/build
+CMAKE_BINARY_DIR = /home/inha/TEAM-GIGACHA/build
 
 # Utility rule file for run_tests.
 
@@ -67,6 +67,6 @@ CMakeFiles/run_tests.dir/clean:
 .PHONY : CMakeFiles/run_tests.dir/clean
 
 CMakeFiles/run_tests.dir/depend:
-	cd /home/hyunswim/TEAM-GIGACHA/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hyunswim/TEAM-GIGACHA/src /home/hyunswim/TEAM-GIGACHA/src /home/hyunswim/TEAM-GIGACHA/build /home/hyunswim/TEAM-GIGACHA/build /home/hyunswim/TEAM-GIGACHA/build/CMakeFiles/run_tests.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/inha/TEAM-GIGACHA/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/inha/TEAM-GIGACHA/src /home/inha/TEAM-GIGACHA/src /home/inha/TEAM-GIGACHA/build /home/inha/TEAM-GIGACHA/build /home/inha/TEAM-GIGACHA/build/CMakeFiles/run_tests.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/run_tests.dir/depend
 

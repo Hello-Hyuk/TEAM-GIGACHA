@@ -23,5 +23,3 @@ class egoUpdater:
         self.ego.speed = msg.speed
         self.ego.brake = msg.brake
         self.ego.gear = msg.gear
-        
-        
