@@ -36,7 +36,7 @@ class PurePursuit:
         #     lookahead = min(self.k * self.ego.speed + self.lookahead_default, 6) # look-ahead
         # else :
         #     lookahead = 0.5
-        
+        print("angle : ", degrees(angle))
         print(f"heading : {self.ego.heading}")
 
         # if self.ego.mode == "backward" :
