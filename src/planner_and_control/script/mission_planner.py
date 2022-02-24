@@ -12,16 +12,13 @@ class Mission_Planner:
         rospy.init_node('Mission_Planner', anonymous = False)
         self.pub = rospy.Publisher('/state', String, queue_size = 1)
         self.ego = Ego()
-        self.ego.path = read_global_path('')
+        self.ego.path = read_global_path('all_nodes')
         self.state = ''
         self.sensor_hub = Sensor_hub()
-        self.whereami = IndexFinder()
+        self.whereami = IndexFinder(self.ego)
 
     def run(self):
-        whereami.run()
-        # if self.ego.status is "Ready"
-        #     self.state "steady_state"
-        # sample code
+        self.whereami.run()
         a = 0
         b = 0
         if a == b:

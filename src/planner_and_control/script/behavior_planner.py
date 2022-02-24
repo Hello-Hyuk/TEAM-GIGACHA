@@ -10,18 +10,17 @@ class Behavior_Planner:
         rospy.Subscriber('/state', String, self.state_callback)
         self.pub = rospy.Publisher('/behavior', String, queue_size = 1)
         self.ego = Ego()
+        self.state = ""
+        self.behavior = ""
 
     def state_callback(self, msg):
         self.state = msg
 
     def run(self):
-        # sample code
-        a = 0
-        b = 0
-        if a == b:
+        if self.state == "go":
             self.behavior = "go"
-        #### sample code end
-        print("#######")
+
+        print("behavior_planner")
         self.pub.publish(self.behavior)
 
 if __name__ == "__main__":
