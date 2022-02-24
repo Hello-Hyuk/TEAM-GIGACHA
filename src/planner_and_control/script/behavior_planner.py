@@ -3,6 +3,7 @@ import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from std_msgs.msg import String
 from planner_and_control.msg import Ego
+from lib.general_utils.read_global_path import read_global_path
 
 class Behavior_Planner:
     def __init__(self):
@@ -11,7 +12,7 @@ class Behavior_Planner:
         rospy.Subscriber('/ego', Ego, self.ego_callback)
         self.pub = rospy.Publisher('/behavior', String, queue_size = 1)
         self.ego = Ego()
-        self.state = ""
+        self.state = String()
         self.behavior = ""
 
     def state_callback(self, msg):
@@ -23,6 +24,7 @@ class Behavior_Planner:
     def run(self):
         if self.state == "go":
             self.behavior = "go"
+            print("go")
 
         print("behavior_planner")
         self.pub.publish(self.behavior)

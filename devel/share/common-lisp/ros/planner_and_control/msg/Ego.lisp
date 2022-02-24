@@ -47,16 +47,6 @@
     :initarg :gear
     :type cl:fixnum
     :initform 0)
-   (target_speed
-    :reader target_speed
-    :initarg :target_speed
-    :type cl:float
-    :initform 0.0)
-   (global_path
-    :reader global_path
-    :initarg :global_path
-    :type (cl:vector planner_and_control-msg:Path)
-   :initform (cl:make-array 0 :element-type 'planner_and_control-msg:Path :initial-element (cl:make-instance 'planner_and_control-msg:Path)))
    (auto_manual
     :reader auto_manual
     :initarg :auto_manual
@@ -111,16 +101,6 @@
 (cl:defmethod gear-val ((m <Ego>))
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:gear-val is deprecated.  Use planner_and_control-msg:gear instead.")
   (gear m))
-
-(cl:ensure-generic-function 'target_speed-val :lambda-list '(m))
-(cl:defmethod target_speed-val ((m <Ego>))
-  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:target_speed-val is deprecated.  Use planner_and_control-msg:target_speed instead.")
-  (target_speed m))
-
-(cl:ensure-generic-function 'global_path-val :lambda-list '(m))
-(cl:defmethod global_path-val ((m <Ego>))
-  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:global_path-val is deprecated.  Use planner_and_control-msg:global_path instead.")
-  (global_path m))
 
 (cl:ensure-generic-function 'auto_manual-val :lambda-list '(m))
 (cl:defmethod auto_manual-val ((m <Ego>))
@@ -181,18 +161,6 @@
     (cl:write-byte (cl:ldb (cl:byte 8 0) unsigned) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 8) unsigned) ostream)
     )
-  (cl:let ((bits (roslisp-utils:encode-single-float-bits (cl:slot-value msg 'target_speed))))
-    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream))
-  (cl:let ((__ros_arr_len (cl:length (cl:slot-value msg 'global_path))))
-    (cl:write-byte (cl:ldb (cl:byte 8 0) __ros_arr_len) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 8) __ros_arr_len) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 16) __ros_arr_len) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 24) __ros_arr_len) ostream))
-  (cl:map cl:nil #'(cl:lambda (ele) (roslisp-msg-protocol:serialize ele ostream))
-   (cl:slot-value msg 'global_path))
   (cl:let* ((signed (cl:slot-value msg 'auto_manual)) (unsigned (cl:if (cl:< signed 0) (cl:+ signed 65536) signed)))
     (cl:write-byte (cl:ldb (cl:byte 8 0) unsigned) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 8) unsigned) ostream)
@@ -258,22 +226,6 @@
       (cl:setf (cl:ldb (cl:byte 8 0) unsigned) (cl:read-byte istream))
       (cl:setf (cl:ldb (cl:byte 8 8) unsigned) (cl:read-byte istream))
       (cl:setf (cl:slot-value msg 'gear) (cl:if (cl:< unsigned 32768) unsigned (cl:- unsigned 65536))))
-    (cl:let ((bits 0))
-      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
-    (cl:setf (cl:slot-value msg 'target_speed) (roslisp-utils:decode-single-float-bits bits)))
-  (cl:let ((__ros_arr_len 0))
-    (cl:setf (cl:ldb (cl:byte 8 0) __ros_arr_len) (cl:read-byte istream))
-    (cl:setf (cl:ldb (cl:byte 8 8) __ros_arr_len) (cl:read-byte istream))
-    (cl:setf (cl:ldb (cl:byte 8 16) __ros_arr_len) (cl:read-byte istream))
-    (cl:setf (cl:ldb (cl:byte 8 24) __ros_arr_len) (cl:read-byte istream))
-  (cl:setf (cl:slot-value msg 'global_path) (cl:make-array __ros_arr_len))
-  (cl:let ((vals (cl:slot-value msg 'global_path)))
-    (cl:dotimes (i __ros_arr_len)
-    (cl:setf (cl:aref vals i) (cl:make-instance 'planner_and_control-msg:Path))
-  (roslisp-msg-protocol:deserialize (cl:aref vals i) istream))))
     (cl:let ((unsigned 0))
       (cl:setf (cl:ldb (cl:byte 8 0) unsigned) (cl:read-byte istream))
       (cl:setf (cl:ldb (cl:byte 8 8) unsigned) (cl:read-byte istream))
@@ -288,16 +240,16 @@
   "planner_and_control/Ego")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<Ego>)))
   "Returns md5sum for a message object of type '<Ego>"
-  "258a1134fe7ea402fb7a013bfa91a320")
+  "3d75df4892b9e15b8e081e6cd21cb013")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'Ego)))
   "Returns md5sum for a message object of type 'Ego"
-  "258a1134fe7ea402fb7a013bfa91a320")
+  "3d75df4892b9e15b8e081e6cd21cb013")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<Ego>)))
   "Returns full string definition for message of type '<Ego>"
-  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%float32 target_speed~%planner_and_control/Path[] global_path~%int16 auto_manual~%================================================================================~%MSG: planner_and_control/Path~%float64[] x~%float64[] y~%float64[] heading~%float64[] k~%~%"))
+  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%int16 auto_manual~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'Ego)))
   "Returns full string definition for message of type 'Ego"
-  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%float32 target_speed~%planner_and_control/Path[] global_path~%int16 auto_manual~%================================================================================~%MSG: planner_and_control/Path~%float64[] x~%float64[] y~%float64[] heading~%float64[] k~%~%"))
+  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%int16 auto_manual~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <Ego>))
   (cl:+ 0
      8
@@ -308,8 +260,6 @@
      4
      4
      2
-     4
-     4 (cl:reduce #'cl:+ (cl:slot-value msg 'global_path) :key #'(cl:lambda (ele) (cl:declare (cl:ignorable ele)) (cl:+ (roslisp-msg-protocol:serialization-length ele))))
      2
 ))
 (cl:defmethod roslisp-msg-protocol:ros-message-to-list ((msg <Ego>))
@@ -323,7 +273,5 @@
     (cl:cons ':steer (steer msg))
     (cl:cons ':brake (brake msg))
     (cl:cons ':gear (gear msg))
-    (cl:cons ':target_speed (target_speed msg))
-    (cl:cons ':global_path (global_path msg))
     (cl:cons ':auto_manual (auto_manual msg))
 ))

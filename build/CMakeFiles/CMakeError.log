@@ -1,58 +1,55 @@
-Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
-Change Dir: /home/hyunswim/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_9211f/fast && /usr/bin/make -f CMakeFiles/cmTC_9211f.dir/build.make CMakeFiles/cmTC_9211f.dir/build
-make[1]: Entering directory '/home/hyunswim/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_9211f.dir/src.c.o
-/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_9211f.dir/src.c.o   -c /home/hyunswim/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_9211f
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9211f.dir/link.txt --verbose=1
-/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    -rdynamic CMakeFiles/cmTC_9211f.dir/src.c.o  -o cmTC_9211f 
-/usr/bin/ld: CMakeFiles/cmTC_9211f.dir/src.c.o: in function `main':
-src.c:(.text+0x46): undefined reference to `pthread_create'
-/usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
-/usr/bin/ld: src.c:(.text+0x63): undefined reference to `pthread_join'
+Run Build Command:"/usr/bin/make" "cmTC_7d657/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7d657.dir/build.make CMakeFiles/cmTC_7d657.dir/build
+make[1]: Entering directory '/home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7d657.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_7d657.dir/CheckSymbolExists.c.o   -c /home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_7d657
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7d657.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_7d657.dir/CheckSymbolExists.c.o  -o cmTC_7d657 
+CMakeFiles/cmTC_7d657.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_9211f.dir/build.make:87: cmTC_9211f] Error 1
-make[1]: Leaving directory '/home/hyunswim/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp'
-make: *** [Makefile:121: cmTC_9211f/fast] Error 2
+CMakeFiles/cmTC_7d657.dir/build.make:97: recipe for target 'cmTC_7d657' failed
+make[1]: *** [cmTC_7d657] Error 1
+make[1]: Leaving directory '/home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_7d657/fast' failed
+make: *** [cmTC_7d657/fast] Error 2
 
-
-Source file was:
+File /home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
 #include <pthread.h>
 
-void* test_func(void* data)
+int main(int argc, char** argv)
 {
-  return data;
-}
-
-int main(void)
-{
-  pthread_t thread;
-  pthread_create(&thread, NULL, test_func, NULL);
-  pthread_detach(thread);
-  pthread_join(thread, NULL);
-  pthread_atfork(NULL, NULL, NULL);
-  pthread_exit(NULL);
-
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
   return 0;
+#endif
 }
 
 Determining if the function pthread_create exists in the pthreads failed with the following output:
-Change Dir: /home/hyunswim/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp
+Change Dir: /home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_4bad6/fast && /usr/bin/make -f CMakeFiles/cmTC_4bad6.dir/build.make CMakeFiles/cmTC_4bad6.dir/build
-make[1]: Entering directory '/home/hyunswim/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_4bad6.dir/CheckFunctionExists.c.o
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_4bad6.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
-Linking C executable cmTC_4bad6
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4bad6.dir/link.txt --verbose=1
-/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_4bad6.dir/CheckFunctionExists.c.o  -o cmTC_4bad6  -lpthreads 
+Run Build Command:"/usr/bin/make" "cmTC_13ba9/fast"
+/usr/bin/make -f CMakeFiles/cmTC_13ba9.dir/build.make CMakeFiles/cmTC_13ba9.dir/build
+make[1]: Entering directory '/home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_13ba9.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_13ba9.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_13ba9
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_13ba9.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_13ba9.dir/CheckFunctionExists.c.o  -o cmTC_13ba9 -lpthreads 
 /usr/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_4bad6.dir/build.make:87: cmTC_4bad6] Error 1
-make[1]: Leaving directory '/home/hyunswim/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp'
-make: *** [Makefile:121: cmTC_4bad6/fast] Error 2
-
+CMakeFiles/cmTC_13ba9.dir/build.make:97: recipe for target 'cmTC_13ba9' failed
+make[1]: *** [cmTC_13ba9] Error 1
+make[1]: Leaving directory '/home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_13ba9/fast' failed
+make: *** [cmTC_13ba9/fast] Error 2
 
 

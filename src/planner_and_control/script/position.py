@@ -80,7 +80,7 @@ class Localization():
         return roll_x, pitch_y, yaw_z # in radians
 
     def main(self):
-        self.msg.heading = self.yaw_filter
+        self.msg.heading = self.yaw_imu
         self.pub.publish(self.msg)
 
         self.vis_msg.pose.position.x = self.msg.x

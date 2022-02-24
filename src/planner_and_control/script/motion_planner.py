@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import rospy
+from lib.general_utils.read_global_path import read_global_path
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from std_msgs.msg import String
 from planner_and_control.msg import Path
@@ -13,7 +14,7 @@ class Motion_Planner:
         self.pub = rospy.Publisher('/trajectory', Path, queue_size = 1)
         self.ego = Ego()
         self.behavior = ''
-        self.trajectory = Path
+        self.trajectory = Path()
     
     def behavior_callback(self, msg):
         self.behavior = msg
@@ -22,14 +23,13 @@ class Motion_Planner:
         self.ego = msg
         
     def run(self):
-       
-        if self.behavior == "go":
-            self.trajectory.x = self.ego.path.x
-            self.trajectory.y = self.ego.path.y
-            self.trajectory.k = self.ego.path.k
+        self.trajectory = read_global_path('all_nodes')
+        # if self.behavior == "go":
+        
 
         self.pub.publish(self.trajectory)
         print("============")
+
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
     mp = Motion_Planner()

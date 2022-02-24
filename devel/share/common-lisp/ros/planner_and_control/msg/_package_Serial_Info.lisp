@@ -11,4 +11,6 @@
           STEER
           BRAKE-VAL
           BRAKE
+          ENCODER-VAL
+          ENCODER
 ))

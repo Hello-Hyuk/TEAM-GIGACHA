@@ -29,7 +29,8 @@ struct Serial_Info_
     , gear(0)
     , speed(0.0)
     , steer(0.0)
-    , brake(0)  {
+    , brake(0)
+    , encoder()  {
     }
   Serial_Info_(const ContainerAllocator& _alloc)
     : auto_manual(0)
@@ -37,7 +38,8 @@ struct Serial_Info_
     , gear(0)
     , speed(0.0)
     , steer(0.0)
-    , brake(0)  {
+    , brake(0)
+    , encoder(_alloc)  {
   (void)_alloc;
     }
 
@@ -60,6 +62,9 @@ struct Serial_Info_
 
    typedef int32_t _brake_type;
   _brake_type brake;
+
+   typedef std::vector<double, typename ContainerAllocator::template rebind<double>::other >  _encoder_type;
+  _encoder_type encoder;
 
 
 
@@ -95,7 +100,8 @@ bool operator==(const ::planner_and_control::Serial_Info_<ContainerAllocator1> &
     lhs.gear == rhs.gear &&
     lhs.speed == rhs.speed &&
     lhs.steer == rhs.steer &&
-    lhs.brake == rhs.brake;
+    lhs.brake == rhs.brake &&
+    lhs.encoder == rhs.encoder;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -117,22 +123,22 @@ namespace message_traits
 
 
 template <class ContainerAllocator>
+struct IsFixedSize< ::planner_and_control::Serial_Info_<ContainerAllocator> >
+  : FalseType
+  { };
+
+template <class ContainerAllocator>
+struct IsFixedSize< ::planner_and_control::Serial_Info_<ContainerAllocator> const>
+  : FalseType
+  { };
+
+template <class ContainerAllocator>
 struct IsMessage< ::planner_and_control::Serial_Info_<ContainerAllocator> >
   : TrueType
   { };
 
 template <class ContainerAllocator>
 struct IsMessage< ::planner_and_control::Serial_Info_<ContainerAllocator> const>
-  : TrueType
-  { };
-
-template <class ContainerAllocator>
-struct IsFixedSize< ::planner_and_control::Serial_Info_<ContainerAllocator> >
-  : TrueType
-  { };
-
-template <class ContainerAllocator>
-struct IsFixedSize< ::planner_and_control::Serial_Info_<ContainerAllocator> const>
   : TrueType
   { };
 
@@ -152,12 +158,12 @@ struct MD5Sum< ::planner_and_control::Serial_Info_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "e0cf40a584f88ddbf7574c1bcf89548d";
+    return "288e1038c233a85b428a641389cf9e85";
   }
 
   static const char* value(const ::planner_and_control::Serial_Info_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xe0cf40a584f88ddbULL;
-  static const uint64_t static_value2 = 0xf7574c1bcf89548dULL;
+  static const uint64_t static_value1 = 0x288e1038c233a85bULL;
+  static const uint64_t static_value2 = 0x428a641389cf9e85ULL;
 };
 
 template<class ContainerAllocator>
@@ -182,6 +188,7 @@ struct Definition< ::planner_and_control::Serial_Info_<ContainerAllocator> >
 "float32 speed\n"
 "float32 steer\n"
 "int32 brake\n"
+"float64[] encoder\n"
 ;
   }
 
@@ -206,6 +213,7 @@ namespace serialization
       stream.next(m.speed);
       stream.next(m.steer);
       stream.next(m.brake);
+      stream.next(m.encoder);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -236,6 +244,12 @@ struct Printer< ::planner_and_control::Serial_Info_<ContainerAllocator> >
     Printer<float>::stream(s, indent + "  ", v.steer);
     s << indent << "brake: ";
     Printer<int32_t>::stream(s, indent + "  ", v.brake);
+    s << indent << "encoder[]" << std::endl;
+    for (size_t i = 0; i < v.encoder.size(); ++i)
+    {
+      s << indent << "  encoder[" << i << "]: ";
+      Printer<double>::stream(s, indent + "  ", v.encoder[i]);
+    }
   }
 };
 

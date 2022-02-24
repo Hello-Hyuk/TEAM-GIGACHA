@@ -6,5 +6,4 @@ float32 speed
 float32 steer
 int32 brake
 int16 gear
-planner_and_control/Path[] global_path
 int16 auto_manual

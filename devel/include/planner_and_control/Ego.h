@@ -15,7 +15,6 @@
 #include <ros/builtin_message_traits.h>
 #include <ros/message_operations.h>
 
-#include <planner_and_control/Path.h>
 
 namespace planner_and_control
 {
@@ -33,8 +32,6 @@ struct Ego_
     , steer(0.0)
     , brake(0)
     , gear(0)
-    , target_speed(0.0)
-    , global_path()
     , auto_manual(0)  {
     }
   Ego_(const ContainerAllocator& _alloc)
@@ -46,8 +43,6 @@ struct Ego_
     , steer(0.0)
     , brake(0)
     , gear(0)
-    , target_speed(0.0)
-    , global_path(_alloc)
     , auto_manual(0)  {
   (void)_alloc;
     }
@@ -77,12 +72,6 @@ struct Ego_
 
    typedef int16_t _gear_type;
   _gear_type gear;
-
-   typedef float _target_speed_type;
-  _target_speed_type target_speed;
-
-   typedef std::vector< ::planner_and_control::Path_<ContainerAllocator> , typename ContainerAllocator::template rebind< ::planner_and_control::Path_<ContainerAllocator> >::other >  _global_path_type;
-  _global_path_type global_path;
 
    typedef int16_t _auto_manual_type;
   _auto_manual_type auto_manual;
@@ -124,8 +113,6 @@ bool operator==(const ::planner_and_control::Ego_<ContainerAllocator1> & lhs, co
     lhs.steer == rhs.steer &&
     lhs.brake == rhs.brake &&
     lhs.gear == rhs.gear &&
-    lhs.target_speed == rhs.target_speed &&
-    lhs.global_path == rhs.global_path &&
     lhs.auto_manual == rhs.auto_manual;
 }
 
@@ -148,6 +135,16 @@ namespace message_traits
 
 
 template <class ContainerAllocator>
+struct IsFixedSize< ::planner_and_control::Ego_<ContainerAllocator> >
+  : TrueType
+  { };
+
+template <class ContainerAllocator>
+struct IsFixedSize< ::planner_and_control::Ego_<ContainerAllocator> const>
+  : TrueType
+  { };
+
+template <class ContainerAllocator>
 struct IsMessage< ::planner_and_control::Ego_<ContainerAllocator> >
   : TrueType
   { };
@@ -155,16 +152,6 @@ struct IsMessage< ::planner_and_control::Ego_<ContainerAllocator> >
 template <class ContainerAllocator>
 struct IsMessage< ::planner_and_control::Ego_<ContainerAllocator> const>
   : TrueType
-  { };
-
-template <class ContainerAllocator>
-struct IsFixedSize< ::planner_and_control::Ego_<ContainerAllocator> >
-  : FalseType
-  { };
-
-template <class ContainerAllocator>
-struct IsFixedSize< ::planner_and_control::Ego_<ContainerAllocator> const>
-  : FalseType
   { };
 
 template <class ContainerAllocator>
@@ -183,12 +170,12 @@ struct MD5Sum< ::planner_and_control::Ego_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "258a1134fe7ea402fb7a013bfa91a320";
+    return "3d75df4892b9e15b8e081e6cd21cb013";
   }
 
   static const char* value(const ::planner_and_control::Ego_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x258a1134fe7ea402ULL;
-  static const uint64_t static_value2 = 0xfb7a013bfa91a320ULL;
+  static const uint64_t static_value1 = 0x3d75df4892b9e15bULL;
+  static const uint64_t static_value2 = 0x8e081e6cd21cb013ULL;
 };
 
 template<class ContainerAllocator>
@@ -215,15 +202,7 @@ struct Definition< ::planner_and_control::Ego_<ContainerAllocator> >
 "float32 steer\n"
 "int32 brake\n"
 "int16 gear\n"
-"float32 target_speed\n"
-"planner_and_control/Path[] global_path\n"
 "int16 auto_manual\n"
-"================================================================================\n"
-"MSG: planner_and_control/Path\n"
-"float64[] x\n"
-"float64[] y\n"
-"float64[] heading\n"
-"float64[] k\n"
 ;
   }
 
@@ -250,8 +229,6 @@ namespace serialization
       stream.next(m.steer);
       stream.next(m.brake);
       stream.next(m.gear);
-      stream.next(m.target_speed);
-      stream.next(m.global_path);
       stream.next(m.auto_manual);
     }
 
@@ -287,16 +264,6 @@ struct Printer< ::planner_and_control::Ego_<ContainerAllocator> >
     Printer<int32_t>::stream(s, indent + "  ", v.brake);
     s << indent << "gear: ";
     Printer<int16_t>::stream(s, indent + "  ", v.gear);
-    s << indent << "target_speed: ";
-    Printer<float>::stream(s, indent + "  ", v.target_speed);
-    s << indent << "global_path[]" << std::endl;
-    for (size_t i = 0; i < v.global_path.size(); ++i)
-    {
-      s << indent << "  global_path[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::planner_and_control::Path_<ContainerAllocator> >::stream(s, indent + "    ", v.global_path[i]);
-    }
     s << indent << "auto_manual: ";
     Printer<int16_t>::stream(s, indent + "  ", v.auto_manual);
   }

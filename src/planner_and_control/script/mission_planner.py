@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import rospy
-from lib.general_utils.sensor_hub import Sensor_hub
 from lib.planner_utils.index_finder import IndexFinder
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from std_msgs.msg import String
@@ -18,7 +17,6 @@ class Mission_Planner:
         self.ego = msg
         
     def run(self):
-        self.whereami.run()
         a = 0
         b = 0
         if a == b:

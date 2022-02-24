@@ -15,10 +15,6 @@
           BRAKE
           GEAR-VAL
           GEAR
-          TARGET_SPEED-VAL
-          TARGET_SPEED
-          GLOBAL_PATH-VAL
-          GLOBAL_PATH
           AUTO_MANUAL-VAL
           AUTO_MANUAL
 ))

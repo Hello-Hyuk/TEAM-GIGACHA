@@ -1,8 +1,8 @@
-# Install script for directory: /home/hyunswim/TEAM-GIGACHA/src/planner_and_control
+# Install script for directory: /home/gigacha/TEAM-GIGACHA/src/planner_and_control
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/hyunswim/TEAM-GIGACHA/install")
+  set(CMAKE_INSTALL_PREFIX "/home/gigacha/TEAM-GIGACHA/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -39,58 +39,58 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/planner_and_control/msg" TYPE FILE FILES
-    "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
-    "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg"
-    "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg"
-    "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg"
-    "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg"
+    "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
+    "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg"
+    "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg"
+    "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg"
+    "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/planner_and_control/cmake" TYPE FILE FILES "/home/hyunswim/TEAM-GIGACHA/build/planner_and_control/catkin_generated/installspace/planner_and_control-msg-paths.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/planner_and_control/cmake" TYPE FILE FILES "/home/gigacha/TEAM-GIGACHA/build/planner_and_control/catkin_generated/installspace/planner_and_control-msg-paths.cmake")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "/home/hyunswim/TEAM-GIGACHA/devel/include/planner_and_control")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/roseus/ros" TYPE DIRECTORY FILES "/home/hyunswim/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/roseus/ros" TYPE DIRECTORY FILES "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/common-lisp/ros" TYPE DIRECTORY FILES "/home/hyunswim/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/common-lisp/ros" TYPE DIRECTORY FILES "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gennodejs/ros" TYPE DIRECTORY FILES "/home/hyunswim/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gennodejs/ros" TYPE DIRECTORY FILES "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  execute_process(COMMAND "/usr/bin/python3" -m compileall "/home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control")
+  execute_process(COMMAND "/usr/bin/python2" -m compileall "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python3/dist-packages" TYPE DIRECTORY FILES "/home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages" TYPE DIRECTORY FILES "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/hyunswim/TEAM-GIGACHA/build/planner_and_control/catkin_generated/installspace/planner_and_control.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/gigacha/TEAM-GIGACHA/build/planner_and_control/catkin_generated/installspace/planner_and_control.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/planner_and_control/cmake" TYPE FILE FILES "/home/hyunswim/TEAM-GIGACHA/build/planner_and_control/catkin_generated/installspace/planner_and_control-msg-extras.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/planner_and_control/cmake" TYPE FILE FILES "/home/gigacha/TEAM-GIGACHA/build/planner_and_control/catkin_generated/installspace/planner_and_control-msg-extras.cmake")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/planner_and_control/cmake" TYPE FILE FILES
-    "/home/hyunswim/TEAM-GIGACHA/build/planner_and_control/catkin_generated/installspace/planner_and_controlConfig.cmake"
-    "/home/hyunswim/TEAM-GIGACHA/build/planner_and_control/catkin_generated/installspace/planner_and_controlConfig-version.cmake"
+    "/home/gigacha/TEAM-GIGACHA/build/planner_and_control/catkin_generated/installspace/planner_and_controlConfig.cmake"
+    "/home/gigacha/TEAM-GIGACHA/build/planner_and_control/catkin_generated/installspace/planner_and_controlConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/planner_and_control" TYPE FILE FILES "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/planner_and_control" TYPE FILE FILES "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/package.xml")
 endif()
 

@@ -11,7 +11,6 @@ const _deserializer = _ros_msg_utils.Deserialize;
 const _arrayDeserializer = _deserializer.Array;
 const _finder = _ros_msg_utils.Find;
 const _getByteLength = _ros_msg_utils.getByteLength;
-let Path = require('./Path.js');
 
 //-----------------------------------------------------------
 
@@ -27,8 +26,6 @@ class Ego {
       this.steer = null;
       this.brake = null;
       this.gear = null;
-      this.target_speed = null;
-      this.global_path = null;
       this.auto_manual = null;
     }
     else {
@@ -80,18 +77,6 @@ class Ego {
       else {
         this.gear = 0;
       }
-      if (initObj.hasOwnProperty('target_speed')) {
-        this.target_speed = initObj.target_speed
-      }
-      else {
-        this.target_speed = 0.0;
-      }
-      if (initObj.hasOwnProperty('global_path')) {
-        this.global_path = initObj.global_path
-      }
-      else {
-        this.global_path = [];
-      }
       if (initObj.hasOwnProperty('auto_manual')) {
         this.auto_manual = initObj.auto_manual
       }
@@ -119,14 +104,6 @@ class Ego {
     bufferOffset = _serializer.int32(obj.brake, buffer, bufferOffset);
     // Serialize message field [gear]
     bufferOffset = _serializer.int16(obj.gear, buffer, bufferOffset);
-    // Serialize message field [target_speed]
-    bufferOffset = _serializer.float32(obj.target_speed, buffer, bufferOffset);
-    // Serialize message field [global_path]
-    // Serialize the length for message field [global_path]
-    bufferOffset = _serializer.uint32(obj.global_path.length, buffer, bufferOffset);
-    obj.global_path.forEach((val) => {
-      bufferOffset = Path.serialize(val, buffer, bufferOffset);
-    });
     // Serialize message field [auto_manual]
     bufferOffset = _serializer.int16(obj.auto_manual, buffer, bufferOffset);
     return bufferOffset;
@@ -152,26 +129,13 @@ class Ego {
     data.brake = _deserializer.int32(buffer, bufferOffset);
     // Deserialize message field [gear]
     data.gear = _deserializer.int16(buffer, bufferOffset);
-    // Deserialize message field [target_speed]
-    data.target_speed = _deserializer.float32(buffer, bufferOffset);
-    // Deserialize message field [global_path]
-    // Deserialize array length for message field [global_path]
-    len = _deserializer.uint32(buffer, bufferOffset);
-    data.global_path = new Array(len);
-    for (let i = 0; i < len; ++i) {
-      data.global_path[i] = Path.deserialize(buffer, bufferOffset)
-    }
     // Deserialize message field [auto_manual]
     data.auto_manual = _deserializer.int16(buffer, bufferOffset);
     return data;
   }
 
   static getMessageSize(object) {
-    let length = 0;
-    object.global_path.forEach((val) => {
-      length += Path.getMessageSize(val);
-    });
-    return length + 52;
+    return 44;
   }
 
   static datatype() {
@@ -181,7 +145,7 @@ class Ego {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '258a1134fe7ea402fb7a013bfa91a320';
+    return '3d75df4892b9e15b8e081e6cd21cb013';
   }
 
   static messageDefinition() {
@@ -195,15 +159,7 @@ class Ego {
     float32 steer
     int32 brake
     int16 gear
-    float32 target_speed
-    planner_and_control/Path[] global_path
     int16 auto_manual
-    ================================================================================
-    MSG: planner_and_control/Path
-    float64[] x
-    float64[] y
-    float64[] heading
-    float64[] k
     `;
   }
 
@@ -267,23 +223,6 @@ class Ego {
     }
     else {
       resolved.gear = 0
-    }
-
-    if (msg.target_speed !== undefined) {
-      resolved.target_speed = msg.target_speed;
-    }
-    else {
-      resolved.target_speed = 0.0
-    }
-
-    if (msg.global_path !== undefined) {
-      resolved.global_path = new Array(msg.global_path.length);
-      for (let i = 0; i < resolved.global_path.length; ++i) {
-        resolved.global_path[i] = Path.Resolve(msg.global_path[i]);
-      }
-    }
-    else {
-      resolved.global_path = []
     }
 
     if (msg.auto_manual !== undefined) {

@@ -9,7 +9,7 @@ class PurePursuit:
         
         self.WB = 1.04 # wheel base
         self.k = 0.3 #1.5
-        self.lookahead_default = 4.0 #look-ahead default
+        self.lookahead_default = 4 #look-ahead default
         self.path = trajectory
 
     def run(self):
@@ -22,8 +22,9 @@ class PurePursuit:
         #     lookahead = 0.5
             
         target_index = int(self.ego.index + lookahead*10)
-        target_x, target_y = self.path.x[target_index], self.path.y[target_index]
         print(f"target_index : {target_index}")
+        target_x = self.path.x[target_index]
+        target_y = self.path.y[target_index]
         tmp = degrees(atan2(target_y - self.ego.y, target_x - self.ego.x)) % 360
 
         # if self.ego.mode == "backward" :
