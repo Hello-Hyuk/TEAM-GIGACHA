@@ -15,20 +15,21 @@ class Motion_Planner:
         self.ego = Ego()
         self.behavior = ''
         self.trajectory = Path()
+        self.trajectory_name = ""
     
     def behavior_callback(self, msg):
-        self.behavior = msg
+        self.behavior = msg.data
 
     def ego_callback(self, msg):
         self.ego = msg
         
     def run(self):
-        self.trajectory = read_global_path('all_nodes')
-        # if self.behavior == "go":
+        if self.behavior == "go":
+            self.trajectory = read_global_path('all_nodes')
+            self.trajectory_name = "global_path"
         
-
+        print(f"motion_planner : {self.trajectory_name}")
         self.pub.publish(self.trajectory)
-        print("============")
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()

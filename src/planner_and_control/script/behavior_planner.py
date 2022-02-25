@@ -16,7 +16,7 @@ class Behavior_Planner:
         self.behavior = ""
 
     def state_callback(self, msg):
-        self.state = msg
+        self.state = msg.data
 
     def ego_callback(self, msg):
         self.ego = msg
@@ -24,9 +24,8 @@ class Behavior_Planner:
     def run(self):
         if self.state == "go":
             self.behavior = "go"
-            print("go")
 
-        print("behavior_planner")
+        print(f"behavior_planner : {self.behavior}")
         self.pub.publish(self.behavior)
 
 if __name__ == "__main__":

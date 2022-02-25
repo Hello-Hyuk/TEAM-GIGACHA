@@ -46,6 +46,7 @@ class Sensor_hub:
 
     def run(self):
         self.pub.publish(self.ego)
+        print("sensor_hub is operating..")
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()

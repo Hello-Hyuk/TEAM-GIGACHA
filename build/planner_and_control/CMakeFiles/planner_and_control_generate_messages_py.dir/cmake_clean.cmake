@@ -1,11 +1,11 @@
 file(REMOVE_RECURSE
+  "/home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Control_Info.py"
+  "/home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Ego.py"
+  "/home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Local.py"
+  "/home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Path.py"
+  "/home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Serial_Info.py"
+  "/home/hyunswim/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py"
   "CMakeFiles/planner_and_control_generate_messages_py"
-  "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Path.py"
-  "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Local.py"
-  "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Serial_Info.py"
-  "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Control_Info.py"
-  "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Ego.py"
-  "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/__init__.py"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -22,7 +22,8 @@ class Mission_Planner:
         if a == b:
             self.state = "go"
         #### sample code end
-        print("mission_planner")
+
+        print(f"mission_planner : {self.state}")
         self.pub.publish(self.state)
 
 if __name__ == "__main__":

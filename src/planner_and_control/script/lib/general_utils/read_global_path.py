@@ -5,7 +5,7 @@ from numpy import rad2deg
 
 def read_global_path(name):
         global_path = Path()
-        with open("/home/gigacha/TEAM-GIGACHA/src/planner_and_control/script/lib/mapping_utils/maps/Inha_airspace_campus/" + name + ".csv", mode="r") as csv_file:
+        with open("/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/script/lib/mapping_utils/maps/Inha_airspace_campus/" + name + ".csv", mode="r") as csv_file:
             csv_reader = csv.reader(csv_file)
             for line in csv_reader:
                 global_path.x.append(float(line[0]))
