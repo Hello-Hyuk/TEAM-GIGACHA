@@ -19,7 +19,6 @@ class environmentVisualizer:
         self.vis_trajectory = PointCloud()
         self.vis_trajectory.header.frame_id = "map"
 
-
         self.vis_trajectory_pub = rospy.Publisher("/vis_trajectory", PointCloud, queue_size=1)
 
         # global_path_= read_global_path('songdo', 'parking_simul')
