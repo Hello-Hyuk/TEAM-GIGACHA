@@ -2,13 +2,12 @@ import rospy
 
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from lib.general_utils.read_global_path import read_global_path
-from lib.controller_utils.state import State
 
 from sensor_msgs.msg import PointCloud
-from geometry_msgs.msg import Point32
-from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Point32, PoseStamped
+from nav_msgs.msg import Odometry, Path
 from planner_and_control.msg import Local
-from planner_and_control.msg import Path
+from planner_and_control.msg import Path as customPath
 
 class environmentVisualizer:
     def __init__(self):
@@ -18,14 +17,17 @@ class environmentVisualizer:
         
         # Subscriber
         rospy.Subscriber('/pose', Local, self.pose_callback)
-        rospy.Subscriber('/trajectory', Path, self.globalpath_callback)
+        rospy.Subscriber('/trajectory', customPath, self.globalpath_callback)
         
         # Publisher
-        self.vis_global_path_pub = rospy.Publisher("/vis_global_path", PointCloud, queue_size=1)
+        # self.vis_global_path_pub = rospy.Publisher("/vis_global_path", PointCloud, queue_size=1) # using pointcloud
+        self.vis_global_path_pub = rospy.Publisher("/vis_global_path", Path, queue_size=1) # using path
+        
         self.vis_trajectory_pub = rospy.Publisher("/vis_trajectory", PointCloud, queue_size=1)
         self.vis_pose_pub = rospy.Publisher("/vis_pose", Odometry, queue_size=1)
 
-        self.vis_global_path = PointCloud()
+        # self.vis_global_path = PointCloud() # using pointcloud
+        self.vis_global_path = Path() # using path
         self.vis_global_path.header.frame_id = "map"
         
         self.vis_trajectory = PointCloud()
@@ -64,14 +66,27 @@ class environmentVisualizer:
         self.vis_trajectory.points.append(ppoint)
         
     def globalpath_callback(self, msg):
-        global_path = PointCloud()
+        global_path = Path()
         for i in range(len(msg.x)):
-            gpoints = Point32()
-            gpoints.x = msg.x
-            gpoints.y = msg.y
-            gpoints.z = 0
-            global_path.points.append(gpoints)
-        self.vis_global_path.points = global_path.points
+            read_pose=PoseStamped()
+            read_pose.pose.position.x = msg.x[i]
+            read_pose.pose.position.y = msg.y[i]
+            read_pose.pose.position.z = 0
+            read_pose.pose.orientation.x=0
+            read_pose.pose.orientation.y=0
+            read_pose.pose.orientation.z=0
+            read_pose.pose.orientation.w=1
+            global_path.poses.append(read_pose)  
+        self.vis_global_path.poses = global_path.poses
+        
+        # global_path = PointCloud()
+        # for i in range(len(msg.x)):
+        #     gpoints = Point32()
+        #     gpoints.x = msg.x[i]
+        #     gpoints.y = msg.y[i]
+        #     gpoints.z = 0
+        #     global_path.points.append(gpoints)
+        # self.vis_global_path.points = global_path.points
 
     def run(self):
         print(f"Publishing maps for visualization")
