@@ -5,6 +5,7 @@ from planner_and_control.msg import Local
 from tf.transformations import euler_from_quaternion
 import pymap3d
 from numpy import rad2deg
+from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 
 
 class Localization():
@@ -46,7 +47,7 @@ class Localization():
 
 
     def gpsCallback(self, data):
-        self.msg.x, self.msg.y, _ = pymap3d.geodetic2enu(data.position.x, data.position.y, self.alt_origin, \
+        self.msg.x, self.msg.y, u = pymap3d.geodetic2enu(data.position.x, data.position.y, self.alt_origin, \
                                             self.lat_origin , self.lon_origin, self.alt_origin)
 
     def imuCallback(self, data):
@@ -54,15 +55,15 @@ class Localization():
         ori = [data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w] 
         roll, pitch, yaw = euler_from_quaternion(ori)
         self.msg.heading = rad2deg(yaw) % 360 #East = 0, North = 90, West = 180, South = 270 deg 
-        # print(f'msg.heading : {self.msg.heading}')
+
+        print(f'msg.heading : {self.msg.heading}')
             
 
     
 if __name__ == '__main__':
-    
+    Activate_Signal_Interrupt_Handler()
     loc = Localization()
     rate = rospy.Rate(50)
- 
     while not rospy.is_shutdown():
 
         loc.main()

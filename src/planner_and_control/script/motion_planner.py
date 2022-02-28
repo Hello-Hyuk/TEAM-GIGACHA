@@ -24,9 +24,8 @@ class Motion_Planner:
         self.ego = msg
         
     def run(self):
-        if self.behavior == "go":
-            self.trajectory = read_global_path('all_nodes')
-            self.trajectory_name = "global_path"
+        self.trajectory = read_global_path('all_nodes')
+        self.trajectory_name = "global_path"
         
         print(f"motion_planner : {self.trajectory_name}")
         self.pub.publish(self.trajectory)

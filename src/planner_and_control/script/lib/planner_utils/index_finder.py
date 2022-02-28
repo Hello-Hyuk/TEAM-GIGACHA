@@ -5,9 +5,9 @@ from lib.general_utils.read_global_path import read_global_path
 from planner_and_control.msg import Path
 
 class IndexFinder:
-    def __init__(self, ego):
-        self.ego_1 = Ego()
-        self.ego_1 = ego
+    def __init__(self, eg):
+        self.ego = Ego()
+        self.ego = eg
         self.save_idx = 0
         self.index = 0
         self.path = read_global_path('all_nodes')
@@ -22,7 +22,7 @@ class IndexFinder:
 
         for i in range(max(self.index - step_size, 0), self.index + step_size):
             try:
-                dis = hypot(self.path.x[i] - self.ego_1.x, self.path.y[i] - self.ego_1.y)
+                dis = hypot(self.path.x[i] - self.ego.x, self.path.y[i] - self.ego.y)
             except IndexError:
                 break
             if (min_dis > dis or min_dis == -1) and self.save_idx <= i:
@@ -31,5 +31,4 @@ class IndexFinder:
                 self.save_idx = i
 
         self.index = min_idx
-        print(self.index)
         return self.index
