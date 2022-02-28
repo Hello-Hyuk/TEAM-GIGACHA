@@ -18,8 +18,7 @@ class Controller:
         self.control_msg = Control_Info()
 
         self.ego = Ego()
-        # self.trajectory = Path()          ## add motion trajectory 
-        self.trajectory = read_global_path('all_nodes')
+        self.trajectory = Path()          ## add motion trajectory 
         self.target_speed = 5.0
 
         self.lat_controller = PurePursuit(self.ego, self.trajectory)
@@ -34,18 +33,17 @@ class Controller:
     def run(self):
         self.publish_control_info(0,0)
         self.target_speed = 5.0
+        # print("Controller On..")
 
     def publish_control_info(self, estop, gear):
         self.control_msg.emergency_stop = estop
         self.control_msg.gear = gear
-        self.control_msg.steer = self.lat_controller.run(self.ego)
-        # ####################For PID Tuining
-        # self.control_msg.steer = 0 
-        #######################################
+        self.control_msg.steer = self.lat_controller.run()
         # self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()
         self.control_msg.speed, self.control_msg.brake = self.target_speed, 0
         self.control_pub.publish(self.control_msg)
-        print("speed : ", self.control_msg.speed)
+        print(f"Control msg : {self.control_msg}")
+
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
     cc = Controller()
