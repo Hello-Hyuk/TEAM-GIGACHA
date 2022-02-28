@@ -1,10 +1,8 @@
 from math import hypot, cos, sin, degrees, atan2, radians, pi
-from planner_and_control.msg import Ego
 import rospy
 
 class PurePursuit:
     def __init__(self, eg, trajectory):
-        self.ego = Ego()
         self.ego = eg
         
         self.WB = 1.04 # wheel base
@@ -20,7 +18,7 @@ class PurePursuit:
         print(f"ego index : {self.ego.index}")
         print(f"target index : {target_index}")
 
-        target_x, target_y = self.path.x[target_index], self.path.y[target_index]
+        target_x, target_y = self.path.data.x[target_index], self.path.data.y[target_index]
 
         tmp = degrees(atan2(target_y - self.ego.y, target_x - self.ego.x)) % 360
 

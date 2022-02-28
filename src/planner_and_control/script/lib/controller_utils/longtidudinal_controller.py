@@ -1,10 +1,8 @@
 from lib.controller_utils.pid import PID
-from planner_and_control.msg import Ego
 
 class longitudinalController:
     
     def __init__(self, eg, target_speed):
-        self.ego = Ego()
         self.ego = eg
         self.target_speed = target_speed
         #self.accel = PID(5, 0.5, 1)
