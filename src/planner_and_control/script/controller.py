@@ -18,22 +18,24 @@ class Controller:
         self.control_msg = Control_Info()
 
         self.ego = Ego()
-        self.trajectory = Path()          ## add motion trajectory 
+        self.trajectory = Path()        ## add motion trajectory 
         self.target_speed = 5.0
-
+        
         self.lat_controller = PurePursuit(self.ego, self.trajectory)
         self.lon_controller = longitudinalController(self.ego, self.target_speed)
 
     def motion_callback(self, msg):
         self.trajectory = msg
-        
+
     def ego_callback(self, msg):
         self.ego = msg
 
     def run(self):
         self.publish_control_info(0,0)
         self.target_speed = 5.0
+
         # print("Controller On..")
+
 
     def publish_control_info(self, estop, gear):
         self.control_msg.emergency_stop = estop
@@ -42,7 +44,7 @@ class Controller:
         # self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()
         self.control_msg.speed, self.control_msg.brake = self.target_speed, 0
         self.control_pub.publish(self.control_msg)
-        print(f"Control msg : {self.control_msg}")
+
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()

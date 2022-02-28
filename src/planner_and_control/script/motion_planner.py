@@ -26,7 +26,7 @@ class Motion_Planner:
     def run(self):
         self.trajectory = read_global_path('all_nodes')
         self.trajectory_name = "global_path"
-    
+        
         print(f"motion_planner : {self.trajectory_name}")
         self.pub.publish(self.trajectory)
 
