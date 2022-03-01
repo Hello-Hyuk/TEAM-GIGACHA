@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import rospy
+from math import sqrt
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from std_msgs.msg import String
 from planner_and_control.msg import Ego
@@ -9,19 +10,24 @@ class Mission_Planner:
         rospy.init_node('Mission_Planner', anonymous = False)
         self.pub = rospy.Publisher('/state', String, queue_size = 1)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
+        rospy.Subscriber('/', , self.lidar_callback)
         self.ego = Ego()
         self.state = ''
+        self.obstacle.x = 0
+        self.obstacle.y = 0
 
     def ego_callback(self, msg):
         self.ego = msg
+
+    def lidar_callback(self, msg):
+        self.obstacle = msg
+        self.obs_dis = sqrt(self.obstacle.x**2 + self.obstacle.y**2)
         
     def run(self):
-        a = 0
-        b = 0
-        if a == b:
+        if self.obs_dis < 10 : 
+            self.state = "obstacle detected"
+        else :
             self.state = "go"
-        #### sample code end
-
         print(f"mission_planner : {self.state}")
         self.pub.publish(self.state)
 

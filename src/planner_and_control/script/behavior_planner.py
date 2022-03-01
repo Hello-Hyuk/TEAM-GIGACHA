@@ -24,6 +24,8 @@ class Behavior_Planner:
     def run(self):
         if self.state == "go":
             self.behavior = "go"
+        if self.state == "obstacle":
+            self.behavior = "obstacle avoidance"
 
         print(f"behavior_planner : {self.behavior}")
         self.pub.publish(self.behavior)

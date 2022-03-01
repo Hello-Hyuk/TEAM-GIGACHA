@@ -2,6 +2,7 @@
 import rospy
 from lib.general_utils.read_global_path import read_global_path
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
+from lib.planner_utils import LPP
 from std_msgs.msg import String
 from planner_and_control.msg import Path
 from planner_and_control.msg import Ego
@@ -16,16 +17,24 @@ class Motion_Planner:
         self.behavior = ''
         self.trajectory = Path()
         self.trajectory_name = ""
+        self.ego_status = []
+        # self.ref_path = []
+        self.current_lane = 0
     
     def behavior_callback(self, msg):
         self.behavior = msg.data
 
     def ego_callback(self, msg):
         self.ego = msg
+        self.ego_status = [self.ego.x, self.ego.y, self.ego.heading]
         
     def run(self):
-        self.trajectory = read_global_path('ex')
-        self.trajectory_name = "global_path"
+        if self.behavior == "go":
+            self.trajectory = read_global_path('ex')
+            self.trajectory_name = "global_path"
+        if self.behavior == "obstacle avoidance":
+            self.trajectory = Lattice_planner(read_global_path('ex'), , self.ego_status, self.ego.speed, self.current_lane)
+
         
         print(f"motion_planner : {self.trajectory_name}")
         self.pub.publish(self.trajectory)
