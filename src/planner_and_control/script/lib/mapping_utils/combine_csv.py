@@ -6,7 +6,7 @@ def combine_csv(number_of_files):
     float_array = []
 
     for i in range(1, number_of_files+1):
-        with open(f'/home/inha/TEAM-GIGACHA/src/planner_and_control/script/lib/mapping_utils/maps/kcity_simul/{i}_map.csv', mode="r", newline = '') as csv_file:
+        with open(f'/home/inha/TEAM-GIGACHA/src/planner_and_control/script/lib/mapping_utils/maps/kcity_simul/{i}.csv', mode="r", newline = '') as csv_file:
             for line in csv_file.readlines():
                 array = line.split(',')
                 float_array = [float(array[0]), float(array[1])] #, float(array[2])]
