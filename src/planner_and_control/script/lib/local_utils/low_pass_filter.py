@@ -10,9 +10,9 @@ class LPF():
         self.mean = np.mean(self.meas)
 
         if len(self.meas) > size:
-            del self.meas[0]
+            self.meas.pop(0)
             self.mean = np.mean(self.meas)
 
-        filter_mean = alpha * self.mean + (1-alpha) * self.meas.pop()
+        filter_mean = alpha * self.mean + (1-alpha) * self.meas[-1]
 
         return filter_mean

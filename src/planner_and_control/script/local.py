@@ -4,9 +4,8 @@ from geometry_msgs.msg import Pose, PoseStamped
 from planner_and_control.msg import Local
 from ublox_msgs.msg import NavPVT
 
-from lib.gps import GPS
-from lib.imu import IMU
-
+from lib.local_utils.gps import GPS
+from lib.local_utils.imu import IMU
 
 class Localization():
     def __init__(self):
