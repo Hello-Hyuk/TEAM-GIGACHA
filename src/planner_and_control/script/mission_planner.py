@@ -13,8 +13,7 @@ class Mission_Planner:
         rospy.Subscriber('/', , self.lidar_callback)
         self.ego = Ego()
         self.state = ''
-        self.obstacle.x = 0
-        self.obstacle.y = 0
+        self.obs_dis
 
     def ego_callback(self, msg):
         self.ego = msg

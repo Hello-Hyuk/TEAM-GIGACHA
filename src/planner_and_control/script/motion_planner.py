@@ -17,9 +17,8 @@ class Motion_Planner:
         self.behavior = ''
         self.trajectory = Path()
         self.trajectory_name = ""
-        self.ego_speed=Ego.speed
+        self.ego_speed = 0
         self.ego_status = []
-        # self.ref_path = []
         self.current_lane = 0
     
     def behavior_callback(self, msg):
@@ -34,7 +33,7 @@ class Motion_Planner:
             self.trajectory = read_global_path('ex')
             self.trajectory_name = "global_path"
         if self.behavior == "obstacle avoidance":
-            self.trajectory = Lattice_planner(read_global_path('ex'), , self.ego_status, self.ego.speed, self.current_lane)
+            self.trajectory = LPP(read_global_path('ex'),  , self.ego_status, self.ego.speed, self.current_lane)
 
         
         print(f"motion_planner : {self.trajectory_name}")
