@@ -1,0 +1,123 @@
+
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import rospy
+import rospkg
+from nav_msgs.msg import Path,Odometry
+from geometry_msgs.msg import PoseStamped,Point
+from std_msgs.msg import Float64,Int16,Float32MultiArray
+import numpy as np
+from math import cos,sin,sqrt,pow,atan2,pi
+import tf
+
+
+
+def latticePlanner(ref_path,vehicle_status,speed):
+    out_path=[]
+    selected_lane=-1
+    look_distance=int(speed*0.5)
+    if look_distance < 5 :
+        look_distance=5    
+    if look_distance > 8 :
+        look_distance=8   
+    if len(ref_path.poses)>look_distance :
+        global_ref_start_point=(ref_path.poses[0].pose.position.x,ref_path.poses[0].pose.position.y)
+        global_ref_start_next_point=(ref_path.poses[1].pose.position.x,ref_path.poses[1].pose.position.y)
+        global_ref_end_point=(ref_path.poses[look_distance].pose.position.x,ref_path.poses[look_distance].pose.position.y)
+        
+        theta=atan2(global_ref_start_next_point[1]-global_ref_start_point[1],global_ref_start_next_point[0]-global_ref_start_point[0])
+        translation=[global_ref_start_point[0],global_ref_start_point[1]]
+
+        t=np.array([[cos(theta), -sin(theta),translation[0]],[sin(theta),cos(theta),translation[1]],[0,0,1]])
+        det_t=np.array([[t[0][0],t[1][0],-(t[0][0]*translation[0]+t[1][0]*translation[1])   ],[t[0][1],t[1][1],-(t[0][1]*translation[0]+t[1][1]*translation[1])   ],[0,0,1]])
+
+
+
+        world_end_point=np.array([[global_ref_end_point[0]],[global_ref_end_point[1]],[1]])
+        local_end_point=det_t.dot(world_end_point)
+        world_ego_vehicle_position=np.array([[vehicle_status[0]],[vehicle_status[1]],[1]])
+        local_ego_vehicle_position=det_t.dot(world_ego_vehicle_position)
+        lane_off_set=[1.0,0]
+        local_lattice_points=[]
+        for i in range(len(lane_off_set)):
+            local_lattice_points.append([local_end_point[0][0],local_end_point[1][0]+lane_off_set[i],1])
+            
+
+
+        for end_point in local_lattice_points :
+            lattice_path=Path()
+            lattice_path.header.frame_id='map'
+            x=[]
+            y=[]
+            x_interval=0.5
+            xs=0
+            xf=end_point[0]
+            ps=local_ego_vehicle_position[1][0]
+
+            pf=end_point[1]
+            x_num=xf/x_interval
+
+            for i in range(xs,int(x_num)) : 
+                x.append(i*x_interval)
+            
+            a=[0.0,0.0,0.0,0.0]
+            a[0]=ps
+            a[1]=0
+            a[2]=3.0*(pf-ps)/(xf*xf)
+            a[3]=-2.0*(pf-ps)/(xf*xf*xf)
+
+            for i in x:
+                result=a[3]*i*i*i+a[2]*i*i+a[1]*i+a[0]
+                y.append(result)
+
+
+            for i in range(0,len(y)) :
+                local_result=np.array([[x[i]],[y[i]],[1]])
+                global_result=t.dot(local_result)
+
+                read_pose=PoseStamped()
+                read_pose.pose.position.x=global_result[0][0]
+                read_pose.pose.position.y=global_result[1][0]
+                read_pose.pose.position.z=0
+                read_pose.pose.orientation.x=0
+                read_pose.pose.orientation.y=0
+                read_pose.pose.orientation.z=0
+                read_pose.pose.orientation.w=1
+                lattice_path.poses.append(read_pose)
+
+            out_path.append(lattice_path)
+        
+        add_point_size=int(vehicle_status[3]*4*3.6)
+        if add_point_size>len(ref_path.poses)-2:
+            add_point_size=len(ref_path.poses)
+        elif add_point_size<10 :
+            add_point_size=10
+        
+        
+         
+        for i in range(look_distance,add_point_size):
+            if i+1 < len(ref_path.poses):
+                tmp_theta=atan2(ref_path.poses[i+1].pose.position.y-ref_path.poses[i].pose.position.y,ref_path.poses[i+1].pose.position.x-ref_path.poses[i].pose.position.x)
+                
+                tmp_translation=[ref_path.poses[i].pose.position.x,ref_path.poses[i].pose.position.y]
+                tmp_t=np.array([[cos(tmp_theta), -sin(tmp_theta),tmp_translation[0]],[sin(tmp_theta),cos(tmp_theta),tmp_translation[1]],[0,0,1]])
+                tmp_det_t=np.array([[tmp_t[0][0],tmp_t[1][0],-(tmp_t[0][0]*tmp_translation[0]+tmp_t[1][0]*tmp_translation[1])   ],[tmp_t[0][1],tmp_t[1][1],-(tmp_t[0][1]*tmp_translation[0]+tmp_t[1][1]*tmp_translation[1])   ],[0,0,1]])
+
+                for lane_num in range(len(lane_off_set)) :
+                    local_result=np.array([[0],[lane_off_set[lane_num]],[1]])
+                    global_result=tmp_t.dot(local_result)
+
+                    read_pose=PoseStamped()
+                    read_pose.pose.position.x=global_result[0][0]
+                    read_pose.pose.position.y=global_result[1][0]
+                    read_pose.pose.position.z=0
+                    read_pose.pose.orientation.x=0
+                    read_pose.pose.orientation.y=0
+                    read_pose.pose.orientation.z=0
+                    read_pose.pose.orientation.w=1
+                    out_path[lane_num].poses.append(read_pose)
+
+        lane_weight=[2,0] #reference path 
+        collision_bool=[False,False]
+
+    return out_path,selected_lane

@@ -17,6 +17,7 @@ class Motion_Planner:
         self.behavior = ''
         self.trajectory = Path()
         self.trajectory_name = ""
+        self.ego_speed=Ego.speed
         self.ego_status = []
         # self.ref_path = []
         self.current_lane = 0

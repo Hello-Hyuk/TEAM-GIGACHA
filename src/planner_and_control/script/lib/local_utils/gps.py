@@ -14,10 +14,10 @@ class GPS():
         rospy.Subscriber('/ublox_gps/navpvt',NavPVT, self.gps_Heading)
         rospy.Subscriber("/ublox_gps/fix", NavSatFix, self.gps_call_back)
 
-        #KCity
-        # self.lat_origin = 37.239231667
-        # self.lon_origin = 126.773156667
-        # self.alt_origin = 15.400
+        # KCity
+        self.lat_origin = 37.239231667
+        self.lon_origin = 126.773156667
+        self.alt_origin = 15.400
         
         # #Songdo
         # self.lat_origin = 37.3851693 

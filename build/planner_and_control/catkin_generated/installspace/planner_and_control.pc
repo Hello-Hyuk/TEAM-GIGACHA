@@ -1,4 +1,4 @@
-prefix=/home/hyunswim/TEAM-GIGACHA/install
+prefix=/home/inha/TEAM-GIGACHA/install
 
 Name: planner_and_control
 Description: Description of planner_and_control

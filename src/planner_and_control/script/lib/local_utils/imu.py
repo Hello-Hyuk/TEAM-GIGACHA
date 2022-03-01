@@ -2,10 +2,9 @@
 import rospy
 import numpy as np
 
-from lib.euler_from_quaternion import euler_from_quaternion as efq
-from lib.low_pass_filter import LPF
+from lib.local_utils.euler_from_quaternion import euler_from_quaternion as efq
+from lib.local_utils.low_pass_filter import LPF
 from sensor_msgs.msg import Imu
-
 
 class IMU():
     def __init__(self):
