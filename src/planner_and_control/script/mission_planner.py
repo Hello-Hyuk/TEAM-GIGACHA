@@ -10,25 +10,25 @@ class Mission_Planner:
         rospy.init_node('Mission_Planner', anonymous = False)
         self.pub = rospy.Publisher('/state', String, queue_size = 1)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
-        rospy.Subscriber('/', , self.lidar_callback)
+        #rospy.Subscriber('/', , self.lidar_callback)
         self.ego = Ego()
         self.state = ''
-        self.obs_dis
+        #self.obs_dis
 
     def ego_callback(self, msg):
         self.ego = msg
 
-    def lidar_callback(self, msg):
-        self.obstacle = msg
-        self.obs_dis = sqrt(self.obstacle.x**2 + self.obstacle.y**2)
+    #def lidar_callback(self, msg):
+     #   self.obstacle = msg
+      #  self.obs_dis = sqrt(self.obstacle.x**2 + self.obstacle.y**2)
         
     def run(self):
-        if self.obs_dis < 10 : 
-            self.state = "obstacle detected"
-        else :
+        # if self.obs_dis < 10 : 
+        #     self.state = "obstacle detected"
+       if 1==1 :
             self.state = "go"
-        print(f"mission_planner : {self.state}")
-        self.pub.publish(self.state)
+            print(f"mission_planner : {self.state}")
+            self.pub.publish(self.state)
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
