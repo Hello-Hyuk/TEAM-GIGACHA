@@ -46,12 +46,12 @@ class Sensor_hub:
 
     def run(self):
         self.pub.publish(self.ego)
-        print("sensor_hub is operating..")
+        # print("sensor_hub is operating..")
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
     ss = Sensor_hub()
-    rate = rospy.Rate(20)
+    rate = rospy.Rate(50)
     while not rospy.is_shutdown():
         ss.run()
         rate.sleep

@@ -131,8 +131,14 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/inha/TEAM-GIGACHA/build/gtest/cmake_install.cmake")
+  include("/home/inha/TEAM-GIGACHA/build/ublox_f9p/rtcm_msgs/cmake_install.cmake")
+  include("/home/inha/TEAM-GIGACHA/build/ublox_f9p/ublox/cmake_install.cmake")
   include("/home/inha/TEAM-GIGACHA/build/planner_and_control/cmake_install.cmake")
   include("/home/inha/TEAM-GIGACHA/build/e2box_imu/cmake_install.cmake")
+  include("/home/inha/TEAM-GIGACHA/build/ublox_f9p/ublox_serialization/cmake_install.cmake")
+  include("/home/inha/TEAM-GIGACHA/build/ublox_f9p/ublox_msgs/cmake_install.cmake")
+  include("/home/inha/TEAM-GIGACHA/build/ublox_f9p/ublox_gps/cmake_install.cmake")
+  include("/home/inha/TEAM-GIGACHA/build/ublox_f9p/ublox_msg_filters/cmake_install.cmake")
 
 endif()
 

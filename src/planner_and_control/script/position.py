@@ -27,14 +27,14 @@ class Localization():
         # self.alt_origin = 15.400
         
         # #Songdo
-        # self.lat_origin = 37.3851693 
-        # self.lon_origin = 126.6562271
-        # self.alt_origin = 15.4
+        self.lat_origin = 37.3843177 
+        self.lon_origin = 126.6553022
+        self.alt_origin = 15.4
 
         # simul
-        self.lat_origin = 37.239235 
-        self.lon_origin = 126.77315833333333
-        self.alt_origin = 15.4        
+        # self.lat_origin = 37.239235 
+        # self.lon_origin = 126.77315833333333
+        # self.alt_origin = 15.4        
 
         self.yaw_gps = 0
         self.yaw_imu = 0
@@ -43,8 +43,8 @@ class Localization():
         rospy.Subscriber("/simul_gps", Pose, self.gps_call_back)
         rospy.Subscriber("/simul_imu", Pose, self.imu_call_back)
         
-        rospy.Subscriber('/ublox_gps/navpvt',NavPVT, self.gps_Heading)
-        rospy.Subscriber("/ublox_gps/fix", NavSatFix, self.gps_call_back)
+        rospy.Subscriber('/ublox/navpvt',NavPVT, self.gps_Heading)
+        rospy.Subscriber("/ublox/fix", NavSatFix, self.gps_call_back)
         rospy.Subscriber("/imu", Imu, self.imu_call_back)
 
     def gps_call_back(self, data):
@@ -58,7 +58,7 @@ class Localization():
         orientation_q = data.orientation
         roll, pitch, yaw = self.euler_from_quaternion(orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w)
 
-        self.yaw_imu = np.rad2deg(yaw)
+        self.yaw_imu = np.rad2deg(-1 * yaw)
         
     def gps_Heading(self, data):
         self.yaw_gps = data.heading
@@ -92,7 +92,7 @@ class Localization():
 
 if __name__ == '__main__':
     loc = Localization()
-    rate = rospy.Rate(20)
+    rate = rospy.Rate(100)
  
     while not rospy.is_shutdown():
         loc.main()

@@ -10,7 +10,7 @@ class IndexFinder:
         self.ego = eg
         self.save_idx = 0
         self.index = 0
-        self.path = read_global_path('all_nodes')
+        self.path = read_global_path('songdo_fin')
 
     def run(self):
 
@@ -29,6 +29,7 @@ class IndexFinder:
                 min_dis = dis
                 min_idx = i
                 self.save_idx = i
+        print(f"min_dis : {min_dis}")
 
         self.index = min_idx
         return self.index

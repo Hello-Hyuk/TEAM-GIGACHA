@@ -26,7 +26,7 @@ class Motion_Planner:
         
     def run(self):
         if self.behavior == "go":
-            self.trajectory = read_global_path('all_nodes')
+            self.trajectory = read_global_path('songdo_fin')
             self.trajectory_name = "global_path"
         
         print(f"motion_planner : {self.trajectory_name}")
