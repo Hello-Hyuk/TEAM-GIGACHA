@@ -12,6 +12,10 @@ class LocalPath:
     def __init__(self):
         self.data = Path()
 
+class ControlEgo:
+    def __init__(self):
+        self.data = Ego()
+
 class Controller:
     def __init__(self):
         rospy.init_node('controller', anonymous = False)
@@ -20,9 +24,9 @@ class Controller:
         rospy.Subscriber('/ego', Ego, self.ego_callback)
         self.control_msg = Control_Info()
 
-        self.ego = Ego()
+        self.ego = ControlEgo()
         self.trajectory = LocalPath()        ## add motion trajectory 
-        self.target_speed = 5.0
+        self.target_speed = 20.0
         
         self.lat_controller = PurePursuit(self.ego, self.trajectory)
         self.lon_controller = longitudinalController(self.ego, self.target_speed)
@@ -31,11 +35,11 @@ class Controller:
         self.trajectory.data = msg
 
     def ego_callback(self, msg):
-        self.ego = msg
-
+        self.ego.data = msg
+        
     def run(self):
         self.publish_control_info(0,0)
-        self.target_speed = 5.0
+        self.target_speed = 20.0
         # print("Controller On..")
 
     def publish_control_info(self, estop, gear):
@@ -46,8 +50,8 @@ class Controller:
         except IndexError:
             print("++++++")
 
-        self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()
-        # self.control_msg.speed, self.control_msg.brake = self.target_speed, 0
+        #self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()
+        self.control_msg.speed, self.control_msg.brake = self.target_speed, 0
         self.control_pub.publish(self.control_msg)
 
 

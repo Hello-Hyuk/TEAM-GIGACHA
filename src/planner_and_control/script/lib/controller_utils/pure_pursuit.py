@@ -12,17 +12,17 @@ class PurePursuit:
 
     def run(self):
 
-        lookahead = min(self.k * self.ego.speed + self.lookahead_default, 6)
-        target_index = int(self.ego.index + lookahead*10)
+        lookahead = min(self.k * self.ego.data.speed + self.lookahead_default, 6)
+        target_index = int(self.ego.data.index + lookahead*10)
 
-        print(f"ego index : {self.ego.index}")
+        print(f"ego index : {self.ego.data.index}")
         print(f"target index : {target_index}")
 
         target_x, target_y = self.path.data.x[target_index], self.path.data.y[target_index]
 
-        tmp = degrees(atan2(target_y - self.ego.y, target_x - self.ego.x)) % 360
+        tmp = degrees(atan2(target_y - self.ego.data.y, target_x - self.ego.data.x)) % 360
 
-        alpha = self.ego.heading - tmp
+        alpha = self.ego.data.heading - tmp
         angle = atan2(2.0 * self.WB * sin(radians(alpha)) / lookahead, 1.0)
     
         print("angle : ", degrees(angle)) 
