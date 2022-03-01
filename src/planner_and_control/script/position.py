@@ -92,7 +92,7 @@ class Localization():
 
 if __name__ == '__main__':
     loc = Localization()
-    rate = rospy.Rate(100)
+    rate = rospy.Rate(20)
  
     while not rospy.is_shutdown():
         loc.main()
