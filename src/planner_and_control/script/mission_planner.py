@@ -28,7 +28,7 @@ class Mission_Planner:
             self.state = "obstacle detected"
             self.pub.publish(self.state)
 
-        if self.obs_dis>10 :
+        if self.obs_dis>15 :
             self.state = "go"
             print(f"mission_planner : {self.state}")
             self.pub.publish(self.state)

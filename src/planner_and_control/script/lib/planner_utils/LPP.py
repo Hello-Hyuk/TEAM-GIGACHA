@@ -16,14 +16,14 @@ def latticePlanner(ref_path,global_vaild_object,vehicle_status,vehicle_speed,cur
     selected_lane=-1
     lattic_current_lane=current_lane
     look_distance=int(vehicle_speed*3.6*0.8*2)
-    if look_distance < 5 :
-        look_distance=5     
-    if look_distance > 9 :
-        look_distance=9  
-    if len(ref_path.poses)>look_distance :
-        global_ref_start_point=(ref_path.poses[0].pose.position.x,ref_path.poses[0].pose.position.y)
-        global_ref_start_next_point=(ref_path.poses[1].pose.position.x,ref_path.poses[1].pose.position.y)
-        global_ref_end_point=(ref_path.poses[look_distance].pose.position.x,ref_path.poses[look_distance].pose.position.y)
+    if look_distance < 20 :
+        look_distance=20     
+    if look_distance > 90 :
+        look_distance=90  
+    if len(ref_path)>look_distance :
+        global_ref_start_point=(ref_path.x[0],ref_path.y[0])
+        global_ref_start_next_point=(ref_path.x[1],ref_path.y[1])
+        global_ref_end_point=(ref_path.x[look_distance],ref_path.y[look_distance])
         
         theta=atan2(global_ref_start_next_point[1]-global_ref_start_point[1],global_ref_start_next_point[0]-global_ref_start_point[0])
         translation=[global_ref_start_point[0],global_ref_start_point[1]]
@@ -87,20 +87,20 @@ def latticePlanner(ref_path,global_vaild_object,vehicle_status,vehicle_speed,cur
 
             out_path.append(lattice_path)
         
-        add_point_size=int(vehicle_status[3]*2*3.6)
+        add_point_size=int(vehicle_speed*2*3.6)
         print('add point',add_point_size)
-        if add_point_size>len(ref_path.poses)-2:
-            add_point_size=len(ref_path.poses)
+        if add_point_size>len(ref_path)-2:
+            add_point_size=len(ref_path)
         elif add_point_size<10 :
             add_point_size=10
         
         
          
         for i in range(look_distance,add_point_size):
-            if i+1 < len(ref_path.poses):
-                tmp_theta=atan2(ref_path.poses[i+1].pose.position.y-ref_path.poses[i].pose.position.y,ref_path.poses[i+1].pose.position.x-ref_path.poses[i].pose.position.x)
+            if i+1 < len(ref_path):
+                tmp_theta=atan2(ref_path.y[i+1]-ref_path.y[i],ref_path.x[i+1]-ref_path.x[i])
                 
-                tmp_translation=[ref_path.poses[i].pose.position.x,ref_path.poses[i].pose.position.y]
+                tmp_translation=[ref_path.x[i],ref_path.y[i]]
                 tmp_t=np.array([[cos(tmp_theta), -sin(tmp_theta),tmp_translation[0]],[sin(tmp_theta),cos(tmp_theta),tmp_translation[1]],[0,0,1]])
                 tmp_det_t=np.array([[tmp_t[0][0],tmp_t[1][0],-(tmp_t[0][0]*tmp_translation[0]+tmp_t[1][0]*tmp_translation[1])   ],[tmp_t[0][1],tmp_t[1][1],-(tmp_t[0][1]*tmp_translation[0]+tmp_t[1][1]*tmp_translation[1])   ],[0,0,1]])
 

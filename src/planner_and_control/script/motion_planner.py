@@ -3,7 +3,6 @@ from socket import MsgFlag
 import rospy
 from lib.general_utils.read_global_path import read_global_path
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
-from lib.planner_utils import LPP
 from std_msgs.msg import String
 from planner_and_control.msg import Path
 from planner_and_control.msg import Ego
@@ -39,19 +38,19 @@ class Motion_Planner:
         
     def run(self):
 
-
-
-
         if self.behavior == "go":
             self.trajectory = read_global_path('ex')
             self.trajectory_name = "global_path"
+
         if self.behavior == "obstacle avoidance":
-            self.lattice_path,self.selected_lane = LPP(self.trajectory, self.obj , self.ego_status, self.ego.speed, self.current_lane)
+           
+
+            self.lattice_path,self.selected_lane = LPP(self.local_path, self.obj , self.ego_status, self.ego.speed, self.current_lane)
             self.current_lane=self.selected_lane
 
             
             if self.selected_lane != -1: 
-                self.trajectory=self.lattice_path[self.selected_lane]               
+                self.local_path=self.lattice_path[self.selected_lane]               
 
 
         
