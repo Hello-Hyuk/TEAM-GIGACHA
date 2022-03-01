@@ -12,7 +12,7 @@ import tf
 
 
 
-def latticePlanner(ref_path,vehicle_status,speed):
+def latticePlanner(ref_path,global_vaild_object,vehicle_status,speed,current_lane):
     out_path=[]
     selected_lane=-1
     look_distance=int(speed*0.5)
@@ -119,5 +119,34 @@ def latticePlanner(ref_path,vehicle_status,speed):
 
         lane_weight=[2,0] #reference path 
         collision_bool=[False,False]
+
+        if len(global_vaild_object)>0:
+
+            for obj in global_vaild_object :
+                if  obj[0]==2 or obj[0]==1 : 
+                    for path_num in range(len(out_path)) :
+                        
+                        for path_pos in out_path[path_num].poses :
+                            
+                            dis= sqrt(pow(obj[1]-path_pos.pose.position.x,2)+pow(obj[2]-path_pos.pose.position.y,2))
+   
+                            if dis<1.0:
+                                collision_bool[path_num]=True
+                                lane_weight[path_num]=lane_weight[path_num]+100
+                                break
+        else :
+            print("No Obstacle")
+    
+        selected_lane=lane_weight.index(min(lane_weight))
+        print(lane_weight,selected_lane)
+        all_lane_collision=True
+        
+    else :
+        print("NO Reference Path")
+        selected_lane=-1    
+        
+
+
+
 
     return out_path,selected_lane
