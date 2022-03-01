@@ -1,6 +1,6 @@
 import math
 
-def euler_from_quaternion(self,x, y, z, w):
+def euler_from_quaternion(x, y, z, w):
         t0 = +2.0 * (w * x + y * z)
         t1 = +1.0 - 2.0 * (x * x + y * y)
         roll_x = math.atan2(t0, t1)
