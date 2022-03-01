@@ -31,7 +31,7 @@ class Behavior_Planner:
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
     bp = Behavior_Planner()
-    rate = rospy.Rate(20)
+    rate = rospy.Rate(10)
     while not rospy.is_shutdown():
         bp.run()
         rate.sleep

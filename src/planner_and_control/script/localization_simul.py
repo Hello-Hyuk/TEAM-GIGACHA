@@ -63,8 +63,7 @@ class Localization():
 if __name__ == '__main__':
     Activate_Signal_Interrupt_Handler()
     loc = Localization()
-    rate = rospy.Rate(50)
+    rate = rospy.Rate(20)
     while not rospy.is_shutdown():
-
         loc.main()
         rate.sleep()
