@@ -16,6 +16,7 @@ class Motion_Planner:
         self.behavior = ''
         self.trajectory = Path()
         self.trajectory_name = ""
+        self.ego_speed=Ego.speed
     
     def behavior_callback(self, msg):
         self.behavior = msg.data
@@ -24,8 +25,9 @@ class Motion_Planner:
         self.ego = msg
         
     def run(self):
-        self.trajectory = read_global_path('all_nodes')
-        self.trajectory_name = "global_path"
+        if self.behavior == "go":
+            self.trajectory = read_global_path('all_nodes')
+            self.trajectory_name = "global_path"
         
         print(f"motion_planner : {self.trajectory_name}")
         self.pub.publish(self.trajectory)
