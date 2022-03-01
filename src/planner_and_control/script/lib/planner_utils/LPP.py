@@ -118,7 +118,7 @@ def latticePlanner(ref_path,global_vaild_object,vehicle_status,vehicle_speed,cur
                     read_pose.pose.orientation.w=1
                     out_path[lane_num].poses.append(read_pose)
 
-        lane_weight=[1,0] #reference path 
+        lane_weight=[5,0] #reference path 
         collision_bool=[False,False]
 
         if len(global_vaild_object)>0:
@@ -129,7 +129,7 @@ def latticePlanner(ref_path,global_vaild_object,vehicle_status,vehicle_speed,cur
 
                     dis= sqrt(pow(global_vaild_object.x,2)+pow(global_vaild_object.y,2))
    
-                    if dis<1.5:
+                    if dis<7:
                         collision_bool[path_num]=True
                         lane_weight[path_num]=lane_weight[path_num]+100
                         break

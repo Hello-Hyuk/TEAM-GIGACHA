@@ -24,7 +24,7 @@ class Behavior_Planner:
     def run(self):
         if self.state == "go":
             self.behavior = "go"
-        if self.state == "obstacle":
+        if self.state == "obstacle detected":
             self.behavior = "obstacle avoidance"
 
         print(f"behavior_planner : {self.behavior}")

@@ -54,8 +54,6 @@ class Motion_Planner:
                 self.trajectory=self.lattice_path[self.selected_lane]               
 
 
-            
-
         
         print(f"motion_planner : {self.trajectory_name}")
         self.pub.publish(self.trajectory)
