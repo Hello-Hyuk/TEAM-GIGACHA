@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 import serial

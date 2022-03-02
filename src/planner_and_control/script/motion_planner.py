@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+
+import sys,os
 import rospy
 from lib.general_utils.read_global_path import read_global_path
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
@@ -9,6 +11,11 @@ from planner_and_control.msg import Ego
 class Motion_Planner:
     def __init__(self):
         rospy.init_node('Motion_Planner', anonymous = False)
+        arg=rospy.myargv(argv=sys.argv)
+        self.path_name=arg[1]
+
+
+
         rospy.Subscriber('/behavior', String, self.behavior_callback)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
         self.pub = rospy.Publisher('/trajectory', Path, queue_size = 1)
@@ -26,7 +33,7 @@ class Motion_Planner:
         
     def run(self):
         if self.behavior == "go":
-            self.trajectory = read_global_path('songdo_fin')
+            self.trajectory = read_global_path(self.path_name)
             self.trajectory_name = "global_path"
         
         print(f"motion_planner : {self.trajectory_name}")
