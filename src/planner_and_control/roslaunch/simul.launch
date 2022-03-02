@@ -3,7 +3,7 @@
 <launch>
   <node name="Sensors_simul" pkg="planner_and_control" type="sensors_simul.py"/>
   <node name="Localization" pkg="planner_and_control" type="localization_simul.py" respawn = "true"/>
- 
+  <node name="Sensor_hub" pkg="planner_and_control" type="sensor_hub.py"/>
   <node name="Mission_Planner" pkg="planner_and_control" type="mission_planner.py" respawn = "true"/>
   <node name="Behavior_Planner" pkg="planner_and_control" type="behavior_planner.py" respawn = "true"/>
   <node name="Motion_Planner" pkg="planner_and_control" type="motion_planner.py" args="songdo_fin" output = "screen"  respawn = "true"/>
