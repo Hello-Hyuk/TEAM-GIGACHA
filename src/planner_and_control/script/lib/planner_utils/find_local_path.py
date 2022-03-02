@@ -1,17 +1,16 @@
 from planner_and_control.msg import Path
-from planner_and_control.msg import Ego
 from math import cos,sin,sqrt,pow,atan2,pi
 
 
 
-def findLocalPath(path,status_msg):
+def findLocalPath(path,ego):
     out_path=Path()
-    current_x=Ego.x
-    current_y=Ego.y
+    current_x=ego.x
+    current_y=ego.y
     current_waypoint=0
     min_dis=float('inf')
 
-    for i in range(len(path)) :
+    for i in range(len(path.x)) :
         dx=current_x - path.x[i]
         dy=current_y - path.x[i]
         dis=sqrt(dx*dx + dy*dy)
@@ -20,8 +19,8 @@ def findLocalPath(path,status_msg):
             current_waypoint=i
 
 
-    if current_waypoint+50 > len(path) :
-        last_local_waypoint= len(path)
+    if current_waypoint+50 > len(path.x) :
+        last_local_waypoint= len(path.x)
     else :
         last_local_waypoint=current_waypoint+50
 

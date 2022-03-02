@@ -15,14 +15,24 @@ def LatticePlanner(ref_path,global_vaild_object,vehicle_status,vehicle_speed,cur
     out_path=[]
     selected_lane=-1
     lattic_current_lane=current_lane
-    look_distance=int(vehicle_speed*3.6*0.8*2)
-    print(f"look_distance : {look_distance}")
+    #look_distance=int(vehicle_speed*3.6*0.8*2)
+    look_distance=5
+    ref_path.x=[1,2,3,4,5,7,2]
+    ref_path.y=[3,5,1,7,3,2,1]
+    vehicle_status=[1,2,1]
 
-    if look_distance < 20 :
-        look_distance=20     
-    if look_distance > 90 :
-        look_distance=90  
-    if len(ref_path)>look_distance :
+
+    #print(f"look_distance : {look_distance}")
+    #print(f"ref_path.x:{ref_path.x}")
+    #print(f"vehicle_status:{vehicle_status}")
+
+
+    if look_distance < 2 :
+        look_distance=2     
+    if look_distance > 9 :
+        look_distance=9  
+
+    if len(ref_path.x)>look_distance :
         global_ref_start_point=(ref_path.x[0],ref_path.y[0])
         global_ref_start_next_point=(ref_path.x[1],ref_path.y[1])
         global_ref_end_point=(ref_path.x[look_distance],ref_path.y[look_distance])
@@ -90,16 +100,16 @@ def LatticePlanner(ref_path,global_vaild_object,vehicle_status,vehicle_speed,cur
             out_path.append(lattice_path)
         
         add_point_size=int(vehicle_speed*2*3.6)
-        print('add point',add_point_size)
-        if add_point_size>len(ref_path)-2:
-            add_point_size=len(ref_path)
+        #print('add point',add_point_size)
+        if add_point_size>len(ref_path.x)-2:
+            add_point_size=len(ref_path.x)
         elif add_point_size<10 :
             add_point_size=10
         
         
          
         for i in range(look_distance,add_point_size):
-            if i+1 < len(ref_path):
+            if i+1 < len(ref_path.x):
                 tmp_theta=atan2(ref_path.y[i+1]-ref_path.y[i],ref_path.x[i+1]-ref_path.x[i])
                 
                 tmp_translation=[ref_path.x[i],ref_path.y[i]]
@@ -123,17 +133,25 @@ def LatticePlanner(ref_path,global_vaild_object,vehicle_status,vehicle_speed,cur
         lane_weight=[5,0] #reference path 
         collision_bool=[False,False]
 
+        #print(f"global_vaild_object:{global_vaild_object}")
+        global_vaild_object=[3,4,1]
+        
+
+
         if len(global_vaild_object)>0:
 
             for path_num in range(len(out_path)) :
                         
                 for path_pos in out_path[path_num].poses :
 
-                    dis= sqrt(pow(global_vaild_object.x,2)+pow(global_vaild_object.y,2))
+                    #dis= sqrt(pow(global_vaild_object.x,2)+pow(global_vaild_object.y,2))
+                    dis=3
    
                     if dis<7:
                         collision_bool[path_num]=True
                         lane_weight[path_num]=lane_weight[path_num]+100
+                        print(f"Obstacle distance: {dis}")
+
                         break
             
         

@@ -9,6 +9,7 @@ from lib.planner_utils.index_finder import IndexFinder
 from std_msgs.msg import String
 from planner_and_control.msg import Path
 from planner_and_control.msg import Ego
+
 from sensor_msgs.msg import PointCloud
 
 
@@ -26,6 +27,7 @@ class Motion_Planner:
         self.ego_speed = 0
         self.ego_status = []
         self.current_lane = 0
+        self.obj= Path()
         
     
     def behavior_callback(self, msg):
@@ -37,6 +39,8 @@ class Motion_Planner:
 
     def obj_callback(self,msg):
         self.obj=msg
+        self.obj.x=4
+        self.obj.y=2
 
         
     def run(self):
@@ -47,9 +51,11 @@ class Motion_Planner:
 
         if self.behavior == "obstacle avoidance":
             self.local_path=findLocalPath(self.trajectory,self.ego)
+            #print(f"self.local_path:{self.local_path}")
             self.current_waypoint=IndexFinder
            
 
+            #print(f" self.ego_status:{self.ego_status}")
             self.lattice_path,self.selected_lane = LatticePlanner(self.local_path, self.obj , self.ego_status, self.ego.speed, self.current_lane)
             self.current_lane=self.selected_lane
 

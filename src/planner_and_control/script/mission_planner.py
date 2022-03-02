@@ -14,18 +14,21 @@ class Mission_Planner:
         rospy.Subscriber('/obj', PointCloud, self.lidar_callback)
         self.ego = Ego()
         self.state = ''
-        self.obs_dis
+        self.obs_dis=0
 
     def ego_callback(self, msg):
         self.ego = msg
 
     def lidar_callback(self, msg):
-        self.obstacle = msg
+        self.obstacle =msg
         self.obs_dis = sqrt(self.obstacle.x**2 + self.obstacle.y**2)
+       
         
     def run(self):
         if self.obs_dis < 15 : 
             self.state = "obstacle detected"
+            print(f"mission_planner : {self.state}")
+
             self.pub.publish(self.state)
 
         if self.obs_dis>15 :
