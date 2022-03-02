@@ -6,6 +6,7 @@ from nav_msgs.msg import Path,Odometry
 from geometry_msgs.msg import PoseStamped,Point
 from std_msgs.msg import Float64,Int16,Float32MultiArray
 import numpy as np
+from planner_utils.index_finder import IndexFinder
 from math import cos,sin,sqrt,pow,atan2,pi
 import tf
 
@@ -16,14 +17,17 @@ def latticePlanner(ref_path,global_vaild_object,vehicle_status,vehicle_speed,cur
     selected_lane=-1
     lattic_current_lane=current_lane
     look_distance=int(vehicle_speed*3.6*0.8*2)
+    index=IndexFinder()
+    print(f"index : {index}")
+
     if look_distance < 20 :
         look_distance=20     
     if look_distance > 90 :
         look_distance=90  
     if len(ref_path)>look_distance :
-        global_ref_start_point=(ref_path.x[0],ref_path.y[0])
-        global_ref_start_next_point=(ref_path.x[1],ref_path.y[1])
-        global_ref_end_point=(ref_path.x[look_distance],ref_path.y[look_distance])
+        global_ref_start_point=(ref_path.x[index],ref_path.y[index])
+        global_ref_start_next_point=(ref_path.x[index+1],ref_path.y[index+1])
+        global_ref_end_point=(ref_path.x[index+look_distance],ref_path.y[index+look_distance])
         
         theta=atan2(global_ref_start_next_point[1]-global_ref_start_point[1],global_ref_start_next_point[0]-global_ref_start_point[0])
         translation=[global_ref_start_point[0],global_ref_start_point[1]]
@@ -91,12 +95,12 @@ def latticePlanner(ref_path,global_vaild_object,vehicle_status,vehicle_speed,cur
         print('add point',add_point_size)
         if add_point_size>len(ref_path)-2:
             add_point_size=len(ref_path)
-        elif add_point_size<10 :
-            add_point_size=10
+        elif add_point_size<index+10 :
+            add_point_size=index+10
         
         
          
-        for i in range(look_distance,add_point_size):
+        for i in range(index+look_distance,index+add_point_size):
             if i+1 < len(ref_path):
                 tmp_theta=atan2(ref_path.y[i+1]-ref_path.y[i],ref_path.x[i+1]-ref_path.x[i])
                 
