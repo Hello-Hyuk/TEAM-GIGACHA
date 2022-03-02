@@ -3,6 +3,9 @@ from socket import MsgFlag
 import rospy
 from lib.general_utils.read_global_path import read_global_path
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
+from lib.planner_utils.LPP import LatticePlanner
+from lib.planner_utils.find_local_path import findLocalPath
+from lib.planner_utils.index_finder import IndexFinder
 from std_msgs.msg import String
 from planner_and_control.msg import Path
 from planner_and_control.msg import Ego
@@ -43,9 +46,11 @@ class Motion_Planner:
             self.trajectory_name = "global_path"
 
         if self.behavior == "obstacle avoidance":
+            self.local_path=findLocalPath(self.trajectory,self.ego)
+            self.current_waypoint=IndexFinder
            
 
-            self.lattice_path,self.selected_lane = LPP(self.local_path, self.obj , self.ego_status, self.ego.speed, self.current_lane)
+            self.lattice_path,self.selected_lane = LatticePlanner(self.local_path, self.obj , self.ego_status, self.ego.speed, self.current_lane)
             self.current_lane=self.selected_lane
 
             
