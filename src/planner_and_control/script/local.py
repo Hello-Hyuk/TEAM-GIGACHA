@@ -13,10 +13,6 @@ class Localization():
         self.pub = rospy.Publisher('/pose', Local, queue_size = 1)
         self.msg = Local()
 
-        self.vis_pub = rospy.Publisher('/vis_pose', PoseStamped, queue_size=1)
-        self.vis_msg = PoseStamped()
-        self.vis_msg.header.frame_id = "map"
-
         self.gps = GPS()
         self.imu = IMU()
 
@@ -25,14 +21,12 @@ class Localization():
         self.msg.y = self.gps.y
         self.msg.heading = self.imu.yaw
 
-        self.vis_msg.pose.position.x = self.msg.x
-        self.vis_msg.pose.position.y = self.msg.y
-        self.vis_msg.pose.position.z = self.msg.heading
 
         self.pub.publish(self.msg)
-        self.vis_pub.publish(self.vis_msg)
 
-        print(self.msg)
+        print("======x : {}".format(self.msg.x))
+        print("======y : {}".format(self.msg.y))
+        print("====yaw : {}".format(self.msg.heading))
 
 if __name__ == '__main__':
     loc = Localization()
