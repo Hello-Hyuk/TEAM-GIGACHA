@@ -34,6 +34,9 @@ class environmentVisualizer:
         
         self.vis_local_path = Path() # using path
         self.vis_local_path.header.frame_id = "map"
+
+        self.vis_local_path = Path() # using path
+        self.vis_local_path.header.frame_id = "map"
         
         self.vis_trajectory = PointCloud()
         self.vis_trajectory.header.frame_id = "map"

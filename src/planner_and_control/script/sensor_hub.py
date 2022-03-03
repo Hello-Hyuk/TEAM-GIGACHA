@@ -4,7 +4,7 @@ from lib.planner_utils.index_finder import IndexFinder
 from lib.general_utils.read_global_path import read_global_path
 from planner_and_control.msg import Local
 from planner_and_control.msg import Path
-#from sensor_msgs.msg import PointCloud
+from sensor_msgs.msg import PointCloud
 
 from planner_and_control.msg import Serial_Info
 from planner_and_control.msg import Ego
@@ -19,7 +19,8 @@ class Sensor_hub:
         rospy.Subscriber("/serial", Serial_Info, self.serial_callback) # serial
 
         self.pub1 = rospy.Publisher("/ego", Ego, queue_size = 1)
-        self.pub2 = rospy.Publisher("/obj",Path, queue_size=1  )
+        self.pub2 = rospy.Publisher("/obj",PointCloud, queue_size=1  )
+        self.obj=PointCloud()
         self.ego = Ego()
         self.IF = IndexFinder(self.ego)
 
@@ -38,7 +39,6 @@ class Sensor_hub:
         pass
 
     def Sensor_fusion_callback(self, msg):
-        self.obj=PointCloud()
         self.obj.x=msg.points.x
         self.obj.y-msg.points.y
 

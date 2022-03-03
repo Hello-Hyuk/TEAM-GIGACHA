@@ -19,7 +19,7 @@ class ControlEgo:
 class Controller:
     def __init__(self):
         rospy.init_node('controller', anonymous = False)
-        rospy.Subscriber('/trajectory', Path, self.motion_callback)
+        rospy.Subscriber('/local_path', Path, self.motion_callback)
         self.control_pub = rospy.Publisher('/controller', Control_Info, queue_size = 1)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
         self.control_msg = Control_Info()

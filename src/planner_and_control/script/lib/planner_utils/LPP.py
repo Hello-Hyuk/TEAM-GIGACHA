@@ -1,17 +1,24 @@
 # -*- coding: utf-8 -*-
 
 from nav_msgs.msg import Path
+from planner_and_control.msg import Path as CustomPath
 from geometry_msgs.msg import PoseStamped
 import numpy as np
 from math import cos,sin,atan2
 
-def path_maker(ref_local_path, ego_status):
+def path_maker(local_path, ego):
     out_path=[]
+    ref_local_path = CustomPath()
+
+    for i in range (len(local_path.poses)):
+        ref_local_path.x.append(local_path.poses[i].pose.position.x)
+        ref_local_path.y.append(local_path.poses[i].pose.position.y)
     
+    ego_x = ego.x
+    ego_y = ego.y
+    ego_speed = ego.speed
+
     look_distance = int(ego_speed*0.4*3.6)
-    ego_x = ego_status[0]
-    ego_y = ego_status[1]
-    ego_speed = ego_status[2]
 
     if look_distance < 10 :
         look_distance = 10
@@ -33,11 +40,11 @@ def path_maker(ref_local_path, ego_status):
         local_end_point = det_t.dot(world_end_point)
         world_ego_vehicle_position = np.array([[ego_x],[ego_y],[1]])
         local_ego_vehicle_position = det_t.dot(world_ego_vehicle_position)
-        lane_off_set = [1.2 , 1, 0, 1, 1.2]
+        lane_off_set = [-5 ,-2.5 , 0, 2.5, 5]
         local_lattice_points = []
         for i in range(len(lane_off_set)):
             local_lattice_points.append([local_end_point[0][0],local_end_point[1][0]+lane_off_set[i],1])
-
+        # print(f"la : {local_lattice_points}")
         for end_point in local_lattice_points :
             lattice_path = Path()
             lattice_path.header.frame_id = 'map'
@@ -93,7 +100,7 @@ def path_maker(ref_local_path, ego_status):
                 tmp_translation = [ref_local_path.x[i],ref_local_path.y[i]]
                 tmp_t = np.array([[cos(tmp_theta), -sin(tmp_theta),tmp_translation[0]],[sin(tmp_theta),cos(tmp_theta),tmp_translation[1]],[0,0,1]])
 
-                for lane_num in range(len(lane_off_set)) :
+                for lane_num in range(5) :
                     local_result = np.array([[0],[lane_off_set[lane_num]],[1]])
                     global_result = tmp_t.dot(local_result)
 

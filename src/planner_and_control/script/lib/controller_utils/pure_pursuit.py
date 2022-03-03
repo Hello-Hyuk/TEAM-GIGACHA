@@ -12,8 +12,10 @@ class PurePursuit:
 
     def run(self):
 
+
         lookahead = min(self.k * self.ego.data.speed + self.lookahead_default, 6)
-        target_index = int(self.ego.data.index + lookahead*10)
+        # target_index = int(self.ego.data.index + lookahead*10)
+        target_index = len(self.path.data.x)-1
 
         print(f"ego index : {self.ego.data.index}")
         print(f"target index : {target_index}")
