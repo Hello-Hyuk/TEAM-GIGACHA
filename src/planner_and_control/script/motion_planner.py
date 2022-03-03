@@ -38,7 +38,7 @@ class Motion_Planner:
 
     def ego_callback(self, msg):
         self.ego = msg
-        self.ego_status = [self.ego.x, self.ego.y, self.ego.heading]
+        self.ego_status = [self.ego.x, self.ego.y, self.ego.speed]
 
     # def obj_callback(self,msg):
     #     self.obj=msg
@@ -58,7 +58,7 @@ class Motion_Planner:
 
         # create lattice path(weight)
         # self.lattice_path,self.selected_lane = LatticePlanner(self.local_path, self.obj , self.ego_status, self.ego.speed, self.current_lane)
-        self.lattice_path,self.selected_lane = LatticePlanner(self.local_path, self.ego_status, self.ego.speed, self.current_lane)
+        self.lattice_path,self.selected_lane = LatticePlanner(self.local_path, self.ego_status, self.ego.speed)
 
         # select lane(path)
 
@@ -77,6 +77,38 @@ class Motion_Planner:
         print(f"motion_planner : {self.trajectory_name}")
 
         self.pub.publish(self.trajectory)
+
+        lane_weight=[5, 1, 0, 1, 1] #reference path 
+        collision_bool=[False, False, False, False, False]
+
+        # if len(global_vaild_object)>0:
+        if 1 > 0:
+
+            for path_num in range(len(self.local_path)) :
+                        
+                for path_pos in self.local_path[path_num].poses :
+
+                    #dis= sqrt(pow(global_vaild_object.x,2)+pow(global_vaild_object.y,2))
+                    dis=3
+   
+                    if dis<7:
+                        collision_bool[path_num]=True
+                        lane_weight[path_num]=lane_weight[path_num]+100
+                        print(f"Obstacle distance: {dis}")
+
+                        break
+            
+        
+        else :
+            print("No Obstacle")
+    
+        selected_lane=lane_weight.index(min(lane_weight))
+        print(lane_weight,selected_lane)
+        all_lane_collision=True
+        
+    else :
+        print("NO Reference Path")
+        selected_lane=-1  
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
