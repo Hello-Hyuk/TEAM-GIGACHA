@@ -17,11 +17,13 @@ class environmentVisualizer:
         
         # Subscriber
         rospy.Subscriber('/pose', Local, self.pose_callback)
-        rospy.Subscriber('/trajectory', customPath, self.globalpath_callback)
+        rospy.Subscriber('/global_path', customPath, self.globalpath_callback)
+        rospy.Subscriber('/local_path', customPath, self.localpath_callback)
         
         # Publisher
         # self.vis_global_path_pub = rospy.Publisher("/vis_global_path", PointCloud, queue_size=1) # using pointcloud
         self.vis_global_path_pub = rospy.Publisher("/vis_global_path", Path, queue_size=1) # using path
+        self.vis_local_path_pub = rospy.Publisher("/vis_local_path", Path, queue_size=1) # using path
         
         self.vis_trajectory_pub = rospy.Publisher("/vis_trajectory", PointCloud, queue_size=1)
         self.vis_pose_pub = rospy.Publisher("/vis_pose", Odometry, queue_size=1)
@@ -29,6 +31,9 @@ class environmentVisualizer:
         # self.vis_global_path = PointCloud() # using pointcloud
         self.vis_global_path = Path() # using path
         self.vis_global_path.header.frame_id = "map"
+        
+        self.vis_local_path = Path() # using path
+        self.vis_local_path.header.frame_id = "map"
         
         self.vis_trajectory = PointCloud()
         self.vis_trajectory.header.frame_id = "map"
@@ -87,13 +92,29 @@ class environmentVisualizer:
         #     gpoints.z = 0
         #     global_path.points.append(gpoints)
         # self.vis_global_path.points = global_path.points
+        
+    def localpath_callback(self, msg):
+        local_path = Path()
+        for i in range(len(msg.x)):
+            read_pose=PoseStamped()
+            read_pose.pose.position.x = msg.x[i]
+            read_pose.pose.position.y = msg.y[i]
+            read_pose.pose.position.z = 0
+            read_pose.pose.orientation.x=0
+            read_pose.pose.orientation.y=0
+            read_pose.pose.orientation.z=0
+            read_pose.pose.orientation.w=1
+            local_path.poses.append(read_pose)  
+        self.vis_local_path.poses = local_path.poses
 
     def run(self):
         print(f"Publishing maps for visualization")
         self.vis_global_path.header.stamp = rospy.Time.now()
         self.vis_global_path_pub.publish(self.vis_global_path)
         
-        self.vis_global_path.header.stamp = rospy.Time.now()
+        self.vis_local_path.header.stamp = rospy.Time.now()
+        self.vis_local_path_pub.publish(self.vis_local_path)
+
         self.vis_trajectory_pub.publish(self.vis_trajectory)
 
         self.vis_pose.header.stamp = rospy.Time.now()
