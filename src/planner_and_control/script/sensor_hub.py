@@ -3,7 +3,8 @@ from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from lib.planner_utils.index_finder import IndexFinder
 from lib.general_utils.read_global_path import read_global_path
 from planner_and_control.msg import Local
-from sensor_msgs.msg import PointCloud
+from planner_and_control.msg import Path
+#from sensor_msgs.msg import PointCloud
 
 from planner_and_control.msg import Serial_Info
 from planner_and_control.msg import Ego
@@ -18,7 +19,7 @@ class Sensor_hub:
         rospy.Subscriber("/serial", Serial_Info, self.serial_callback) # serial
 
         self.pub1 = rospy.Publisher("/ego", Ego, queue_size = 1)
-        self.pub2 = rospy.Publisher("/obj",PointCloud, queue_size=1  )
+        self.pub2 = rospy.Publisher("/obj",Path, queue_size=1  )
         self.ego = Ego()
         self.IF = IndexFinder(self.ego)
 

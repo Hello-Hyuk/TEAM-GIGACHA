@@ -10,15 +10,13 @@ from std_msgs.msg import String
 from planner_and_control.msg import Path
 from planner_and_control.msg import Ego
 
-from sensor_msgs.msg import PointCloud
-
 
 class Motion_Planner:
     def __init__(self):
         rospy.init_node('Motion_Planner', anonymous = False)
         rospy.Subscriber('/behavior', String, self.behavior_callback)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
-        rospy.Subscriber('/obj',PointCloud,self.obj_callback)
+        rospy.Subscriber('/obj',Path,self.obj_callback)
         self.pub = rospy.Publisher('/trajectory', Path, queue_size = 1)
         self.ego = Ego()
         self.behavior = ''

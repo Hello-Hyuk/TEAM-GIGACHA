@@ -4,6 +4,7 @@ from math import sqrt
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from std_msgs.msg import String
 from planner_and_control.msg import Ego
+from planner_and_control.msg import Path
 from sensor_msgs.msg import PointCloud
 
 class Mission_Planner:
@@ -11,7 +12,7 @@ class Mission_Planner:
         rospy.init_node('Mission_Planner', anonymous = False)
         self.pub = rospy.Publisher('/state', String, queue_size = 1)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
-        rospy.Subscriber('/obj', PointCloud, self.lidar_callback)
+        rospy.Subscriber('/obj', Path, self.lidar_callback)
         self.ego = Ego()
         self.state = ''
         self.obs_dis=0
