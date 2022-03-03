@@ -3,7 +3,6 @@ import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from std_msgs.msg import String
 from planner_and_control.msg import Ego
-from lib.general_utils.read_global_path import read_global_path
 
 class Behavior_Planner:
     def __init__(self):

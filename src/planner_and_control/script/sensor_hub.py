@@ -4,7 +4,6 @@
 import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from lib.planner_utils.index_finder import IndexFinder
-from lib.general_utils.read_global_path import read_global_path
 from planner_and_control.msg import Local
 from planner_and_control.msg import Serial_Info
 from planner_and_control.msg import Ego

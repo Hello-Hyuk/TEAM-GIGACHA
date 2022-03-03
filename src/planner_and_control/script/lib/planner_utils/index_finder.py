@@ -10,7 +10,7 @@ class IndexFinder:
         self.ego = eg
         self.save_idx = 0
         self.index = 0
-        self.path = read_global_path('songdo_fin')
+        self.path = read_global_path('1')
 
     def run(self):
 

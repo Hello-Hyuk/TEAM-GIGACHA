@@ -1,6 +1,5 @@
 import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
-from lib.general_utils.read_global_path import read_global_path
 from lib.controller_utils.pure_pursuit import PurePursuit
 from lib.controller_utils.longtidudinal_controller import longitudinalController
 from std_msgs.msg import String

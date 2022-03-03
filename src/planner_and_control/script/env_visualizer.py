@@ -1,7 +1,6 @@
 import rospy
 
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
-from lib.general_utils.read_global_path import read_global_path
 
 from sensor_msgs.msg import PointCloud
 from geometry_msgs.msg import Point32, PoseStamped
