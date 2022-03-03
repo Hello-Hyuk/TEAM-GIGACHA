@@ -7,7 +7,8 @@ from lib.planner_utils.LPP import LatticePlanner
 from lib.planner_utils.find_local_path import findLocalPath
 from lib.planner_utils.index_finder import IndexFinder
 from std_msgs.msg import String
-from planner_and_control.msg import Path
+from nav_msgs.msg import Path
+from planner_and_control.msg import Path as CustomPath
 from planner_and_control.msg import Ego
 
 
@@ -16,17 +17,21 @@ class Motion_Planner:
         rospy.init_node('Motion_Planner', anonymous = False)
         rospy.Subscriber('/behavior', String, self.behavior_callback)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
-        rospy.Subscriber('/obj',Path,self.obj_callback)
-        self.pub = rospy.Publisher('/trajectory', Path, queue_size = 1)
+        # rospy.Subscriber('/obj',Path,self.obj_callback)
+
+        self.pub = rospy.Publisher('/trajectory', CustomPath, queue_size = 1)
+
         self.ego = Ego()
         self.behavior = ''
-        self.trajectory = Path()
+        self.trajectory = CustomPath()
         self.trajectory_name = ""
+
+        self.lattice_path = Path()
+
         self.ego_speed = 0
         self.ego_status = []
         self.current_lane = 0
-        self.obj= Path()
-        
+        # self.obj= Path()
     
     def behavior_callback(self, msg):
         self.behavior = msg.data
@@ -35,35 +40,42 @@ class Motion_Planner:
         self.ego = msg
         self.ego_status = [self.ego.x, self.ego.y, self.ego.heading]
 
-    def obj_callback(self,msg):
-        self.obj=msg
-        self.obj.x=4
-        self.obj.y=2
+    # def obj_callback(self,msg):
+    #     self.obj=msg
+    #     self.obj.x=4
+    #     self.obj.y=2
 
         
     def run(self):
+        # trajectroy initalization
+        self.trajectory = read_global_path('ex')
+
+        # trajectroy devide
+        self.local_path=findLocalPath(self.trajectory,self.ego)
+
+        # find my local
+        # self.current_waypoint=IndexFinder.run()
+
+        # create lattice path(weight)
+        # self.lattice_path,self.selected_lane = LatticePlanner(self.local_path, self.obj , self.ego_status, self.ego.speed, self.current_lane)
+        self.lattice_path,self.selected_lane = LatticePlanner(self.local_path, self.ego_status, self.ego.speed, self.current_lane)
+
+        # select lane(path)
 
         if self.behavior == "go":
-            self.trajectory = read_global_path('ex')
             self.trajectory_name = "global_path"
 
         if self.behavior == "obstacle avoidance":
-            self.local_path=findLocalPath(self.trajectory,self.ego)
-            #print(f"self.local_path:{self.local_path}")
-            self.current_waypoint=IndexFinder
-           
-
-            #print(f" self.ego_status:{self.ego_status}")
-            self.lattice_path,self.selected_lane = LatticePlanner(self.local_path, self.obj , self.ego_status, self.ego.speed, self.current_lane)
-            self.current_lane=self.selected_lane
+            
 
             
+            self.current_lane=self.selected_lane
+            
             if self.selected_lane != -1: 
-                self.local_path=self.lattice_path[self.selected_lane]               
-
-
+                self.local_path=self.lattice_path[self.selected_lane]
         
         print(f"motion_planner : {self.trajectory_name}")
+
         self.pub.publish(self.trajectory)
 
 if __name__ == "__main__":

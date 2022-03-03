@@ -1,4 +1,4 @@
-from planner_and_control.msg import Path
+from nav_msgs.msg import Path
 from math import cos,sin,sqrt,pow,atan2,pi
 
 
