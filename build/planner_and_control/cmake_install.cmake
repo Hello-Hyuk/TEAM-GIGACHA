@@ -44,6 +44,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg"
     "/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg"
     "/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg"
+    "/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg"
     )
 endif()
 

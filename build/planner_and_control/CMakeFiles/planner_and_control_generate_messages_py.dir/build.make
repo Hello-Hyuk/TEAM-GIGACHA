@@ -58,6 +58,7 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/i
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Serial_Info.py
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Control_Info.py
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Ego.py
+planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Obj.py
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py
 
 
@@ -86,13 +87,19 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/i
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/inha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating Python from MSG planner_and_control/Ego"
 	cd /home/inha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg -Iplanner_and_control:/home/inha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iplanner_and_control:/home/inha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg
 
+/home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Obj.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
+/home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Obj.py: /home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/inha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Generating Python from MSG planner_and_control/Obj"
+	cd /home/inha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg -Iplanner_and_control:/home/inha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Iplanner_and_control:/home/inha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg
+
 /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
 /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Local.py
 /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Path.py
 /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Serial_Info.py
 /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Control_Info.py
 /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Ego.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/inha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Generating Python msg __init__.py for planner_and_control"
+/home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Obj.py
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/inha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating Python msg __init__.py for planner_and_control"
 	cd /home/inha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg --initpy
 
 planner_and_control_generate_messages_py: planner_and_control/CMakeFiles/planner_and_control_generate_messages_py
@@ -101,6 +108,7 @@ planner_and_control_generate_messages_py: /home/inha/TEAM-GIGACHA/devel/lib/pyth
 planner_and_control_generate_messages_py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Serial_Info.py
 planner_and_control_generate_messages_py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Control_Info.py
 planner_and_control_generate_messages_py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Ego.py
+planner_and_control_generate_messages_py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/_Obj.py
 planner_and_control_generate_messages_py: /home/inha/TEAM-GIGACHA/devel/lib/python3/dist-packages/planner_and_control/msg/__init__.py
 planner_and_control_generate_messages_py: planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/build.make
 
