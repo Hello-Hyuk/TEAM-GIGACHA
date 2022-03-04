@@ -1,2 +1,2 @@
-e2box_imu:planner_and_control:ublox_f9p/rtcm_msgs:ublox_f9p/ublox:ublox_f9p/ublox_gps:ublox_f9p/ublox_msg_filters:ublox_f9p/ublox_msgs:ublox_f9p/ublox_serialization
+planner_and_control
 -DCATKIN_DEVEL_PREFIX=/home/inha/TEAM-GIGACHA/devel -DCMAKE_INSTALL_PREFIX=/home/inha/TEAM-GIGACHA/install -G Unix Makefiles
