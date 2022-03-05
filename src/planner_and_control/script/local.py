@@ -35,13 +35,15 @@ class Localization():
 
         self.pub.publish(self.msg)
 
-        print("======x : {}".format(self.msg.x))
-        print("======y : {}".format(self.msg.y))
-        print("====yaw : {}".format(self.msg.heading))
+        print("Localization On...")
+
+        # print("======x : {}".format(self.msg.x))
+        # print("======y : {}".format(self.msg.y))
+        # print("====yaw : {}".format(self.msg.heading))
 
 if __name__ == '__main__':
     loc = Localization()
-    rate = rospy.Rate(100)
+    rate = rospy.Rate(50)
  
     while not rospy.is_shutdown():
         loc.main()
