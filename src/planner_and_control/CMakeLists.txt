@@ -57,6 +57,9 @@ add_message_files(
   Control_Info.msg
   Ego.msg
   Obj.msg
+  Obstacles.msg
+  CircleObstacle.msg
+  SegmentObstacle.msg
 )
 
 ## Generate services in the 'srv' folder
