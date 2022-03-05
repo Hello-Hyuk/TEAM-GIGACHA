@@ -28,8 +28,7 @@ class Mission_Planner:
         if self.obs_dis < 15 :
             self.state = "obstacle detected"
 
-
-        elif self.obs_dis > 15 :
+        else:
             self.state = "go"
 
         print(f"mission_planner : {self.state}")
