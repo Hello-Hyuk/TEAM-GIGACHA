@@ -298,6 +298,19 @@ planner_and_control_genpy/fast:
 .PHONY : planner_and_control_genpy/fast
 
 #=============================================================================
+# Target rules for targets named planner_and_control_gennodejs
+
+# Build rule for target.
+planner_and_control_gennodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 planner_and_control_gennodejs
+.PHONY : planner_and_control_gennodejs
+
+# fast build rule for target.
+planner_and_control_gennodejs/fast:
+	$(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_gennodejs.dir/build.make planner_and_control/CMakeFiles/planner_and_control_gennodejs.dir/build
+.PHONY : planner_and_control_gennodejs/fast
+
+#=============================================================================
 # Target rules for targets named rosgraph_msgs_generate_messages_py
 
 # Build rule for target.
@@ -584,17 +597,17 @@ _planner_and_control_generate_messages_check_deps_Local/fast:
 .PHONY : _planner_and_control_generate_messages_check_deps_Local/fast
 
 #=============================================================================
-# Target rules for targets named planner_and_control_gennodejs
+# Target rules for targets named _planner_and_control_generate_messages_check_deps_Gngga
 
 # Build rule for target.
-planner_and_control_gennodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 planner_and_control_gennodejs
-.PHONY : planner_and_control_gennodejs
+_planner_and_control_generate_messages_check_deps_Gngga: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _planner_and_control_generate_messages_check_deps_Gngga
+.PHONY : _planner_and_control_generate_messages_check_deps_Gngga
 
 # fast build rule for target.
-planner_and_control_gennodejs/fast:
-	$(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_gennodejs.dir/build.make planner_and_control/CMakeFiles/planner_and_control_gennodejs.dir/build
-.PHONY : planner_and_control_gennodejs/fast
+_planner_and_control_generate_messages_check_deps_Gngga/fast:
+	$(MAKE) -f planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Gngga.dir/build.make planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Gngga.dir/build
+.PHONY : _planner_and_control_generate_messages_check_deps_Gngga/fast
 
 #=============================================================================
 # Target rules for targets named _planner_and_control_generate_messages_check_deps_Path
@@ -710,6 +723,7 @@ help:
 	@echo "... gtest_main"
 	@echo "... gtest"
 	@echo "... planner_and_control_genpy"
+	@echo "... planner_and_control_gennodejs"
 	@echo "... rosgraph_msgs_generate_messages_py"
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... planner_and_control_generate_messages_nodejs"
@@ -732,7 +746,7 @@ help:
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... _planner_and_control_generate_messages_check_deps_Local"
-	@echo "... planner_and_control_gennodejs"
+	@echo "... _planner_and_control_generate_messages_check_deps_Gngga"
 	@echo "... _planner_and_control_generate_messages_check_deps_Path"
 	@echo "... _planner_and_control_generate_messages_check_deps_Serial_Info"
 	@echo "... _planner_and_control_generate_messages_check_deps_Control_Info"

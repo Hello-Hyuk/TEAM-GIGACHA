@@ -51,6 +51,7 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   Local.msg
+  Gngga.msg
   Path.msg
   Serial_Info.msg
   Control_Info.msg
