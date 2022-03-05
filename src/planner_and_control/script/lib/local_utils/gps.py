@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
 import rospy
 import pymap3d
-
-from gps_parse import GNGGA_Parsing
-
+from planner_and_control.msg import Gngga
 
 class GPS():
     def __init__(self):
-        self.gngga = GNGGA_Parsing()
-
+        rospy.Subscriber("/Gngga_raw", Gngga, self.gps_call_back)
+        
         self.x = 0
         self.y = 0
         self.yaw_gps = 0
@@ -23,9 +21,8 @@ class GPS():
         # self.lon_origin = 126.6562271
         # self.alt_origin = 15.4
 
-
-    def gps_call_back(self):
-        self.x, self.y, _ = pymap3d.geodetic2enu(self.gngga.lat, self.gngga.lon, self.alt_origin, \
+    def gps_call_back(self, data):
+        self.x, self.y, _ = pymap3d.geodetic2enu(data.latitude, data.longitude, self.alt_origin, \
                                             self.lat_origin , self.lon_origin, self.alt_origin)
 
         # self.cov_x_gps = data.position_covariance[4]
