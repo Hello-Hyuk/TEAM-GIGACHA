@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import sys
 import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from lib.general_utils.read_global_path import read_global_path
@@ -15,8 +14,7 @@ from math import sqrt
 class Motion_Planner:
     def __init__(self):
         rospy.init_node('Motion_Planner', anonymous = False)
-        arg = rospy.myargv(argv=sys.argv)
-        self.path_name = arg[1]
+        self.path_name = "ex"
 
         rospy.Subscriber('/behavior', String, self.behavior_callback)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
