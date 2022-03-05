@@ -26,6 +26,7 @@ class environmentVisualizer:
         
         self.vis_trajectory_pub = rospy.Publisher("/vis_trajectory", PointCloud, queue_size=1)
         self.vis_pose_pub = rospy.Publisher("/vis_pose", Odometry, queue_size=1)
+        
 
         # self.vis_global_path = PointCloud() # using pointcloud
         self.vis_global_path = Path() # using path
@@ -71,6 +72,11 @@ class environmentVisualizer:
         self.vis_pose.pose.pose.position.y = ppoint.y
         # self.vis_trajectory.header.stamp = rospy.Time.now()
         self.vis_trajectory.points.append(ppoint)
+
+        # car heading
+        heading = PoseStamped()
+        heading.header.pose = msg.heading
+        self.vis_pose.pose.pose.orientation.w = heading.header.pose
         
     def globalpath_callback(self, msg):
         global_path = Path()
