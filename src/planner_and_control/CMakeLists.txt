@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  geometry_msgs
   message_generation
 )
 
@@ -57,6 +58,9 @@ add_message_files(
   Control_Info.msg
   Ego.msg
   Obj.msg
+  Obstacles.msg
+  CircleObstacle.msg
+  SegmentObstacle.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -77,6 +81,7 @@ add_message_files(
 generate_messages(
   DEPENDENCIES
   std_msgs
+  geometry_msgs
   planner_and_control
 )
 
