@@ -25,7 +25,7 @@ class Controller:
 
         self.ego = ControlEgo()
         self.trajectory = LocalPath()        ## add motion trajectory 
-        self.target_speed = 20.0
+        self.target_speed = 5.0
         
         self.lat_controller = PurePursuit(self.ego, self.trajectory)
         self.lon_controller = longitudinalController(self.ego, self.target_speed)
@@ -38,7 +38,7 @@ class Controller:
         
     def run(self):
         self.publish_control_info(0,0)
-        self.target_speed = 20.0
+        self.target_speed = 5.0
         # print("Controller On..")
 
     def publish_control_info(self, estop, gear):
@@ -57,7 +57,7 @@ class Controller:
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
     cc = Controller()
-    rate = rospy.Rate(50)
+    rate = rospy.Rate(20)
     while not rospy.is_shutdown():
         cc.run()
         rate.sleep()

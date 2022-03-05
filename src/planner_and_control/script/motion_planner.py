@@ -27,7 +27,7 @@ class Motion_Planner:
         self.trajectory_pub = rospy.Publisher('/trajectory', CustomPath, queue_size = 1)
 
         # rviz
-        for i in range(1,6):
+        for i in range(1,4):
             globals()['lattice_path_{}_pub'.format(i)] = rospy.Publisher('lattice_path_{}'.format(i),Path,queue_size=1) 
 
         self.ego = Ego()
@@ -64,15 +64,15 @@ class Motion_Planner:
             self.trajectory_name = "global_path"
 
         if self.behavior == "obstacle avoidance":
-            lane_weight = [25, 15, 0, 10, 20]
+            lane_weight = [15, 0, 10]
             obs_dis = sqrt((self.ego.x - self.obj.x)**2 + (self.ego.y - self.obj.y)**2)
 
             if obs_dis < 10:
                 for i in range (len(self.generated_path)):
                     distance = sqrt((self.generated_path[i].poses[-1].pose.position.x - self.obj.x)**2 + (self.generated_path[i].poses[-1].pose.position.y - self.obj.y)**2)
                     lane_weight[i] +=  distance
-                lane_weight[2] = 100
-                lane_weight[1] = 10000
+                lane_weight[1] = 100
+                lane_weight[0] = 10000
 
             self.selected_lane = lane_weight.index(min(lane_weight))
             self.local_path = self.generated_path[self.selected_lane]
@@ -87,8 +87,8 @@ class Motion_Planner:
             self.trajectory.y.append(self.local_path.poses[i].pose.position.y)
     
         # rviz
-        if len(self.generated_path) == 5:                    
-            for i in range(1,6):
+        if len(self.generated_path) == 3:                    
+            for i in range(1,4):
                 globals()['lattice_path_{}_pub'.format(i)].publish(self.generated_path[i-1])
                 
         # path publish

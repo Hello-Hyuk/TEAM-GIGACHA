@@ -12,7 +12,6 @@ class PurePursuit:
 
     def run(self):
 
-
         lookahead = min(self.k * self.ego.data.speed + self.lookahead_default, 6)
         # target_index = int(self.ego.data.index + lookahead*10)
         target_index = len(self.path.data.x)-1
@@ -27,7 +26,12 @@ class PurePursuit:
         alpha = self.ego.data.heading - tmp
         angle = atan2(2.0 * self.WB * sin(radians(alpha)) / lookahead, 1.0)
     
+
+        if degrees(angle) < 0.5 and degrees(angle) > -0.5:
+            angle = 0
+
         print("angle : ", degrees(angle)) 
         print(f"tmp : {tmp}")
+
 
         return max(min(degrees(angle), 27.0), -27.0)
