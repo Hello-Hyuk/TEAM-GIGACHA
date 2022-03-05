@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
-messages_str = "/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg;/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg;/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg;/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg;/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg"
+messages_str = "/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg;/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Gngga.msg;/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg;/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg;/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg;/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg"
 services_str = ""
 pkg_name = "planner_and_control"
 dependencies_str = "std_msgs;planner_and_control"

@@ -40,6 +40,7 @@ endif()
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/planner_and_control/msg" TYPE FILE FILES
     "/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
+    "/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Gngga.msg"
     "/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg"
     "/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg"
     "/home/inha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg"
