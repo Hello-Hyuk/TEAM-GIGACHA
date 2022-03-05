@@ -20,18 +20,8 @@
    (quality_indicator
     :reader quality_indicator
     :initarg :quality_indicator
-    :type cl:float
-    :initform 0.0)
-   (noise
-    :reader noise
-    :initarg :noise
-    :type cl:float
-    :initform 0.0)
-   (satellite
-    :reader satellite
-    :initarg :satellite
-    :type cl:float
-    :initform 0.0))
+    :type cl:string
+    :initform ""))
 )
 
 (cl:defclass Gngga (<Gngga>)
@@ -56,16 +46,6 @@
 (cl:defmethod quality_indicator-val ((m <Gngga>))
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:quality_indicator-val is deprecated.  Use planner_and_control-msg:quality_indicator instead.")
   (quality_indicator m))
-
-(cl:ensure-generic-function 'noise-val :lambda-list '(m))
-(cl:defmethod noise-val ((m <Gngga>))
-  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:noise-val is deprecated.  Use planner_and_control-msg:noise instead.")
-  (noise m))
-
-(cl:ensure-generic-function 'satellite-val :lambda-list '(m))
-(cl:defmethod satellite-val ((m <Gngga>))
-  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:satellite-val is deprecated.  Use planner_and_control-msg:satellite instead.")
-  (satellite m))
 (cl:defmethod roslisp-msg-protocol:serialize ((msg <Gngga>) ostream)
   "Serializes a message object of type '<Gngga>"
   (cl:let ((bits (roslisp-utils:encode-double-float-bits (cl:slot-value msg 'latitude))))
@@ -86,21 +66,12 @@
     (cl:write-byte (cl:ldb (cl:byte 8 40) bits) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 48) bits) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 56) bits) ostream))
-  (cl:let ((bits (roslisp-utils:encode-single-float-bits (cl:slot-value msg 'quality_indicator))))
-    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream))
-  (cl:let ((bits (roslisp-utils:encode-single-float-bits (cl:slot-value msg 'noise))))
-    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream))
-  (cl:let ((bits (roslisp-utils:encode-single-float-bits (cl:slot-value msg 'satellite))))
-    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream))
+  (cl:let ((__ros_str_len (cl:length (cl:slot-value msg 'quality_indicator))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) __ros_str_len) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) __ros_str_len) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) __ros_str_len) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) __ros_str_len) ostream))
+  (cl:map cl:nil #'(cl:lambda (c) (cl:write-byte (cl:char-code c) ostream)) (cl:slot-value msg 'quality_indicator))
 )
 (cl:defmethod roslisp-msg-protocol:deserialize ((msg <Gngga>) istream)
   "Deserializes a message object of type '<Gngga>"
@@ -124,24 +95,14 @@
       (cl:setf (cl:ldb (cl:byte 8 48) bits) (cl:read-byte istream))
       (cl:setf (cl:ldb (cl:byte 8 56) bits) (cl:read-byte istream))
     (cl:setf (cl:slot-value msg 'longitude) (roslisp-utils:decode-double-float-bits bits)))
-    (cl:let ((bits 0))
-      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
-    (cl:setf (cl:slot-value msg 'quality_indicator) (roslisp-utils:decode-single-float-bits bits)))
-    (cl:let ((bits 0))
-      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
-    (cl:setf (cl:slot-value msg 'noise) (roslisp-utils:decode-single-float-bits bits)))
-    (cl:let ((bits 0))
-      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
-    (cl:setf (cl:slot-value msg 'satellite) (roslisp-utils:decode-single-float-bits bits)))
+    (cl:let ((__ros_str_len 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:slot-value msg 'quality_indicator) (cl:make-string __ros_str_len))
+      (cl:dotimes (__ros_str_idx __ros_str_len msg)
+        (cl:setf (cl:char (cl:slot-value msg 'quality_indicator) __ros_str_idx) (cl:code-char (cl:read-byte istream)))))
   msg
 )
 (cl:defmethod roslisp-msg-protocol:ros-datatype ((msg (cl:eql '<Gngga>)))
@@ -152,23 +113,21 @@
   "planner_and_control/Gngga")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<Gngga>)))
   "Returns md5sum for a message object of type '<Gngga>"
-  "63e398a035d41ac999d8966a3c9d2faa")
+  "887c2979d6bd1163174852792c69db98")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'Gngga)))
   "Returns md5sum for a message object of type 'Gngga"
-  "63e398a035d41ac999d8966a3c9d2faa")
+  "887c2979d6bd1163174852792c69db98")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<Gngga>)))
   "Returns full string definition for message of type '<Gngga>"
-  (cl:format cl:nil "float64 latitude~%float64 longitude~%~%float32 quality_indicator # 0 - fix not available, 1 - GPS fix, 2 - Differential GPS fix~%float32 noise~%float32 satellite~%~%~%"))
+  (cl:format cl:nil "float64 latitude~%float64 longitude~%string quality_indicator # 0 - fix not available, 1 - GPS fix, 2 - Differential GPS fix~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'Gngga)))
   "Returns full string definition for message of type 'Gngga"
-  (cl:format cl:nil "float64 latitude~%float64 longitude~%~%float32 quality_indicator # 0 - fix not available, 1 - GPS fix, 2 - Differential GPS fix~%float32 noise~%float32 satellite~%~%~%"))
+  (cl:format cl:nil "float64 latitude~%float64 longitude~%string quality_indicator # 0 - fix not available, 1 - GPS fix, 2 - Differential GPS fix~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <Gngga>))
   (cl:+ 0
      8
      8
-     4
-     4
-     4
+     4 (cl:length (cl:slot-value msg 'quality_indicator))
 ))
 (cl:defmethod roslisp-msg-protocol:ros-message-to-list ((msg <Gngga>))
   "Converts a ROS message object to a list"
@@ -176,6 +135,4 @@
     (cl:cons ':latitude (latitude msg))
     (cl:cons ':longitude (longitude msg))
     (cl:cons ':quality_indicator (quality_indicator msg))
-    (cl:cons ':noise (noise msg))
-    (cl:cons ':satellite (satellite msg))
 ))

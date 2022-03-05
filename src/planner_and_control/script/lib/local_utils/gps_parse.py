@@ -2,10 +2,16 @@
 import serial
 import rospy
 
+from planner_and_control.msg import Gngga
+
 class GNGGA_Parsing:
     def __init__(self):
         self.ser = serial.Serial('/dev/gps', baudrate = 115200)
         print('GNGGA_Parsing : Serial connecting to /dev/gps')
+
+        self.gngga_msg = Gngga()
+        rospy.init_node("Gngga_data", anonymous=False)
+        self.pub = rospy.Publisher("/Gngga_raw", Gngga, queue_size=1)
 
         self.lat = 0.0
         self.lon = 0.0
@@ -34,11 +40,19 @@ class GNGGA_Parsing:
                 return
 
             print("=========Parsing GNGGA=========")
+            print("latitude : {}".format(self.lat))
+            print("longitude : {}".format(self.lon))
             self.lat = self.make_decode(sdata[2])
             self.lon = self.make_decode(sdata[4])
             self.status = sdata[6]
             self.satellite = sdata[7]
             self.noise = sdata[8]
+
+            self.gngga_msg.latitude = self.lat
+            self.gngga_msg.longitude = self.lon
+            self.gngga_msg.quality_indicator = self.status
+
+            self.pub.publish(self.gngga_msg)
 
     def make_decode(self, coord):
         x = coord.split(".")

@@ -21,8 +21,6 @@ class Gngga {
       this.latitude = null;
       this.longitude = null;
       this.quality_indicator = null;
-      this.noise = null;
-      this.satellite = null;
     }
     else {
       if (initObj.hasOwnProperty('latitude')) {
@@ -41,19 +39,7 @@ class Gngga {
         this.quality_indicator = initObj.quality_indicator
       }
       else {
-        this.quality_indicator = 0.0;
-      }
-      if (initObj.hasOwnProperty('noise')) {
-        this.noise = initObj.noise
-      }
-      else {
-        this.noise = 0.0;
-      }
-      if (initObj.hasOwnProperty('satellite')) {
-        this.satellite = initObj.satellite
-      }
-      else {
-        this.satellite = 0.0;
+        this.quality_indicator = '';
       }
     }
   }
@@ -65,11 +51,7 @@ class Gngga {
     // Serialize message field [longitude]
     bufferOffset = _serializer.float64(obj.longitude, buffer, bufferOffset);
     // Serialize message field [quality_indicator]
-    bufferOffset = _serializer.float32(obj.quality_indicator, buffer, bufferOffset);
-    // Serialize message field [noise]
-    bufferOffset = _serializer.float32(obj.noise, buffer, bufferOffset);
-    // Serialize message field [satellite]
-    bufferOffset = _serializer.float32(obj.satellite, buffer, bufferOffset);
+    bufferOffset = _serializer.string(obj.quality_indicator, buffer, bufferOffset);
     return bufferOffset;
   }
 
@@ -82,16 +64,14 @@ class Gngga {
     // Deserialize message field [longitude]
     data.longitude = _deserializer.float64(buffer, bufferOffset);
     // Deserialize message field [quality_indicator]
-    data.quality_indicator = _deserializer.float32(buffer, bufferOffset);
-    // Deserialize message field [noise]
-    data.noise = _deserializer.float32(buffer, bufferOffset);
-    // Deserialize message field [satellite]
-    data.satellite = _deserializer.float32(buffer, bufferOffset);
+    data.quality_indicator = _deserializer.string(buffer, bufferOffset);
     return data;
   }
 
   static getMessageSize(object) {
-    return 28;
+    let length = 0;
+    length += _getByteLength(object.quality_indicator);
+    return length + 20;
   }
 
   static datatype() {
@@ -101,7 +81,7 @@ class Gngga {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '63e398a035d41ac999d8966a3c9d2faa';
+    return '887c2979d6bd1163174852792c69db98';
   }
 
   static messageDefinition() {
@@ -109,10 +89,8 @@ class Gngga {
     return `
     float64 latitude
     float64 longitude
+    string quality_indicator # 0 - fix not available, 1 - GPS fix, 2 - Differential GPS fix
     
-    float32 quality_indicator # 0 - fix not available, 1 - GPS fix, 2 - Differential GPS fix
-    float32 noise
-    float32 satellite
     
     `;
   }
@@ -141,21 +119,7 @@ class Gngga {
       resolved.quality_indicator = msg.quality_indicator;
     }
     else {
-      resolved.quality_indicator = 0.0
-    }
-
-    if (msg.noise !== undefined) {
-      resolved.noise = msg.noise;
-    }
-    else {
-      resolved.noise = 0.0
-    }
-
-    if (msg.satellite !== undefined) {
-      resolved.satellite = msg.satellite;
-    }
-    else {
-      resolved.satellite = 0.0
+      resolved.quality_indicator = ''
     }
 
     return resolved;

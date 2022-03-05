@@ -8,18 +8,16 @@ import struct
 
 
 class Gngga(genpy.Message):
-  _md5sum = "63e398a035d41ac999d8966a3c9d2faa"
+  _md5sum = "887c2979d6bd1163174852792c69db98"
   _type = "planner_and_control/Gngga"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float64 latitude
 float64 longitude
+string quality_indicator # 0 - fix not available, 1 - GPS fix, 2 - Differential GPS fix
 
-float32 quality_indicator # 0 - fix not available, 1 - GPS fix, 2 - Differential GPS fix
-float32 noise
-float32 satellite
 """
-  __slots__ = ['latitude','longitude','quality_indicator','noise','satellite']
-  _slot_types = ['float64','float64','float32','float32','float32']
+  __slots__ = ['latitude','longitude','quality_indicator']
+  _slot_types = ['float64','float64','string']
 
   def __init__(self, *args, **kwds):
     """
@@ -29,7 +27,7 @@ float32 satellite
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       latitude,longitude,quality_indicator,noise,satellite
+       latitude,longitude,quality_indicator
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -43,17 +41,11 @@ float32 satellite
       if self.longitude is None:
         self.longitude = 0.
       if self.quality_indicator is None:
-        self.quality_indicator = 0.
-      if self.noise is None:
-        self.noise = 0.
-      if self.satellite is None:
-        self.satellite = 0.
+        self.quality_indicator = ''
     else:
       self.latitude = 0.
       self.longitude = 0.
-      self.quality_indicator = 0.
-      self.noise = 0.
-      self.satellite = 0.
+      self.quality_indicator = ''
 
   def _get_types(self):
     """
@@ -68,7 +60,13 @@ float32 satellite
     """
     try:
       _x = self
-      buff.write(_get_struct_2d3f().pack(_x.latitude, _x.longitude, _x.quality_indicator, _x.noise, _x.satellite))
+      buff.write(_get_struct_2d().pack(_x.latitude, _x.longitude))
+      _x = self.quality_indicator
+      length = len(_x)
+      if python3 or type(_x) == unicode:
+        _x = _x.encode('utf-8')
+        length = len(_x)
+      buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -83,8 +81,17 @@ float32 satellite
       end = 0
       _x = self
       start = end
-      end += 28
-      (_x.latitude, _x.longitude, _x.quality_indicator, _x.noise, _x.satellite,) = _get_struct_2d3f().unpack(str[start:end])
+      end += 16
+      (_x.latitude, _x.longitude,) = _get_struct_2d().unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      if python3:
+        self.quality_indicator = str[start:end].decode('utf-8', 'rosmsg')
+      else:
+        self.quality_indicator = str[start:end]
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -98,7 +105,13 @@ float32 satellite
     """
     try:
       _x = self
-      buff.write(_get_struct_2d3f().pack(_x.latitude, _x.longitude, _x.quality_indicator, _x.noise, _x.satellite))
+      buff.write(_get_struct_2d().pack(_x.latitude, _x.longitude))
+      _x = self.quality_indicator
+      length = len(_x)
+      if python3 or type(_x) == unicode:
+        _x = _x.encode('utf-8')
+        length = len(_x)
+      buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -114,8 +127,17 @@ float32 satellite
       end = 0
       _x = self
       start = end
-      end += 28
-      (_x.latitude, _x.longitude, _x.quality_indicator, _x.noise, _x.satellite,) = _get_struct_2d3f().unpack(str[start:end])
+      end += 16
+      (_x.latitude, _x.longitude,) = _get_struct_2d().unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      if python3:
+        self.quality_indicator = str[start:end].decode('utf-8', 'rosmsg')
+      else:
+        self.quality_indicator = str[start:end]
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -124,9 +146,9 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_2d3f = None
-def _get_struct_2d3f():
-    global _struct_2d3f
-    if _struct_2d3f is None:
-        _struct_2d3f = struct.Struct("<2d3f")
-    return _struct_2d3f
+_struct_2d = None
+def _get_struct_2d():
+    global _struct_2d
+    if _struct_2d is None:
+        _struct_2d = struct.Struct("<2d")
+    return _struct_2d

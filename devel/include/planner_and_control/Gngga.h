@@ -26,16 +26,12 @@ struct Gngga_
   Gngga_()
     : latitude(0.0)
     , longitude(0.0)
-    , quality_indicator(0.0)
-    , noise(0.0)
-    , satellite(0.0)  {
+    , quality_indicator()  {
     }
   Gngga_(const ContainerAllocator& _alloc)
     : latitude(0.0)
     , longitude(0.0)
-    , quality_indicator(0.0)
-    , noise(0.0)
-    , satellite(0.0)  {
+    , quality_indicator(_alloc)  {
   (void)_alloc;
     }
 
@@ -47,14 +43,8 @@ struct Gngga_
    typedef double _longitude_type;
   _longitude_type longitude;
 
-   typedef float _quality_indicator_type;
+   typedef std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other >  _quality_indicator_type;
   _quality_indicator_type quality_indicator;
-
-   typedef float _noise_type;
-  _noise_type noise;
-
-   typedef float _satellite_type;
-  _satellite_type satellite;
 
 
 
@@ -87,9 +77,7 @@ bool operator==(const ::planner_and_control::Gngga_<ContainerAllocator1> & lhs, 
 {
   return lhs.latitude == rhs.latitude &&
     lhs.longitude == rhs.longitude &&
-    lhs.quality_indicator == rhs.quality_indicator &&
-    lhs.noise == rhs.noise &&
-    lhs.satellite == rhs.satellite;
+    lhs.quality_indicator == rhs.quality_indicator;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -122,12 +110,12 @@ struct IsMessage< ::planner_and_control::Gngga_<ContainerAllocator> const>
 
 template <class ContainerAllocator>
 struct IsFixedSize< ::planner_and_control::Gngga_<ContainerAllocator> >
-  : TrueType
+  : FalseType
   { };
 
 template <class ContainerAllocator>
 struct IsFixedSize< ::planner_and_control::Gngga_<ContainerAllocator> const>
-  : TrueType
+  : FalseType
   { };
 
 template <class ContainerAllocator>
@@ -146,12 +134,12 @@ struct MD5Sum< ::planner_and_control::Gngga_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "63e398a035d41ac999d8966a3c9d2faa";
+    return "887c2979d6bd1163174852792c69db98";
   }
 
   static const char* value(const ::planner_and_control::Gngga_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x63e398a035d41ac9ULL;
-  static const uint64_t static_value2 = 0x99d8966a3c9d2faaULL;
+  static const uint64_t static_value1 = 0x887c2979d6bd1163ULL;
+  static const uint64_t static_value2 = 0x174852792c69db98ULL;
 };
 
 template<class ContainerAllocator>
@@ -172,10 +160,8 @@ struct Definition< ::planner_and_control::Gngga_<ContainerAllocator> >
   {
     return "float64 latitude\n"
 "float64 longitude\n"
+"string quality_indicator # 0 - fix not available, 1 - GPS fix, 2 - Differential GPS fix\n"
 "\n"
-"float32 quality_indicator # 0 - fix not available, 1 - GPS fix, 2 - Differential GPS fix\n"
-"float32 noise\n"
-"float32 satellite\n"
 ;
   }
 
@@ -197,8 +183,6 @@ namespace serialization
       stream.next(m.latitude);
       stream.next(m.longitude);
       stream.next(m.quality_indicator);
-      stream.next(m.noise);
-      stream.next(m.satellite);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -222,11 +206,7 @@ struct Printer< ::planner_and_control::Gngga_<ContainerAllocator> >
     s << indent << "longitude: ";
     Printer<double>::stream(s, indent + "  ", v.longitude);
     s << indent << "quality_indicator: ";
-    Printer<float>::stream(s, indent + "  ", v.quality_indicator);
-    s << indent << "noise: ";
-    Printer<float>::stream(s, indent + "  ", v.noise);
-    s << indent << "satellite: ";
-    Printer<float>::stream(s, indent + "  ", v.satellite);
+    Printer<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other > >::stream(s, indent + "  ", v.quality_indicator);
   }
 };
 

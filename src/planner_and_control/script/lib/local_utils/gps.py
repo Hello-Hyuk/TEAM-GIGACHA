@@ -2,14 +2,12 @@
 import rospy
 import pymap3d
 
-import gps_parse
-
-
+from gps_parse import GNGGA_Parsing
 
 
 class GPS():
     def __init__(self):
-        self.gngga = gps_parse.GNGGA_Parsing()
+        self.gngga = GNGGA_Parsing()
 
         self.x = 0
         self.y = 0

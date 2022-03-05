@@ -5,8 +5,4 @@
           LONGITUDE
           QUALITY_INDICATOR-VAL
           QUALITY_INDICATOR
-          NOISE-VAL
-          NOISE
-          SATELLITE-VAL
-          SATELLITE
 ))
