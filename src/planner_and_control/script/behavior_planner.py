@@ -3,7 +3,6 @@ import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from std_msgs.msg import String
 from planner_and_control.msg import Ego
-from lib.general_utils.read_global_path import read_global_path
 
 class Behavior_Planner:
     def __init__(self):
@@ -20,10 +19,11 @@ class Behavior_Planner:
 
     def ego_callback(self, msg):
         self.ego = msg
-        
+
     def run(self):
         if self.state == "go":
             self.behavior = "go"
+            
         if self.state == "obstacle detected":
             self.behavior = "obstacle avoidance"
 
@@ -33,7 +33,7 @@ class Behavior_Planner:
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
     bp = Behavior_Planner()
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(20)
     while not rospy.is_shutdown():
         bp.run()
         rate.sleep

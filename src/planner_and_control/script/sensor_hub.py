@@ -1,7 +1,6 @@
 import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from lib.planner_utils.index_finder import IndexFinder
-from lib.general_utils.read_global_path import read_global_path
 from planner_and_control.msg import Local
 from planner_and_control.msg import Path
 from sensor_msgs.msg import PointCloud
@@ -12,25 +11,23 @@ from planner_and_control.msg import Ego
 class Sensor_hub:
     def __init__(self):
         rospy.init_node('Sensor_hub', anonymous = False)
-        rospy.Subscriber("/pose", Local, self.localcallback) # local
+        rospy.Subscriber("/pose", Local, self.local_callback) # local
         rospy.Subscriber("/pc1", PointCloud, self.Sensor_fusion_callback) # fusion
         rospy.Subscriber("/s1", Local, self.camera1_callback) # Camera 1
         rospy.Subscriber("/s3", Local, self.camera3_callback) # Camera 3
         rospy.Subscriber("/serial", Serial_Info, self.serial_callback) # serial
 
         self.pub1 = rospy.Publisher("/ego", Ego, queue_size = 1)
-        self.pub2 = rospy.Publisher("/obj",PointCloud, queue_size=1  )
+        self.pub2 = rospy.Publisher("/obj", PointCloud, queue_size=1  )
         self.obj=PointCloud()
         self.ego = Ego()
         self.IF = IndexFinder(self.ego)
 
-    def localcallback(self, msg):
-        print("do")
+    def local_callback(self, msg):
         self.ego.x = msg.x
         self.ego.y = msg.y
         self.ego.heading = msg.heading
         self.ego.index = self.IF.run()
-
 
     def camera1_callback(self, msg):
         pass
@@ -39,8 +36,8 @@ class Sensor_hub:
         pass
 
     def Sensor_fusion_callback(self, msg):
-        self.obj.x=msg.points.x
-        self.obj.y-msg.points.y
+        self.obj.x = msg.points.x
+        self.obj.y = msg.points.y
 
     def serial_callback(self, msg):
         self.ego.speed = msg.speed
