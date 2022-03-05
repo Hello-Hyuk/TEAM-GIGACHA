@@ -14,16 +14,19 @@ from nav_msgs.msg import Path
 from math import sqrt
 
 def weight_function_LiDAR(self):
-        for i in range(len(self.generated_path)):
-            path_check = True
-            if path_check == True:
-                for j in range(len(self.generated_path[i])):
-                    for k in range(len(self.obj.x)):
-                        ob_point_distance = sqrt((self.generated_path[i].poses[j].pose.position.x - self.obj.x[k])**2 + (self.generated_path[i].poses[j].pose.position.y - self.obj.y[k])**2)
-                        if ob_point_distance < self.obj.x[k]:
-                            self.lane_weight[i] = 10000
-                            path_check = False
-
+    for i in range(len(self.generated_path)):
+        path_check = True
+        if path_check == True:
+            for j in range(len(self.generated_path[i])):
+                if path_check == False:
+                    break
+                for k in range(len(self.obj.x)):
+                    ob_point_distance = sqrt((self.generated_path[i].poses[j].pose.position.x - self.obj.x[k])**2 + (self.generated_path[i].poses[j].pose.position.y - self.obj.y[k])**2)
+                    if ob_point_distance < self.obj.x[k]:
+                        self.lane_weight[i] = 10000
+                        path_check = False
+                        break
+                    
 class Motion_Planner:
     def __init__(self):
         rospy.init_node('Motion_Planner', anonymous = False)
