@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-import sys,os
-from socket import MsgFlag
+import sys
 import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from lib.general_utils.read_global_path import read_global_path
@@ -16,10 +15,8 @@ from math import sqrt
 class Motion_Planner:
     def __init__(self):
         rospy.init_node('Motion_Planner', anonymous = False)
-        arg=rospy.myargv(argv=sys.argv)
+        arg = rospy.myargv(argv=sys.argv)
         self.path_name=arg[1]
-
-
 
         rospy.Subscriber('/behavior', String, self.behavior_callback)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
@@ -44,8 +41,6 @@ class Motion_Planner:
         self.ego_speed = 0
         self.current_lane = 0
         self.obj = Obj()
-        self.obj.x = 105.8
-        self.obj.y = 203.8
 
     def behavior_callback(self, msg):
         self.behavior = msg.data
@@ -57,6 +52,7 @@ class Motion_Planner:
         self.obj = msg
 
     def run(self):
+        current_lane = input("current lane(left : 1, right : 2) : ") # temporary code(to aviod lidar dectection)
         self.local_path = findLocalPath(self.global_path, self.ego) # local path (50)
         self.generated_path = path_maker(self.local_path, self.ego) # lattice paths
 
@@ -67,12 +63,20 @@ class Motion_Planner:
             self.trajectory_name = "global_path"
 
         if self.behavior == "obstacle avoidance":
-            lane_weight = [25, 15, 0, 10, 20]
+            if current_lane == 1:
+                a = 10000
+                b = 0
+            else:
+                a = 0
+                b = 10000
+            lane_weight = [a, 0, b]
+            
             obs_dis = sqrt((self.ego.x - self.obj.x)**2 + (self.ego.y - self.obj.y)**2)
 
             if obs_dis < 10:
                 for i in range (len(self.generated_path)):
-                    distance = sqrt((self.generated_path[i].poses[-1].pose.position.x - self.obj.x)**2 + (self.generated_path[i].poses[-1].pose.position.y - self.obj.y)**2)
+                    distance = sqrt((self.generated_path[i].poses[-1].pose.position.x - self.obj.x)**2
+                                    + (self.generated_path[i].poses[-1].pose.position.y - self.obj.y)**2)
                     lane_weight[i] +=  distance
                 lane_weight[2] = 100
                 lane_weight[1] = 10000
@@ -97,7 +101,6 @@ class Motion_Planner:
         # path publish
         self.global_path_pub.publish(self.global_path)
         self.trajectory_pub.publish(trajectory)
-
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
