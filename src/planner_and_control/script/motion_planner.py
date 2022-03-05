@@ -41,8 +41,8 @@ class Motion_Planner:
         self.ego_speed = 0
         self.current_lane = 0
         self.obj = Obj()
-        self.obj.x = 105.8
-        self.obj.y = 203.8
+        self.obj.x = 39.4756
+        self.obj.y = 43.8478
 
     def behavior_callback(self, msg):
         self.behavior = msg.data
