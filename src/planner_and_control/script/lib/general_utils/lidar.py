@@ -56,7 +56,7 @@ class lidarParser :
                 tmp_point_2.y = pcd.points[i].y
                 pcd_roi.points.append(tmp_point_2)
         
-        theta = (self.ego.yaw) * pi / 180
+        theta = (self.ego.heading) * pi / 180
                 
         for i in range(len(pcd_roi.points)):
             tmp_point_3 = Point32()
