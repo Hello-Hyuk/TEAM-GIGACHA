@@ -101,7 +101,6 @@ class Motion_Planner:
         # path publish
         self.global_path_pub.publish(self.global_path)
         self.trajectory_pub.publish(trajectory)
-
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
     mp = Motion_Planner()
