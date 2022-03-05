@@ -43,7 +43,7 @@ class Localization():
         self.vis_msg.pose.position.y = self.msg.y
         self.vis_msg.header.stamp = rospy.Time.now()
         self.vis_pub.publish(self.vis_msg)
-        print("Localization is on...")
+        # print("Localization is on...")
 
 
     def gpsCallback(self, data):

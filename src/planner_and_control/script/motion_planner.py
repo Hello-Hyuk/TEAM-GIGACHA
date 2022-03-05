@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-import sys,os
-from socket import MsgFlag
+import sys
 import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from lib.general_utils.read_global_path import read_global_path
@@ -16,18 +15,18 @@ from math import sqrt
 class Motion_Planner:
     def __init__(self):
         rospy.init_node('Motion_Planner', anonymous = False)
-        arg=rospy.myargv(argv=sys.argv)
-        self.path_name=arg[1]
-
-
+        arg = rospy.myargv(argv=sys.argv)
+        self.path_name = arg[1]
 
         rospy.Subscriber('/behavior', String, self.behavior_callback)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
         rospy.Subscriber('/obj', Obj, self.obj_callback)
 
+        # rviz
         self.global_path_pub = rospy.Publisher('/global_path', CustomPath, queue_size = 1)
         self.local_path_pub = rospy.Publisher('/lattice_path', CustomPath, queue_size = 1)
-        self.trajectory_pub = rospy.Publisher('/local_path', CustomPath, queue_size = 1)
+        
+        self.trajectory_pub = rospy.Publisher('/trajectory', CustomPath, queue_size = 1)
 
         # rviz
         for i in range(1,6):
@@ -39,7 +38,7 @@ class Motion_Planner:
         self.generated_path = Path()
         self.trajectory_name = ""
 
-        self.global_path = read_global_path('ex')
+        self.global_path = read_global_path(self.path_name)
 
         self.ego_speed = 0
         self.current_lane = 0
@@ -60,10 +59,10 @@ class Motion_Planner:
         self.local_path = findLocalPath(self.global_path, self.ego) # local path (50)
         self.generated_path = path_maker(self.local_path, self.ego) # lattice paths
 
-        trajectory = CustomPath()
+        self.trajectory = CustomPath()
 
         if self.behavior == "go":
-            self.trajectory = read_global_path(self.path_name)
+            self.trajectory = self.global_path
             self.trajectory_name = "global_path"
 
         if self.behavior == "obstacle avoidance":
@@ -86,8 +85,8 @@ class Motion_Planner:
             print(f"motion_planner : {self.trajectory_name}, local_path")
 
         for i in range (len(self.local_path.poses)):
-            trajectory.x.append(self.local_path.poses[i].pose.position.x)
-            trajectory.y.append(self.local_path.poses[i].pose.position.y)
+            self.trajectory.x.append(self.local_path.poses[i].pose.position.x)
+            self.trajectory.y.append(self.local_path.poses[i].pose.position.y)
     
         # rviz
         if len(self.generated_path) == 5:                    
@@ -96,7 +95,7 @@ class Motion_Planner:
                 
         # path publish
         self.global_path_pub.publish(self.global_path)
-        self.trajectory_pub.publish(trajectory)
+        self.trajectory_pub.publish(self.trajectory)
 
 
 if __name__ == "__main__":

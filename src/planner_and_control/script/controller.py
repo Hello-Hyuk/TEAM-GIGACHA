@@ -18,14 +18,14 @@ class ControlEgo:
 class Controller:
     def __init__(self):
         rospy.init_node('controller', anonymous = False)
-        rospy.Subscriber('/local_path', Path, self.motion_callback)
+        rospy.Subscriber('/trajectory', Path, self.motion_callback)
         self.control_pub = rospy.Publisher('/controller', Control_Info, queue_size = 1)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
         self.control_msg = Control_Info()
 
         self.ego = ControlEgo()
         self.trajectory = LocalPath()        ## add motion trajectory 
-        self.target_speed = 5.0
+        self.target_speed = 20.0
         
         self.lat_controller = PurePursuit(self.ego, self.trajectory)
         self.lon_controller = longitudinalController(self.ego, self.target_speed)
@@ -38,7 +38,7 @@ class Controller:
         
     def run(self):
         self.publish_control_info(0,0)
-        self.target_speed = 5.0
+        self.target_speed = 20.0
         # print("Controller On..")
 
     def publish_control_info(self, estop, gear):

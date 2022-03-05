@@ -17,7 +17,7 @@ class environmentVisualizer:
         # Subscriber
         rospy.Subscriber('/pose', Local, self.pose_callback)
         rospy.Subscriber('/global_path', customPath, self.globalpath_callback)
-        rospy.Subscriber('/local_path', customPath, self.localpath_callback)
+        rospy.Subscriber('/trajectory', customPath, self.localpath_callback)
         
         # Publisher
         # self.vis_global_path_pub = rospy.Publisher("/vis_global_path", PointCloud, queue_size=1) # using pointcloud

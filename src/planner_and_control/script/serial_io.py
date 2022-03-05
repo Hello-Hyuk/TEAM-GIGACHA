@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-
-
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 import serial
 from planner_and_control.msg import Serial_Info
@@ -13,7 +11,7 @@ import rospy
 class Serial_IO:
     def __init__(self):
         # Serial Connect
-        self.ser = serial.Serial("/dev/ttyUSB1", 115200)
+        self.ser = serial.Serial("/dev/ttyUSB0", 115200)
         print("Serial_IO: Serial connecting to /dev/erp42...")
 
         # ROS Publish
@@ -50,7 +48,7 @@ class Serial_IO:
             print(f"Serial_IO: Reading serial {self.alive}")
 
             packet = self.ser.read_until(b'\x0d\x0a')
-            # print("packet")
+            # print(len(packet))
             if len(packet) == 18:
                 header = packet[0:3].decode()
 
