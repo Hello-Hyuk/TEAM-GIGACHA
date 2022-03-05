@@ -15,7 +15,7 @@ class GPS():
         self.yaw_gps = 0
 
         rospy.Subscriber('/ublox/navpvt',NavPVT, self.gps_Heading)
-        rospy.Subscriber("/ublox/fix", NavSatFix, self.gps_call_back)
+        rospy.Subscriber("/GPRMC", NavSatFix, self.gps_call_back)
         rospy.Subscriber("/simul_gps", Pose, self.gps_call_back)
 
         # KCity
