@@ -10,6 +10,10 @@ import struct
 from geometry_msgs.msg import Pose
 import threading
 
+
+
+
+
 class UDP_GPS_Parser :
     def __init__(self,ip,port,data_type):
         self.type=data_type
@@ -22,7 +26,7 @@ class UDP_GPS_Parser :
 
     def recv_udp_data(self):
         raw_data, sender = self.sock.recvfrom(self.data_size)
-        print('2==========')
+        #print('2==========')
 
         self.data_parsing(raw_data)
 
@@ -66,6 +70,7 @@ class SimulGPS():
 
             self.msg.position.x = self.gps_parser.parsed_data[0] #latitude
             self.msg.position.y = self.gps_parser.parsed_data[1] #longitude
+            print(self.msg)
             
             self.pub.publish(self.msg)
 

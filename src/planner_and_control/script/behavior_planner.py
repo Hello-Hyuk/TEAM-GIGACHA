@@ -19,10 +19,13 @@ class Behavior_Planner:
 
     def ego_callback(self, msg):
         self.ego = msg
-        
+
     def run(self):
         if self.state == "go":
             self.behavior = "go"
+            
+        if self.state == "obstacle detected":
+            self.behavior = "obstacle avoidance"
 
         print(f"behavior_planner : {self.behavior}")
         self.pub.publish(self.behavior)
@@ -30,7 +33,7 @@ class Behavior_Planner:
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
     bp = Behavior_Planner()
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(20)
     while not rospy.is_shutdown():
         bp.run()
         rate.sleep

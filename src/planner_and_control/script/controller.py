@@ -18,7 +18,7 @@ class ControlEgo:
 class Controller:
     def __init__(self):
         rospy.init_node('controller', anonymous = False)
-        rospy.Subscriber('/trajectory', Path, self.motion_callback)
+        rospy.Subscriber('/local_path', Path, self.motion_callback)
         self.control_pub = rospy.Publisher('/controller', Control_Info, queue_size = 1)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
         self.control_msg = Control_Info()
@@ -49,8 +49,8 @@ class Controller:
         except IndexError:
             print("++++++")
 
-        #self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()
-        self.control_msg.speed, self.control_msg.brake = self.target_speed, 0
+        #self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()         ## PID off
+        self.control_msg.speed, self.control_msg.brake = self.target_speed, 0               ## PID on
         self.control_pub.publish(self.control_msg)
 
 
