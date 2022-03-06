@@ -11,24 +11,14 @@ class GPS():
         self.y = 0
         self.yaw_gps = 0
 
-        # # KCity
-        # self.lat_origin = 37.239231667
-        # self.lon_origin = 126.773156667
-        # self.alt_origin = 15.400
-        
-        # #Songdo
-        # self.lat_origin = 37.3851693 
-        # self.lon_origin = 126.6562271
-        # self.alt_origin = 15.4
-
-        #Where else around Songdo
-        self.lat_origin = 37.3843177 
-        self.lon_origin = 126.6553022
-        self.alt_origin = 15.4
+        self.base = rospy.get_param("Songdo") # KCity, Songdo
+        self.lat = self.base['lat']
+        self.lon = self.base['lon']
+        self.alt = self.base['alt']
 
     def gps_call_back(self, data):
-        self.x, self.y, _ = pymap3d.geodetic2enu(data.latitude, data.longitude, self.alt_origin, \
-                                            self.lat_origin , self.lon_origin, self.alt_origin)
+        self.x, self.y, _ = pymap3d.geodetic2enu(data.latitude, data.longitude, self.alt, \
+                                            self.lat, self.lon, self.alt)
 
         # self.cov_x_gps = data.position_covariance[4]
         # self.cov_y_gps = data.position_covariance[0]
