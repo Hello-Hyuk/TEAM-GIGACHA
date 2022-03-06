@@ -23,11 +23,12 @@ class Localization():
 
         self.pub.publish(self.msg)
 
-        print("Localization On...")
+        # print("Localization On...")
 
-        # print("======x : {}".format(self.msg.x))
-        # print("======y : {}".format(self.msg.y))
-        # print("====yaw : {}".format(self.msg.heading))
+        print("=========Localization=========")
+        print(f"x : {self.msg.x}")
+        print(f"y : {self.msg.y}")
+        print(f"heading : {self.msg.heading}")
 
 if __name__ == '__main__':
     Activate_Signal_Interrupt_Handler()
