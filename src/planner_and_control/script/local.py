@@ -15,11 +15,6 @@ class Localization():
         self.gps = GPS()
         self.imu = IMU()
 
-        # K-city
-        # self.lat_origin = 37.239231667
-        # self.lon_origin = 126.773156667
-        # self.alt_origin = 15.400
-
     def main(self):
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y

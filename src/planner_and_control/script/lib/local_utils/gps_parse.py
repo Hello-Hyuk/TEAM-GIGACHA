@@ -18,7 +18,6 @@ class GNGGA_Parsing:
         self.status = ""
         self.satellite = ""
         self.noise = ""
-
         self.data = ""
 
 
@@ -32,7 +31,6 @@ class GNGGA_Parsing:
         # print(self.data)
 
         if self.data[0:6] == "$GNGGA":
-            # print("ok")
             sdata = self.data.split(",")
             
             if sdata[6] == "0":
@@ -42,8 +40,8 @@ class GNGGA_Parsing:
             print("=========Parsing GNGGA=========")
             print("latitude : {}".format(self.lat))
             print("longitude : {}".format(self.lon))
-            self.lat = self.make_decode(sdata[2])
-            self.lon = self.make_decode(sdata[4])
+            self.lat = self.lat_decode(sdata[2])
+            self.lon = self.lon_decode(sdata[4])
             self.status = sdata[6]
             self.satellite = sdata[7]
             self.noise = sdata[8]
@@ -54,13 +52,17 @@ class GNGGA_Parsing:
 
             self.pub.publish(self.gngga_msg)
 
-    def make_decode(self, coord):
-        x = coord.split(".")
-        head = x[0]
-        tail = x[1]
-        deg = head[0:-2]
-        min = head[-2:]
-        return float(deg + "." + min + tail)
+    def lat_decode(self, coord):
+        lat_deg = float(coord[0:2])
+        lat_min = float(coord[2:]) / 60
+
+        return lat_deg + lat_min
+
+    def lon_decode(self, coord):
+        lon_deg = float(coord[0:3])
+        lon_min = float(coord[3:]) / 60
+
+        return lon_deg + lon_min
 
 if __name__ == "__main__":
     gps = GNGGA_Parsing()
