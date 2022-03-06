@@ -12,20 +12,17 @@ class Localization():
         self.pub = rospy.Publisher('/pose', Local, queue_size = 1)
         self.msg = Local()
 
-        self.x = 0
-        self.y = 0
-
         self.gps = GPS()
         self.imu = IMU()
 
         # K-city
-        self.lat_origin = 37.239231667
-        self.lon_origin = 126.773156667
-        self.alt_origin = 15.400
+        # self.lat_origin = 37.239231667
+        # self.lon_origin = 126.773156667
+        # self.alt_origin = 15.400
 
     def main(self):
-        self.msg.x = self.x
-        self.msg.y = self.y
+        self.msg.x = self.gps.x
+        self.msg.y = self.gps.y
         self.msg.heading = self.imu.yaw
 
 
