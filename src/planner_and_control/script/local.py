@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
-import pymap3d
 
+from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from planner_and_control.msg import Local
 from lib.local_utils.gps import GPS
 from lib.local_utils.imu import IMU
@@ -30,6 +30,7 @@ class Localization():
         # print("====yaw : {}".format(self.msg.heading))
 
 if __name__ == '__main__':
+    Activate_Signal_Interrupt_Handler()
     loc = Localization()
     rate = rospy.Rate(50)
  
