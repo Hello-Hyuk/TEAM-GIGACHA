@@ -5,7 +5,7 @@ from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from sensor_msgs.msg import PointCloud
 from geometry_msgs.msg import Point32
 from geometry_msgs.msg import PoseStamped
-
+from geometry_msgs.msg import Quaternion
 from nav_msgs.msg import Odometry, Path
 from planner_and_control.msg import Local
 from planner_and_control.msg import Path as customPath
@@ -76,9 +76,14 @@ class environmentVisualizer:
         self.vis_trajectory.points.append(ppoint)
 
         # car heading
+
         heading = PoseStamped()
         heading.pose.orientation = msg.heading
         self.vis_pose.pose.pose.orientation.w = heading.pose.orientation
+
+        # heading = Quaternion()
+        # heading.w = msg.heading
+        # self.vis_pose.pose.pose.orientation.w = heading.w
         
     def globalpath_callback(self, msg):
         global_path = Path()
