@@ -1,8 +1,8 @@
-# Install script for directory: /home/inha/TEAM-GIGACHA/src
+# Install script for directory: /home/gigacha/TEAM-GIGACHA/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/inha/TEAM-GIGACHA/install")
+  set(CMAKE_INSTALL_PREFIX "/home/gigacha/TEAM-GIGACHA/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -49,90 +49,90 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/inha/TEAM-GIGACHA/install/_setup_util.py")
+   "/home/gigacha/TEAM-GIGACHA/install/_setup_util.py")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/inha/TEAM-GIGACHA/install" TYPE PROGRAM FILES "/home/inha/TEAM-GIGACHA/build/catkin_generated/installspace/_setup_util.py")
+file(INSTALL DESTINATION "/home/gigacha/TEAM-GIGACHA/install" TYPE PROGRAM FILES "/home/gigacha/TEAM-GIGACHA/build/catkin_generated/installspace/_setup_util.py")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/inha/TEAM-GIGACHA/install/env.sh")
+   "/home/gigacha/TEAM-GIGACHA/install/env.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/inha/TEAM-GIGACHA/install" TYPE PROGRAM FILES "/home/inha/TEAM-GIGACHA/build/catkin_generated/installspace/env.sh")
+file(INSTALL DESTINATION "/home/gigacha/TEAM-GIGACHA/install" TYPE PROGRAM FILES "/home/gigacha/TEAM-GIGACHA/build/catkin_generated/installspace/env.sh")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/inha/TEAM-GIGACHA/install/setup.bash;/home/inha/TEAM-GIGACHA/install/local_setup.bash")
+   "/home/gigacha/TEAM-GIGACHA/install/setup.bash;/home/gigacha/TEAM-GIGACHA/install/local_setup.bash")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/inha/TEAM-GIGACHA/install" TYPE FILE FILES
-    "/home/inha/TEAM-GIGACHA/build/catkin_generated/installspace/setup.bash"
-    "/home/inha/TEAM-GIGACHA/build/catkin_generated/installspace/local_setup.bash"
+file(INSTALL DESTINATION "/home/gigacha/TEAM-GIGACHA/install" TYPE FILE FILES
+    "/home/gigacha/TEAM-GIGACHA/build/catkin_generated/installspace/setup.bash"
+    "/home/gigacha/TEAM-GIGACHA/build/catkin_generated/installspace/local_setup.bash"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/inha/TEAM-GIGACHA/install/setup.sh;/home/inha/TEAM-GIGACHA/install/local_setup.sh")
+   "/home/gigacha/TEAM-GIGACHA/install/setup.sh;/home/gigacha/TEAM-GIGACHA/install/local_setup.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/inha/TEAM-GIGACHA/install" TYPE FILE FILES
-    "/home/inha/TEAM-GIGACHA/build/catkin_generated/installspace/setup.sh"
-    "/home/inha/TEAM-GIGACHA/build/catkin_generated/installspace/local_setup.sh"
+file(INSTALL DESTINATION "/home/gigacha/TEAM-GIGACHA/install" TYPE FILE FILES
+    "/home/gigacha/TEAM-GIGACHA/build/catkin_generated/installspace/setup.sh"
+    "/home/gigacha/TEAM-GIGACHA/build/catkin_generated/installspace/local_setup.sh"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/inha/TEAM-GIGACHA/install/setup.zsh;/home/inha/TEAM-GIGACHA/install/local_setup.zsh")
+   "/home/gigacha/TEAM-GIGACHA/install/setup.zsh;/home/gigacha/TEAM-GIGACHA/install/local_setup.zsh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/inha/TEAM-GIGACHA/install" TYPE FILE FILES
-    "/home/inha/TEAM-GIGACHA/build/catkin_generated/installspace/setup.zsh"
-    "/home/inha/TEAM-GIGACHA/build/catkin_generated/installspace/local_setup.zsh"
+file(INSTALL DESTINATION "/home/gigacha/TEAM-GIGACHA/install" TYPE FILE FILES
+    "/home/gigacha/TEAM-GIGACHA/build/catkin_generated/installspace/setup.zsh"
+    "/home/gigacha/TEAM-GIGACHA/build/catkin_generated/installspace/local_setup.zsh"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/inha/TEAM-GIGACHA/install/.rosinstall")
+   "/home/gigacha/TEAM-GIGACHA/install/.rosinstall")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/inha/TEAM-GIGACHA/install" TYPE FILE FILES "/home/inha/TEAM-GIGACHA/build/catkin_generated/installspace/.rosinstall")
+file(INSTALL DESTINATION "/home/gigacha/TEAM-GIGACHA/install" TYPE FILE FILES "/home/gigacha/TEAM-GIGACHA/build/catkin_generated/installspace/.rosinstall")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/inha/TEAM-GIGACHA/build/gtest/cmake_install.cmake")
-  include("/home/inha/TEAM-GIGACHA/build/planner_and_control/cmake_install.cmake")
-  include("/home/inha/TEAM-GIGACHA/build/e2box_AHRS/cmake_install.cmake")
+  include("/home/gigacha/TEAM-GIGACHA/build/gtest/cmake_install.cmake")
+  include("/home/gigacha/TEAM-GIGACHA/build/planner_and_control/cmake_install.cmake")
+  include("/home/gigacha/TEAM-GIGACHA/build/e2box_AHRS/cmake_install.cmake")
 
 endif()
 
@@ -144,5 +144,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/inha/TEAM-GIGACHA/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/gigacha/TEAM-GIGACHA/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

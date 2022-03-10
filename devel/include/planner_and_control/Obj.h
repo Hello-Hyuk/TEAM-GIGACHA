@@ -24,22 +24,27 @@ struct Obj_
   typedef Obj_<ContainerAllocator> Type;
 
   Obj_()
-    : x(0.0)
-    , y(0.0)  {
+    : x()
+    , y()
+    , r()  {
     }
   Obj_(const ContainerAllocator& _alloc)
-    : x(0.0)
-    , y(0.0)  {
+    : x(_alloc)
+    , y(_alloc)
+    , r(_alloc)  {
   (void)_alloc;
     }
 
 
 
-   typedef double _x_type;
+   typedef std::vector<double, typename ContainerAllocator::template rebind<double>::other >  _x_type;
   _x_type x;
 
-   typedef double _y_type;
+   typedef std::vector<double, typename ContainerAllocator::template rebind<double>::other >  _y_type;
   _y_type y;
+
+   typedef std::vector<double, typename ContainerAllocator::template rebind<double>::other >  _r_type;
+  _r_type r;
 
 
 
@@ -71,7 +76,8 @@ template<typename ContainerAllocator1, typename ContainerAllocator2>
 bool operator==(const ::planner_and_control::Obj_<ContainerAllocator1> & lhs, const ::planner_and_control::Obj_<ContainerAllocator2> & rhs)
 {
   return lhs.x == rhs.x &&
-    lhs.y == rhs.y;
+    lhs.y == rhs.y &&
+    lhs.r == rhs.r;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -93,22 +99,22 @@ namespace message_traits
 
 
 template <class ContainerAllocator>
+struct IsFixedSize< ::planner_and_control::Obj_<ContainerAllocator> >
+  : FalseType
+  { };
+
+template <class ContainerAllocator>
+struct IsFixedSize< ::planner_and_control::Obj_<ContainerAllocator> const>
+  : FalseType
+  { };
+
+template <class ContainerAllocator>
 struct IsMessage< ::planner_and_control::Obj_<ContainerAllocator> >
   : TrueType
   { };
 
 template <class ContainerAllocator>
 struct IsMessage< ::planner_and_control::Obj_<ContainerAllocator> const>
-  : TrueType
-  { };
-
-template <class ContainerAllocator>
-struct IsFixedSize< ::planner_and_control::Obj_<ContainerAllocator> >
-  : TrueType
-  { };
-
-template <class ContainerAllocator>
-struct IsFixedSize< ::planner_and_control::Obj_<ContainerAllocator> const>
   : TrueType
   { };
 
@@ -128,12 +134,12 @@ struct MD5Sum< ::planner_and_control::Obj_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "209f516d3eb691f0663e25cb750d67c1";
+    return "1cc8151f0e156e549859bb17a6e74a08";
   }
 
   static const char* value(const ::planner_and_control::Obj_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x209f516d3eb691f0ULL;
-  static const uint64_t static_value2 = 0x663e25cb750d67c1ULL;
+  static const uint64_t static_value1 = 0x1cc8151f0e156e54ULL;
+  static const uint64_t static_value2 = 0x9859bb17a6e74a08ULL;
 };
 
 template<class ContainerAllocator>
@@ -152,8 +158,9 @@ struct Definition< ::planner_and_control::Obj_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "float64 x\n"
-"float64 y\n"
+    return "float64[] x\n"
+"float64[] y\n"
+"float64[] r\n"
 ;
   }
 
@@ -174,6 +181,7 @@ namespace serialization
     {
       stream.next(m.x);
       stream.next(m.y);
+      stream.next(m.r);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -192,10 +200,24 @@ struct Printer< ::planner_and_control::Obj_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::planner_and_control::Obj_<ContainerAllocator>& v)
   {
-    s << indent << "x: ";
-    Printer<double>::stream(s, indent + "  ", v.x);
-    s << indent << "y: ";
-    Printer<double>::stream(s, indent + "  ", v.y);
+    s << indent << "x[]" << std::endl;
+    for (size_t i = 0; i < v.x.size(); ++i)
+    {
+      s << indent << "  x[" << i << "]: ";
+      Printer<double>::stream(s, indent + "  ", v.x[i]);
+    }
+    s << indent << "y[]" << std::endl;
+    for (size_t i = 0; i < v.y.size(); ++i)
+    {
+      s << indent << "  y[" << i << "]: ";
+      Printer<double>::stream(s, indent + "  ", v.y[i]);
+    }
+    s << indent << "r[]" << std::endl;
+    for (size_t i = 0; i < v.r.size(); ++i)
+    {
+      s << indent << "  r[" << i << "]: ";
+      Printer<double>::stream(s, indent + "  ", v.r[i]);
+    }
   }
 };
 

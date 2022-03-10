@@ -22,8 +22,8 @@
   (:init
    (&key
     ((:header __header) (instance std_msgs::Header :init))
-    ((:segments __segments) ())
-    ((:circles __circles) ())
+    ((:segments __segments) (let (r) (dotimes (i 0) (push (instance planner_and_control::SegmentObstacle :init) r)) r))
+    ((:circles __circles) (let (r) (dotimes (i 0) (push (instance planner_and_control::CircleObstacle :init) r)) r))
     )
    (send-super :init)
    (setq _header __header)

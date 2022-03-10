@@ -13,27 +13,12 @@ from std_msgs.msg import String
 from nav_msgs.msg import Path
 from math import sqrt
 
-def weight_function_LiDAR(self):
-    for i in range(len(self.generated_path)): # 0,1,2
-        path_check = True
-        if path_check == True:
-            for j in range(len(self.generated_path[i])): # paths' index
-                if path_check == False:
-                    break
-                for k in range(len(self.obj.x)): # # of obj
-                    ob_point_distance = sqrt((self.generated_path[i].poses[j].pose.position.x - self.obj.x[k])**2 + (self.generated_path[i].poses[j].pose.position.y - self.obj.y[k])**2)
-                    if ob_point_distance < self.obj.r[k]:
-                        self.lane_weight[i] = 10000
-                        path_check = False
-                        break
+
 
                     
 class Motion_Planner:
     def __init__(self):
         rospy.init_node('Motion_Planner', anonymous = False)
-        arg=rospy.myargv(argv=sys.argv)
-        self.path_name=arg[1]
-
         rospy.Subscriber('/behavior', String, self.behavior_callback)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
         rospy.Subscriber('/obj', Obj, self.obj_callback)
@@ -43,6 +28,9 @@ class Motion_Planner:
         self.local_path_pub = rospy.Publisher('/lattice_path', CustomPath, queue_size = 1)
         
         self.trajectory_pub = rospy.Publisher('/trajectory', CustomPath, queue_size = 1)
+
+
+        self.path_name = 'songdo_fin'
 
         # rviz
         for i in range(1,4):
@@ -61,9 +49,25 @@ class Motion_Planner:
         self.obj = Obj() # obj.x, obj.y, obj.r
         self.lane_weight = []
 
-        self.obj.x = 0
-        self.obj.y = 0
-        self.obj.r = 0
+        self.obj.x = [32.3700961528691]
+        self.obj.y = [34.3024058227633]
+        self.obj.r = [2]
+
+        self.current_lane = input("current lane(left : 1, right : 2) : ") # temporary code(to aviod lidar dectection)
+
+    def weight_function_LiDAR(self):
+        for i in range(len(self.generated_path)): # 0,1,2
+            path_check = True
+            if path_check == True:
+                for j in range(len(self.generated_path[i].poses)): # paths' index
+                    if path_check == False:
+                        break
+                    for k in range(len(self.obj.x)): # # of obj
+                        ob_point_distance = sqrt((self.generated_path[i].poses[j].pose.position.x - self.obj.x[k])**2 + (self.generated_path[i].poses[j].pose.position.y - self.obj.y[k])**2)
+                        if ob_point_distance < self.obj.r[k]:
+                            self.lane_weight[i] = 10000
+                            path_check = False
+                            break
 
 
     def behavior_callback(self, msg):
@@ -76,12 +80,12 @@ class Motion_Planner:
         self.obj = msg
 
     def run(self):
-        current_lane = input("current lane(left : 1, right : 2) : ") # temporary code(to aviod lidar dectection)
-        if current_lane == 1:
+        
+        if self.current_lane == '1':
             a = 10000
-            b = 0
+            b = 1
         else:
-            a = 0
+            a = 1
             b = 10000
         self.lane_weight = [a, 0, b]
         self.local_path = findLocalPath(self.global_path, self.ego) # local path (50)
@@ -94,7 +98,7 @@ class Motion_Planner:
             self.trajectory_name = "global_path"
 
         if self.behavior == "obstacle avoidance":
-            weight_function_LiDAR()
+            self.weight_function_LiDAR()
             
             # # to dection Local point
             # obs_dis = sqrt((self.ego.x - self.obj.x)**2 + (self.ego.y - self.obj.y)**2)
