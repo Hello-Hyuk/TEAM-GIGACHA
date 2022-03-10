@@ -1,4 +1,4 @@
-prefix=/home/inha/TEAM-GIGACHA/install
+prefix=/home/gigacha/TEAM-GIGACHA/install
 
 Name: e2box_imu
 Description: Description of e2box_imu

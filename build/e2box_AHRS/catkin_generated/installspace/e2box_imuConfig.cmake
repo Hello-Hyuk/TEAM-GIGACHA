@@ -67,14 +67,14 @@ set(e2box_imu_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(e2box_imu_SOURCE_PREFIX /home/inha/TEAM-GIGACHA/src/e2box_AHRS)
-  set(e2box_imu_DEVEL_PREFIX /home/inha/TEAM-GIGACHA/devel)
+  set(e2box_imu_SOURCE_PREFIX /home/gigacha/TEAM-GIGACHA/src/e2box_AHRS)
+  set(e2box_imu_DEVEL_PREFIX /home/gigacha/TEAM-GIGACHA/devel)
   set(e2box_imu_INSTALL_PREFIX "")
   set(e2box_imu_PREFIX ${e2box_imu_DEVEL_PREFIX})
 else()
   set(e2box_imu_SOURCE_PREFIX "")
   set(e2box_imu_DEVEL_PREFIX "")
-  set(e2box_imu_INSTALL_PREFIX /home/inha/TEAM-GIGACHA/install)
+  set(e2box_imu_INSTALL_PREFIX /home/gigacha/TEAM-GIGACHA/install)
   set(e2box_imu_PREFIX ${e2box_imu_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/inha/TEAM-GIGACHA/install/lib;/home/inha/catkin_ws/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /home/gigacha/TEAM-GIGACHA/install/lib;/home/gigacha/TEAM-GIGACHA/devel/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -211,7 +211,7 @@ foreach(depend ${depends})
   _unpack_libraries_with_build_configuration(e2box_imu_LIBRARIES ${e2box_imu_LIBRARIES})
 
   _list_append_unique(e2box_imu_LIBRARY_DIRS ${${e2box_imu_dep}_LIBRARY_DIRS})
-  _list_append_deduplicate(e2box_imu_EXPORTED_TARGETS ${${e2box_imu_dep}_EXPORTED_TARGETS})
+  list(APPEND e2box_imu_EXPORTED_TARGETS ${${e2box_imu_dep}_EXPORTED_TARGETS})
 endforeach()
 
 set(pkg_cfg_extras "")

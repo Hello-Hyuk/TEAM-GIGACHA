@@ -3,4 +3,6 @@
           X
           Y-VAL
           Y
+          R-VAL
+          R
 ))

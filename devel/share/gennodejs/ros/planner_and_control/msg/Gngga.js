@@ -70,7 +70,7 @@ class Gngga {
 
   static getMessageSize(object) {
     let length = 0;
-    length += _getByteLength(object.quality_indicator);
+    length += object.quality_indicator.length;
     return length + 20;
   }
 

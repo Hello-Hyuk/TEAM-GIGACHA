@@ -1,8 +1,8 @@
-# Install script for directory: /home/inha/TEAM-GIGACHA/src/e2box_AHRS
+# Install script for directory: /home/gigacha/TEAM-GIGACHA/src/e2box_AHRS
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/inha/TEAM-GIGACHA/install")
+  set(CMAKE_INSTALL_PREFIX "/home/gigacha/TEAM-GIGACHA/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,17 +38,17 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/inha/TEAM-GIGACHA/build/e2box_AHRS/catkin_generated/installspace/e2box_imu.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/gigacha/TEAM-GIGACHA/build/e2box_AHRS/catkin_generated/installspace/e2box_imu.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/e2box_imu/cmake" TYPE FILE FILES
-    "/home/inha/TEAM-GIGACHA/build/e2box_AHRS/catkin_generated/installspace/e2box_imuConfig.cmake"
-    "/home/inha/TEAM-GIGACHA/build/e2box_AHRS/catkin_generated/installspace/e2box_imuConfig-version.cmake"
+    "/home/gigacha/TEAM-GIGACHA/build/e2box_AHRS/catkin_generated/installspace/e2box_imuConfig.cmake"
+    "/home/gigacha/TEAM-GIGACHA/build/e2box_AHRS/catkin_generated/installspace/e2box_imuConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/e2box_imu" TYPE FILE FILES "/home/inha/TEAM-GIGACHA/src/e2box_AHRS/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/e2box_imu" TYPE FILE FILES "/home/gigacha/TEAM-GIGACHA/src/e2box_AHRS/package.xml")
 endif()
 

@@ -102,16 +102,6 @@ namespace message_traits
 
 
 template <class ContainerAllocator>
-struct IsMessage< ::planner_and_control::Obstacles_<ContainerAllocator> >
-  : TrueType
-  { };
-
-template <class ContainerAllocator>
-struct IsMessage< ::planner_and_control::Obstacles_<ContainerAllocator> const>
-  : TrueType
-  { };
-
-template <class ContainerAllocator>
 struct IsFixedSize< ::planner_and_control::Obstacles_<ContainerAllocator> >
   : FalseType
   { };
@@ -119,6 +109,16 @@ struct IsFixedSize< ::planner_and_control::Obstacles_<ContainerAllocator> >
 template <class ContainerAllocator>
 struct IsFixedSize< ::planner_and_control::Obstacles_<ContainerAllocator> const>
   : FalseType
+  { };
+
+template <class ContainerAllocator>
+struct IsMessage< ::planner_and_control::Obstacles_<ContainerAllocator> >
+  : TrueType
+  { };
+
+template <class ContainerAllocator>
+struct IsMessage< ::planner_and_control::Obstacles_<ContainerAllocator> const>
+  : TrueType
   { };
 
 template <class ContainerAllocator>
