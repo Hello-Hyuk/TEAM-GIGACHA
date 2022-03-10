@@ -14,18 +14,19 @@ from nav_msgs.msg import Path
 from math import sqrt
 
 def weight_function_LiDAR(self):
-    for i in range(len(self.generated_path)):
+    for i in range(len(self.generated_path)): # 0,1,2
         path_check = True
         if path_check == True:
-            for j in range(len(self.generated_path[i])):
+            for j in range(len(self.generated_path[i])): # paths' index
                 if path_check == False:
                     break
-                for k in range(len(self.obj.x)):
+                for k in range(len(self.obj.x)): # # of obj
                     ob_point_distance = sqrt((self.generated_path[i].poses[j].pose.position.x - self.obj.x[k])**2 + (self.generated_path[i].poses[j].pose.position.y - self.obj.y[k])**2)
-                    if ob_point_distance < self.obj.x[k]:
+                    if ob_point_distance < self.obj.r[k]:
                         self.lane_weight[i] = 10000
                         path_check = False
                         break
+
                     
 class Motion_Planner:
     def __init__(self):
@@ -57,8 +58,13 @@ class Motion_Planner:
 
         self.ego_speed = 0
         self.current_lane = 0
-        self.obj = Obj()
+        self.obj = Obj() # obj.x, obj.y, obj.r
         self.lane_weight = []
+
+        self.obj.x = 0
+        self.obj.y = 0
+        self.obj.r = 0
+
 
     def behavior_callback(self, msg):
         self.behavior = msg.data
@@ -71,9 +77,15 @@ class Motion_Planner:
 
     def run(self):
         current_lane = input("current lane(left : 1, right : 2) : ") # temporary code(to aviod lidar dectection)
+        if current_lane == 1:
+            a = 10000
+            b = 0
+        else:
+            a = 0
+            b = 10000
+        self.lane_weight = [a, 0, b]
         self.local_path = findLocalPath(self.global_path, self.ego) # local path (50)
         self.generated_path = path_maker(self.local_path, self.ego) # lattice paths
-        self.lane_weight = [0, 0, 0]
 
         self.trajectory = CustomPath()
 
@@ -83,14 +95,6 @@ class Motion_Planner:
 
         if self.behavior == "obstacle avoidance":
             weight_function_LiDAR()
-            
-            if current_lane == 1:
-                a = 10000
-                b = 0
-            else:
-                a = 0
-                b = 10000
-            self.lane_weight = [a, 0, b]
             
             # # to dection Local point
             # obs_dis = sqrt((self.ego.x - self.obj.x)**2 + (self.ego.y - self.obj.y)**2)
