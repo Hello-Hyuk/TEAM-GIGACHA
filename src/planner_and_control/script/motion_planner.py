@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import sys,os
+from socket import MsgFlag
 import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from lib.general_utils.read_global_path import read_global_path
@@ -11,10 +13,25 @@ from std_msgs.msg import String
 from nav_msgs.msg import Path
 from math import sqrt
 
+def weight_function_LiDAR(self):
+    for i in range(len(self.generated_path)):
+        path_check = True
+        if path_check == True:
+            for j in range(len(self.generated_path[i])):
+                if path_check == False:
+                    break
+                for k in range(len(self.obj.x)):
+                    ob_point_distance = sqrt((self.generated_path[i].poses[j].pose.position.x - self.obj.x[k])**2 + (self.generated_path[i].poses[j].pose.position.y - self.obj.y[k])**2)
+                    if ob_point_distance < self.obj.x[k]:
+                        self.lane_weight[i] = 10000
+                        path_check = False
+                        break
+                    
 class Motion_Planner:
     def __init__(self):
         rospy.init_node('Motion_Planner', anonymous = False)
-        self.path_name = "ex"
+        arg=rospy.myargv(argv=sys.argv)
+        self.path_name=arg[1]
 
         rospy.Subscriber('/behavior', String, self.behavior_callback)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
@@ -41,8 +58,7 @@ class Motion_Planner:
         self.ego_speed = 0
         self.current_lane = 0
         self.obj = Obj()
-        self.obj.x = 39.4756
-        self.obj.y = 43.8478
+        self.lane_weight = []
 
     def behavior_callback(self, msg):
         self.behavior = msg.data
@@ -54,8 +70,10 @@ class Motion_Planner:
         self.obj = msg
 
     def run(self):
+        current_lane = input("current lane(left : 1, right : 2) : ") # temporary code(to aviod lidar dectection)
         self.local_path = findLocalPath(self.global_path, self.ego) # local path (50)
         self.generated_path = path_maker(self.local_path, self.ego) # lattice paths
+        self.lane_weight = [0, 0, 0]
 
         self.trajectory = CustomPath()
 
@@ -64,22 +82,33 @@ class Motion_Planner:
             self.trajectory_name = "global_path"
 
         if self.behavior == "obstacle avoidance":
-            lane_weight = [15, 0, 10]
-            obs_dis = sqrt((self.ego.x - self.obj.x)**2 + (self.ego.y - self.obj.y)**2)
+            weight_function_LiDAR()
+            
+            if current_lane == 1:
+                a = 10000
+                b = 0
+            else:
+                a = 0
+                b = 10000
+            self.lane_weight = [a, 0, b]
+            
+            # # to dection Local point
+            # obs_dis = sqrt((self.ego.x - self.obj.x)**2 + (self.ego.y - self.obj.y)**2)
 
-            if obs_dis < 10:
-                for i in range (len(self.generated_path)):
-                    distance = sqrt((self.generated_path[i].poses[-1].pose.position.x - self.obj.x)**2 + (self.generated_path[i].poses[-1].pose.position.y - self.obj.y)**2)
-                    lane_weight[i] +=  distance
-                lane_weight[1] = 100
-                lane_weight[0] = 10000
+            # if obs_dis < 10:
+            #     for i in range (len(self.generated_path)):
+            #         distance = sqrt((self.generated_path[i].poses[-1].pose.position.x - self.obj.x)**2
+            #                         + (self.generated_path[i].poses[-1].pose.position.y - self.obj.y)**2)
+            #         self.lane_weight[i] +=  distance
+            #     self.lane_weight[2] = 100
+            #     self.lane_weight[1] = 10000
 
-            self.selected_lane = lane_weight.index(min(lane_weight))
+            self.selected_lane = self.lane_weight.index(min(self.lane_weight))
             self.local_path = self.generated_path[self.selected_lane]
             self.trajectory_name = self.selected_lane
 
-            print(f"obs_dis : {obs_dis}")
-            print(f"lane_weight : {lane_weight}")
+            
+            print(f"lane_weight : {self.lane_weight}")
             print(f"motion_planner : {self.trajectory_name}, local_path")
 
         for i in range (len(self.local_path.poses)):
