@@ -3,7 +3,9 @@ import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 
 from sensor_msgs.msg import PointCloud
-from geometry_msgs.msg import Point32, PoseStamped
+from geometry_msgs.msg import Point32
+from geometry_msgs.msg import PoseStamped
+
 from nav_msgs.msg import Odometry, Path
 from planner_and_control.msg import Local
 from planner_and_control.msg import Path as customPath
@@ -17,7 +19,7 @@ class environmentVisualizer:
         # Subscriber
         rospy.Subscriber('/pose', Local, self.pose_callback)
         rospy.Subscriber('/global_path', customPath, self.globalpath_callback)
-        rospy.Subscriber('/local_path', customPath, self.localpath_callback)
+        rospy.Subscriber('/trajectory', customPath, self.localpath_callback)
         
         # Publisher
         # self.vis_global_path_pub = rospy.Publisher("/vis_global_path", PointCloud, queue_size=1) # using pointcloud
@@ -26,6 +28,7 @@ class environmentVisualizer:
         
         self.vis_trajectory_pub = rospy.Publisher("/vis_trajectory", PointCloud, queue_size=1)
         self.vis_pose_pub = rospy.Publisher("/vis_pose", Odometry, queue_size=1)
+        
 
         # self.vis_global_path = PointCloud() # using pointcloud
         self.vis_global_path = Path() # using path
@@ -71,6 +74,11 @@ class environmentVisualizer:
         self.vis_pose.pose.pose.position.y = ppoint.y
         # self.vis_trajectory.header.stamp = rospy.Time.now()
         self.vis_trajectory.points.append(ppoint)
+
+        # car heading
+        heading = PoseStamped()
+        heading.pose.orientation = msg.heading
+        self.vis_pose.pose.pose.orientation.w = heading.pose.orientation
         
     def globalpath_callback(self, msg):
         global_path = Path()

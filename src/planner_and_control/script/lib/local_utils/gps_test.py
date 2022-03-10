@@ -4,12 +4,11 @@ import serial
 ser = serial.Serial('/dev/gps', baudrate = 115200)
 
 def make_decode(coord):
-    x = coord.split(".")
-    head = x[0]
-    tail = x[1]
-    deg = head[0:-2]
-    min = head[-2:]
-    return float(deg + "." + min + tail)
+
+    deg = float(coord[0:2])
+    min = float(coord[2:]) / 60
+
+    return deg + min
 
 while True:
     ser_read = ser.readline()
@@ -23,4 +22,3 @@ while True:
         
         lat = make_decode(sdata[2])
         print(lat)
-    

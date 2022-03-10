@@ -1,4 +1,3 @@
-import rospy
 from planner_and_control.msg import Path
 import csv
 from numpy import rad2deg

@@ -17,12 +17,12 @@ def path_maker(local_path, ego):
     current_y = ego.y
     current_speed = ego.speed
 
-    look_distance = int(current_speed * 0.4 * 3.6)
+    look_distance = int(current_speed * 2)
 
-    if look_distance < 10 :
+    if look_distance < 2 :
+        look_distance = 2
+    if look_distance > 10 :
         look_distance = 10
-    if look_distance > 40 :
-        look_distance = 40
 
     if len(ref_local_path.x) > look_distance :
         global_ref_start_point = (ref_local_path.x[0], ref_local_path.y[0])
@@ -40,7 +40,7 @@ def path_maker(local_path, ego):
         world_current_point = np.array([[current_x], [current_y], [1]])
         local_current_point = det_t.dot(world_current_point)
 
-        lane_off_set = [5, 2.5, 0, -2.5, -5]
+        lane_off_set = [2.0, 0, -2.0]
         local_lattice_points = []
         for i in range(len(lane_off_set)):
             local_lattice_points.append([local_end_point[0][0], local_end_point[1][0] + lane_off_set[i], 1])
@@ -61,14 +61,18 @@ def path_maker(local_path, ego):
             for i in range(xs, int(x_num)): 
                 x.append(i * x_interval)
             
-            a = [0.0,0.0,0.0,0.0]
+            a = [0.0,0.0,0.0,0.0,0.0,0.0]
             a[0] = ps
             a[1] = 0
-            a[2] = 3.0 * (pf-ps) / (xf * xf)
-            a[3] = -2.0 * (pf-ps) / (xf * xf * xf)
+            a[2] = 0
+            a[3] = 10.0 * (pf-ps) / (xf * xf * xf)
+            a[4] = -15.0 * (pf-ps) / (xf * xf * xf * xf)
+            a[5] = 6.0 * (pf-ps) / (xf * xf * xf * xf * xf)
+            
+
 
             for i in x:
-                result = a[3] * i * i * i + a[2] * i * i + a[1] * i + a[0]
+                result =a[5]*i*i*i*i*i + a[4]*i*i*i*i + a[3]*i*i*i + a[2]*i*i + a[1]*i + a[0]
                 y.append(result)
 
             for i in range(0, len(y)):
@@ -88,11 +92,14 @@ def path_maker(local_path, ego):
 
             out_path.append(lattice_path)
         
-        add_point_size = int(current_speed * 4 * 3.6)
+        add_point_size = int(current_speed * 4)
+        #if add_point_size > len(ref_local_path.x) - 2:
+            #add_point_size = len(ref_local_path.x)
         if add_point_size > len(ref_local_path.x) - 2:
             add_point_size = len(ref_local_path.x)
-        elif add_point_size < 10 :
-            add_point_size = 10  
+
+        elif add_point_size < 5 :
+            add_point_size = 5  
          
         for i in range(look_distance, add_point_size):
             if i + 1 < len(ref_local_path.x):
@@ -101,7 +108,7 @@ def path_maker(local_path, ego):
                 tmp_translation = [ref_local_path.x[i], ref_local_path.y[i]]
                 tmp_t = np.array([[cos(tmp_theta), -sin(tmp_theta), tmp_translation[0]], [sin(tmp_theta), cos(tmp_theta), tmp_translation[1]], [0,0,1]])
 
-                for lane_num in range(5):
+                for lane_num in range(3):
                     local_result = np.array([[0], [lane_off_set[lane_num]], [1]])
                     global_result = tmp_t.dot(local_result)
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+
+<!--=================================e2box_AHRS=========================-->
+  <node pkg="e2box_imu" type="e2box_imu_node" name="e2box_imu_node" output="screen">
+    <param name="port" type="string" value="/dev/imu" />
+    <param name="baudrate" type="int" value="115200" />
+  </node>
+  
+<!--=================================GNSS_Parsing=========================-->
+  <node pkg="planner_and_control" type="gps_parse.py" name="Gngga_parse"   respawn="true"/>
+  <node pkg="planner_and_control" type="local.py" name="Localization"  respawn="true" output="screen"/>
+
+<!--PARAMETER-->
+  <rosparam command="load" file="$(find planner_and_control)/config/base_params.yaml"/>
+  
+</launch>

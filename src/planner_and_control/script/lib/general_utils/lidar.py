@@ -17,7 +17,6 @@ class lidarParser :
 
         self.pcd_pub = rospy.Publisher('/2d_lidar',PointCloud, queue_size=1)
         self.pcd_coordi_pub = rospy.Publisher('/pcl',PointCloud, queue_size=1)
-        # self.pcd_roi_pub = rospy.Publisher('/lidar_roi',PointCloud, queue_size=1)
         
         self.ego = Ego()
 
@@ -28,12 +27,13 @@ class lidarParser :
 
     def laser_callback(self,msg):
         pcd = PointCloud()
+        pcd_roi = PointCloud()
         pcd_coordi = PointCloud()
-        # pcd_roi = PointCloud()
 
-        motor_msg = Float64()
         pcd.header.frame_id = "world"
+        pcd_roi.header.frame_id = msg.header.frame_id
         pcd_coordi.header.frame_id = msg.header.frame_id
+        
         angle=0
         
         # 축 변환
@@ -48,22 +48,23 @@ class lidarParser :
             pcd.points.append(t_point)
             
         # roi 설정
-        # for i in range(len(pcd.points)):
-        #     tmp_point_2 = Point32()
-        #     if (pcd.points[i].x < 0.75 and pcd.points[i].x > -0.75) and (pcd.points[i].y < 10 and pcd.points[i].y > 0):
-        #         tmp_point_2.x = pcd.points[i].x
-        #         tmp_point_2.y = pcd.points[i].y
-        #         pcd_roi.points.append(tmp_point_2)
-        
-        theta = (self.ego.yaw) * pi / 180
-                
         for i in range(len(pcd.points)):
             tmp_point_2 = Point32()
-            tmp_point_2.x = pcd.points[i].x * cos(theta) + pcd.points[i].y * -sin(theta) + self.ego.x
-            tmp_point_2.y = pcd.points[i].x * sin(theta) + pcd.points[i].y * cos(theta) + self.ego.y
-            pcd_coordi.points.append(tmp_point_2)
+            # if (pcd.points[i].x < 0.75 and pcd.points[i].x > -0.75) and (pcd.points[i].y < 10 and pcd.points[i].y > 0):
+            if (pcd.points[i].y > 0):
+                tmp_point_2.x = pcd.points[i].x
+                tmp_point_2.y = pcd.points[i].y
+                pcd_roi.points.append(tmp_point_2)
+        
+        theta = (self.ego.heading) * pi / 180
+                
+        for i in range(len(pcd_roi.points)):
+            tmp_point_3 = Point32()
+            tmp_point_3.x = pcd_roi.points[i].x * cos(theta) + pcd_roi.points[i].y * -sin(theta) + self.ego.x
+            tmp_point_3.y = pcd_roi.points[i].x * sin(theta) + pcd_roi.points[i].y * cos(theta) + self.ego.y
+            pcd_coordi.points.append(tmp_point_3)
     
-        self.pcd_pub.publish(pcd)
+        self.pcd_pub.publish(pcd_roi)
         self.pcd_coordi_pub.publish(pcd_coordi)
 
 
