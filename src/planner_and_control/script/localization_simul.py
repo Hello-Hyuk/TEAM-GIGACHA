@@ -2,7 +2,7 @@
 import rospy
 from geometry_msgs.msg import Pose, PoseStamped
 from planner_and_control.msg import Local
-from tf.transformations import euler_from_quaternion
+from lib.local_utils.euler_from_quaternion import euler_from_quaternion
 import pymap3d
 from numpy import rad2deg
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
@@ -52,8 +52,8 @@ class Localization():
 
     def imuCallback(self, data):
         self.vis_msg.pose.orientation = data.orientation
-        ori = [data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w] 
-        roll, pitch, yaw = euler_from_quaternion(ori)
+        # ori = [data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w] 
+        roll, pitch, yaw = euler_from_quaternion(data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w)
         self.msg.heading = rad2deg(yaw) % 360 #East = 0, North = 90, West = 180, South = 270 deg 
 
         print(f'msg.heading : {self.msg.heading}')
