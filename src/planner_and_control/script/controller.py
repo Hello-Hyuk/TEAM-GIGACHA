@@ -1,46 +1,61 @@
 import rospy
-from lib.general_utils.ego import Ego
-from lib.general_utils.ego_updater import egoUpdater
-from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Hander
+from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
+from lib.controller_utils.pure_pursuit import PurePursuit
+from lib.controller_utils.longtidudinal_controller import longitudinalController
 from std_msgs.msg import String
 from planner_and_control.msg import Path
 from planner_and_control.msg import Control_Info
+from planner_and_control.msg import Ego
+
+class LocalPath:
+    def __init__(self):
+        self.data = Path()
+
+class ControlEgo:
+    def __init__(self):
+        self.data = Ego()
 
 class Controller:
     def __init__(self):
         rospy.init_node('controller', anonymous = False)
         rospy.Subscriber('/trajectory', Path, self.motion_callback)
-        self.control_pub = rospy.Publisher('/controller', String, queue_size = 1)
-        self.control_msg = String()
+        self.control_pub = rospy.Publisher('/controller', Control_Info, queue_size = 1)
+        rospy.Subscriber('/ego', Ego, self.ego_callback)
+        self.control_msg = Control_Info()
 
-        self.ego = Ego()
-        self.trajectory = String()          ## add motion trajectory 
-
-        self.update_ego = egoUpdater(self.ego)
-        self.ego.target_speed = 20.0
-
+        self.ego = ControlEgo()
+        self.trajectory = LocalPath()        ## add motion trajectory 
+        self.target_speed = 5.0
+        
         self.lat_controller = PurePursuit(self.ego, self.trajectory)
-        self.lon_controller = longitudinalController(self.ego)
+        self.lon_controller = longitudinalController(self.ego, self.target_speed)
 
     def motion_callback(self, msg):
-        self.trajectory = msg
+        self.trajectory.data = msg
+
+    def ego_callback(self, msg):
+        self.ego.data = msg
         
     def run(self):
-        publish_control_info(0,0)
-        self.ego.target_speed = 20.0
+        self.publish_control_info(0,0)
+        self.target_speed = 5.0
+        # print("Controller On..")
 
     def publish_control_info(self, estop, gear):
         self.control_msg.emergency_stop = estop
         self.control_msg.gear = gear
-        self.control_msg.steer = self.lat_controller.run()
-        # ####################For PID Tuining
-        # self.control_msg.steer = 0 
-        #######################################
-        self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()
+        try:
+            self.control_msg.steer = self.lat_controller.run()
+        except IndexError:
+            print("++++++")
+
+        #self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()         ## PID off
+        self.control_msg.speed, self.control_msg.brake = self.target_speed, 0               ## PID on
         self.control_pub.publish(self.control_msg)
 
+
 if __name__ == "__main__":
-    Activate_Signal_Interrupt_Hander()
+    Activate_Signal_Interrupt_Handler()
     cc = Controller()
     rate = rospy.Rate(20)
     while not rospy.is_shutdown():

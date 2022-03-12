@@ -24,6 +24,7 @@ class Serial_Info {
       this.speed = null;
       this.steer = null;
       this.brake = null;
+      this.encoder = null;
     }
     else {
       if (initObj.hasOwnProperty('auto_manual')) {
@@ -62,6 +63,12 @@ class Serial_Info {
       else {
         this.brake = 0;
       }
+      if (initObj.hasOwnProperty('encoder')) {
+        this.encoder = initObj.encoder
+      }
+      else {
+        this.encoder = [];
+      }
     }
   }
 
@@ -79,6 +86,8 @@ class Serial_Info {
     bufferOffset = _serializer.float32(obj.steer, buffer, bufferOffset);
     // Serialize message field [brake]
     bufferOffset = _serializer.int32(obj.brake, buffer, bufferOffset);
+    // Serialize message field [encoder]
+    bufferOffset = _arraySerializer.float64(obj.encoder, buffer, bufferOffset, null);
     return bufferOffset;
   }
 
@@ -98,11 +107,15 @@ class Serial_Info {
     data.steer = _deserializer.float32(buffer, bufferOffset);
     // Deserialize message field [brake]
     data.brake = _deserializer.int32(buffer, bufferOffset);
+    // Deserialize message field [encoder]
+    data.encoder = _arrayDeserializer.float64(buffer, bufferOffset, null)
     return data;
   }
 
   static getMessageSize(object) {
-    return 18;
+    let length = 0;
+    length += 8 * object.encoder.length;
+    return length + 22;
   }
 
   static datatype() {
@@ -112,7 +125,7 @@ class Serial_Info {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return 'e0cf40a584f88ddbf7574c1bcf89548d';
+    return '288e1038c233a85b428a641389cf9e85';
   }
 
   static messageDefinition() {
@@ -124,6 +137,7 @@ class Serial_Info {
     float32 speed
     float32 steer
     int32 brake
+    float64[] encoder
     `;
   }
 
@@ -173,6 +187,13 @@ class Serial_Info {
     }
     else {
       resolved.brake = 0
+    }
+
+    if (msg.encoder !== undefined) {
+      resolved.encoder = msg.encoder;
+    }
+    else {
+      resolved.encoder = []
     }
 
     return resolved;

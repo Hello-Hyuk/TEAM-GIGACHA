@@ -4,5 +4,5 @@ PROJECT_PKG_CONFIG_INCLUDE_DIRS = "${prefix}/include".split(';') if "${prefix}/i
 PROJECT_CATKIN_DEPENDS = "roscpp;rospy;std_msgs".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "-lplanner_and_control".split(';') if "-lplanner_and_control" != "" else []
 PROJECT_NAME = "planner_and_control"
-PROJECT_SPACE_DIR = "/home/hyunswim/TEAM-GIGACHA/install"
+PROJECT_SPACE_DIR = "/home/gigacha/TEAM-GIGACHA/install"
 PROJECT_VERSION = "0.0.0"

@@ -1,0 +1,9 @@
+float64 x
+float64 y
+float64 heading
+int32 index
+float32 speed
+float32 steer
+int32 brake
+int16 gear
+int16 auto_manual

@@ -1,53 +1,37 @@
 from math import hypot, cos, sin, degrees, atan2, radians, pi
+import rospy
 
 class PurePursuit:
-    def __init__(self, ego, trajectory):
+    def __init__(self, eg, trajectory):
+        self.ego = eg
+        
         self.WB = 1.04 # wheel base
         self.k = 0.3 #1.5
-        self.lookahead_default = 4.0 #look-ahead default
-
-        self.ego = ego
-
+        self.lookahead_default = 4 #look-ahead default
         self.path = trajectory
 
     def run(self):
 
-        lookahead = min(self.k * self.ego.speed + self.lookahead_default, 6)
+        lookahead = min(self.k * self.ego.data.speed + self.lookahead_default, 6)
+        # target_index = int(self.ego.data.index + lookahead*10)
+        target_index = len(self.path.data.x)-1
 
-        # if self.ego.mode == "driving":
-        #     lookahead = min(self.k * self.ego.speed + self.lookahead_default, 6) # look-ahead
-        # else :
-        #     lookahead = 0.5
-            
-        target_index = int(self.ego.index + lookahead*10)
-        target_x, target_y = self.path.x[target_index], self.path.y[target_index]
-        print(f"target_index : {target_index}")
-        tmp = degrees(atan2(target_y - self.ego.y, target_x - self.ego.x)) % 360
+        print(f"ego index : {self.ego.data.index}")
+        print(f"target index : {target_index}")
 
-        # if self.ego.mode == "backward" :
-        #     self.ego.heading = (self.ego.heading + 180) % 360        
+        target_x, target_y = self.path.data.x[target_index], self.path.data.y[target_index]
+
+        tmp = degrees(atan2(target_y - self.ego.data.y, target_x - self.ego.data.x)) % 360
+
+        alpha = self.ego.data.heading - tmp
+        angle = atan2(2.0 * self.WB * sin(radians(alpha)) / lookahead, 1.0)
     
-        alpha = self.ego.heading - tmp
-        angle = atan2(2.0 * self.WB * sin(radians(alpha.mode == "driving":
-        #     lookahead = min(self.k * self.ego.speed + self.lookahead_default, 6) # look-ahead
-        # else :
-        #     lookahead = 0.5
-        
-        print(f"heading : {self.ego.heading}")
 
-        # if self.ego.mode == "backward" :
-        #     angle = -angle
+        if degrees(angle) < 0.5 and degrees(angle) > -0.5:
+            angle = 0
+
+        print("angle : ", degrees(angle)) 
+        print(f"tmp : {tmp}")
+
 
         return max(min(degrees(angle), 27.0), -27.0)
-     
-    # def deaccel(self):
-
-    #     if self.ego.mode == "driving":
-    #         lookahead = min(self.k * self.ego.speed + self.lookahead_default, 6) # look-ahead
-    #     else :
-    #         lookahead = 0.8
-
-    #     target_index_v = int(self.ego.index + lookahead*25)
-    #     target_x_v, target_y_v = self.path.x[target_index_v], self.path.y[target_index_v]
-    #     curve_check = abs (self.ego.heading - degrees(atan2(target_y_v - self.ego.y, target_x_v - self.ego.x)) % 360  )
-    #     return curve_check

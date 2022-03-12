@@ -1,8 +1,8 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "planner_and_control: 4 messages, 0 services")
+message(STATUS "planner_and_control: 10 messages, 0 services")
 
-set(MSG_I_FLAGS "-Iplanner_and_control:/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg;-Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg;-Iplanner_and_control:/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg")
+set(MSG_I_FLAGS "-Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg;-Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg;-Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg")
 
 # Find all generators
 find_package(gencpp REQUIRED)
@@ -17,24 +17,54 @@ add_custom_target(planner_and_control_generate_messages ALL)
 
 
 
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg" NAME_WE)
 add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" ""
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg" "geometry_msgs/Point"
 )
 
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg" NAME_WE)
 add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" ""
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg" ""
 )
 
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg" NAME_WE)
 add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg" ""
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg" "geometry_msgs/Point"
 )
 
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Gngga.msg" NAME_WE)
 add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg" ""
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Gngga.msg" ""
+)
+
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg" NAME_WE)
+add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg" ""
+)
+
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg" NAME_WE)
+add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg" ""
+)
+
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg" NAME_WE)
+add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg" "planner_and_control/SegmentObstacle:geometry_msgs/Point:planner_and_control/CircleObstacle:std_msgs/Header"
+)
+
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
+add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" ""
+)
+
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg" NAME_WE)
+add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg" ""
+)
+
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
+add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" ""
 )
 
 #
@@ -44,25 +74,61 @@ add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
 ### Section generating for lang: gencpp
 ### Generating Messages
 _generate_msg_cpp(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_cpp(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_cpp(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_cpp(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_cpp(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Gngga.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_cpp(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_cpp(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_cpp(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg"
+  "${MSG_I_FLAGS}"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg;/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Point.msg;/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg;/opt/ros/melodic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_cpp(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_cpp(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/planner_and_control
@@ -82,13 +148,25 @@ add_custom_target(planner_and_control_generate_messages_cpp
 add_dependencies(planner_and_control_generate_messages planner_and_control_generate_messages_cpp)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_cpp _planner_and_control_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_cpp _planner_and_control_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_cpp _planner_and_control_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Gngga.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_cpp _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_cpp _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_cpp _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_cpp _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_cpp _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_cpp _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_cpp _planner_and_control_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -101,25 +179,61 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS planner_and_control_generate_messag
 ### Section generating for lang: geneus
 ### Generating Messages
 _generate_msg_eus(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_eus(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_eus(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_eus(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_eus(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Gngga.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_eus(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_eus(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_eus(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg"
+  "${MSG_I_FLAGS}"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg;/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Point.msg;/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg;/opt/ros/melodic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_eus(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_eus(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/planner_and_control
@@ -139,13 +253,25 @@ add_custom_target(planner_and_control_generate_messages_eus
 add_dependencies(planner_and_control_generate_messages planner_and_control_generate_messages_eus)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_eus _planner_and_control_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_eus _planner_and_control_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_eus _planner_and_control_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Gngga.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_eus _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_eus _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_eus _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_eus _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_eus _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_eus _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_eus _planner_and_control_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -158,25 +284,61 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS planner_and_control_generate_messag
 ### Section generating for lang: genlisp
 ### Generating Messages
 _generate_msg_lisp(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_lisp(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_lisp(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_lisp(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_lisp(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Gngga.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_lisp(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_lisp(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_lisp(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg"
+  "${MSG_I_FLAGS}"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg;/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Point.msg;/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg;/opt/ros/melodic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_lisp(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_lisp(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/planner_and_control
@@ -196,13 +358,25 @@ add_custom_target(planner_and_control_generate_messages_lisp
 add_dependencies(planner_and_control_generate_messages planner_and_control_generate_messages_lisp)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_lisp _planner_and_control_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_lisp _planner_and_control_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_lisp _planner_and_control_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Gngga.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_lisp _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_lisp _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_lisp _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_lisp _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_lisp _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_lisp _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_lisp _planner_and_control_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -215,25 +389,61 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS planner_and_control_generate_messag
 ### Section generating for lang: gennodejs
 ### Generating Messages
 _generate_msg_nodejs(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_nodejs(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_nodejs(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_nodejs(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_nodejs(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Gngga.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_nodejs(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_nodejs(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_nodejs(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg"
+  "${MSG_I_FLAGS}"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg;/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Point.msg;/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg;/opt/ros/melodic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_nodejs(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_nodejs(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/planner_and_control
@@ -253,13 +463,25 @@ add_custom_target(planner_and_control_generate_messages_nodejs
 add_dependencies(planner_and_control_generate_messages planner_and_control_generate_messages_nodejs)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_nodejs _planner_and_control_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_nodejs _planner_and_control_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_nodejs _planner_and_control_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Gngga.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_nodejs _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_nodejs _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_nodejs _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_nodejs _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_nodejs _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_nodejs _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_nodejs _planner_and_control_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -272,25 +494,61 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS planner_and_control_generate_messag
 ### Section generating for lang: genpy
 ### Generating Messages
 _generate_msg_py(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_py(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_py(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_py(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_py(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Gngga.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_py(planner_and_control
-  "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_py(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_py(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg"
+  "${MSG_I_FLAGS}"
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg;/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Point.msg;/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg;/opt/ros/melodic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_py(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_py(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control
@@ -310,13 +568,25 @@ add_custom_target(planner_and_control_generate_messages_py
 add_dependencies(planner_and_control_generate_messages planner_and_control_generate_messages_py)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_py _planner_and_control_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_py _planner_and_control_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_py _planner_and_control_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/hyunswim/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg" NAME_WE)
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Gngga.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_py _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_py _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_py _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_py _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_py _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_py _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_py _planner_and_control_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -338,6 +608,9 @@ endif()
 if(TARGET std_msgs_generate_messages_cpp)
   add_dependencies(planner_and_control_generate_messages_cpp std_msgs_generate_messages_cpp)
 endif()
+if(TARGET geometry_msgs_generate_messages_cpp)
+  add_dependencies(planner_and_control_generate_messages_cpp geometry_msgs_generate_messages_cpp)
+endif()
 if(TARGET planner_and_control_generate_messages_cpp)
   add_dependencies(planner_and_control_generate_messages_cpp planner_and_control_generate_messages_cpp)
 endif()
@@ -351,6 +624,9 @@ if(geneus_INSTALL_DIR AND EXISTS ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/pl
 endif()
 if(TARGET std_msgs_generate_messages_eus)
   add_dependencies(planner_and_control_generate_messages_eus std_msgs_generate_messages_eus)
+endif()
+if(TARGET geometry_msgs_generate_messages_eus)
+  add_dependencies(planner_and_control_generate_messages_eus geometry_msgs_generate_messages_eus)
 endif()
 if(TARGET planner_and_control_generate_messages_eus)
   add_dependencies(planner_and_control_generate_messages_eus planner_and_control_generate_messages_eus)
@@ -366,6 +642,9 @@ endif()
 if(TARGET std_msgs_generate_messages_lisp)
   add_dependencies(planner_and_control_generate_messages_lisp std_msgs_generate_messages_lisp)
 endif()
+if(TARGET geometry_msgs_generate_messages_lisp)
+  add_dependencies(planner_and_control_generate_messages_lisp geometry_msgs_generate_messages_lisp)
+endif()
 if(TARGET planner_and_control_generate_messages_lisp)
   add_dependencies(planner_and_control_generate_messages_lisp planner_and_control_generate_messages_lisp)
 endif()
@@ -380,12 +659,15 @@ endif()
 if(TARGET std_msgs_generate_messages_nodejs)
   add_dependencies(planner_and_control_generate_messages_nodejs std_msgs_generate_messages_nodejs)
 endif()
+if(TARGET geometry_msgs_generate_messages_nodejs)
+  add_dependencies(planner_and_control_generate_messages_nodejs geometry_msgs_generate_messages_nodejs)
+endif()
 if(TARGET planner_and_control_generate_messages_nodejs)
   add_dependencies(planner_and_control_generate_messages_nodejs planner_and_control_generate_messages_nodejs)
 endif()
 
 if(genpy_INSTALL_DIR AND EXISTS ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control)
-  install(CODE "execute_process(COMMAND \"/usr/bin/python3\" -m compileall \"${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control\")")
+  install(CODE "execute_process(COMMAND \"/usr/bin/python2\" -m compileall \"${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control\")")
   # install generated code
   install(
     DIRECTORY ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control
@@ -394,6 +676,9 @@ if(genpy_INSTALL_DIR AND EXISTS ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/plan
 endif()
 if(TARGET std_msgs_generate_messages_py)
   add_dependencies(planner_and_control_generate_messages_py std_msgs_generate_messages_py)
+endif()
+if(TARGET geometry_msgs_generate_messages_py)
+  add_dependencies(planner_and_control_generate_messages_py geometry_msgs_generate_messages_py)
 endif()
 if(TARGET planner_and_control_generate_messages_py)
   add_dependencies(planner_and_control_generate_messages_py planner_and_control_generate_messages_py)

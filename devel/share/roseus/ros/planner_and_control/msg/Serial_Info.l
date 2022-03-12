@@ -14,7 +14,7 @@
 
 (defclass planner_and_control::Serial_Info
   :super ros::object
-  :slots (_auto_manual _emergency_stop _gear _speed _steer _brake ))
+  :slots (_auto_manual _emergency_stop _gear _speed _steer _brake _encoder ))
 
 (defmethod planner_and_control::Serial_Info
   (:init
@@ -25,6 +25,7 @@
     ((:speed __speed) 0.0)
     ((:steer __steer) 0.0)
     ((:brake __brake) 0)
+    ((:encoder __encoder) (make-array 0 :initial-element 0.0 :element-type :float))
     )
    (send-super :init)
    (setq _auto_manual (round __auto_manual))
@@ -33,6 +34,7 @@
    (setq _speed (float __speed))
    (setq _steer (float __steer))
    (setq _brake (round __brake))
+   (setq _encoder __encoder)
    self)
   (:auto_manual
    (&optional __auto_manual)
@@ -52,6 +54,9 @@
   (:brake
    (&optional __brake)
    (if __brake (setq _brake __brake)) _brake)
+  (:encoder
+   (&optional __encoder)
+   (if __encoder (setq _encoder __encoder)) _encoder)
   (:serialization-length
    ()
    (+
@@ -67,6 +72,8 @@
     4
     ;; int32 _brake
     4
+    ;; float64[] _encoder
+    (* 8    (length _encoder)) 4
     ))
   (:serialize
    (&optional strm)
@@ -84,6 +91,11 @@
        (sys::poke _steer (send s :buffer) (send s :count) :float) (incf (stream-count s) 4)
      ;; int32 _brake
        (write-long _brake s)
+     ;; float64[] _encoder
+     (write-long (length _encoder) s)
+     (dotimes (i (length _encoder))
+       (sys::poke (elt _encoder i) (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
+       )
      ;;
      (if (null strm) (get-output-stream-string s))))
   (:deserialize
@@ -100,11 +112,18 @@
      (setq _steer (sys::peek buf ptr- :float)) (incf ptr- 4)
    ;; int32 _brake
      (setq _brake (sys::peek buf ptr- :integer)) (incf ptr- 4)
+   ;; float64[] _encoder
+   (let (n)
+     (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4)
+     (setq _encoder (instantiate float-vector n))
+     (dotimes (i n)
+     (setf (elt _encoder i) (sys::peek buf ptr- :double)) (incf ptr- 8)
+     ))
    ;;
    self)
   )
 
-(setf (get planner_and_control::Serial_Info :md5sum-) "e0cf40a584f88ddbf7574c1bcf89548d")
+(setf (get planner_and_control::Serial_Info :md5sum-) "288e1038c233a85b428a641389cf9e85")
 (setf (get planner_and_control::Serial_Info :datatype-) "planner_and_control/Serial_Info")
 (setf (get planner_and_control::Serial_Info :definition-)
       "int16 auto_manual
@@ -113,10 +132,11 @@ int16 gear
 float32 speed
 float32 steer
 int32 brake
+float64[] encoder
 ")
 
 
 
-(provide :planner_and_control/Serial_Info "e0cf40a584f88ddbf7574c1bcf89548d")
+(provide :planner_and_control/Serial_Info "288e1038c233a85b428a641389cf9e85")
 
 
