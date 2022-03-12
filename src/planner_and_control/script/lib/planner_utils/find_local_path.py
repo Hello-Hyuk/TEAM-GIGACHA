@@ -17,10 +17,10 @@ def findLocalPath(path, ego):
             min_dis = dis
             current_index = i
 
-    if current_index + 50 > len(path.x):
+    if current_index + 100 > len(path.x):
         last_local_index = len(path.x)
     else:
-        last_local_index = current_index + 50
+        last_local_index = current_index + 100
 
     for i in range(current_index, last_local_index) :
         read_pose = PoseStamped()
