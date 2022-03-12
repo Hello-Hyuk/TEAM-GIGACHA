@@ -24,7 +24,7 @@ def path_maker(local_path, ego):
     if look_distance > 10 :
         look_distance = 10
     
-    look_distance = 15
+    look_distance = 35
 
     if len(ref_local_path.x) > look_distance :
         global_ref_start_point = (ref_local_path.x[0], ref_local_path.y[0])
@@ -42,7 +42,7 @@ def path_maker(local_path, ego):
         world_current_point = np.array([[current_x], [current_y], [1]])
         local_current_point = det_t.dot(world_current_point)
 
-        lane_off_set = [2, 0, -2]
+        lane_off_set = [2.5, 0, -2.5]
         local_lattice_points = []
         for i in range(len(lane_off_set)):
             local_lattice_points.append([local_end_point[0][0], local_end_point[1][0] + lane_off_set[i], 1])
@@ -94,10 +94,12 @@ def path_maker(local_path, ego):
 
             out_path.append(lattice_path)
         
-        # add_point_size = int(current_speed * 4)
-        add_point_size = 40 
+        add_point_size = int(current_speed * 4)
+        
         #if add_point_size > len(ref_local_path.x) - 2:
             #add_point_size = len(ref_local_path.x)
+        add_point_size = 75
+
         if add_point_size > len(ref_local_path.x) - 2:
             add_point_size = len(ref_local_path.x)
 

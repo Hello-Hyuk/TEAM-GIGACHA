@@ -13,9 +13,6 @@ from std_msgs.msg import String
 from nav_msgs.msg import Path
 from math import sqrt
 
-
-
-                    
 class Motion_Planner:
     def __init__(self):
         rospy.init_node('Motion_Planner', anonymous = False)
@@ -29,8 +26,7 @@ class Motion_Planner:
         
         self.trajectory_pub = rospy.Publisher('/trajectory', CustomPath, queue_size = 1)
 
-
-        self.path_name = 'songdo_fin'
+        self.path_name = 'ex'
 
         # rviz
         for i in range(1,4):
@@ -48,10 +44,6 @@ class Motion_Planner:
         self.current_lane = 0
         self.obj = Obj() # obj.x, obj.y, obj.r
         self.lane_weight = []
-
-        self.obj.x = [32.3700961528691]
-        self.obj.y = [34.3024058227633]
-        self.obj.r = [2]
 
         self.current_lane = input("current lane(left : 1, right : 2) : ") # temporary code(to aviod lidar dectection)
 

@@ -10,14 +10,11 @@ class IndexFinder:
         self.ego = eg
         self.save_idx = 0
         self.index = 0
-        self.path = read_global_path('songdo_fin')
+        self.path = read_global_path('ex')
 
     def run(self):
-
         min_dis = -1
         min_idx = 0
-        
-        print(f"Global path length: {len(self.path.x)}")
         step_size = 100
 
         for i in range(max(self.index - step_size, 0), self.index + step_size):
@@ -29,7 +26,7 @@ class IndexFinder:
                 min_dis = dis
                 min_idx = i
                 self.save_idx = i
-        print(f"min_dis : {min_dis}")
+        # print(f"min_dis : {min_dis}")
 
         self.index = min_idx
         return self.index

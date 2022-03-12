@@ -6,6 +6,8 @@ from planner_and_control.msg import Local
 from sensor_msgs.msg import PointCloud
 from planner_and_control.msg import Serial_Info
 from planner_and_control.msg import Ego
+from planner_and_control.msg import Obj
+
 
 class Sensor_hub:
     def __init__(self):
@@ -17,10 +19,14 @@ class Sensor_hub:
         rospy.Subscriber("/serial", Serial_Info, self.serial_callback) # serial
 
         self.pub1 = rospy.Publisher("/ego", Ego, queue_size = 1)
-        self.pub2 = rospy.Publisher("/obj", PointCloud, queue_size=1  )
-        self.obj=PointCloud()
+        self.pub2 = rospy.Publisher("/obj", Obj, queue_size = 1) # perception
+        self.obj = Obj()
         self.ego = Ego()
         self.IF = IndexFinder(self.ego)
+
+        self.obj.x = [108.5, 110.6, 61.95, 65.2]
+        self.obj.y = [211.8, 217.7, 114.68, 120.2]
+        self.obj.r = [1.5, 1.5, 1.5, 1.5]
 
     def local_callback(self, msg):
         self.ego.x = msg.x
