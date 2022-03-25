@@ -41,5 +41,9 @@
    "SERIAL_INFO"
    "<SERIAL_INFO>"
    "SERIAL_INFO"
+   "<SIGN>"
+   "SIGN"
+   "<SIGN>"
+   "SIGN"
   ))
 
