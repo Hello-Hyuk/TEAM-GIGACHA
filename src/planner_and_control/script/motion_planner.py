@@ -9,6 +9,7 @@ from lib.planner_utils.LPP import path_maker
 from planner_and_control.msg import Path as CustomPath
 from planner_and_control.msg import Ego
 from planner_and_control.msg import Obj
+from planner_and_control.msg import Sign
 from std_msgs.msg import String
 from nav_msgs.msg import Path
 from math import sqrt
@@ -19,6 +20,7 @@ class Motion_Planner:
         rospy.Subscriber('/behavior', String, self.behavior_callback)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
         rospy.Subscriber('/obj', Obj, self.obj_callback)
+        rospy.Subscriber('/sign', )
 
         # rviz
         self.global_path_pub = rospy.Publisher('/global_path', CustomPath, queue_size = 1)
@@ -47,6 +49,7 @@ class Motion_Planner:
 
         self.current_lane = input("current lane(left : 1, right : 2) : ") # temporary code(to aviod lidar dectection)
 
+    # avoidance driving
     def weight_function_LiDAR(self):
         for i in range(len(self.generated_path)): # 0,1,2
             path_check = True
@@ -61,7 +64,19 @@ class Motion_Planner:
                             path_check = False
                             break
 
+    # go_to_sign
+    def weight_sign_function(self):
+        for i in range(len(self.generated_path)):
+            self.lane_weight[i] = sqrt((self.generated_path[i].poses[-1].pose.position.x - self.obj.x[0])**2 + (self.generated_path[i].poses[-1].pose.position.y - self.obj.y[0])**2)
 
+    def select_trajectory(self):
+        self.selected_lane = self.lane_weight.index(min(self.lane_weight))
+        self.local_path = self.generated_path[self.selected_lane]
+        self.trajectory_name = self.selected_lane
+        
+        print(f"lane_weight : {self.lane_weight}")
+        print(f"motion_planner : {self.trajectory_name}, local_path")    
+    
     def behavior_callback(self, msg):
         self.behavior = msg.data
 
@@ -91,6 +106,11 @@ class Motion_Planner:
 
         if self.behavior == "obstacle avoidance":
             self.weight_function_LiDAR()
+            self.select_trajectory()
+            
+        if self.behavior == "go_side":
+            self.weight_sign_function()
+            self.select_trajectory()
             
             # # to dection Local point
             # obs_dis = sqrt((self.ego.x - self.obj.x)**2 + (self.ego.y - self.obj.y)**2)
@@ -102,14 +122,6 @@ class Motion_Planner:
             #         self.lane_weight[i] +=  distance
             #     self.lane_weight[2] = 100
             #     self.lane_weight[1] = 10000
-
-            self.selected_lane = self.lane_weight.index(min(self.lane_weight))
-            self.local_path = self.generated_path[self.selected_lane]
-            self.trajectory_name = self.selected_lane
-
-            
-            print(f"lane_weight : {self.lane_weight}")
-            print(f"motion_planner : {self.trajectory_name}, local_path")
 
         for i in range (len(self.local_path.poses)):
             self.trajectory.x.append(self.local_path.poses[i].pose.position.x)
