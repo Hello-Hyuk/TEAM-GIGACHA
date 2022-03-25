@@ -20,6 +20,7 @@ class Motion_Planner:
         rospy.Subscriber('/behavior', String, self.behavior_callback)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
         rospy.Subscriber('/obj', Obj, self.obj_callback)
+        rospy.Subscriber('/sign', Sign, self.sign_callback)
         rospy.Subscriber('/sign', )
 
         # rviz
@@ -45,6 +46,7 @@ class Motion_Planner:
         self.ego_speed = 0
         self.current_lane = 0
         self.obj = Obj() # obj.x, obj.y, obj.r
+        self.sign = Sign()
         self.lane_weight = []
 
         self.current_lane = input("current lane(left : 1, right : 2) : ") # temporary code(to aviod lidar dectection)
@@ -85,6 +87,10 @@ class Motion_Planner:
 
     def obj_callback(self, msg):
         self.obj = msg
+
+    def sign_callback(self, msg):
+        self.obj.x = msg.x
+        self.obj.y = msg.y
 
     def run(self):
         
