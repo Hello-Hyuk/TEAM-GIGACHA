@@ -46,4 +46,8 @@
     (:file "_package_Serial_Info" :depends-on ("_package"))
     (:file "Serial_Info" :depends-on ("_package_Serial_Info"))
     (:file "_package_Serial_Info" :depends-on ("_package"))
+    (:file "Sign" :depends-on ("_package_Sign"))
+    (:file "_package_Sign" :depends-on ("_package"))
+    (:file "Sign" :depends-on ("_package_Sign"))
+    (:file "_package_Sign" :depends-on ("_package"))
   ))

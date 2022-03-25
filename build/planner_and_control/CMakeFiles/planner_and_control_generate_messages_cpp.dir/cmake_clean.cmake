@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/planner_and_control_generate_messages_cpp"
+  "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Sign.h"
   "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/CircleObstacle.h"
   "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Serial_Info.h"
   "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Control_Info.h"

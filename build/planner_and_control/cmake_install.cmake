@@ -49,6 +49,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg"
     "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg"
     "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg"
+    "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Sign.msg"
     )
 endif()
 

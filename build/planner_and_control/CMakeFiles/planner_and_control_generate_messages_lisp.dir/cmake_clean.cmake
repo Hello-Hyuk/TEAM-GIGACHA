@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/planner_and_control_generate_messages_lisp"
+  "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Sign.lisp"
   "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/CircleObstacle.lisp"
   "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Serial_Info.lisp"
   "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Control_Info.lisp"
