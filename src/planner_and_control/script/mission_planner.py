@@ -37,14 +37,17 @@ class Mission_Planner:
         if self.obs_dis < 15 :
             self.state = "obstacle detected"
 
-        sign_x = 37.239875
-        sign_y = 126.77362833333
-        self.sign_dis = sqrt((sign_x - self.ego.x)**2 + (sign_y - self.ego.y)**2)
+        sign_x = 63.7384548403
+        sign_y = 111.167584983
 
-        if self.sign_dis < 3 :
+        self.sign_dis = sqrt((sign_x - self.ego.x)**2 + (sign_y - self.ego.y)**2)
+        print(self.sign_dis)
+
+        
+        if self.sign_dis < 15:
             self.sign = "stop_sign"
             self.state = "stop_sign detected"
-
+            
         else:
             self.state = "go"
 

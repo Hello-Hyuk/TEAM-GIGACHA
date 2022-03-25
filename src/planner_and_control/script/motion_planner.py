@@ -21,12 +21,10 @@ class Motion_Planner:
         rospy.Subscriber('/ego', Ego, self.ego_callback)
         rospy.Subscriber('/obj', Obj, self.obj_callback)
         rospy.Subscriber('/sign', Sign, self.sign_callback)
-        rospy.Subscriber('/sign', )
 
         # rviz
         self.global_path_pub = rospy.Publisher('/global_path', CustomPath, queue_size = 1)
         self.local_path_pub = rospy.Publisher('/lattice_path', CustomPath, queue_size = 1)
-        
         self.trajectory_pub = rospy.Publisher('/trajectory', CustomPath, queue_size = 1)
 
         self.path_name = 'ex'
@@ -46,6 +44,8 @@ class Motion_Planner:
         self.ego_speed = 0
         self.current_lane = 0
         self.obj = Obj() # obj.x, obj.y, obj.r
+        self.x = 63.7384548403
+        self.y = 111.167584983
         self.sign = Sign()
         self.lane_weight = []
 
@@ -68,8 +68,9 @@ class Motion_Planner:
 
     # go_to_sign
     def weight_sign_function(self):
+        print(self.obj.x)
         for i in range(len(self.generated_path)):
-            self.lane_weight[i] = sqrt((self.generated_path[i].poses[-1].pose.position.x - self.obj.x[0])**2 + (self.generated_path[i].poses[-1].pose.position.y - self.obj.y[0])**2)
+            self.lane_weight[i] = sqrt((self.generated_path[i].poses[-1].pose.position.x - self.x)**2 + (self.generated_path[i].poses[-1].pose.position.y - self.y)**2)
 
     def select_trajectory(self):
         self.selected_lane = self.lane_weight.index(min(self.lane_weight))
@@ -137,6 +138,10 @@ class Motion_Planner:
         if len(self.generated_path) == 3:                    
             for i in range(1,4):
                 globals()['lattice_path_{}_pub'.format(i)].publish(self.generated_path[i-1])
+
+        if self.behavior == "stop":
+            self.trajectory.x = []
+            self.trajectory.y = []
                 
         # path publish
         self.global_path_pub.publish(self.global_path)

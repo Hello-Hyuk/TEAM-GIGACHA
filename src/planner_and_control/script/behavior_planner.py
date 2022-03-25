@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from math import sqrt
-import time
+from time import time
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from std_msgs.msg import String
 from planner_and_control.msg import Ego
@@ -18,6 +18,8 @@ class Behavior_Planner:
         self.state = String()
         self.behavior = ""
         self.sign_dis = 100
+        self.go_side_check = False
+        self.wait_time = time()
 
     def state_callback(self, msg):
         self.state = msg.data
@@ -36,19 +38,22 @@ class Behavior_Planner:
         if self.state == "obstacle detected":
             self.behavior = "obstacle avoidance"
 
-        sign_x = 37.239875
-        sign_y = 126.77362833333
+        sign_x = 63.7384548403
+        sign_y = 111.167584983
         self.sign_dis = sqrt((sign_x - self.ego.x)**2 + (sign_y - self.ego.y)**2)
 
         if self.state == "stop_sign detected":
-            self.behavior = "go_side"
-            if self.sign_dis <= 1:
-                if self.behavior == "go_side":
+            if self.sign_dis <= 5:
+                if self.go_side_check == False:
                     self.behavior = "stop"
-                    time.sleep(3)
-                if self.behavior == "stop":
-                    self.behavior = "return"
-                
+                    self.wait_time = time()
+                    self.go_side_check = True
+                if self.behavior == "stop" and time() - self.wait_time > 3:
+                    self.behavior = "go"
+                    
+            else:
+                self.behavior = "go_side"
+                self.go_side_check = False
                     
         print(f"behavior_planner : {self.behavior}")
         self.pub.publish(self.behavior)
