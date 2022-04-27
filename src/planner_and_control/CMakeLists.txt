@@ -61,6 +61,7 @@ add_message_files(
   Obstacles.msg
   CircleObstacle.msg
   SegmentObstacle.msg
+  Sign.msg
 )
 
 ## Generate services in the 'srv' folder

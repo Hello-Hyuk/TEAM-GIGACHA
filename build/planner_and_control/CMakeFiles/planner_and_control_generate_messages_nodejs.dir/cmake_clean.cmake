@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/planner_and_control_generate_messages_nodejs"
+  "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Sign.js"
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/CircleObstacle.js"
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Serial_Info.js"
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Control_Info.js"
