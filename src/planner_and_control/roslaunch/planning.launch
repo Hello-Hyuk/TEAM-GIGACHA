@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <launch>
-  <node name="Sensor_hub" pkg="planner_and_control" type="sensor_hub.py" respawn="true"/>
-  <node name="Mission_Planner" pkg="planner_and_control" type="mission_planner.py" respawn ="true"/>
-  <node name="Behavior_Planner" pkg="planner_and_control" type="behavior_planner.py" respawn="true"/>  
-  <node name="Motion_Planner" pkg="planner_and_control" type="motion_planner.py" args="ex" output="screen" respawn = "true"/>
-  <node name="Serial_IO" pkg="planner_and_control" type="serial_io.py" respawn="true"/>
+  <node name="Sensor_hub" pkg="planner_and_control" type="sensor_hub.py" respawn="true" output="screen"/>
+  <node name="Mission_Planner" pkg="planner_and_control" type="mission_planner.py" respawn ="true" output="screen"/>
+  <node name="Behavior_Planner" pkg="planner_and_control" type="behavior_planner.py" respawn="true" output="screen"/>  
+  <node name="Motion_Planner" pkg="planner_and_control" type="motion_planner.py" args="ex" output="screen" respawn = "true" output="screen"/>
+  <node name="Serial_IO" pkg="planner_and_control" type="serial_io.py" respawn="true" output="screen"/>
 </launch>
