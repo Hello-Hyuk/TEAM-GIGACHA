@@ -11,6 +11,7 @@ let Path = require('./Path.js');
 let Obstacles = require('./Obstacles.js');
 let Control_Info = require('./Control_Info.js');
 let Gngga = require('./Gngga.js');
+let Sign = require('./Sign.js');
 let CircleObstacle = require('./CircleObstacle.js');
 let Ego = require('./Ego.js');
 let Local = require('./Local.js');
@@ -21,6 +22,7 @@ let Path = require('./Path.js');
 let Obstacles = require('./Obstacles.js');
 let Control_Info = require('./Control_Info.js');
 let Gngga = require('./Gngga.js');
+let Sign = require('./Sign.js');
 
 module.exports = {
   CircleObstacle: CircleObstacle,
@@ -33,6 +35,7 @@ module.exports = {
   Obstacles: Obstacles,
   Control_Info: Control_Info,
   Gngga: Gngga,
+  Sign: Sign,
   CircleObstacle: CircleObstacle,
   Ego: Ego,
   Local: Local,
@@ -43,4 +46,5 @@ module.exports = {
   Obstacles: Obstacles,
   Control_Info: Control_Info,
   Gngga: Gngga,
+  Sign: Sign,
 };
