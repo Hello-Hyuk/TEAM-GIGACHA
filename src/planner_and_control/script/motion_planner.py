@@ -9,6 +9,7 @@ from lib.planner_utils.LPP import path_maker
 from planner_and_control.msg import Path as CustomPath
 from planner_and_control.msg import Ego
 from planner_and_control.msg import Obj
+from planner_and_control.msg import Sign
 from std_msgs.msg import String
 from nav_msgs.msg import Path
 from math import sqrt
@@ -19,11 +20,11 @@ class Motion_Planner:
         rospy.Subscriber('/behavior', String, self.behavior_callback)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
         rospy.Subscriber('/obj', Obj, self.obj_callback)
+        rospy.Subscriber('/sign', Sign, self.sign_callback)
 
         # rviz
         self.global_path_pub = rospy.Publisher('/global_path', CustomPath, queue_size = 1)
         self.local_path_pub = rospy.Publisher('/lattice_path', CustomPath, queue_size = 1)
-        
         self.trajectory_pub = rospy.Publisher('/trajectory', CustomPath, queue_size = 1)
 
         self.path_name = 'ex'
@@ -43,10 +44,14 @@ class Motion_Planner:
         self.ego_speed = 0
         self.current_lane = 0
         self.obj = Obj() # obj.x, obj.y, obj.r
+        self.x = 63.7384548403
+        self.y = 111.167584983
+        self.sign = Sign()
         self.lane_weight = []
 
         self.current_lane = input("current lane(left : 1, right : 2) : ") # temporary code(to aviod lidar dectection)
 
+    # avoidance driving
     def weight_function_LiDAR(self):
         for i in range(len(self.generated_path)): # 0,1,2
             path_check = True
@@ -61,7 +66,20 @@ class Motion_Planner:
                             path_check = False
                             break
 
+    # go_to_sign
+    def weight_sign_function(self):
+        print(self.obj.x)
+        for i in range(len(self.generated_path)):
+            self.lane_weight[i] = sqrt((self.generated_path[i].poses[-1].pose.position.x - self.x)**2 + (self.generated_path[i].poses[-1].pose.position.y - self.y)**2)
 
+    def select_trajectory(self):
+        self.selected_lane = self.lane_weight.index(min(self.lane_weight))
+        self.local_path = self.generated_path[self.selected_lane]
+        self.trajectory_name = self.selected_lane
+        
+        print(f"lane_weight : {self.lane_weight}")
+        print(f"motion_planner : {self.trajectory_name}, local_path")    
+    
     def behavior_callback(self, msg):
         self.behavior = msg.data
 
@@ -70,6 +88,10 @@ class Motion_Planner:
 
     def obj_callback(self, msg):
         self.obj = msg
+
+    def sign_callback(self, msg):
+        self.obj.x = msg.x
+        self.obj.y = msg.y
 
     def run(self):
         
@@ -91,6 +113,11 @@ class Motion_Planner:
 
         if self.behavior == "obstacle avoidance":
             self.weight_function_LiDAR()
+            self.select_trajectory()
+            
+        if self.behavior == "go_side":
+            self.weight_sign_function()
+            self.select_trajectory()
             
             # # to dection Local point
             # obs_dis = sqrt((self.ego.x - self.obj.x)**2 + (self.ego.y - self.obj.y)**2)
@@ -103,14 +130,6 @@ class Motion_Planner:
             #     self.lane_weight[2] = 100
             #     self.lane_weight[1] = 10000
 
-            self.selected_lane = self.lane_weight.index(min(self.lane_weight))
-            self.local_path = self.generated_path[self.selected_lane]
-            self.trajectory_name = self.selected_lane
-
-            
-            print(f"lane_weight : {self.lane_weight}")
-            print(f"motion_planner : {self.trajectory_name}, local_path")
-
         for i in range (len(self.local_path.poses)):
             self.trajectory.x.append(self.local_path.poses[i].pose.position.x)
             self.trajectory.y.append(self.local_path.poses[i].pose.position.y)
@@ -119,6 +138,10 @@ class Motion_Planner:
         if len(self.generated_path) == 3:                    
             for i in range(1,4):
                 globals()['lattice_path_{}_pub'.format(i)].publish(self.generated_path[i-1])
+
+        if self.behavior == "stop":
+            self.trajectory.x = []
+            self.trajectory.y = []
                 
         # path publish
         self.global_path_pub.publish(self.global_path)

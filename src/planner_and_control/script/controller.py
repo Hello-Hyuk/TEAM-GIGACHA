@@ -37,8 +37,11 @@ class Controller:
         self.ego.data = msg
         
     def run(self):
-        self.publish_control_info(0,0)
-        self.target_speed = 5.0
+        if len(self.trajectory.data.x) == 0:
+            self.publish_control_info(1,0)
+        else:
+            self.publish_control_info(0,0)
+        self.target_speed = 20.0
         # print("Controller On..")
 
     def publish_control_info(self, estop, gear):

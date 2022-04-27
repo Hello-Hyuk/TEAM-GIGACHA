@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/planner_and_control_generate_messages_eus"
+  "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Sign.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/CircleObstacle.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Serial_Info.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Control_Info.l"
