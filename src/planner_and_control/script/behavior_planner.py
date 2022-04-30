@@ -13,8 +13,8 @@ class Behavior_Planner:
         rospy.init_node('Behavior_Planner', anonymous = False)
         rospy.Subscriber('/state', String, self.state_callback)
         rospy.Subscriber('/perception', Perception, self.ego_callback)
-        # rospy.Subscriber('/sign', Sign, self.sign_callback)
-        self.pub = rospy.Publisher('/behavior', String, queue_size = 1)
+        self.pub_behavior = rospy.Publisher('/behavior', String, queue_size = 1)
+        self.pub_ego = rospy.Publisher('/behavior_ego', Ego, queue_size = 1)
         self.ego = Ego()
         self.state = String()
         self.behavior = ""
