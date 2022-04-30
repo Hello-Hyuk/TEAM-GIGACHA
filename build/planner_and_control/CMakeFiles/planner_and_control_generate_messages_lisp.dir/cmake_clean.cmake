@@ -10,6 +10,7 @@ file(REMOVE_RECURSE
   "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Ego.lisp"
   "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Obstacles.lisp"
   "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Path.lisp"
+  "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Perception.lisp"
   "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Obj.lisp"
 )
 

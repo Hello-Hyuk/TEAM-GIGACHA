@@ -1,10 +1,13 @@
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
+from planner_and_control.msg import Local, Serial_Info, Perception, Ego
+from lib.planner_utils.index_finder import IndexFinder
+import rospy
 
-class Ego:
+class Ego_updater:
     def __init__(self):
         rospy.init_node('Ego', anonymous = False)
         self.ego_pub = rospy.Publisher("/ego", Ego, queue_size = 1)
-        
+
         rospy.Subscriber("/pose", Local, self.local_callback) # local
         rospy.Subscriber("/behavior_ego", Ego, self.behavior_callback) 
         rospy.Subscriber("/serial", Serial_Info, self.serial_callback) # serial
@@ -33,9 +36,11 @@ class Ego:
     def run(self):
         self.ego_pub.publish(self.ego)
 
+        print("Ego updater is operating")
+
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
-    eg = Ego()
+    eg = Ego_updater()
     rate = rospy.Rate(50)
     while not rospy.is_shutdown():
         eg.run()

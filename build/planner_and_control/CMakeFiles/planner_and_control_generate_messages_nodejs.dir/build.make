@@ -63,6 +63,7 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs: /ho
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs: /home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Ego.js
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs: /home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Obstacles.js
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs: /home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Path.js
+planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs: /home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Perception.js
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs: /home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Obj.js
 
 
@@ -122,9 +123,14 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs: /ho
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Generating Javascript code from planner_and_control/Path.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg
 
+/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Perception.js: /opt/ros/melodic/lib/gennodejs/gen_nodejs.py
+/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Perception.js: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating Javascript code from planner_and_control/Perception.msg"
+	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg
+
 /home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Obj.js: /opt/ros/melodic/lib/gennodejs/gen_nodejs.py
 /home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Obj.js: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating Javascript code from planner_and_control/Obj.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Generating Javascript code from planner_and_control/Obj.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg
 
 planner_and_control_generate_messages_nodejs: planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs
@@ -138,6 +144,7 @@ planner_and_control_generate_messages_nodejs: /home/gigacha/TEAM-GIGACHA/devel/s
 planner_and_control_generate_messages_nodejs: /home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Ego.js
 planner_and_control_generate_messages_nodejs: /home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Obstacles.js
 planner_and_control_generate_messages_nodejs: /home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Path.js
+planner_and_control_generate_messages_nodejs: /home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Perception.js
 planner_and_control_generate_messages_nodejs: /home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Obj.js
 planner_and_control_generate_messages_nodejs: planner_and_control/CMakeFiles/planner_and_control_generate_messages_nodejs.dir/build.make
 

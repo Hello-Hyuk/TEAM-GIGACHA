@@ -14,7 +14,7 @@
 
 (defclass planner_and_control::Ego
   :super ros::object
-  :slots (_x _y _heading _index _speed _steer _brake _gear _auto_manual ))
+  :slots (_x _y _heading _index _target_speed _target_brake _target_gear _speed _steer _brake _gear _auto_manual ))
 
 (defmethod planner_and_control::Ego
   (:init
@@ -23,6 +23,9 @@
     ((:y __y) 0.0)
     ((:heading __heading) 0.0)
     ((:index __index) 0)
+    ((:target_speed __target_speed) 0.0)
+    ((:target_brake __target_brake) 0.0)
+    ((:target_gear __target_gear) 0.0)
     ((:speed __speed) 0.0)
     ((:steer __steer) 0.0)
     ((:brake __brake) 0)
@@ -34,6 +37,9 @@
    (setq _y (float __y))
    (setq _heading (float __heading))
    (setq _index (round __index))
+   (setq _target_speed (float __target_speed))
+   (setq _target_brake (float __target_brake))
+   (setq _target_gear (float __target_gear))
    (setq _speed (float __speed))
    (setq _steer (float __steer))
    (setq _brake (round __brake))
@@ -52,6 +58,15 @@
   (:index
    (&optional __index)
    (if __index (setq _index __index)) _index)
+  (:target_speed
+   (&optional __target_speed)
+   (if __target_speed (setq _target_speed __target_speed)) _target_speed)
+  (:target_brake
+   (&optional __target_brake)
+   (if __target_brake (setq _target_brake __target_brake)) _target_brake)
+  (:target_gear
+   (&optional __target_gear)
+   (if __target_gear (setq _target_gear __target_gear)) _target_gear)
   (:speed
    (&optional __speed)
    (if __speed (setq _speed __speed)) _speed)
@@ -78,6 +93,12 @@
     8
     ;; int32 _index
     4
+    ;; float32 _target_speed
+    4
+    ;; float32 _target_brake
+    4
+    ;; float32 _target_gear
+    4
     ;; float32 _speed
     4
     ;; float32 _steer
@@ -101,6 +122,12 @@
        (sys::poke _heading (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
      ;; int32 _index
        (write-long _index s)
+     ;; float32 _target_speed
+       (sys::poke _target_speed (send s :buffer) (send s :count) :float) (incf (stream-count s) 4)
+     ;; float32 _target_brake
+       (sys::poke _target_brake (send s :buffer) (send s :count) :float) (incf (stream-count s) 4)
+     ;; float32 _target_gear
+       (sys::poke _target_gear (send s :buffer) (send s :count) :float) (incf (stream-count s) 4)
      ;; float32 _speed
        (sys::poke _speed (send s :buffer) (send s :count) :float) (incf (stream-count s) 4)
      ;; float32 _steer
@@ -123,6 +150,12 @@
      (setq _heading (sys::peek buf ptr- :double)) (incf ptr- 8)
    ;; int32 _index
      (setq _index (sys::peek buf ptr- :integer)) (incf ptr- 4)
+   ;; float32 _target_speed
+     (setq _target_speed (sys::peek buf ptr- :float)) (incf ptr- 4)
+   ;; float32 _target_brake
+     (setq _target_brake (sys::peek buf ptr- :float)) (incf ptr- 4)
+   ;; float32 _target_gear
+     (setq _target_gear (sys::peek buf ptr- :float)) (incf ptr- 4)
    ;; float32 _speed
      (setq _speed (sys::peek buf ptr- :float)) (incf ptr- 4)
    ;; float32 _steer
@@ -137,13 +170,16 @@
    self)
   )
 
-(setf (get planner_and_control::Ego :md5sum-) "3d75df4892b9e15b8e081e6cd21cb013")
+(setf (get planner_and_control::Ego :md5sum-) "0869400e66da0a77dc77cb9c63aed1a9")
 (setf (get planner_and_control::Ego :datatype-) "planner_and_control/Ego")
 (setf (get planner_and_control::Ego :definition-)
       "float64 x
 float64 y
 float64 heading
 int32 index
+float32 target_speed
+float32 target_brake
+float32 target_gear
 float32 speed
 float32 steer
 int32 brake
@@ -153,6 +189,6 @@ int16 auto_manual
 
 
 
-(provide :planner_and_control/Ego "3d75df4892b9e15b8e081e6cd21cb013")
+(provide :planner_and_control/Ego "0869400e66da0a77dc77cb9c63aed1a9")
 
 

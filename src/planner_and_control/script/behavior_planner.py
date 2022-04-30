@@ -12,7 +12,8 @@ class Behavior_Planner:
     def __init__(self):
         rospy.init_node('Behavior_Planner', anonymous = False)
         rospy.Subscriber('/state', String, self.state_callback)
-        rospy.Subscriber('/perception', Perception, self.ego_callback)
+        rospy.Subscriber('/ego', Ego, self.ego_callback)
+        rospy.Subscriber('/perception', Perception, self.perception_callback)
         self.pub_behavior = rospy.Publisher('/behavior', String, queue_size = 1)
         self.pub_ego = rospy.Publisher('/behavior_ego', Ego, queue_size = 1)
         self.ego = Ego()
@@ -21,12 +22,16 @@ class Behavior_Planner:
         self.sign_dis = 100
         self.go_side_check = False
         self.wait_time = time()
+        self.perception = Perception()
 
     def state_callback(self, msg):
         self.state = msg.data
 
     def ego_callback(self, msg):
         self.ego = msg
+
+    def perception_callback(self, msg):
+        self.perception = msg
 
     # def sign_callback(self, msg):
     #     self.sign_dis = sqrt((self.sign.x - self.ego.x)**2 + (self.sign.y - self.ego.y)**2)
@@ -57,7 +62,8 @@ class Behavior_Planner:
                 self.go_side_check = False
                     
         print(f"behavior_planner : {self.behavior}")
-        self.pub.publish(self.behavior)
+        self.pub_behavior.publish(self.behavior)
+        self.pub_ego.publish(self.ego)
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()

@@ -10,6 +10,7 @@ file(REMOVE_RECURSE
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Ego.js"
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Obstacles.js"
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Path.js"
+  "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Perception.js"
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Obj.js"
 )
 

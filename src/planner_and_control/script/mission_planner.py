@@ -4,6 +4,7 @@ from math import sqrt
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from std_msgs.msg import String
 from planner_and_control.msg import Perception
+from planner_and_control.msg import Ego
 from planner_and_control.msg import Path
 from planner_and_control.msg import Sign
 from sensor_msgs.msg import PointCloud
@@ -13,13 +14,13 @@ class Mission_Planner:
         rospy.init_node('Mission_Planner', anonymous = False)
         self.pub = rospy.Publisher('/state', String, queue_size = 1)
         rospy.Subscriber('/perception', Perception, self.perception_callback)
-        rospy.Subscriber('/obj', Path, self.lidar_callback)
-        # rospy.Subscriber('/sign', String, self.sign_callback)
+        rospy.Subscriber('/ego', Ego, self.ego_callback)
         self.perception = Perception()
         self.state = ''
         self.obs_dis = 0
         self.sign = ''
         self.sign_dis = 100
+        self.ego = Ego()
 
     def perception_callback(self, msg):
         self.perception = msg
@@ -28,9 +29,8 @@ class Mission_Planner:
         self.obstacle = msg
         self.obs_dis = sqrt(self.obstacle.x**2 + self.obstacle.y**2)
 
-    # def sign_callback(self, msg):
-    #     self.sign = msg
-    #     self.sign_dis = sqrt((self.sign.x - self.perception.x)**2 + (self.sign.y - self.perception.y)**2)
+    def ego_callback(self, msg):
+        self.ego = msg
 
     def run(self):
 
@@ -40,7 +40,7 @@ class Mission_Planner:
         sign_x = 63.7384548403
         sign_y = 111.167584983
 
-        self.sign_dis = sqrt((sign_x - self.perception.x)**2 + (sign_y - self.perception.y)**2)
+        self.sign_dis = sqrt((sign_x - self.ego.x)**2 + (sign_y - self.ego.y)**2)
         print(self.sign_dis)
 
         
