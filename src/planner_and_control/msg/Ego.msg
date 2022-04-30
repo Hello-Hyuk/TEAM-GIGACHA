@@ -2,6 +2,9 @@ float64 x
 float64 y
 float64 heading
 int32 index
+float32 target_speed
+float32 target_brake
+float32 target_gear
 float32 speed
 float32 steer
 int32 brake

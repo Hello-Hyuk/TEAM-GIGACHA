@@ -10,6 +10,7 @@ file(REMOVE_RECURSE
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Ego.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Obstacles.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Path.l"
+  "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Perception.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Obj.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/manifest.l"
 )

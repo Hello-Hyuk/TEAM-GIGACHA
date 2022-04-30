@@ -103,8 +103,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -337,6 +337,32 @@ planner_and_control_generate_messages_lisp/fast:
 .PHONY : planner_and_control_generate_messages_lisp/fast
 
 #=============================================================================
+# Target rules for targets named planner_and_control_generate_messages_py
+
+# Build rule for target.
+planner_and_control_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 planner_and_control_generate_messages_py
+.PHONY : planner_and_control_generate_messages_py
+
+# fast build rule for target.
+planner_and_control_generate_messages_py/fast:
+	$(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/build.make planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/build
+.PHONY : planner_and_control_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named planner_and_control_geneus
+
+# Build rule for target.
+planner_and_control_geneus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 planner_and_control_geneus
+.PHONY : planner_and_control_geneus
+
+# fast build rule for target.
+planner_and_control_geneus/fast:
+	$(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_geneus.dir/build.make planner_and_control/CMakeFiles/planner_and_control_geneus.dir/build
+.PHONY : planner_and_control_geneus/fast
+
+#=============================================================================
 # Target rules for targets named std_msgs_generate_messages_py
 
 # Build rule for target.
@@ -517,45 +543,6 @@ geometry_msgs_generate_messages_nodejs: cmake_check_build_system
 geometry_msgs_generate_messages_nodejs/fast:
 	$(MAKE) -f planner_and_control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build.make planner_and_control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build
 .PHONY : geometry_msgs_generate_messages_nodejs/fast
-
-#=============================================================================
-# Target rules for targets named planner_and_control_generate_messages_cpp
-
-# Build rule for target.
-planner_and_control_generate_messages_cpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 planner_and_control_generate_messages_cpp
-.PHONY : planner_and_control_generate_messages_cpp
-
-# fast build rule for target.
-planner_and_control_generate_messages_cpp/fast:
-	$(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/build.make planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/build
-.PHONY : planner_and_control_generate_messages_cpp/fast
-
-#=============================================================================
-# Target rules for targets named planner_and_control_generate_messages_py
-
-# Build rule for target.
-planner_and_control_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 planner_and_control_generate_messages_py
-.PHONY : planner_and_control_generate_messages_py
-
-# fast build rule for target.
-planner_and_control_generate_messages_py/fast:
-	$(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/build.make planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/build
-.PHONY : planner_and_control_generate_messages_py/fast
-
-#=============================================================================
-# Target rules for targets named planner_and_control_geneus
-
-# Build rule for target.
-planner_and_control_geneus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 planner_and_control_geneus
-.PHONY : planner_and_control_geneus
-
-# fast build rule for target.
-planner_and_control_geneus/fast:
-	$(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_geneus.dir/build.make planner_and_control/CMakeFiles/planner_and_control_geneus.dir/build
-.PHONY : planner_and_control_geneus/fast
 
 #=============================================================================
 # Target rules for targets named roscpp_generate_messages_py
@@ -831,6 +818,32 @@ _planner_and_control_generate_messages_check_deps_Obj/fast:
 .PHONY : _planner_and_control_generate_messages_check_deps_Obj/fast
 
 #=============================================================================
+# Target rules for targets named planner_and_control_generate_messages_cpp
+
+# Build rule for target.
+planner_and_control_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 planner_and_control_generate_messages_cpp
+.PHONY : planner_and_control_generate_messages_cpp
+
+# fast build rule for target.
+planner_and_control_generate_messages_cpp/fast:
+	$(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/build.make planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/build
+.PHONY : planner_and_control_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named _planner_and_control_generate_messages_check_deps_Perception
+
+# Build rule for target.
+_planner_and_control_generate_messages_check_deps_Perception: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _planner_and_control_generate_messages_check_deps_Perception
+.PHONY : _planner_and_control_generate_messages_check_deps_Perception
+
+# fast build rule for target.
+_planner_and_control_generate_messages_check_deps_Perception/fast:
+	$(MAKE) -f planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Perception.dir/build.make planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Perception.dir/build
+.PHONY : _planner_and_control_generate_messages_check_deps_Perception/fast
+
+#=============================================================================
 # Target rules for targets named sensor_msgs_generate_messages_eus
 
 # Build rule for target.
@@ -934,6 +947,8 @@ help:
 	@echo "... planner_and_control_gennodejs"
 	@echo "... planner_and_control_genlisp"
 	@echo "... planner_and_control_generate_messages_lisp"
+	@echo "... planner_and_control_generate_messages_py"
+	@echo "... planner_and_control_geneus"
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_eus"
@@ -948,9 +963,6 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... geometry_msgs_generate_messages_nodejs"
-	@echo "... planner_and_control_generate_messages_cpp"
-	@echo "... planner_and_control_generate_messages_py"
-	@echo "... planner_and_control_geneus"
 	@echo "... roscpp_generate_messages_py"
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... roscpp_generate_messages_eus"
@@ -972,6 +984,8 @@ help:
 	@echo "... planner_and_control_generate_messages_nodejs"
 	@echo "... _planner_and_control_generate_messages_check_deps_Serial_Info"
 	@echo "... _planner_and_control_generate_messages_check_deps_Obj"
+	@echo "... planner_and_control_generate_messages_cpp"
+	@echo "... _planner_and_control_generate_messages_check_deps_Perception"
 	@echo "... sensor_msgs_generate_messages_eus"
 	@echo "... sensor_msgs_generate_messages_lisp"
 	@echo "... sensor_msgs_generate_messages_nodejs"
