@@ -94,6 +94,9 @@ class Motion_Planner:
         self.local_path = findLocalPath(self.global_path, self.ego) # local path (50)
         self.generated_path = path_maker(self.local_path, self.ego) # lattice paths
 
+        self.trajectory = self.global_path
+        self.trajectory_name = "global_path"
+
         if self.behavior == "go":
             self.trajectory = self.global_path
             self.trajectory_name = "global_path"
