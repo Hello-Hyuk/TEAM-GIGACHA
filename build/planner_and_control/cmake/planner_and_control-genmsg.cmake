@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "planner_and_control: 11 messages, 0 services")
+message(STATUS "planner_and_control: 12 messages, 0 services")
 
 set(MSG_I_FLAGS "-Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg;-Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg;-Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg")
 
@@ -65,6 +65,11 @@ add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg" NAME_WE)
 add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg" ""
+)
+
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg" NAME_WE)
+add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg" ""
 )
 
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
@@ -139,6 +144,12 @@ _generate_msg_cpp(planner_and_control
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_cpp(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_cpp(planner_and_control
   "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg"
   "${MSG_I_FLAGS}"
   ""
@@ -178,6 +189,8 @@ add_dependencies(planner_and_control_generate_messages_cpp _planner_and_control_
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_cpp _planner_and_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_cpp _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_cpp _planner_and_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_cpp _planner_and_control_generate_messages_check_deps_${_filename})
@@ -252,6 +265,12 @@ _generate_msg_eus(planner_and_control
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_eus(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_eus(planner_and_control
   "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg"
   "${MSG_I_FLAGS}"
   ""
@@ -291,6 +310,8 @@ add_dependencies(planner_and_control_generate_messages_eus _planner_and_control_
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_eus _planner_and_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_eus _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_eus _planner_and_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_eus _planner_and_control_generate_messages_check_deps_${_filename})
@@ -365,6 +386,12 @@ _generate_msg_lisp(planner_and_control
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_lisp(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_lisp(planner_and_control
   "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg"
   "${MSG_I_FLAGS}"
   ""
@@ -404,6 +431,8 @@ add_dependencies(planner_and_control_generate_messages_lisp _planner_and_control
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_lisp _planner_and_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_lisp _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_lisp _planner_and_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_lisp _planner_and_control_generate_messages_check_deps_${_filename})
@@ -478,6 +507,12 @@ _generate_msg_nodejs(planner_and_control
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_nodejs(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_nodejs(planner_and_control
   "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg"
   "${MSG_I_FLAGS}"
   ""
@@ -517,6 +552,8 @@ add_dependencies(planner_and_control_generate_messages_nodejs _planner_and_contr
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_nodejs _planner_and_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_nodejs _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_nodejs _planner_and_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_nodejs _planner_and_control_generate_messages_check_deps_${_filename})
@@ -591,6 +628,12 @@ _generate_msg_py(planner_and_control
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_py(planner_and_control
+  "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control
+)
+_generate_msg_py(planner_and_control
   "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg"
   "${MSG_I_FLAGS}"
   ""
@@ -630,6 +673,8 @@ add_dependencies(planner_and_control_generate_messages_py _planner_and_control_g
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_py _planner_and_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg" NAME_WE)
+add_dependencies(planner_and_control_generate_messages_py _planner_and_control_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_py _planner_and_control_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
 add_dependencies(planner_and_control_generate_messages_py _planner_and_control_generate_messages_check_deps_${_filename})

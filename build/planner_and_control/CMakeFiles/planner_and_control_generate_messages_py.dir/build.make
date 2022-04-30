@@ -63,6 +63,7 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/g
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Ego.py
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Obstacles.py
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Path.py
+planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Perception.py
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Obj.py
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/__init__.py
 
@@ -123,9 +124,14 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/g
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Generating Python from MSG planner_and_control/Path"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg
 
+/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Perception.py: /opt/ros/melodic/lib/genpy/genmsg_py.py
+/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Perception.py: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating Python from MSG planner_and_control/Perception"
+	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg
+
 /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Obj.py: /opt/ros/melodic/lib/genpy/genmsg_py.py
 /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Obj.py: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating Python from MSG planner_and_control/Obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Generating Python from MSG planner_and_control/Obj"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg
 
 /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/__init__.py: /opt/ros/melodic/lib/genpy/genmsg_py.py
@@ -139,8 +145,9 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_py: /home/g
 /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/__init__.py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Ego.py
 /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/__init__.py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Obstacles.py
 /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/__init__.py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Path.py
+/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/__init__.py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Perception.py
 /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/__init__.py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Obj.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Generating Python msg __init__.py for planner_and_control"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Generating Python msg __init__.py for planner_and_control"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg --initpy
 
 planner_and_control_generate_messages_py: planner_and_control/CMakeFiles/planner_and_control_generate_messages_py
@@ -154,6 +161,7 @@ planner_and_control_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/p
 planner_and_control_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Ego.py
 planner_and_control_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Obstacles.py
 planner_and_control_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Path.py
+planner_and_control_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Perception.py
 planner_and_control_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Obj.py
 planner_and_control_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/__init__.py
 planner_and_control_generate_messages_py: planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/build.make

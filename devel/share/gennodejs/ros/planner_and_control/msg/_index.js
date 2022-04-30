@@ -1,6 +1,7 @@
 
 "use strict";
 
+let Perception = require('./Perception.js');
 let CircleObstacle = require('./CircleObstacle.js');
 let Ego = require('./Ego.js');
 let Local = require('./Local.js');
@@ -12,6 +13,7 @@ let Obstacles = require('./Obstacles.js');
 let Control_Info = require('./Control_Info.js');
 let Gngga = require('./Gngga.js');
 let Sign = require('./Sign.js');
+let Perception = require('./Perception.js');
 let CircleObstacle = require('./CircleObstacle.js');
 let Ego = require('./Ego.js');
 let Local = require('./Local.js');
@@ -25,6 +27,7 @@ let Gngga = require('./Gngga.js');
 let Sign = require('./Sign.js');
 
 module.exports = {
+  Perception: Perception,
   CircleObstacle: CircleObstacle,
   Ego: Ego,
   Local: Local,
@@ -36,6 +39,7 @@ module.exports = {
   Control_Info: Control_Info,
   Gngga: Gngga,
   Sign: Sign,
+  Perception: Perception,
   CircleObstacle: CircleObstacle,
   Ego: Ego,
   Local: Local,

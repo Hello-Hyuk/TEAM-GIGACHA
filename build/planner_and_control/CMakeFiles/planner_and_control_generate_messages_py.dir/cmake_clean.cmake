@@ -10,6 +10,7 @@ file(REMOVE_RECURSE
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Ego.py"
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Obstacles.py"
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Path.py"
+  "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Perception.py"
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Obj.py"
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/__init__.py"
 )

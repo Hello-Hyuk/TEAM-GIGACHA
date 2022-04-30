@@ -27,6 +27,21 @@
     :initarg :index
     :type cl:integer
     :initform 0)
+   (target_speed
+    :reader target_speed
+    :initarg :target_speed
+    :type cl:float
+    :initform 0.0)
+   (target_brake
+    :reader target_brake
+    :initarg :target_brake
+    :type cl:float
+    :initform 0.0)
+   (target_gear
+    :reader target_gear
+    :initarg :target_gear
+    :type cl:float
+    :initform 0.0)
    (speed
     :reader speed
     :initarg :speed
@@ -81,6 +96,21 @@
 (cl:defmethod index-val ((m <Ego>))
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:index-val is deprecated.  Use planner_and_control-msg:index instead.")
   (index m))
+
+(cl:ensure-generic-function 'target_speed-val :lambda-list '(m))
+(cl:defmethod target_speed-val ((m <Ego>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:target_speed-val is deprecated.  Use planner_and_control-msg:target_speed instead.")
+  (target_speed m))
+
+(cl:ensure-generic-function 'target_brake-val :lambda-list '(m))
+(cl:defmethod target_brake-val ((m <Ego>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:target_brake-val is deprecated.  Use planner_and_control-msg:target_brake instead.")
+  (target_brake m))
+
+(cl:ensure-generic-function 'target_gear-val :lambda-list '(m))
+(cl:defmethod target_gear-val ((m <Ego>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:target_gear-val is deprecated.  Use planner_and_control-msg:target_gear instead.")
+  (target_gear m))
 
 (cl:ensure-generic-function 'speed-val :lambda-list '(m))
 (cl:defmethod speed-val ((m <Ego>))
@@ -141,6 +171,21 @@
     (cl:write-byte (cl:ldb (cl:byte 8 16) unsigned) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 24) unsigned) ostream)
     )
+  (cl:let ((bits (roslisp-utils:encode-single-float-bits (cl:slot-value msg 'target_speed))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream))
+  (cl:let ((bits (roslisp-utils:encode-single-float-bits (cl:slot-value msg 'target_brake))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream))
+  (cl:let ((bits (roslisp-utils:encode-single-float-bits (cl:slot-value msg 'target_gear))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream))
   (cl:let ((bits (roslisp-utils:encode-single-float-bits (cl:slot-value msg 'speed))))
     (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
@@ -209,6 +254,24 @@
       (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
       (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
       (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
+    (cl:setf (cl:slot-value msg 'target_speed) (roslisp-utils:decode-single-float-bits bits)))
+    (cl:let ((bits 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
+    (cl:setf (cl:slot-value msg 'target_brake) (roslisp-utils:decode-single-float-bits bits)))
+    (cl:let ((bits 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
+    (cl:setf (cl:slot-value msg 'target_gear) (roslisp-utils:decode-single-float-bits bits)))
+    (cl:let ((bits 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
     (cl:setf (cl:slot-value msg 'speed) (roslisp-utils:decode-single-float-bits bits)))
     (cl:let ((bits 0))
       (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
@@ -240,21 +303,24 @@
   "planner_and_control/Ego")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<Ego>)))
   "Returns md5sum for a message object of type '<Ego>"
-  "3d75df4892b9e15b8e081e6cd21cb013")
+  "0869400e66da0a77dc77cb9c63aed1a9")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'Ego)))
   "Returns md5sum for a message object of type 'Ego"
-  "3d75df4892b9e15b8e081e6cd21cb013")
+  "0869400e66da0a77dc77cb9c63aed1a9")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<Ego>)))
   "Returns full string definition for message of type '<Ego>"
-  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%int16 auto_manual~%~%"))
+  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 target_speed~%float32 target_brake~%float32 target_gear~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%int16 auto_manual~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'Ego)))
   "Returns full string definition for message of type 'Ego"
-  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%int16 auto_manual~%~%"))
+  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 target_speed~%float32 target_brake~%float32 target_gear~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%int16 auto_manual~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <Ego>))
   (cl:+ 0
      8
      8
      8
+     4
+     4
+     4
      4
      4
      4
@@ -269,6 +335,9 @@
     (cl:cons ':y (y msg))
     (cl:cons ':heading (heading msg))
     (cl:cons ':index (index msg))
+    (cl:cons ':target_speed (target_speed msg))
+    (cl:cons ':target_brake (target_brake msg))
+    (cl:cons ':target_gear (target_gear msg))
     (cl:cons ':speed (speed msg))
     (cl:cons ':steer (steer msg))
     (cl:cons ':brake (brake msg))
