@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
-from lib.planner_utils.index_finder import IndexFinder
 from planner_and_control.msg import Local
 from sensor_msgs.msg import PointCloud
 from planner_and_control.msg import Serial_Info
@@ -20,9 +19,8 @@ class Sensor_hub:
         self.pub2 = rospy.Publisher("/obj", Obj, queue_size = 1) # perception
         self.obj = Obj()
         self.perception = Perception()
-        
-        self.perception.signx = [63.7384548403]
-        self.perception.signy = [111.167584983]
+        self.perception.signx = [63.7384548403, 0]
+        self.perception.signy = [111.167584983, 0]
 
     def camera1_callback(self, msg):
         pass

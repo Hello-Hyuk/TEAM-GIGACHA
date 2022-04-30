@@ -16,18 +16,14 @@ from math import sqrt
 class Motion_Planner:
     def __init__(self):
         rospy.init_node('Motion_Planner', anonymous = False)
-        rospy.Subscriber('/behavior', String, self.behavior_callback)
+
         rospy.Subscriber('/ego', Ego, self.ego_callback)
         rospy.Subscriber('/perception', Perception, self.perception_callback)
+        rospy.Subscriber('/behavior', String, self.behavior_callback)
 
         # rviz
         self.global_path_pub = rospy.Publisher('/global_path', CustomPath, queue_size = 1)
-        self.local_path_pub = rospy.Publisher('/lattice_path', CustomPath, queue_size = 1)
         self.trajectory_pub = rospy.Publisher('/trajectory', CustomPath, queue_size = 1)
-
-        self.path_name = 'ex'
-
-        # rviz
         for i in range(1,4):
             globals()['lattice_path_{}_pub'.format(i)] = rospy.Publisher('lattice_path_{}'.format(i),Path,queue_size=1) 
 
@@ -39,12 +35,22 @@ class Motion_Planner:
         self.generated_path = Path()
         self.trajectory_name = ""
 
+        self.path_name = 'ex'
         self.global_path = read_global_path(self.path_name)
 
         self.current_lane = 0
         self.lane_weight = []
 
         self.current_lane = input("current lane(left : 1, right : 2) : ") # temporary code(to aviod lidar dectection)
+
+    def ego_callback(self, msg):
+        self.ego = msg
+
+    def perception_callback(self, msg):
+        self.perception = msg
+    
+    def behavior_callback(self, msg):
+        self.behavior = msg.data
 
     # avoidance driving
     def weight_function_LiDAR(self):
@@ -70,18 +76,18 @@ class Motion_Planner:
         self.selected_lane = self.lane_weight.index(min(self.lane_weight))
         self.local_path = self.generated_path[self.selected_lane]
         self.trajectory_name = self.selected_lane
+
+        tmp_trajectory = CustomPath()
+        for i in range (len(self.local_path.poses)):
+            tmp_trajectory.x.append(self.local_path.poses[i].pose.position.x)
+            tmp_trajectory.y.append(self.local_path.poses[i].pose.position.y)
+        self.trajectory = tmp_trajectory
         
         print(f"lane_weight : {self.lane_weight}")
-        print(f"motion_planner : {self.trajectory_name}, local_path")    
-    
-    def behavior_callback(self, msg):
-        self.behavior = msg.data
-
-    def ego_callback(self, msg):
-        self.ego = msg
-
-    def perception_callback(self, msg):
-        self.perception = msg
+        if self.selected_lane == 1:
+            print(f"motion_planner : global_path")
+        else:
+            print(f"motion_planner : selected lane {self.trajectory_name}, local_path")
 
     def run(self):
         if self.current_lane == '1':
@@ -94,41 +100,14 @@ class Motion_Planner:
         self.local_path = findLocalPath(self.global_path, self.ego) # local path (50)
         self.generated_path = path_maker(self.local_path, self.ego) # lattice paths
 
-        self.trajectory = self.global_path
-        self.trajectory_name = "global_path"
-
         if self.behavior == "go":
-            self.trajectory = self.global_path
-            self.trajectory_name = "global_path"
-
+            self.select_trajectory()
         if self.behavior == "obstacle avoidance":
             self.weight_function_LiDAR()
             self.select_trajectory()
-            
         if self.behavior == "go_side":
             self.weight_sign_function()
             self.select_trajectory()
-            
-            # # to dection Local point
-            # obs_dis = sqrt((self.ego.x - self.obj.x)**2 + (self.ego.y - self.obj.y)**2)
-
-            # if obs_dis < 10:
-            #     for i in range (len(self.generated_path)):
-            #         distance = sqrt((self.generated_path[i].poses[-1].pose.position.x - self.obj.x)**2
-            #                         + (self.generated_path[i].poses[-1].pose.position.y - self.obj.y)**2)
-            #         self.lane_weight[i] +=  distance
-            #     self.lane_weight[2] = 100
-            #     self.lane_weight[1] = 10000
-
-        for i in range (len(self.local_path.poses)):
-            self.trajectory.x.append(self.local_path.poses[i].pose.position.x)
-            self.trajectory.y.append(self.local_path.poses[i].pose.position.y)
-    
-        # rviz
-        if len(self.generated_path) == 3:                    
-            for i in range(1,4):
-                globals()['lattice_path_{}_pub'.format(i)].publish(self.generated_path[i-1])
-
         if self.behavior == "stop":
             self.trajectory.x = []
             self.trajectory.y = []
@@ -136,6 +115,9 @@ class Motion_Planner:
         # path publish
         self.global_path_pub.publish(self.global_path)
         self.trajectory_pub.publish(self.trajectory)
+        if len(self.generated_path) == 3:
+            for i in range(1,4):
+                globals()['lattice_path_{}_pub'.format(i)].publish(self.generated_path[i-1])
 
 
 if __name__ == "__main__":

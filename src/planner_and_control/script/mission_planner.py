@@ -12,40 +12,39 @@ from sensor_msgs.msg import PointCloud
 class Mission_Planner:
     def __init__(self):
         rospy.init_node('Mission_Planner', anonymous = False)
-        self.pub = rospy.Publisher('/state', String, queue_size = 1)
-        rospy.Subscriber('/perception', Perception, self.perception_callback)
+        
         rospy.Subscriber('/ego', Ego, self.ego_callback)
+        rospy.Subscriber('/perception', Perception, self.perception_callback)
+
+        self.pub = rospy.Publisher('/state', String, queue_size = 1)
+
+        self.ego = Ego()
         self.perception = Perception()
         self.state = ''
-        self.obs_dis = 0
+        self.obs_dis = 100
         self.sign = ''
         self.sign_dis = 100
-        self.ego = Ego()
 
     def perception_callback(self, msg):
         self.perception = msg
-
-    def lidar_callback(self, msg):
-        self.obstacle = msg
-        self.obs_dis = sqrt(self.obstacle.x**2 + self.obstacle.y**2)
 
     def ego_callback(self, msg):
         self.ego = msg
 
     def run(self):
 
-        if self.obs_dis < 15 :
+        if len(self.perception.objx) > 0:
+            self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
+            print("obj distance : ", self.obs_dis)
+
+        if len(self.perception.signx) > 0:
+            self.sign_dis = sqrt((self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
+            print("sign distance : ", self.sign_dis)
+        
+        if self.obs_dis < 15:
             self.state = "obstacle detected"
-
-        sign_x = 63.7384548403
-        sign_y = 111.167584983
-
-        self.sign_dis = sqrt((sign_x - self.ego.x)**2 + (sign_y - self.ego.y)**2)
-        print(self.sign_dis)
-
         
         if self.sign_dis < 15:
-            self.sign = "stop_sign"
             self.state = "stop_sign detected"
             
         else:
