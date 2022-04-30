@@ -26,6 +26,7 @@ class Behavior_Planner:
         self.behavior = ""
         self.sign_dis = 100
         self.go_side_check = False
+        self.sign_detected = 0 # action just one time
         self.wait_time = time()
         
 
@@ -50,7 +51,6 @@ class Behavior_Planner:
             self.behavior = "obstacle avoidance"
 
         if self.state == "stop_sign detected":
-
             self.sign_dis = sqrt((self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
             if self.sign_dis <= 5:
                 if self.go_side_check == False:
@@ -59,7 +59,8 @@ class Behavior_Planner:
                     self.go_side_check = True
                 if self.behavior == "stop" and time() - self.wait_time > 3:
                     self.behavior = "go"
-            else:
+                    self.sign_detected = 1
+            elif self.sign_dis > 5 and self.sign_detected == 0:
                 self.behavior = "go_side"
                 self.go_side_check = False
                     

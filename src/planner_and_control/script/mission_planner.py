@@ -41,11 +41,10 @@ class Mission_Planner:
             self.sign_dis = sqrt((self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
             print("sign distance : ", self.sign_dis)
         
-        if self.obs_dis < 15 :
+        if self.obs_dis < 15:
             self.state = "obstacle detected"
         
         if self.sign_dis < 15:
-            # self.sign = "stop_sign"
             self.state = "stop_sign detected"
             
         else:
