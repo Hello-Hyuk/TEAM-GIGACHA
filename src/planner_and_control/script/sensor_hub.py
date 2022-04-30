@@ -5,7 +5,7 @@ from lib.planner_utils.index_finder import IndexFinder
 from planner_and_control.msg import Local
 from sensor_msgs.msg import PointCloud
 from planner_and_control.msg import Serial_Info
-from planner_and_control.msg import Ego
+from planner_and_control.msg import Perception
 from planner_and_control.msg import Obj
 
 
@@ -18,21 +18,21 @@ class Sensor_hub:
         rospy.Subscriber("/s3", Local, self.camera3_callback) # Camera 3
         rospy.Subscriber("/serial", Serial_Info, self.serial_callback) # serial
 
-        self.pub1 = rospy.Publisher("/ego", Ego, queue_size = 1)
+        self.pub1 = rospy.Publisher("/perception", Perception, queue_size = 1)
         self.pub2 = rospy.Publisher("/obj", Obj, queue_size = 1) # perception
         self.obj = Obj()
-        self.ego = Ego()
-        self.IF = IndexFinder(self.ego)
+        self.perception = Perception()
+        self.IF = IndexFinder(self.perception)
 
         self.obj.x = [108.5, 110.6, 61.95, 65.2]
         self.obj.y = [211.8, 217.7, 114.68, 120.2]
         self.obj.r = [1.5, 1.5, 1.5, 1.5]
 
     def local_callback(self, msg):
-        self.ego.x = msg.x
-        self.ego.y = msg.y
-        self.ego.heading = msg.heading
-        self.ego.index = self.IF.run()
+        self.perception.x = msg.x
+        self.perception.y = msg.y
+        self.perception.heading = msg.heading
+        self.perception.index = self.IF.run()
 
     def camera1_callback(self, msg):
         pass
@@ -45,14 +45,14 @@ class Sensor_hub:
         self.obj.y = msg.points.y
 
     def serial_callback(self, msg):
-        self.ego.speed = msg.speed
-        self.ego.steer = msg.steer
-        self.ego.brake = msg.brake
-        self.ego.gear = msg.gear
-        self.ego.auto_manual = msg.auto_manual
+        self.perception.speed = msg.speed
+        self.perception.steer = msg.steer
+        self.perception.brake = msg.brake
+        self.perception.gear = msg.gear
+        self.perception.auto_manual = msg.auto_manual
 
     def run(self):
-        self.pub1.publish(self.ego)
+        self.pub1.publish(self.perception)
         self.pub2.publish(self.obj)
 
         print("sensor_hub is operating..")
