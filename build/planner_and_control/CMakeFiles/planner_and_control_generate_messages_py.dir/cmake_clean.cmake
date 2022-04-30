@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/planner_and_control_generate_messages_py"
+  "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Sign.py"
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_CircleObstacle.py"
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Serial_Info.py"
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Control_Info.py"
@@ -9,6 +10,7 @@ file(REMOVE_RECURSE
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Ego.py"
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Obstacles.py"
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Path.py"
+  "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Perception.py"
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/_Obj.py"
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/planner_and_control/msg/__init__.py"
 )

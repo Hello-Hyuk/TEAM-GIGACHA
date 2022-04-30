@@ -22,6 +22,9 @@ class Ego {
       this.y = null;
       this.heading = null;
       this.index = null;
+      this.target_speed = null;
+      this.target_brake = null;
+      this.target_gear = null;
       this.speed = null;
       this.steer = null;
       this.brake = null;
@@ -52,6 +55,24 @@ class Ego {
       }
       else {
         this.index = 0;
+      }
+      if (initObj.hasOwnProperty('target_speed')) {
+        this.target_speed = initObj.target_speed
+      }
+      else {
+        this.target_speed = 0.0;
+      }
+      if (initObj.hasOwnProperty('target_brake')) {
+        this.target_brake = initObj.target_brake
+      }
+      else {
+        this.target_brake = 0.0;
+      }
+      if (initObj.hasOwnProperty('target_gear')) {
+        this.target_gear = initObj.target_gear
+      }
+      else {
+        this.target_gear = 0.0;
       }
       if (initObj.hasOwnProperty('speed')) {
         this.speed = initObj.speed
@@ -96,6 +117,12 @@ class Ego {
     bufferOffset = _serializer.float64(obj.heading, buffer, bufferOffset);
     // Serialize message field [index]
     bufferOffset = _serializer.int32(obj.index, buffer, bufferOffset);
+    // Serialize message field [target_speed]
+    bufferOffset = _serializer.float32(obj.target_speed, buffer, bufferOffset);
+    // Serialize message field [target_brake]
+    bufferOffset = _serializer.float32(obj.target_brake, buffer, bufferOffset);
+    // Serialize message field [target_gear]
+    bufferOffset = _serializer.float32(obj.target_gear, buffer, bufferOffset);
     // Serialize message field [speed]
     bufferOffset = _serializer.float32(obj.speed, buffer, bufferOffset);
     // Serialize message field [steer]
@@ -121,6 +148,12 @@ class Ego {
     data.heading = _deserializer.float64(buffer, bufferOffset);
     // Deserialize message field [index]
     data.index = _deserializer.int32(buffer, bufferOffset);
+    // Deserialize message field [target_speed]
+    data.target_speed = _deserializer.float32(buffer, bufferOffset);
+    // Deserialize message field [target_brake]
+    data.target_brake = _deserializer.float32(buffer, bufferOffset);
+    // Deserialize message field [target_gear]
+    data.target_gear = _deserializer.float32(buffer, bufferOffset);
     // Deserialize message field [speed]
     data.speed = _deserializer.float32(buffer, bufferOffset);
     // Deserialize message field [steer]
@@ -135,7 +168,7 @@ class Ego {
   }
 
   static getMessageSize(object) {
-    return 44;
+    return 56;
   }
 
   static datatype() {
@@ -145,7 +178,7 @@ class Ego {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '3d75df4892b9e15b8e081e6cd21cb013';
+    return '0869400e66da0a77dc77cb9c63aed1a9';
   }
 
   static messageDefinition() {
@@ -155,6 +188,9 @@ class Ego {
     float64 y
     float64 heading
     int32 index
+    float32 target_speed
+    float32 target_brake
+    float32 target_gear
     float32 speed
     float32 steer
     int32 brake
@@ -195,6 +231,27 @@ class Ego {
     }
     else {
       resolved.index = 0
+    }
+
+    if (msg.target_speed !== undefined) {
+      resolved.target_speed = msg.target_speed;
+    }
+    else {
+      resolved.target_speed = 0.0
+    }
+
+    if (msg.target_brake !== undefined) {
+      resolved.target_brake = msg.target_brake;
+    }
+    else {
+      resolved.target_brake = 0.0
+    }
+
+    if (msg.target_gear !== undefined) {
+      resolved.target_gear = msg.target_gear;
+    }
+    else {
+      resolved.target_gear = 0.0
     }
 
     if (msg.speed !== undefined) {

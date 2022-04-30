@@ -6,5 +6,7 @@ from ._Local import *
 from ._Obj import *
 from ._Obstacles import *
 from ._Path import *
+from ._Perception import *
 from ._SegmentObstacle import *
 from ._Serial_Info import *
+from ._Sign import *

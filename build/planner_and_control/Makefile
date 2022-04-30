@@ -94,8 +94,8 @@ install/fast: preinstall/fast
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -114,6 +114,16 @@ test/fast: test
 
 .PHONY : test/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -124,16 +134,6 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -211,6 +211,51 @@ planner_and_control_genlisp: planner_and_control/CMakeFiles/planner_and_control_
 planner_and_control_genlisp/fast:
 	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_genlisp.dir/build.make planner_and_control/CMakeFiles/planner_and_control_genlisp.dir/build
 .PHONY : planner_and_control_genlisp/fast
+
+# Convenience name for target.
+planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp.dir/rule:
+	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f CMakeFiles/Makefile2 planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp.dir/rule
+.PHONY : planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+planner_and_control_generate_messages_lisp: planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp.dir/rule
+
+.PHONY : planner_and_control_generate_messages_lisp
+
+# fast build rule for target.
+planner_and_control_generate_messages_lisp/fast:
+	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp.dir/build.make planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp.dir/build
+.PHONY : planner_and_control_generate_messages_lisp/fast
+
+# Convenience name for target.
+planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/rule:
+	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f CMakeFiles/Makefile2 planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/rule
+.PHONY : planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/rule
+
+# Convenience name for target.
+planner_and_control_generate_messages_py: planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/rule
+
+.PHONY : planner_and_control_generate_messages_py
+
+# fast build rule for target.
+planner_and_control_generate_messages_py/fast:
+	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/build.make planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/build
+.PHONY : planner_and_control_generate_messages_py/fast
+
+# Convenience name for target.
+planner_and_control/CMakeFiles/planner_and_control_geneus.dir/rule:
+	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f CMakeFiles/Makefile2 planner_and_control/CMakeFiles/planner_and_control_geneus.dir/rule
+.PHONY : planner_and_control/CMakeFiles/planner_and_control_geneus.dir/rule
+
+# Convenience name for target.
+planner_and_control_geneus: planner_and_control/CMakeFiles/planner_and_control_geneus.dir/rule
+
+.PHONY : planner_and_control_geneus
+
+# fast build rule for target.
+planner_and_control_geneus/fast:
+	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_geneus.dir/build.make planner_and_control/CMakeFiles/planner_and_control_geneus.dir/build
+.PHONY : planner_and_control_geneus/fast
 
 # Convenience name for target.
 planner_and_control/CMakeFiles/std_msgs_generate_messages_py.dir/rule:
@@ -348,21 +393,6 @@ rosgraph_msgs_generate_messages_eus/fast:
 .PHONY : rosgraph_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
-planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp.dir/rule:
-	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f CMakeFiles/Makefile2 planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp.dir/rule
-.PHONY : planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-planner_and_control_generate_messages_lisp: planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp.dir/rule
-
-.PHONY : planner_and_control_generate_messages_lisp
-
-# fast build rule for target.
-planner_and_control_generate_messages_lisp/fast:
-	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp.dir/build.make planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp.dir/build
-.PHONY : planner_and_control_generate_messages_lisp/fast
-
-# Convenience name for target.
 planner_and_control/CMakeFiles/roscpp_generate_messages_cpp.dir/rule:
 	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f CMakeFiles/Makefile2 planner_and_control/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
 .PHONY : planner_and_control/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
@@ -436,51 +466,6 @@ geometry_msgs_generate_messages_nodejs: planner_and_control/CMakeFiles/geometry_
 geometry_msgs_generate_messages_nodejs/fast:
 	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f planner_and_control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build.make planner_and_control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build
 .PHONY : geometry_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/rule:
-	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f CMakeFiles/Makefile2 planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/rule
-.PHONY : planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-planner_and_control_generate_messages_cpp: planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/rule
-
-.PHONY : planner_and_control_generate_messages_cpp
-
-# fast build rule for target.
-planner_and_control_generate_messages_cpp/fast:
-	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/build.make planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/build
-.PHONY : planner_and_control_generate_messages_cpp/fast
-
-# Convenience name for target.
-planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/rule:
-	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f CMakeFiles/Makefile2 planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/rule
-.PHONY : planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/rule
-
-# Convenience name for target.
-planner_and_control_generate_messages_py: planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/rule
-
-.PHONY : planner_and_control_generate_messages_py
-
-# fast build rule for target.
-planner_and_control_generate_messages_py/fast:
-	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/build.make planner_and_control/CMakeFiles/planner_and_control_generate_messages_py.dir/build
-.PHONY : planner_and_control_generate_messages_py/fast
-
-# Convenience name for target.
-planner_and_control/CMakeFiles/planner_and_control_geneus.dir/rule:
-	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f CMakeFiles/Makefile2 planner_and_control/CMakeFiles/planner_and_control_geneus.dir/rule
-.PHONY : planner_and_control/CMakeFiles/planner_and_control_geneus.dir/rule
-
-# Convenience name for target.
-planner_and_control_geneus: planner_and_control/CMakeFiles/planner_and_control_geneus.dir/rule
-
-.PHONY : planner_and_control_geneus
-
-# fast build rule for target.
-planner_and_control_geneus/fast:
-	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_geneus.dir/build.make planner_and_control/CMakeFiles/planner_and_control_geneus.dir/build
-.PHONY : planner_and_control_geneus/fast
 
 # Convenience name for target.
 planner_and_control/CMakeFiles/roscpp_generate_messages_py.dir/rule:
@@ -571,6 +556,21 @@ geometry_msgs_generate_messages_lisp: planner_and_control/CMakeFiles/geometry_ms
 geometry_msgs_generate_messages_lisp/fast:
 	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f planner_and_control/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build.make planner_and_control/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build
 .PHONY : geometry_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Sign.dir/rule:
+	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f CMakeFiles/Makefile2 planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Sign.dir/rule
+.PHONY : planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Sign.dir/rule
+
+# Convenience name for target.
+_planner_and_control_generate_messages_check_deps_Sign: planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Sign.dir/rule
+
+.PHONY : _planner_and_control_generate_messages_check_deps_Sign
+
+# fast build rule for target.
+_planner_and_control_generate_messages_check_deps_Sign/fast:
+	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Sign.dir/build.make planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Sign.dir/build
+.PHONY : _planner_and_control_generate_messages_check_deps_Sign/fast
 
 # Convenience name for target.
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus.dir/rule:
@@ -782,6 +782,36 @@ _planner_and_control_generate_messages_check_deps_Obj/fast:
 	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Obj.dir/build.make planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Obj.dir/build
 .PHONY : _planner_and_control_generate_messages_check_deps_Obj/fast
 
+# Convenience name for target.
+planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/rule:
+	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f CMakeFiles/Makefile2 planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/rule
+.PHONY : planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+planner_and_control_generate_messages_cpp: planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/rule
+
+.PHONY : planner_and_control_generate_messages_cpp
+
+# fast build rule for target.
+planner_and_control_generate_messages_cpp/fast:
+	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/build.make planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp.dir/build
+.PHONY : planner_and_control_generate_messages_cpp/fast
+
+# Convenience name for target.
+planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Perception.dir/rule:
+	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f CMakeFiles/Makefile2 planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Perception.dir/rule
+.PHONY : planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Perception.dir/rule
+
+# Convenience name for target.
+_planner_and_control_generate_messages_check_deps_Perception: planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Perception.dir/rule
+
+.PHONY : _planner_and_control_generate_messages_check_deps_Perception
+
+# fast build rule for target.
+_planner_and_control_generate_messages_check_deps_Perception/fast:
+	cd /home/gigacha/TEAM-GIGACHA/build && $(MAKE) -f planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Perception.dir/build.make planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Perception.dir/build
+.PHONY : _planner_and_control_generate_messages_check_deps_Perception/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -796,6 +826,10 @@ help:
 	@echo "... planner_and_control_genpy"
 	@echo "... planner_and_control_gennodejs"
 	@echo "... planner_and_control_genlisp"
+	@echo "... planner_and_control_generate_messages_lisp"
+	@echo "... list_install_components"
+	@echo "... planner_and_control_generate_messages_py"
+	@echo "... planner_and_control_geneus"
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_eus"
@@ -805,23 +839,19 @@ help:
 	@echo "... planner_and_control_gencpp"
 	@echo "... std_msgs_generate_messages_cpp"
 	@echo "... rosgraph_msgs_generate_messages_eus"
-	@echo "... planner_and_control_generate_messages_lisp"
 	@echo "... rebuild_cache"
 	@echo "... roscpp_generate_messages_cpp"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... geometry_msgs_generate_messages_nodejs"
-	@echo "... planner_and_control_generate_messages_cpp"
-	@echo "... list_install_components"
-	@echo "... planner_and_control_generate_messages_py"
-	@echo "... planner_and_control_geneus"
 	@echo "... roscpp_generate_messages_py"
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... roscpp_generate_messages_eus"
 	@echo "... geometry_msgs_generate_messages_eus"
 	@echo "... geometry_msgs_generate_messages_cpp"
 	@echo "... geometry_msgs_generate_messages_lisp"
+	@echo "... _planner_and_control_generate_messages_check_deps_Sign"
 	@echo "... planner_and_control_generate_messages_eus"
 	@echo "... _planner_and_control_generate_messages_check_deps_Gngga"
 	@echo "... _planner_and_control_generate_messages_check_deps_CircleObstacle"
@@ -836,6 +866,8 @@ help:
 	@echo "... planner_and_control_generate_messages_nodejs"
 	@echo "... _planner_and_control_generate_messages_check_deps_Serial_Info"
 	@echo "... _planner_and_control_generate_messages_check_deps_Obj"
+	@echo "... planner_and_control_generate_messages_cpp"
+	@echo "... _planner_and_control_generate_messages_check_deps_Perception"
 .PHONY : help
 
 

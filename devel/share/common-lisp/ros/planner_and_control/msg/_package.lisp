@@ -33,6 +33,10 @@
    "PATH"
    "<PATH>"
    "PATH"
+   "<PERCEPTION>"
+   "PERCEPTION"
+   "<PERCEPTION>"
+   "PERCEPTION"
    "<SEGMENTOBSTACLE>"
    "SEGMENTOBSTACLE"
    "<SEGMENTOBSTACLE>"
@@ -41,5 +45,9 @@
    "SERIAL_INFO"
    "<SERIAL_INFO>"
    "SERIAL_INFO"
+   "<SIGN>"
+   "SIGN"
+   "<SIGN>"
+   "SIGN"
   ))
 

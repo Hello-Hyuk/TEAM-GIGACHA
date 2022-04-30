@@ -7,6 +7,12 @@
           HEADING
           INDEX-VAL
           INDEX
+          TARGET_SPEED-VAL
+          TARGET_SPEED
+          TARGET_BRAKE-VAL
+          TARGET_BRAKE
+          TARGET_GEAR-VAL
+          TARGET_GEAR
           SPEED-VAL
           SPEED
           STEER-VAL

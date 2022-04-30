@@ -28,6 +28,9 @@ struct Ego_
     , y(0.0)
     , heading(0.0)
     , index(0)
+    , target_speed(0.0)
+    , target_brake(0.0)
+    , target_gear(0.0)
     , speed(0.0)
     , steer(0.0)
     , brake(0)
@@ -39,6 +42,9 @@ struct Ego_
     , y(0.0)
     , heading(0.0)
     , index(0)
+    , target_speed(0.0)
+    , target_brake(0.0)
+    , target_gear(0.0)
     , speed(0.0)
     , steer(0.0)
     , brake(0)
@@ -60,6 +66,15 @@ struct Ego_
 
    typedef int32_t _index_type;
   _index_type index;
+
+   typedef float _target_speed_type;
+  _target_speed_type target_speed;
+
+   typedef float _target_brake_type;
+  _target_brake_type target_brake;
+
+   typedef float _target_gear_type;
+  _target_gear_type target_gear;
 
    typedef float _speed_type;
   _speed_type speed;
@@ -109,6 +124,9 @@ bool operator==(const ::planner_and_control::Ego_<ContainerAllocator1> & lhs, co
     lhs.y == rhs.y &&
     lhs.heading == rhs.heading &&
     lhs.index == rhs.index &&
+    lhs.target_speed == rhs.target_speed &&
+    lhs.target_brake == rhs.target_brake &&
+    lhs.target_gear == rhs.target_gear &&
     lhs.speed == rhs.speed &&
     lhs.steer == rhs.steer &&
     lhs.brake == rhs.brake &&
@@ -170,12 +188,12 @@ struct MD5Sum< ::planner_and_control::Ego_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "3d75df4892b9e15b8e081e6cd21cb013";
+    return "0869400e66da0a77dc77cb9c63aed1a9";
   }
 
   static const char* value(const ::planner_and_control::Ego_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x3d75df4892b9e15bULL;
-  static const uint64_t static_value2 = 0x8e081e6cd21cb013ULL;
+  static const uint64_t static_value1 = 0x0869400e66da0a77ULL;
+  static const uint64_t static_value2 = 0xdc77cb9c63aed1a9ULL;
 };
 
 template<class ContainerAllocator>
@@ -198,6 +216,9 @@ struct Definition< ::planner_and_control::Ego_<ContainerAllocator> >
 "float64 y\n"
 "float64 heading\n"
 "int32 index\n"
+"float32 target_speed\n"
+"float32 target_brake\n"
+"float32 target_gear\n"
 "float32 speed\n"
 "float32 steer\n"
 "int32 brake\n"
@@ -225,6 +246,9 @@ namespace serialization
       stream.next(m.y);
       stream.next(m.heading);
       stream.next(m.index);
+      stream.next(m.target_speed);
+      stream.next(m.target_brake);
+      stream.next(m.target_gear);
       stream.next(m.speed);
       stream.next(m.steer);
       stream.next(m.brake);
@@ -256,6 +280,12 @@ struct Printer< ::planner_and_control::Ego_<ContainerAllocator> >
     Printer<double>::stream(s, indent + "  ", v.heading);
     s << indent << "index: ";
     Printer<int32_t>::stream(s, indent + "  ", v.index);
+    s << indent << "target_speed: ";
+    Printer<float>::stream(s, indent + "  ", v.target_speed);
+    s << indent << "target_brake: ";
+    Printer<float>::stream(s, indent + "  ", v.target_brake);
+    s << indent << "target_gear: ";
+    Printer<float>::stream(s, indent + "  ", v.target_gear);
     s << indent << "speed: ";
     Printer<float>::stream(s, indent + "  ", v.speed);
     s << indent << "steer: ";
