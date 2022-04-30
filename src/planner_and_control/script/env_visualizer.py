@@ -95,27 +95,27 @@ class environmentVisualizer:
         # self.vis_pose.pose.pose.orientation.w = heading.w
         
     def globalpath_callback(self, msg):
-        # global_path = Path()
-        # for i in range(len(msg.x)):
-        #     read_pose=PoseStamped()
-        #     read_pose.pose.position.x = msg.x[i]
-        #     read_pose.pose.position.y = msg.y[i]
-        #     read_pose.pose.position.z = 0
-        #     read_pose.pose.orientation.x=0
-        #     read_pose.pose.orientation.y=0
-        #     read_pose.pose.orientation.z=0
-        #     read_pose.pose.orientation.w=1
-        #     global_path.poses.append(read_pose)
-        # self.vis_global_path.poses = global_path.poses
-        
-        global_path = PointCloud()
+        global_path = Path()
         for i in range(len(msg.x)):
-            gpoints = Point32()
-            gpoints.x = msg.x[i]
-            gpoints.y = msg.y[i]
-            gpoints.z = 0
-            global_path.points.append(gpoints)
-        self.vis_global_path.points = global_path.points
+            read_pose=PoseStamped()
+            read_pose.pose.position.x = msg.x[i]
+            read_pose.pose.position.y = msg.y[i]
+            read_pose.pose.position.z = 0
+            read_pose.pose.orientation.x=0
+            read_pose.pose.orientation.y=0
+            read_pose.pose.orientation.z=0
+            read_pose.pose.orientation.w=1
+            global_path.poses.append(read_pose)
+        self.vis_global_path.poses = global_path.poses
+        
+        # global_path = PointCloud()
+        # for i in range(len(msg.x)):
+        #     gpoints = Point32()
+        #     gpoints.x = msg.x[i]
+        #     gpoints.y = msg.y[i]
+        #     gpoints.z = 0
+        #     global_path.points.append(gpoints)
+        # self.vis_global_path.points = global_path.points
         
     def localpath_callback(self, msg):
         local_path = Path()

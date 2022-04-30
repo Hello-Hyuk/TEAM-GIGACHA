@@ -16,9 +16,10 @@ from math import sqrt
 class Motion_Planner:
     def __init__(self):
         rospy.init_node('Motion_Planner', anonymous = False)
-        rospy.Subscriber('/behavior', String, self.behavior_callback)
+
         rospy.Subscriber('/ego', Ego, self.ego_callback)
         rospy.Subscriber('/perception', Perception, self.perception_callback)
+        rospy.Subscriber('/behavior', String, self.behavior_callback)
 
         # rviz
         self.global_path_pub = rospy.Publisher('/global_path', CustomPath, queue_size = 1)
@@ -68,6 +69,8 @@ class Motion_Planner:
 
     def select_trajectory(self):
         self.selected_lane = self.lane_weight.index(min(self.lane_weight))
+        # print("selected lane : ", self.selected_lane)
+        # print("generated path : ", len(self.generated_path))
         self.local_path = self.generated_path[self.selected_lane]
         self.trajectory_name = self.selected_lane
         
@@ -94,7 +97,7 @@ class Motion_Planner:
         self.local_path = findLocalPath(self.global_path, self.ego) # local path (50)
         self.generated_path = path_maker(self.local_path, self.ego) # lattice paths
 
-        self.trajectory = self.global_path
+        # self.trajectory = self.global_path
         self.trajectory_name = "global_path"
 
         if self.behavior == "go":
@@ -120,9 +123,12 @@ class Motion_Planner:
             #     self.lane_weight[2] = 100
             #     self.lane_weight[1] = 10000
 
+        tmp_trajectory = CustomPath()
         for i in range (len(self.local_path.poses)):
-            self.trajectory.x.append(self.local_path.poses[i].pose.position.x)
-            self.trajectory.y.append(self.local_path.poses[i].pose.position.y)
+            tmp_trajectory.x.append(self.local_path.poses[i].pose.position.x)
+            tmp_trajectory.y.append(self.local_path.poses[i].pose.position.y)
+        
+        self.trajectory = tmp_trajectory
     
         # rviz
         if len(self.generated_path) == 3:                    
@@ -132,6 +138,8 @@ class Motion_Planner:
         if self.behavior == "stop":
             self.trajectory.x = []
             self.trajectory.y = []
+        
+        print("global path : ", len(self.trajectory.x))
                 
         # path publish
         self.global_path_pub.publish(self.global_path)

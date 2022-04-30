@@ -20,9 +20,8 @@ class Sensor_hub:
         self.pub2 = rospy.Publisher("/obj", Obj, queue_size = 1) # perception
         self.obj = Obj()
         self.perception = Perception()
-        
-        self.perception.signx = [63.7384548403]
-        self.perception.signy = [111.167584983]
+        self.perception.signx = [63.7384548403, 0]
+        self.perception.signy = [111.167584983, 0]
 
     def camera1_callback(self, msg):
         pass
