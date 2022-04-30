@@ -5,13 +5,14 @@ from time import time
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from std_msgs.msg import String
 from planner_and_control.msg import Ego
+from planner_and_control.msg import Perception
 from planner_and_control.msg import Sign
 
 class Behavior_Planner:
     def __init__(self):
         rospy.init_node('Behavior_Planner', anonymous = False)
         rospy.Subscriber('/state', String, self.state_callback)
-        rospy.Subscriber('/ego', Ego, self.ego_callback)
+        rospy.Subscriber('/perception', Perception, self.ego_callback)
         # rospy.Subscriber('/sign', Sign, self.sign_callback)
         self.pub = rospy.Publisher('/behavior', String, queue_size = 1)
         self.ego = Ego()
