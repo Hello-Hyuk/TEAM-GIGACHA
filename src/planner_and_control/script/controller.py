@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from lib.controller_utils.pure_pursuit import PurePursuit
@@ -17,7 +19,7 @@ class ControlEgo:
 
 class Controller:
     def __init__(self):
-        rospy.init_node('controller', anonymous = False)
+        rospy.init_node('Controller', anonymous = False)
         rospy.Subscriber('/trajectory', Path, self.motion_callback)
         self.control_pub = rospy.Publisher('/controller', Control_Info, queue_size = 1)
         rospy.Subscriber('/ego', Ego, self.ego_callback)
