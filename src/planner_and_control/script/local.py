@@ -29,6 +29,7 @@ class Localization():
         print(f"x : {self.msg.x}")
         print(f"y : {self.msg.y}")
         print(f"heading : {self.msg.heading}")
+        print(f"e2box_battery : {self.imu.battery}")
 
 if __name__ == '__main__':
     Activate_Signal_Interrupt_Handler()

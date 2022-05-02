@@ -7,6 +7,9 @@
     <param name="port" type="string" value="/dev/imu" />
     <param name="baudrate" type="int" value="115200" />
   </node>
+
+<!--=================================e2box_AHRS V5=========================-->
+  <node pkg="planner_and_control" type="imu_parse.py" name="imu_raw" respawn="true"/>
   
 <!--=================================GNSS_Parsing=========================-->
   <node pkg="planner_and_control" type="gps_parse.py" name="Gngga_parse"   respawn="true"/>
