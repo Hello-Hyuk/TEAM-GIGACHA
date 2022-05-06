@@ -3,6 +3,7 @@ import rospy
 from math import sqrt
 from time import time
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
+from lib.general_utils.mission import Mission
 from std_msgs.msg import String
 from planner_and_control.msg import Ego
 from planner_and_control.msg import Perception
@@ -19,6 +20,7 @@ class Behavior_Planner:
         self.pub_behavior = rospy.Publisher('/behavior', String, queue_size = 1)
         self.pub_ego = rospy.Publisher('/behavior_ego', Ego, queue_size = 1)
 
+        self.mission = Mission()
         self.ego = Ego()
         self.perception = Perception()
         self.state = String()
@@ -44,6 +46,9 @@ class Behavior_Planner:
         
         if self.state == "go":
             self.behavior = "go"
+
+        if self.state == "parking":
+            self.mission.parking()
             
         if self.state == "obstacle detected":
             self.behavior = "obstacle avoidance"
