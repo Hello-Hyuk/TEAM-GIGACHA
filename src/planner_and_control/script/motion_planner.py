@@ -53,7 +53,7 @@ class Motion_Planner:
         self.behavior = msg.data
 
     # avoidance driving
-    def weight_function_LiDAR(self):
+    def weight_function_obstacle_avoidance(self):
         for i in range(len(self.generated_path)): # 0,1,2
             path_check = True
             if path_check == True:
@@ -103,7 +103,7 @@ class Motion_Planner:
         if self.behavior == "go":
             self.select_trajectory()
         if self.behavior == "obstacle avoidance":
-            self.weight_function_LiDAR()
+            self.weight_function_obstacle_avoidance()
             self.select_trajectory()
         if self.behavior == "go_side":
             self.weight_sign_function()
