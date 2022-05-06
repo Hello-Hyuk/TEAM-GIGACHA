@@ -5,7 +5,7 @@ from planner_and_control.msg import Local
 from sensor_msgs.msg import PointCloud
 from planner_and_control.msg import Serial_Info
 from planner_and_control.msg import Perception
-from math import cos, sin
+from math import cos, sin, pi
 
 
 class Sensor_hub:
@@ -39,9 +39,10 @@ class Sensor_hub:
 
     def vision_callback(self, msg):
         # absolute coordinates transition
+        theta = (self.ego.heading) * pi / 180
         for i in range(len(msg.objx)):
-            self.perception.obj.x.append(msg.objx[i] * cos(self.ego.heading) + msg.objy[i] * -sin(self.ego.heading) + self.ego.x)
-            self.perception.obj.y.append(msg.objx[i] * sin(self.ego.heading) + msg.objy[i] * cos(self.ego.heading) + self.ego.y)
+            self.perception.obj.x.append(msg.objx[i] * cos(theta) + msg.objy[i] * -sin(theta) + self.ego.x)
+            self.perception.obj.y.append(msg.objx[i] * sin(theta) + msg.objy[i] * cos(theta) + self.ego.y)
 
     def run(self):
         self.pub1.publish(self.perception)
