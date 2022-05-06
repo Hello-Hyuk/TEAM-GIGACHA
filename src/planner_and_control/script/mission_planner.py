@@ -33,21 +33,21 @@ class Mission_Planner:
 
     def run(self):
 
-        # if len(self.perception.objx) > 0:
-        #     self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
-        #     print("obj distance : ", self.obs_dis)
+        if len(self.perception.objx) > 0:
+            self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
+            print("obj distance : ", self.obs_dis)
 
-        # if len(self.perception.signx) > 0:
-        #     self.sign_dis = sqrt((self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
-        #     print("sign distance : ", self.sign_dis)
+        if len(self.perception.signx) > 0:
+            self.sign_dis = sqrt((self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
+            print("sign distance : ", self.sign_dis)
         
-        # if self.obs_dis < 15:
-        #     self.state = "obstacle detected"
+        if self.obs_dis < 15:
+            self.state = "obstacle detected"
         
-        # if self.sign_dis < 15:
-        #     self.state = "stop_sign detected"
-        # else:
-        self.state = "go"
+        if self.sign_dis < 15:
+            self.state = "stop_sign detected"
+        else:
+            self.state = "go"
         print(f"mission_planner : {self.state}")
         self.pub.publish(self.state)
 
