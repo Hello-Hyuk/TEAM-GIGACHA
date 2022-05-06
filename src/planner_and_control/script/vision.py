@@ -26,7 +26,7 @@ class Vision:
         self.vision.objr.append(r)
         
     def run(self):
-        # self.make_input()
+        self.make_input()
         self.pub.publish(self.vision)
 
         print(f"x : {self.vision.objx}, y : {self.vision.objy}, r : {self.vision.objr}")

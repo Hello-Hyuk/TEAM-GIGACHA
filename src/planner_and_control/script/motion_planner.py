@@ -57,7 +57,7 @@ class Motion_Planner:
         self.perception = msg
     
     def behavior_callback(self, msg):
-        self.behavior = msg.data
+        self.behavior = msg
 
     # avoidance driving
     def weight_function_obstacle_avoidance(self):
@@ -100,10 +100,7 @@ class Motion_Planner:
         self.local_path = findLocalPath(self.global_path, self.ego) # local path (50)
         self.generated_path = path_maker(self.local_path, self.ego) # lattice paths
 
-        if self.behavior == "go":
-            self.select_trajectory()
-        
-        if self.behavior == "obstacle avoidance":
+        if self.behavior == "static_obstacle_avoidance":
             self.weight_function_obstacle_avoidance()
             self.select_trajectory()
         
@@ -118,7 +115,10 @@ class Motion_Planner:
         if self.behavior == "turn_right":
             self.lane_weight = [10000, 10000, 0]
             self.select_trajectory()
-                
+
+        else:  ## self.behavior == "go"
+            self.select_trajectory()
+        
         # path publish
         self.global_path_pub.publish(self.global_path)
         self.trajectory_pub.publish(self.trajectory)

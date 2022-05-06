@@ -25,7 +25,6 @@ class Behavior_Planner:
         self.state = String()
 
         self.behavior = ""
-        self.mission = Mission(self.ego, self.perception)
         self.sign_dis = 100
         self.traffic_dis = 100
         self.go_side_check = False
@@ -43,29 +42,28 @@ class Behavior_Planner:
         self.state = msg.data
 
     def run(self):
+        self.mission = Mission(self.ego, self.perception)
         
         if self.state == "go":
             self.mission.go()
             
-
         if self.state == "parking":
-            self.mission.parking() 
+            self.mission.parking()
             
         if self.state == "static obstacle detected":
-            self.mission.static_obstacle()
+            self.mission.static_obstacle(self.perception.objx, self.perception.objy)
             
-
         if self.state == "stop_sign detected":
             self.mission.stop()
-            
 
         if self.state == "right_sign detected":
             self.mission.turn_right()
-                
-                    
+
         print(f"behavior_planner : {self.ego.behavior_decision}")
+        print(f"speed : {self.ego.target_speed}")
         
-        self.pub_behavior.publish(self.ego.behavior_decision)
+        self.behavior = self.ego.behavior_decision
+        self.pub_behavior.publish(self.behavior)
         self.pub_ego.publish(self.ego)
 
 if __name__ == "__main__":
