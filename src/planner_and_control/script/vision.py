@@ -6,21 +6,27 @@ from planner_and_control.msg import Perception
 class Vision:
     def __init__(self):
         rospy.init_node('Vision', anonymous = False)
-
         self.pub = rospy.Publisher("/vision", Perception, queue_size = 1)
 
         self.vision = Perception()
-        x = float(input("object x : "))
-        y = float(input("object y : "))
-        r = float(input("object r : "))
         self.vision.objx = []
         self.vision.objy = []
         self.vision.objr = []
+        self.vision.signname = "static_obstacle"
+
+        self.make_input()
+
+    def make_input(self):
+        x = float(input("object x : "))
+        y = float(input("object y : "))
+        r = float(input("object r : "))
 
         self.vision.objx.append(x)
         self.vision.objy.append(y)
         self.vision.objr.append(r)
+        
     def run(self):
+        # self.make_input()
         self.pub.publish(self.vision)
 
         print(f"x : {self.vision.objx}, y : {self.vision.objy}, r : {self.vision.objr}")
