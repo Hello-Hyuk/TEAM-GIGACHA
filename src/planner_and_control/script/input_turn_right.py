@@ -11,6 +11,7 @@ class Input_turn_right:
         self.perception.tyellow = input("yellow(on : 1, off : 0) : ")
         self.perception.tleft = input("left(on : 1, off : 0) : ")
         self.perception.tgreen = input("green(on : 1, off : 0) : ")
+        self.perception.signname = "turn_right_traffic_right"
         
     def run(self):
         self.pub.publish(self.perception)
