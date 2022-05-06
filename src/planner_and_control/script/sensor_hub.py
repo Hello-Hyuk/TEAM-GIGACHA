@@ -5,7 +5,6 @@ from planner_and_control.msg import Local
 from sensor_msgs.msg import PointCloud
 from planner_and_control.msg import Serial_Info
 from planner_and_control.msg import Perception
-from planner_and_control.msg import Obj
 
 
 class Sensor_hub:
@@ -16,8 +15,6 @@ class Sensor_hub:
         rospy.Subscriber("/s3", Local, self.camera3_callback) # Camera 3
 
         self.pub1 = rospy.Publisher("/perception", Perception, queue_size = 1)
-        self.pub2 = rospy.Publisher("/obj", Obj, queue_size = 1) # perception
-        self.obj = Obj()
         self.perception = Perception()
         self.perception.signx = [63.7384548403, 0]
         self.perception.signy = [111.167584983, 0]
@@ -33,7 +30,6 @@ class Sensor_hub:
 
     def run(self):
         self.pub1.publish(self.perception)
-        self.pub2.publish(self.obj)
 
         print("sensor_hub is operating..")
 

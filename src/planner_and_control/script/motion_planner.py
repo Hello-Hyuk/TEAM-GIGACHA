@@ -96,21 +96,29 @@ class Motion_Planner:
         else:
             a = 1
             b = 10000
+        
         self.lane_weight = [a, 0, b]
         self.local_path = findLocalPath(self.global_path, self.ego) # local path (50)
         self.generated_path = path_maker(self.local_path, self.ego) # lattice paths
 
         if self.behavior == "go":
             self.select_trajectory()
+        
         if self.behavior == "obstacle avoidance":
             self.weight_function_LiDAR()
             self.select_trajectory()
+        
         if self.behavior == "go_side":
             self.weight_sign_function()
             self.select_trajectory()
+        
         if self.behavior == "stop":
             self.trajectory.x = []
             self.trajectory.y = []
+
+        if self.behavior == "turn_right":
+            self.lane_weight = [10000, 10000, 0]
+            self.select_trajectory()
                 
         # path publish
         self.global_path_pub.publish(self.global_path)
