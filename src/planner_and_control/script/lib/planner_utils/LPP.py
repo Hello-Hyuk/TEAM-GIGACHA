@@ -42,7 +42,7 @@ def path_maker(local_path, ego):
         world_current_point = np.array([[current_x], [current_y], [1]])
         local_current_point = det_t.dot(world_current_point)
 
-        lane_off_set = [2.5, 0, -2.5]
+        lane_off_set = [3.5, 0, -3.5]
         local_lattice_points = []
         for i in range(len(lane_off_set)):
             local_lattice_points.append([local_end_point[0][0], local_end_point[1][0] + lane_off_set[i], 1])

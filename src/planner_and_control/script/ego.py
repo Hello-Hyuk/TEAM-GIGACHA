@@ -34,7 +34,6 @@ class Ego_updater:
         self.ego.x = msg.x
         self.ego.y = msg.y
         self.ego.heading = msg.heading
-        self.ego.index = self.IF.run()
 
     def behavior_callback(self, msg):
         self.ego.target_speed = msg.target_speed
@@ -49,6 +48,7 @@ class Ego_updater:
         self.ego.auto_manual = msg.auto_manual
 
     def run(self):
+        self.ego.index = self.IF.run()
         self.ego_pub.publish(self.ego)
 
         print("Ego updater is operating")

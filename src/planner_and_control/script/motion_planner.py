@@ -70,7 +70,12 @@ class Motion_Planner:
                     for k in range(len(self.perception.objx)): # # of obj
                         ob_point_distance = sqrt((self.generated_path[i].poses[j].pose.position.x - self.perception.objx[k])**2 + (self.generated_path[i].poses[j].pose.position.y - self.perception.objy[k])**2)
                         if ob_point_distance < self.perception.objr[k]:
-                            self.lane_weight[i] = 10000
+                            if(i == 1):
+                                self.lane_weight[i] = 10000
+                                self.lane_weight[i+1] = 0
+                            elif(i==2):
+                                self.lane_weight[i] = 10000
+                                self.lane_weight[i-1] = 0
                             path_check = False
                             break
 
@@ -100,19 +105,19 @@ class Motion_Planner:
         self.local_path = findLocalPath(self.global_path, self.ego) # local path (50)
         self.generated_path = path_maker(self.local_path, self.ego) # lattice paths
 
-        if self.behavior == "static_obstacle_avoidance":
+        if self.behavior.data == "static_obstacle_avoidance":
             self.weight_function_obstacle_avoidance()
             self.select_trajectory()
         
-        if self.behavior == "go_side":
+        if self.behavior.data == "go_side":
             self.weight_sign_function()
             self.select_trajectory()
         
-        if self.behavior == "stop":
+        if self.behavior.data == "stop":
             self.trajectory.x = []
             self.trajectory.y = []
 
-        if self.behavior == "turn_right":
+        if self.behavior.data == "turn_right":
             self.lane_weight = [10000, 10000, 0]
             self.select_trajectory()
 

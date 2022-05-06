@@ -40,7 +40,7 @@ class Mission_Planner:
             self.state = "static obstacle detected"           
 
         elif self.perception.signname == "delivery":
-            self.state = "stop sign detected"           
+            self.state = "stop sign detected"
 
         else:
             self.state = "go"

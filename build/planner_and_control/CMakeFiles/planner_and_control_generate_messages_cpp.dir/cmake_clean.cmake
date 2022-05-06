@@ -11,7 +11,6 @@ file(REMOVE_RECURSE
   "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Obstacles.h"
   "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Path.h"
   "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Perception.h"
-  "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Obj.h"
 )
 
 # Per-language clean rules from dependency scanning.

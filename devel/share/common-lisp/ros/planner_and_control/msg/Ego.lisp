@@ -66,7 +66,22 @@
     :reader auto_manual
     :initarg :auto_manual
     :type cl:fixnum
-    :initform 0))
+    :initform 0)
+   (map_folder
+    :reader map_folder
+    :initarg :map_folder
+    :type cl:string
+    :initform "")
+   (map_file
+    :reader map_file
+    :initarg :map_file
+    :type cl:string
+    :initform "")
+   (behavior_decision
+    :reader behavior_decision
+    :initarg :behavior_decision
+    :type cl:string
+    :initform ""))
 )
 
 (cl:defclass Ego (<Ego>)
@@ -136,6 +151,21 @@
 (cl:defmethod auto_manual-val ((m <Ego>))
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:auto_manual-val is deprecated.  Use planner_and_control-msg:auto_manual instead.")
   (auto_manual m))
+
+(cl:ensure-generic-function 'map_folder-val :lambda-list '(m))
+(cl:defmethod map_folder-val ((m <Ego>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:map_folder-val is deprecated.  Use planner_and_control-msg:map_folder instead.")
+  (map_folder m))
+
+(cl:ensure-generic-function 'map_file-val :lambda-list '(m))
+(cl:defmethod map_file-val ((m <Ego>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:map_file-val is deprecated.  Use planner_and_control-msg:map_file instead.")
+  (map_file m))
+
+(cl:ensure-generic-function 'behavior_decision-val :lambda-list '(m))
+(cl:defmethod behavior_decision-val ((m <Ego>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:behavior_decision-val is deprecated.  Use planner_and_control-msg:behavior_decision instead.")
+  (behavior_decision m))
 (cl:defmethod roslisp-msg-protocol:serialize ((msg <Ego>) ostream)
   "Serializes a message object of type '<Ego>"
   (cl:let ((bits (roslisp-utils:encode-double-float-bits (cl:slot-value msg 'x))))
@@ -210,6 +240,24 @@
     (cl:write-byte (cl:ldb (cl:byte 8 0) unsigned) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 8) unsigned) ostream)
     )
+  (cl:let ((__ros_str_len (cl:length (cl:slot-value msg 'map_folder))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) __ros_str_len) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) __ros_str_len) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) __ros_str_len) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) __ros_str_len) ostream))
+  (cl:map cl:nil #'(cl:lambda (c) (cl:write-byte (cl:char-code c) ostream)) (cl:slot-value msg 'map_folder))
+  (cl:let ((__ros_str_len (cl:length (cl:slot-value msg 'map_file))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) __ros_str_len) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) __ros_str_len) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) __ros_str_len) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) __ros_str_len) ostream))
+  (cl:map cl:nil #'(cl:lambda (c) (cl:write-byte (cl:char-code c) ostream)) (cl:slot-value msg 'map_file))
+  (cl:let ((__ros_str_len (cl:length (cl:slot-value msg 'behavior_decision))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) __ros_str_len) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) __ros_str_len) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) __ros_str_len) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) __ros_str_len) ostream))
+  (cl:map cl:nil #'(cl:lambda (c) (cl:write-byte (cl:char-code c) ostream)) (cl:slot-value msg 'behavior_decision))
 )
 (cl:defmethod roslisp-msg-protocol:deserialize ((msg <Ego>) istream)
   "Deserializes a message object of type '<Ego>"
@@ -293,6 +341,30 @@
       (cl:setf (cl:ldb (cl:byte 8 0) unsigned) (cl:read-byte istream))
       (cl:setf (cl:ldb (cl:byte 8 8) unsigned) (cl:read-byte istream))
       (cl:setf (cl:slot-value msg 'auto_manual) (cl:if (cl:< unsigned 32768) unsigned (cl:- unsigned 65536))))
+    (cl:let ((__ros_str_len 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:slot-value msg 'map_folder) (cl:make-string __ros_str_len))
+      (cl:dotimes (__ros_str_idx __ros_str_len msg)
+        (cl:setf (cl:char (cl:slot-value msg 'map_folder) __ros_str_idx) (cl:code-char (cl:read-byte istream)))))
+    (cl:let ((__ros_str_len 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:slot-value msg 'map_file) (cl:make-string __ros_str_len))
+      (cl:dotimes (__ros_str_idx __ros_str_len msg)
+        (cl:setf (cl:char (cl:slot-value msg 'map_file) __ros_str_idx) (cl:code-char (cl:read-byte istream)))))
+    (cl:let ((__ros_str_len 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) __ros_str_len) (cl:read-byte istream))
+      (cl:setf (cl:slot-value msg 'behavior_decision) (cl:make-string __ros_str_len))
+      (cl:dotimes (__ros_str_idx __ros_str_len msg)
+        (cl:setf (cl:char (cl:slot-value msg 'behavior_decision) __ros_str_idx) (cl:code-char (cl:read-byte istream)))))
   msg
 )
 (cl:defmethod roslisp-msg-protocol:ros-datatype ((msg (cl:eql '<Ego>)))
@@ -303,16 +375,16 @@
   "planner_and_control/Ego")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<Ego>)))
   "Returns md5sum for a message object of type '<Ego>"
-  "0869400e66da0a77dc77cb9c63aed1a9")
+  "a00057935a45c5ac10ab11c4cf274023")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'Ego)))
   "Returns md5sum for a message object of type 'Ego"
-  "0869400e66da0a77dc77cb9c63aed1a9")
+  "a00057935a45c5ac10ab11c4cf274023")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<Ego>)))
   "Returns full string definition for message of type '<Ego>"
-  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 target_speed~%float32 target_brake~%float32 target_gear~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%int16 auto_manual~%~%"))
+  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 target_speed~%float32 target_brake~%float32 target_gear~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%int16 auto_manual~%string map_folder~%string map_file~%string behavior_decision~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'Ego)))
   "Returns full string definition for message of type 'Ego"
-  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 target_speed~%float32 target_brake~%float32 target_gear~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%int16 auto_manual~%~%"))
+  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 target_speed~%float32 target_brake~%float32 target_gear~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%int16 auto_manual~%string map_folder~%string map_file~%string behavior_decision~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <Ego>))
   (cl:+ 0
      8
@@ -327,6 +399,9 @@
      4
      2
      2
+     4 (cl:length (cl:slot-value msg 'map_folder))
+     4 (cl:length (cl:slot-value msg 'map_file))
+     4 (cl:length (cl:slot-value msg 'behavior_decision))
 ))
 (cl:defmethod roslisp-msg-protocol:ros-message-to-list ((msg <Ego>))
   "Converts a ROS message object to a list"
@@ -343,4 +418,7 @@
     (cl:cons ':brake (brake msg))
     (cl:cons ':gear (gear msg))
     (cl:cons ':auto_manual (auto_manual msg))
+    (cl:cons ':map_folder (map_folder msg))
+    (cl:cons ':map_file (map_file msg))
+    (cl:cons ':behavior_decision (behavior_decision msg))
 ))

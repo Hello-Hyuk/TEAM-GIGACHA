@@ -43,7 +43,7 @@ class Controller:
             self.publish_control_info(1,0)
         else:
             self.publish_control_info(0,0)
-        self.target_speed = 10.0
+        self.target_speed = 20.0
         # print("Controller On..")
 
     def publish_control_info(self, estop, gear):
@@ -56,7 +56,7 @@ class Controller:
         # a = list(self.trajectory.data.x)
         # print(f"trajectory : {a[0]}")
         #self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()         ## PID off
-        self.control_msg.speed, self.control_msg.brake = self.target_speed, 0               ## PID on
+        self.control_msg.speed, self.control_msg.brake = self.ego.data.target_speed, 0               ## PID on
         self.control_pub.publish(self.control_msg)
 
 if __name__ == "__main__":

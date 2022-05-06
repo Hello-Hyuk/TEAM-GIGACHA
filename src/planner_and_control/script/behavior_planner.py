@@ -43,21 +43,21 @@ class Behavior_Planner:
 
     def run(self):
         self.mission = Mission(self.ego, self.perception)
-        
-        if self.state == "go":
-            self.mission.go()
             
         if self.state == "parking":
             self.mission.parking()
             
-        if self.state == "static obstacle detected":
+        elif self.state == "static obstacle detected":
             self.mission.static_obstacle(self.perception.objx, self.perception.objy)
             
-        if self.state == "stop_sign detected":
+        elif self.state == "stop_sign detected":
             self.mission.stop()
 
-        if self.state == "right_sign detected":
+        elif self.state == "right_sign detected":
             self.mission.turn_right()
+
+        else:
+            self.mission.go()
 
         print(f"behavior_planner : {self.ego.behavior_decision}")
         print(f"speed : {self.ego.target_speed}")

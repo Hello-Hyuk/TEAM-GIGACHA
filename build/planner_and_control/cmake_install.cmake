@@ -45,7 +45,6 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Serial_Info.msg"
     "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Control_Info.msg"
     "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg"
-    "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg"
     "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg"
     "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg"
     "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/SegmentObstacle.msg"

@@ -8,7 +8,7 @@ import struct
 
 
 class Ego(genpy.Message):
-  _md5sum = "0869400e66da0a77dc77cb9c63aed1a9"
+  _md5sum = "a00057935a45c5ac10ab11c4cf274023"
   _type = "planner_and_control/Ego"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float64 x
@@ -22,9 +22,12 @@ float32 speed
 float32 steer
 int32 brake
 int16 gear
-int16 auto_manual"""
-  __slots__ = ['x','y','heading','index','target_speed','target_brake','target_gear','speed','steer','brake','gear','auto_manual']
-  _slot_types = ['float64','float64','float64','int32','float32','float32','float32','float32','float32','int32','int16','int16']
+int16 auto_manual
+string map_folder
+string map_file
+string behavior_decision"""
+  __slots__ = ['x','y','heading','index','target_speed','target_brake','target_gear','speed','steer','brake','gear','auto_manual','map_folder','map_file','behavior_decision']
+  _slot_types = ['float64','float64','float64','int32','float32','float32','float32','float32','float32','int32','int16','int16','string','string','string']
 
   def __init__(self, *args, **kwds):
     """
@@ -34,7 +37,7 @@ int16 auto_manual"""
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       x,y,heading,index,target_speed,target_brake,target_gear,speed,steer,brake,gear,auto_manual
+       x,y,heading,index,target_speed,target_brake,target_gear,speed,steer,brake,gear,auto_manual,map_folder,map_file,behavior_decision
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -67,6 +70,12 @@ int16 auto_manual"""
         self.gear = 0
       if self.auto_manual is None:
         self.auto_manual = 0
+      if self.map_folder is None:
+        self.map_folder = ''
+      if self.map_file is None:
+        self.map_file = ''
+      if self.behavior_decision is None:
+        self.behavior_decision = ''
     else:
       self.x = 0.
       self.y = 0.
@@ -80,6 +89,9 @@ int16 auto_manual"""
       self.brake = 0
       self.gear = 0
       self.auto_manual = 0
+      self.map_folder = ''
+      self.map_file = ''
+      self.behavior_decision = ''
 
   def _get_types(self):
     """
@@ -95,6 +107,24 @@ int16 auto_manual"""
     try:
       _x = self
       buff.write(_get_struct_3di5fi2h().pack(_x.x, _x.y, _x.heading, _x.index, _x.target_speed, _x.target_brake, _x.target_gear, _x.speed, _x.steer, _x.brake, _x.gear, _x.auto_manual))
+      _x = self.map_folder
+      length = len(_x)
+      if python3 or type(_x) == unicode:
+        _x = _x.encode('utf-8')
+        length = len(_x)
+      buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
+      _x = self.map_file
+      length = len(_x)
+      if python3 or type(_x) == unicode:
+        _x = _x.encode('utf-8')
+        length = len(_x)
+      buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
+      _x = self.behavior_decision
+      length = len(_x)
+      if python3 or type(_x) == unicode:
+        _x = _x.encode('utf-8')
+        length = len(_x)
+      buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -111,6 +141,33 @@ int16 auto_manual"""
       start = end
       end += 56
       (_x.x, _x.y, _x.heading, _x.index, _x.target_speed, _x.target_brake, _x.target_gear, _x.speed, _x.steer, _x.brake, _x.gear, _x.auto_manual,) = _get_struct_3di5fi2h().unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      if python3:
+        self.map_folder = str[start:end].decode('utf-8', 'rosmsg')
+      else:
+        self.map_folder = str[start:end]
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      if python3:
+        self.map_file = str[start:end].decode('utf-8', 'rosmsg')
+      else:
+        self.map_file = str[start:end]
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      if python3:
+        self.behavior_decision = str[start:end].decode('utf-8', 'rosmsg')
+      else:
+        self.behavior_decision = str[start:end]
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -125,6 +182,24 @@ int16 auto_manual"""
     try:
       _x = self
       buff.write(_get_struct_3di5fi2h().pack(_x.x, _x.y, _x.heading, _x.index, _x.target_speed, _x.target_brake, _x.target_gear, _x.speed, _x.steer, _x.brake, _x.gear, _x.auto_manual))
+      _x = self.map_folder
+      length = len(_x)
+      if python3 or type(_x) == unicode:
+        _x = _x.encode('utf-8')
+        length = len(_x)
+      buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
+      _x = self.map_file
+      length = len(_x)
+      if python3 or type(_x) == unicode:
+        _x = _x.encode('utf-8')
+        length = len(_x)
+      buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
+      _x = self.behavior_decision
+      length = len(_x)
+      if python3 or type(_x) == unicode:
+        _x = _x.encode('utf-8')
+        length = len(_x)
+      buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -142,6 +217,33 @@ int16 auto_manual"""
       start = end
       end += 56
       (_x.x, _x.y, _x.heading, _x.index, _x.target_speed, _x.target_brake, _x.target_gear, _x.speed, _x.steer, _x.brake, _x.gear, _x.auto_manual,) = _get_struct_3di5fi2h().unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      if python3:
+        self.map_folder = str[start:end].decode('utf-8', 'rosmsg')
+      else:
+        self.map_folder = str[start:end]
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      if python3:
+        self.map_file = str[start:end].decode('utf-8', 'rosmsg')
+      else:
+        self.map_file = str[start:end]
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      if python3:
+        self.behavior_decision = str[start:end].decode('utf-8', 'rosmsg')
+      else:
+        self.behavior_decision = str[start:end]
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill

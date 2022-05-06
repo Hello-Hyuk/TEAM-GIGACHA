@@ -14,7 +14,7 @@
 
 (defclass planner_and_control::Ego
   :super ros::object
-  :slots (_x _y _heading _index _target_speed _target_brake _target_gear _speed _steer _brake _gear _auto_manual ))
+  :slots (_x _y _heading _index _target_speed _target_brake _target_gear _speed _steer _brake _gear _auto_manual _map_folder _map_file _behavior_decision ))
 
 (defmethod planner_and_control::Ego
   (:init
@@ -31,6 +31,9 @@
     ((:brake __brake) 0)
     ((:gear __gear) 0)
     ((:auto_manual __auto_manual) 0)
+    ((:map_folder __map_folder) "")
+    ((:map_file __map_file) "")
+    ((:behavior_decision __behavior_decision) "")
     )
    (send-super :init)
    (setq _x (float __x))
@@ -45,6 +48,9 @@
    (setq _brake (round __brake))
    (setq _gear (round __gear))
    (setq _auto_manual (round __auto_manual))
+   (setq _map_folder (string __map_folder))
+   (setq _map_file (string __map_file))
+   (setq _behavior_decision (string __behavior_decision))
    self)
   (:x
    (&optional __x)
@@ -82,6 +88,15 @@
   (:auto_manual
    (&optional __auto_manual)
    (if __auto_manual (setq _auto_manual __auto_manual)) _auto_manual)
+  (:map_folder
+   (&optional __map_folder)
+   (if __map_folder (setq _map_folder __map_folder)) _map_folder)
+  (:map_file
+   (&optional __map_file)
+   (if __map_file (setq _map_file __map_file)) _map_file)
+  (:behavior_decision
+   (&optional __behavior_decision)
+   (if __behavior_decision (setq _behavior_decision __behavior_decision)) _behavior_decision)
   (:serialization-length
    ()
    (+
@@ -109,6 +124,12 @@
     2
     ;; int16 _auto_manual
     2
+    ;; string _map_folder
+    4 (length _map_folder)
+    ;; string _map_file
+    4 (length _map_file)
+    ;; string _behavior_decision
+    4 (length _behavior_decision)
     ))
   (:serialize
    (&optional strm)
@@ -138,6 +159,12 @@
        (write-word _gear s)
      ;; int16 _auto_manual
        (write-word _auto_manual s)
+     ;; string _map_folder
+       (write-long (length _map_folder) s) (princ _map_folder s)
+     ;; string _map_file
+       (write-long (length _map_file) s) (princ _map_file s)
+     ;; string _behavior_decision
+       (write-long (length _behavior_decision) s) (princ _behavior_decision s)
      ;;
      (if (null strm) (get-output-stream-string s))))
   (:deserialize
@@ -166,11 +193,17 @@
      (setq _gear (sys::peek buf ptr- :short)) (incf ptr- 2)
    ;; int16 _auto_manual
      (setq _auto_manual (sys::peek buf ptr- :short)) (incf ptr- 2)
+   ;; string _map_folder
+     (let (n) (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4) (setq _map_folder (subseq buf ptr- (+ ptr- n))) (incf ptr- n))
+   ;; string _map_file
+     (let (n) (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4) (setq _map_file (subseq buf ptr- (+ ptr- n))) (incf ptr- n))
+   ;; string _behavior_decision
+     (let (n) (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4) (setq _behavior_decision (subseq buf ptr- (+ ptr- n))) (incf ptr- n))
    ;;
    self)
   )
 
-(setf (get planner_and_control::Ego :md5sum-) "0869400e66da0a77dc77cb9c63aed1a9")
+(setf (get planner_and_control::Ego :md5sum-) "a00057935a45c5ac10ab11c4cf274023")
 (setf (get planner_and_control::Ego :datatype-) "planner_and_control/Ego")
 (setf (get planner_and_control::Ego :definition-)
       "float64 x
@@ -185,10 +218,13 @@ float32 steer
 int32 brake
 int16 gear
 int16 auto_manual
+string map_folder
+string map_file
+string behavior_decision
 ")
 
 
 
-(provide :planner_and_control/Ego "0869400e66da0a77dc77cb9c63aed1a9")
+(provide :planner_and_control/Ego "a00057935a45c5ac10ab11c4cf274023")
 
 

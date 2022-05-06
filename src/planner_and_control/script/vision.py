@@ -12,8 +12,7 @@ class Vision:
         self.vision.objx = []
         self.vision.objy = []
         self.vision.objr = []
-        self.vision.signname = "static_obstacle"
-
+        self.vision.signname = "go"
         self.make_input()
 
     def make_input(self):
@@ -26,8 +25,9 @@ class Vision:
         self.vision.objr.append(r)
         
     def run(self):
-        self.make_input()
         self.pub.publish(self.vision)
+        self.make_input()
+        self.vision.signname = "static_obstacle"
 
         print(f"x : {self.vision.objx}, y : {self.vision.objy}, r : {self.vision.objr}")
 
