@@ -10,3 +10,4 @@ float32 steer
 int32 brake
 int16 gear
 int16 auto_manual
+string behavior_decision

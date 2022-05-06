@@ -25,7 +25,7 @@ class Behavior_Planner:
         self.state = String()
 
         self.behavior = ""
-        self.mission = Mission(self.ego, self.behavior, self.perception)
+        self.mission = Mission(self.ego, self.perception)
         self.sign_dis = 100
         self.traffic_dis = 100
         self.go_side_check = False
@@ -46,6 +46,7 @@ class Behavior_Planner:
         
         if self.state == "go":
             self.mission.go()
+            
 
         if self.state == "parking":
             self.mission.parking() 
@@ -62,9 +63,9 @@ class Behavior_Planner:
             self.mission.turn_right()
                 
                     
-        print(f"behavior_planner : {self.behavior}")
+        print(f"behavior_planner : {self.ego.behavior_decision}")
         
-        self.pub_behavior.publish(self.behavior)
+        self.pub_behavior.publish(self.ego.behavior_decision)
         self.pub_ego.publish(self.ego)
 
 if __name__ == "__main__":
