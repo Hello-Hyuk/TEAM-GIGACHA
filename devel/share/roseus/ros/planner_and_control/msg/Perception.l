@@ -14,23 +14,33 @@
 
 (defclass planner_and_control::Perception
   :super ros::object
-  :slots (_objx _objy _signx _signy _objr ))
+  :slots (_objx _objy _objr _signname _signx _signy _tred _tyellow _tleft _tgreen ))
 
 (defmethod planner_and_control::Perception
   (:init
    (&key
     ((:objx __objx) (make-array 0 :initial-element 0.0 :element-type :float))
     ((:objy __objy) (make-array 0 :initial-element 0.0 :element-type :float))
+    ((:objr __objr) (make-array 0 :initial-element 0.0 :element-type :float))
+    ((:signname __signname) "")
     ((:signx __signx) (make-array 0 :initial-element 0.0 :element-type :float))
     ((:signy __signy) (make-array 0 :initial-element 0.0 :element-type :float))
-    ((:objr __objr) (make-array 0 :initial-element 0.0 :element-type :float))
+    ((:tred __tred) nil)
+    ((:tyellow __tyellow) nil)
+    ((:tleft __tleft) nil)
+    ((:tgreen __tgreen) nil)
     )
    (send-super :init)
    (setq _objx __objx)
    (setq _objy __objy)
+   (setq _objr __objr)
+   (setq _signname (string __signname))
    (setq _signx __signx)
    (setq _signy __signy)
-   (setq _objr __objr)
+   (setq _tred __tred)
+   (setq _tyellow __tyellow)
+   (setq _tleft __tleft)
+   (setq _tgreen __tgreen)
    self)
   (:objx
    (&optional __objx)
@@ -38,15 +48,30 @@
   (:objy
    (&optional __objy)
    (if __objy (setq _objy __objy)) _objy)
+  (:objr
+   (&optional __objr)
+   (if __objr (setq _objr __objr)) _objr)
+  (:signname
+   (&optional __signname)
+   (if __signname (setq _signname __signname)) _signname)
   (:signx
    (&optional __signx)
    (if __signx (setq _signx __signx)) _signx)
   (:signy
    (&optional __signy)
    (if __signy (setq _signy __signy)) _signy)
-  (:objr
-   (&optional __objr)
-   (if __objr (setq _objr __objr)) _objr)
+  (:tred
+   (&optional __tred)
+   (if __tred (setq _tred __tred)) _tred)
+  (:tyellow
+   (&optional __tyellow)
+   (if __tyellow (setq _tyellow __tyellow)) _tyellow)
+  (:tleft
+   (&optional __tleft)
+   (if __tleft (setq _tleft __tleft)) _tleft)
+  (:tgreen
+   (&optional __tgreen)
+   (if __tgreen (setq _tgreen __tgreen)) _tgreen)
   (:serialization-length
    ()
    (+
@@ -54,12 +79,22 @@
     (* 8    (length _objx)) 4
     ;; float64[] _objy
     (* 8    (length _objy)) 4
+    ;; float64[] _objr
+    (* 8    (length _objr)) 4
+    ;; string _signname
+    4 (length _signname)
     ;; float64[] _signx
     (* 8    (length _signx)) 4
     ;; float64[] _signy
     (* 8    (length _signy)) 4
-    ;; float64[] _objr
-    (* 8    (length _objr)) 4
+    ;; bool _tred
+    1
+    ;; bool _tyellow
+    1
+    ;; bool _tleft
+    1
+    ;; bool _tgreen
+    1
     ))
   (:serialize
    (&optional strm)
@@ -75,6 +110,13 @@
      (dotimes (i (length _objy))
        (sys::poke (elt _objy i) (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
        )
+     ;; float64[] _objr
+     (write-long (length _objr) s)
+     (dotimes (i (length _objr))
+       (sys::poke (elt _objr i) (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
+       )
+     ;; string _signname
+       (write-long (length _signname) s) (princ _signname s)
      ;; float64[] _signx
      (write-long (length _signx) s)
      (dotimes (i (length _signx))
@@ -85,11 +127,14 @@
      (dotimes (i (length _signy))
        (sys::poke (elt _signy i) (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
        )
-     ;; float64[] _objr
-     (write-long (length _objr) s)
-     (dotimes (i (length _objr))
-       (sys::poke (elt _objr i) (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
-       )
+     ;; bool _tred
+       (if _tred (write-byte -1 s) (write-byte 0 s))
+     ;; bool _tyellow
+       (if _tyellow (write-byte -1 s) (write-byte 0 s))
+     ;; bool _tleft
+       (if _tleft (write-byte -1 s) (write-byte 0 s))
+     ;; bool _tgreen
+       (if _tgreen (write-byte -1 s) (write-byte 0 s))
      ;;
      (if (null strm) (get-output-stream-string s))))
   (:deserialize
@@ -108,6 +153,15 @@
      (dotimes (i n)
      (setf (elt _objy i) (sys::peek buf ptr- :double)) (incf ptr- 8)
      ))
+   ;; float64[] _objr
+   (let (n)
+     (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4)
+     (setq _objr (instantiate float-vector n))
+     (dotimes (i n)
+     (setf (elt _objr i) (sys::peek buf ptr- :double)) (incf ptr- 8)
+     ))
+   ;; string _signname
+     (let (n) (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4) (setq _signname (subseq buf ptr- (+ ptr- n))) (incf ptr- n))
    ;; float64[] _signx
    (let (n)
      (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4)
@@ -122,29 +176,37 @@
      (dotimes (i n)
      (setf (elt _signy i) (sys::peek buf ptr- :double)) (incf ptr- 8)
      ))
-   ;; float64[] _objr
-   (let (n)
-     (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4)
-     (setq _objr (instantiate float-vector n))
-     (dotimes (i n)
-     (setf (elt _objr i) (sys::peek buf ptr- :double)) (incf ptr- 8)
-     ))
+   ;; bool _tred
+     (setq _tred (not (= 0 (sys::peek buf ptr- :char)))) (incf ptr- 1)
+   ;; bool _tyellow
+     (setq _tyellow (not (= 0 (sys::peek buf ptr- :char)))) (incf ptr- 1)
+   ;; bool _tleft
+     (setq _tleft (not (= 0 (sys::peek buf ptr- :char)))) (incf ptr- 1)
+   ;; bool _tgreen
+     (setq _tgreen (not (= 0 (sys::peek buf ptr- :char)))) (incf ptr- 1)
    ;;
    self)
   )
 
-(setf (get planner_and_control::Perception :md5sum-) "bd15e37a0feb9c86e718db9ca65322b7")
+(setf (get planner_and_control::Perception :md5sum-) "ad22ff28744237026a075fb52fe5b27d")
 (setf (get planner_and_control::Perception :datatype-) "planner_and_control/Perception")
 (setf (get planner_and_control::Perception :definition-)
       "float64[] objx
 float64[] objy
+float64[] objr
+
+string signname
 float64[] signx
 float64[] signy
-float64[] objr
+
+bool tred
+bool tyellow
+bool tleft
+bool tgreen
 ")
 
 
 
-(provide :planner_and_control/Perception "bd15e37a0feb9c86e718db9ca65322b7")
+(provide :planner_and_control/Perception "ad22ff28744237026a075fb52fe5b27d")
 
 

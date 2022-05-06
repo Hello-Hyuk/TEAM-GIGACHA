@@ -3,10 +3,20 @@
           OBJX
           OBJY-VAL
           OBJY
+          OBJR-VAL
+          OBJR
+          SIGNNAME-VAL
+          SIGNNAME
           SIGNX-VAL
           SIGNX
           SIGNY-VAL
           SIGNY
-          OBJR-VAL
-          OBJR
+          TRED-VAL
+          TRED
+          TYELLOW-VAL
+          TYELLOW
+          TLEFT-VAL
+          TLEFT
+          TGREEN-VAL
+          TGREEN
 ))

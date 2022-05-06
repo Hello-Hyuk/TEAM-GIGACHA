@@ -25,6 +25,7 @@ class Behavior_Planner:
 
         self.behavior = ""
         self.sign_dis = 100
+        self.traffic_dis = 100
         self.go_side_check = False
         self.sign_detected = 0 # action just one time
         self.wait_time = time()
@@ -38,9 +39,6 @@ class Behavior_Planner:
 
     def state_callback(self, msg):
         self.state = msg.data
-
-    # def sign_callback(self, msg):
-    #     self.sign_dis = sqrt((self.sign.x - self.ego.x)**2 + (self.sign.y - self.ego.y)**2)
 
     def run(self):
         
@@ -63,6 +61,16 @@ class Behavior_Planner:
             elif self.sign_dis > 5 and self.sign_detected == 0:
                 self.behavior = "go_side"
                 self.go_side_check = False
+
+        if self.state == "right_sign detected":
+            if self.perception.tgreen == 1:
+                self.behavior = "turn_right"
+            else:
+                if self.perception.stop == 1:
+                    self.behavior = "stop"
+                else:
+                    self.behavior = "turn_right"
+                
                     
         print(f"behavior_planner : {self.behavior}")
         
