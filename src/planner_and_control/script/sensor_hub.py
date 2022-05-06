@@ -5,6 +5,7 @@ from planner_and_control.msg import Local
 from sensor_msgs.msg import PointCloud
 from planner_and_control.msg import Serial_Info
 from planner_and_control.msg import Perception
+from math import cos, sin, pi
 
 
 class Sensor_hub:
@@ -14,13 +15,18 @@ class Sensor_hub:
         rospy.Subscriber("/s1", Local, self.camera1_callback) # Camera 1
         rospy.Subscriber("/s3", Local, self.camera3_callback) # Camera 3
         rospy.Subscriber("/vision", Perception, self.vision_callback) # Camera 3
+        rospy.Subscriber("/pose", Local, self.local_callback) # local_pose
 
         self.pub1 = rospy.Publisher("/perception", Perception, queue_size = 1)
 
         self.perception = Perception()
         self.perception.signx = [63.7384548403, 0]
         self.perception.signy = [111.167584983, 0]
-
+        
+    def local_callback(self, msg):
+        self.ego.x = msg.x
+        self.ego.y = msg.y
+        self.ego.heading = msg.heading
 
     def camera1_callback(self, msg):
         pass
@@ -32,7 +38,11 @@ class Sensor_hub:
         pass
 
     def vision_callback(self, msg):
-        self.perception = msg
+        # absolute coordinates transition
+        theta = (self.ego.heading) * pi / 180
+        for i in range(len(msg.objx)):
+            self.perception.obj.x.append(msg.objx[i] * cos(theta) + msg.objy[i] * -sin(theta) + self.ego.x)
+            self.perception.obj.y.append(msg.objx[i] * sin(theta) + msg.objy[i] * cos(theta) + self.ego.y)
 
     def run(self):
         self.pub1.publish(self.perception)
