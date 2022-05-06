@@ -10,8 +10,15 @@ Songdo : {
  alt : 15.4
  }
 
+Songdo_track : {
+ lat : 37.383784,
+ lon : 126.654310,
+ alt : 15.4
+ }
+
 Siheung : {
   lat : 37.36458356,
   lon : 126.7237789,
   alt : 15.4
 }
+

@@ -35,7 +35,7 @@ class Motion_Planner:
         self.generated_path = Path()
         self.trajectory_name = ""
 
-        self.path_name = 'ex'
+        self.path_name = 'songdo_track'
         self.global_path = read_global_path(self.path_name)
 
         self.current_lane = 0
