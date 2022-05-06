@@ -14,7 +14,7 @@
 
 (defclass planner_and_control::Perception
   :super ros::object
-  :slots (_objx _objy _objr _signname _signx _signy _tred _tyellow _tleft _tgreen ))
+  :slots (_objx _objy _objr _signname _signx _signy _tred _tyellow _tleft _tgreen _stop ))
 
 (defmethod planner_and_control::Perception
   (:init
@@ -29,6 +29,7 @@
     ((:tyellow __tyellow) nil)
     ((:tleft __tleft) nil)
     ((:tgreen __tgreen) nil)
+    ((:stop __stop) nil)
     )
    (send-super :init)
    (setq _objx __objx)
@@ -41,6 +42,7 @@
    (setq _tyellow __tyellow)
    (setq _tleft __tleft)
    (setq _tgreen __tgreen)
+   (setq _stop __stop)
    self)
   (:objx
    (&optional __objx)
@@ -72,6 +74,9 @@
   (:tgreen
    (&optional __tgreen)
    (if __tgreen (setq _tgreen __tgreen)) _tgreen)
+  (:stop
+   (&optional __stop)
+   (if __stop (setq _stop __stop)) _stop)
   (:serialization-length
    ()
    (+
@@ -94,6 +99,8 @@
     ;; bool _tleft
     1
     ;; bool _tgreen
+    1
+    ;; bool _stop
     1
     ))
   (:serialize
@@ -135,6 +142,8 @@
        (if _tleft (write-byte -1 s) (write-byte 0 s))
      ;; bool _tgreen
        (if _tgreen (write-byte -1 s) (write-byte 0 s))
+     ;; bool _stop
+       (if _stop (write-byte -1 s) (write-byte 0 s))
      ;;
      (if (null strm) (get-output-stream-string s))))
   (:deserialize
@@ -184,11 +193,13 @@
      (setq _tleft (not (= 0 (sys::peek buf ptr- :char)))) (incf ptr- 1)
    ;; bool _tgreen
      (setq _tgreen (not (= 0 (sys::peek buf ptr- :char)))) (incf ptr- 1)
+   ;; bool _stop
+     (setq _stop (not (= 0 (sys::peek buf ptr- :char)))) (incf ptr- 1)
    ;;
    self)
   )
 
-(setf (get planner_and_control::Perception :md5sum-) "ad22ff28744237026a075fb52fe5b27d")
+(setf (get planner_and_control::Perception :md5sum-) "bef5baa9c251c18149bfea75d54f4953")
 (setf (get planner_and_control::Perception :datatype-) "planner_and_control/Perception")
 (setf (get planner_and_control::Perception :definition-)
       "float64[] objx
@@ -203,10 +214,12 @@ bool tred
 bool tyellow
 bool tleft
 bool tgreen
+
+bool stop
 ")
 
 
 
-(provide :planner_and_control/Perception "ad22ff28744237026a075fb52fe5b27d")
+(provide :planner_and_control/Perception "bef5baa9c251c18149bfea75d54f4953")
 
 

@@ -28,6 +28,7 @@ class Perception {
       this.tyellow = null;
       this.tleft = null;
       this.tgreen = null;
+      this.stop = null;
     }
     else {
       if (initObj.hasOwnProperty('objx')) {
@@ -90,6 +91,12 @@ class Perception {
       else {
         this.tgreen = false;
       }
+      if (initObj.hasOwnProperty('stop')) {
+        this.stop = initObj.stop
+      }
+      else {
+        this.stop = false;
+      }
     }
   }
 
@@ -115,6 +122,8 @@ class Perception {
     bufferOffset = _serializer.bool(obj.tleft, buffer, bufferOffset);
     // Serialize message field [tgreen]
     bufferOffset = _serializer.bool(obj.tgreen, buffer, bufferOffset);
+    // Serialize message field [stop]
+    bufferOffset = _serializer.bool(obj.stop, buffer, bufferOffset);
     return bufferOffset;
   }
 
@@ -142,6 +151,8 @@ class Perception {
     data.tleft = _deserializer.bool(buffer, bufferOffset);
     // Deserialize message field [tgreen]
     data.tgreen = _deserializer.bool(buffer, bufferOffset);
+    // Deserialize message field [stop]
+    data.stop = _deserializer.bool(buffer, bufferOffset);
     return data;
   }
 
@@ -153,7 +164,7 @@ class Perception {
     length += object.signname.length;
     length += 8 * object.signx.length;
     length += 8 * object.signy.length;
-    return length + 28;
+    return length + 29;
   }
 
   static datatype() {
@@ -163,7 +174,7 @@ class Perception {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return 'ad22ff28744237026a075fb52fe5b27d';
+    return 'bef5baa9c251c18149bfea75d54f4953';
   }
 
   static messageDefinition() {
@@ -181,6 +192,8 @@ class Perception {
     bool tyellow
     bool tleft
     bool tgreen
+    
+    bool stop
     `;
   }
 
@@ -258,6 +271,13 @@ class Perception {
     }
     else {
       resolved.tgreen = false
+    }
+
+    if (msg.stop !== undefined) {
+      resolved.stop = msg.stop;
+    }
+    else {
+      resolved.stop = false
     }
 
     return resolved;

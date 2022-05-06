@@ -56,6 +56,11 @@
     :reader tgreen
     :initarg :tgreen
     :type cl:boolean
+    :initform cl:nil)
+   (stop
+    :reader stop
+    :initarg :stop
+    :type cl:boolean
     :initform cl:nil))
 )
 
@@ -116,6 +121,11 @@
 (cl:defmethod tgreen-val ((m <Perception>))
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:tgreen-val is deprecated.  Use planner_and_control-msg:tgreen instead.")
   (tgreen m))
+
+(cl:ensure-generic-function 'stop-val :lambda-list '(m))
+(cl:defmethod stop-val ((m <Perception>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:stop-val is deprecated.  Use planner_and_control-msg:stop instead.")
+  (stop m))
 (cl:defmethod roslisp-msg-protocol:serialize ((msg <Perception>) ostream)
   "Serializes a message object of type '<Perception>"
   (cl:let ((__ros_arr_len (cl:length (cl:slot-value msg 'objx))))
@@ -203,6 +213,7 @@
   (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:if (cl:slot-value msg 'tyellow) 1 0)) ostream)
   (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:if (cl:slot-value msg 'tleft) 1 0)) ostream)
   (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:if (cl:slot-value msg 'tgreen) 1 0)) ostream)
+  (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:if (cl:slot-value msg 'stop) 1 0)) ostream)
 )
 (cl:defmethod roslisp-msg-protocol:deserialize ((msg <Perception>) istream)
   "Deserializes a message object of type '<Perception>"
@@ -308,6 +319,7 @@
     (cl:setf (cl:slot-value msg 'tyellow) (cl:not (cl:zerop (cl:read-byte istream))))
     (cl:setf (cl:slot-value msg 'tleft) (cl:not (cl:zerop (cl:read-byte istream))))
     (cl:setf (cl:slot-value msg 'tgreen) (cl:not (cl:zerop (cl:read-byte istream))))
+    (cl:setf (cl:slot-value msg 'stop) (cl:not (cl:zerop (cl:read-byte istream))))
   msg
 )
 (cl:defmethod roslisp-msg-protocol:ros-datatype ((msg (cl:eql '<Perception>)))
@@ -318,16 +330,16 @@
   "planner_and_control/Perception")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<Perception>)))
   "Returns md5sum for a message object of type '<Perception>"
-  "ad22ff28744237026a075fb52fe5b27d")
+  "bef5baa9c251c18149bfea75d54f4953")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'Perception)))
   "Returns md5sum for a message object of type 'Perception"
-  "ad22ff28744237026a075fb52fe5b27d")
+  "bef5baa9c251c18149bfea75d54f4953")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<Perception>)))
   "Returns full string definition for message of type '<Perception>"
-  (cl:format cl:nil "float64[] objx~%float64[] objy~%float64[] objr~%~%string signname~%float64[] signx~%float64[] signy~%~%bool tred~%bool tyellow~%bool tleft~%bool tgreen~%~%"))
+  (cl:format cl:nil "float64[] objx~%float64[] objy~%float64[] objr~%~%string signname~%float64[] signx~%float64[] signy~%~%bool tred~%bool tyellow~%bool tleft~%bool tgreen~%~%bool stop~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'Perception)))
   "Returns full string definition for message of type 'Perception"
-  (cl:format cl:nil "float64[] objx~%float64[] objy~%float64[] objr~%~%string signname~%float64[] signx~%float64[] signy~%~%bool tred~%bool tyellow~%bool tleft~%bool tgreen~%~%"))
+  (cl:format cl:nil "float64[] objx~%float64[] objy~%float64[] objr~%~%string signname~%float64[] signx~%float64[] signy~%~%bool tred~%bool tyellow~%bool tleft~%bool tgreen~%~%bool stop~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <Perception>))
   (cl:+ 0
      4 (cl:reduce #'cl:+ (cl:slot-value msg 'objx) :key #'(cl:lambda (ele) (cl:declare (cl:ignorable ele)) (cl:+ 8)))
@@ -336,6 +348,7 @@
      4 (cl:length (cl:slot-value msg 'signname))
      4 (cl:reduce #'cl:+ (cl:slot-value msg 'signx) :key #'(cl:lambda (ele) (cl:declare (cl:ignorable ele)) (cl:+ 8)))
      4 (cl:reduce #'cl:+ (cl:slot-value msg 'signy) :key #'(cl:lambda (ele) (cl:declare (cl:ignorable ele)) (cl:+ 8)))
+     1
      1
      1
      1
@@ -354,4 +367,5 @@
     (cl:cons ':tyellow (tyellow msg))
     (cl:cons ':tleft (tleft msg))
     (cl:cons ':tgreen (tgreen msg))
+    (cl:cons ':stop (stop msg))
 ))

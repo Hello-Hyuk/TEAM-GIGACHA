@@ -8,7 +8,7 @@ import struct
 
 
 class Perception(genpy.Message):
-  _md5sum = "ad22ff28744237026a075fb52fe5b27d"
+  _md5sum = "bef5baa9c251c18149bfea75d54f4953"
   _type = "planner_and_control/Perception"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float64[] objx
@@ -22,9 +22,11 @@ float64[] signy
 bool tred
 bool tyellow
 bool tleft
-bool tgreen"""
-  __slots__ = ['objx','objy','objr','signname','signx','signy','tred','tyellow','tleft','tgreen']
-  _slot_types = ['float64[]','float64[]','float64[]','string','float64[]','float64[]','bool','bool','bool','bool']
+bool tgreen
+
+bool stop"""
+  __slots__ = ['objx','objy','objr','signname','signx','signy','tred','tyellow','tleft','tgreen','stop']
+  _slot_types = ['float64[]','float64[]','float64[]','string','float64[]','float64[]','bool','bool','bool','bool','bool']
 
   def __init__(self, *args, **kwds):
     """
@@ -34,7 +36,7 @@ bool tgreen"""
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       objx,objy,objr,signname,signx,signy,tred,tyellow,tleft,tgreen
+       objx,objy,objr,signname,signx,signy,tred,tyellow,tleft,tgreen,stop
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -63,6 +65,8 @@ bool tgreen"""
         self.tleft = False
       if self.tgreen is None:
         self.tgreen = False
+      if self.stop is None:
+        self.stop = False
     else:
       self.objx = []
       self.objy = []
@@ -74,6 +78,7 @@ bool tgreen"""
       self.tyellow = False
       self.tleft = False
       self.tgreen = False
+      self.stop = False
 
   def _get_types(self):
     """
@@ -114,7 +119,7 @@ bool tgreen"""
       pattern = '<%sd'%length
       buff.write(struct.Struct(pattern).pack(*self.signy))
       _x = self
-      buff.write(_get_struct_4B().pack(_x.tred, _x.tyellow, _x.tleft, _x.tgreen))
+      buff.write(_get_struct_5B().pack(_x.tred, _x.tyellow, _x.tleft, _x.tgreen, _x.stop))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -178,12 +183,13 @@ bool tgreen"""
       self.signy = s.unpack(str[start:end])
       _x = self
       start = end
-      end += 4
-      (_x.tred, _x.tyellow, _x.tleft, _x.tgreen,) = _get_struct_4B().unpack(str[start:end])
+      end += 5
+      (_x.tred, _x.tyellow, _x.tleft, _x.tgreen, _x.stop,) = _get_struct_5B().unpack(str[start:end])
       self.tred = bool(self.tred)
       self.tyellow = bool(self.tyellow)
       self.tleft = bool(self.tleft)
       self.tgreen = bool(self.tgreen)
+      self.stop = bool(self.stop)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -223,7 +229,7 @@ bool tgreen"""
       pattern = '<%sd'%length
       buff.write(self.signy.tostring())
       _x = self
-      buff.write(_get_struct_4B().pack(_x.tred, _x.tyellow, _x.tleft, _x.tgreen))
+      buff.write(_get_struct_5B().pack(_x.tred, _x.tyellow, _x.tleft, _x.tgreen, _x.stop))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -288,12 +294,13 @@ bool tgreen"""
       self.signy = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=length)
       _x = self
       start = end
-      end += 4
-      (_x.tred, _x.tyellow, _x.tleft, _x.tgreen,) = _get_struct_4B().unpack(str[start:end])
+      end += 5
+      (_x.tred, _x.tyellow, _x.tleft, _x.tgreen, _x.stop,) = _get_struct_5B().unpack(str[start:end])
       self.tred = bool(self.tred)
       self.tyellow = bool(self.tyellow)
       self.tleft = bool(self.tleft)
       self.tgreen = bool(self.tgreen)
+      self.stop = bool(self.stop)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -302,9 +309,9 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_4B = None
-def _get_struct_4B():
-    global _struct_4B
-    if _struct_4B is None:
-        _struct_4B = struct.Struct("<4B")
-    return _struct_4B
+_struct_5B = None
+def _get_struct_5B():
+    global _struct_5B
+    if _struct_5B is None:
+        _struct_5B = struct.Struct("<5B")
+    return _struct_5B

@@ -47,7 +47,7 @@ class Mission_Planner:
         # if self.sign_dis < 15:
         #     self.state = "stop_sign detected"
 
-        if self.perception.signname == "turnright":
+        if self.perception.signname == "turn_right_traffic_light":
             self.state = "right_sign detected"
         else:
             self.state = "go"
