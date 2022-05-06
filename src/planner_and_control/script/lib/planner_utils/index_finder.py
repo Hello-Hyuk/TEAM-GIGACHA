@@ -8,7 +8,7 @@ class IndexFinder:
     def __init__(self, eg):
         self.ego = Ego()
         self.ego = eg
-        self.path = read_global_path('ex')
+        self.path = read_global_path('songdo_track')
         self.index = 0
 
     def run(self):

@@ -53,11 +53,11 @@ class Controller:
             self.control_msg.steer = self.lat_controller.run()
         except IndexError:
             print("++++++")
-
+        # a = list(self.trajectory.data.x)
+        # print(f"trajectory : {a[0]}")
         #self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()         ## PID off
         self.control_msg.speed, self.control_msg.brake = self.target_speed, 0               ## PID on
         self.control_pub.publish(self.control_msg)
-
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()

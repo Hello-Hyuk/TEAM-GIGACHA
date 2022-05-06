@@ -11,7 +11,7 @@ class GPS():
         self.y = 0
         self.yaw_gps = 0
 
-        self.base = rospy.get_param("Songdo") # KCity, Songdo
+        self.base = rospy.get_param("Songdo_track") # KCity, Songdo, Songdo_track, Siheung
         self.lat = self.base['lat']
         self.lon = self.base['lon']
         self.alt = self.base['alt']

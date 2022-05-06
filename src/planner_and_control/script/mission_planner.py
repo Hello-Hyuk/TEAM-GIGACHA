@@ -46,10 +46,8 @@ class Mission_Planner:
         
         if self.sign_dis < 15:
             self.state = "stop_sign detected"
-            
         else:
             self.state = "go"
-
         print(f"mission_planner : {self.state}")
         self.pub.publish(self.state)
 

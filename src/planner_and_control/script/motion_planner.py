@@ -35,7 +35,7 @@ class Motion_Planner:
         self.generated_path = Path()
         self.trajectory_name = ""
 
-        self.path_name = 'ex'
+        self.path_name = 'songdo_track'
         self.global_path = read_global_path(self.path_name)
 
         self.current_lane = 0
@@ -53,7 +53,7 @@ class Motion_Planner:
         self.behavior = msg.data
 
     # avoidance driving
-    def weight_function_LiDAR(self):
+    def weight_function_obstacle_avoidance(self):
         for i in range(len(self.generated_path)): # 0,1,2
             path_check = True
             if path_check == True:
@@ -103,7 +103,7 @@ class Motion_Planner:
         if self.behavior == "go":
             self.select_trajectory()
         if self.behavior == "obstacle avoidance":
-            self.weight_function_LiDAR()
+            self.weight_function_obstacle_avoidance()
             self.select_trajectory()
         if self.behavior == "go_side":
             self.weight_sign_function()
@@ -115,6 +115,7 @@ class Motion_Planner:
         # path publish
         self.global_path_pub.publish(self.global_path)
         self.trajectory_pub.publish(self.trajectory)
+        # print(f"trajectory : {self.trajectory.x}")
         if len(self.generated_path) == 3:
             for i in range(1,4):
                 globals()['lattice_path_{}_pub'.format(i)].publish(self.generated_path[i-1])

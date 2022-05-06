@@ -6,7 +6,7 @@ from sensor_msgs.msg import Imu
 
 class AHRS_Parsing:
     def __init__(self):
-        self.ser = serial.Serial('/dev/imu', baudrate = 115200)
+        self.ser = serial.Serial('/dev/tty', baudrate = 115200)
         rospy.init_node("imu_raw", anonymous=False)
         print('AHRS_Parsing : Serial connecting to /dev/imu')
 
