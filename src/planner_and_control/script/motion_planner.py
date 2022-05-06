@@ -115,6 +115,7 @@ class Motion_Planner:
         # path publish
         self.global_path_pub.publish(self.global_path)
         self.trajectory_pub.publish(self.trajectory)
+        # print(f"trajectory : {self.trajectory.x}")
         if len(self.generated_path) == 3:
             for i in range(1,4):
                 globals()['lattice_path_{}_pub'.format(i)].publish(self.generated_path[i-1])
