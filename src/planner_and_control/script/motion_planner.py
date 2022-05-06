@@ -34,9 +34,7 @@ class Motion_Planner:
         self.trajectory = CustomPath()
         self.generated_path = Path()
         self.trajectory_name = ""
-
-        self.path_name = 'songdo_track'
-        self.global_path = read_global_path(self.path_name)
+        self.map_switch = 0
 
         self.current_lane = 0
         self.lane_weight = []
@@ -51,6 +49,9 @@ class Motion_Planner:
 
     def ego_callback(self, msg):
         self.ego = msg
+        if self.map_switch == 0:
+            self.global_path = read_global_path(self.ego.map_folder, self.ego.map_file)
+            self.map_switch = 1
 
     def perception_callback(self, msg):
         self.perception = msg

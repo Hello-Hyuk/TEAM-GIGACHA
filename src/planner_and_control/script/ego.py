@@ -14,6 +14,20 @@ class Ego_updater:
         rospy.Subscriber("/serial", Serial_Info, self.serial_callback) # serial
 
         self.ego = Ego()
+
+        self.ego.map_folder = input("folder name : ")
+        self.ego.map_file = input("file name : ")
+
+        if self.ego.map_folder == "1":
+            self.ego.map_folder = "songdo_track"
+        elif self.ego.map_folder == "2":
+            self.ego.map_folder = "kcity_simul"
+
+        if self.ego.map_file == "1":
+            self.ego.map_file = "songdo_track"
+        elif self.ego.map_file == "2":
+            self.ego.map_file = "ex"
+
         self.IF = IndexFinder(self.ego)
 
     def local_callback(self, msg):
@@ -42,7 +56,7 @@ class Ego_updater:
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
     eg = Ego_updater()
-    rate = rospy.Rate(50)
+    rate = rospy.Rate(20)
     while not rospy.is_shutdown():
         eg.run()
         rate.sleep
