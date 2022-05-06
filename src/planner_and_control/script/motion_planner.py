@@ -35,7 +35,7 @@ class Motion_Planner:
         self.generated_path = Path()
         self.trajectory_name = ""
 
-        self.path_name = 'ex'
+        self.path_name = 'turn_right'
         self.global_path = read_global_path(self.path_name)
 
         self.current_lane = 0
@@ -45,7 +45,7 @@ class Motion_Planner:
 
         if self.current_lane == '1':
             self.lane_weight = [10000, 0, 10000]
-            
+
         else:
             self.lane_weight = [10000, 10000, 0]
 

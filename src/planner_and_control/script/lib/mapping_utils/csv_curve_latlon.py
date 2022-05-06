@@ -23,14 +23,14 @@ from lib.cubic_spline_planner import calc_spline_course
 # base_alt = 15.4
 
 # Siheung
-base_lat = 37.36458356
-base_lon = 126.7237789
-base_alt = 15.4
+# base_lat = 37.36458356
+# base_lon = 126.7237789
+# base_alt = 15.4
 
 #simul
-# base_lat = 37.239235 
-# base_lon = 126.77315833333333
-# base_alt = 15.4
+base_lat = 37.239235 
+base_lon = 126.77315833333333
+base_alt = 15.4
 
 def get_xy(lat, lon, alt): #점들 사이의 새로운 점들을 설정 
     e, n, u = pm.geodetic2enu(lat, lon, alt, base_lat, base_lon, base_alt)
@@ -39,7 +39,8 @@ def get_xy(lat, lon, alt): #점들 사이의 새로운 점들을 설정
 def cubic(name,*args): # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     colnames=['lon', 'lat']
-    df = pd.read_csv(f'maps/Siheung/nodes/turn_right/turn_right_line.csv', names=colnames, header=None)
+    # df = pd.read_csv(f'maps/Siheung/nodes/turn_right/turn_right_line.csv', names=colnames, header=None) # siheung
+    df = pd.read_csv(f'maps/kcity_simul/turn_right/turn_right_line.csv', names=colnames, header=None)
     x=[]
     y=[]
     
@@ -54,7 +55,8 @@ def cubic(name,*args): # args에는 1,2,3,4,5,6 등 막 들어 수있음
     save_data = list(zip(cx, cy, cyaw, ck, s))
 
     save_df = pd.DataFrame(save_data)
-    save_df.to_csv('maps/Siheung/maps/right/%s.csv'%name, index=False, header = False)
+    # save_df.to_csv('maps/Siheung/maps/right/%s.csv'%name, index=False, header = False) # siheung
+    save_df.to_csv('maps/kcity_simul/turn_right/%s.csv'%name, index=False, header = False) 
     print(f"Map saved to maps/{name}.csv")
     plt.scatter(cx, cy)    
     plt.show()
@@ -63,13 +65,6 @@ def cubic(name,*args): # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
 cubic("1",1,2)
 cubic("2",2,3)
-cubic("3",3,4,5)
-cubic("4",5,6,7,8,9,10,11)
-cubic("5",11,12)
-cubic("6",12,13,14,15,16)
-cubic("7",16,17,18,19)
-cubic("8",19,20)
-cubic("9",20,21)
-cubic("10",21,22,23,24,25,26)
-cubic("11",26,27,28,29,30,31)
-cubic("12",31,32)
+cubic("3",3,4)
+cubic("4",4,5,6,7,8,9)
+cubic("5",9,10)
