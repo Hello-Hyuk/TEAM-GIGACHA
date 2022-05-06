@@ -43,6 +43,12 @@ class Motion_Planner:
 
         self.current_lane = input("current lane(left : 1, right : 2) : ") # temporary code(to aviod lidar dectection)
 
+        if self.current_lane == '1':
+            self.lane_weight = [10000, 0, 10000]
+            
+        else:
+            self.lane_weight = [10000, 10000, 0]
+
     def ego_callback(self, msg):
         self.ego = msg
 
@@ -90,27 +96,27 @@ class Motion_Planner:
             print(f"motion_planner : selected lane {self.trajectory_name}, local_path")
 
     def run(self):
-        if self.current_lane == '1':
-            a = 10000
-            b = 1
-        else:
-            a = 1
-            b = 10000
-        self.lane_weight = [a, 0, b]
         self.local_path = findLocalPath(self.global_path, self.ego) # local path (50)
         self.generated_path = path_maker(self.local_path, self.ego) # lattice paths
 
         if self.behavior == "go":
             self.select_trajectory()
+        
         if self.behavior == "obstacle avoidance":
             self.weight_function_obstacle_avoidance()
             self.select_trajectory()
+        
         if self.behavior == "go_side":
             self.weight_sign_function()
             self.select_trajectory()
+        
         if self.behavior == "stop":
             self.trajectory.x = []
             self.trajectory.y = []
+
+        if self.behavior == "turn_right":
+            self.lane_weight = [10000, 10000, 0]
+            self.select_trajectory()
                 
         # path publish
         self.global_path_pub.publish(self.global_path)

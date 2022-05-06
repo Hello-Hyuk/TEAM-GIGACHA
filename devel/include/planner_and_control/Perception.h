@@ -26,16 +26,26 @@ struct Perception_
   Perception_()
     : objx()
     , objy()
+    , objr()
+    , signname()
     , signx()
     , signy()
-    , objr()  {
+    , tred(false)
+    , tyellow(false)
+    , tleft(false)
+    , tgreen(false)  {
     }
   Perception_(const ContainerAllocator& _alloc)
     : objx(_alloc)
     , objy(_alloc)
+    , objr(_alloc)
+    , signname(_alloc)
     , signx(_alloc)
     , signy(_alloc)
-    , objr(_alloc)  {
+    , tred(false)
+    , tyellow(false)
+    , tleft(false)
+    , tgreen(false)  {
   (void)_alloc;
     }
 
@@ -47,14 +57,29 @@ struct Perception_
    typedef std::vector<double, typename ContainerAllocator::template rebind<double>::other >  _objy_type;
   _objy_type objy;
 
+   typedef std::vector<double, typename ContainerAllocator::template rebind<double>::other >  _objr_type;
+  _objr_type objr;
+
+   typedef std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other >  _signname_type;
+  _signname_type signname;
+
    typedef std::vector<double, typename ContainerAllocator::template rebind<double>::other >  _signx_type;
   _signx_type signx;
 
    typedef std::vector<double, typename ContainerAllocator::template rebind<double>::other >  _signy_type;
   _signy_type signy;
 
-   typedef std::vector<double, typename ContainerAllocator::template rebind<double>::other >  _objr_type;
-  _objr_type objr;
+   typedef uint8_t _tred_type;
+  _tred_type tred;
+
+   typedef uint8_t _tyellow_type;
+  _tyellow_type tyellow;
+
+   typedef uint8_t _tleft_type;
+  _tleft_type tleft;
+
+   typedef uint8_t _tgreen_type;
+  _tgreen_type tgreen;
 
 
 
@@ -87,9 +112,14 @@ bool operator==(const ::planner_and_control::Perception_<ContainerAllocator1> & 
 {
   return lhs.objx == rhs.objx &&
     lhs.objy == rhs.objy &&
+    lhs.objr == rhs.objr &&
+    lhs.signname == rhs.signname &&
     lhs.signx == rhs.signx &&
     lhs.signy == rhs.signy &&
-    lhs.objr == rhs.objr;
+    lhs.tred == rhs.tred &&
+    lhs.tyellow == rhs.tyellow &&
+    lhs.tleft == rhs.tleft &&
+    lhs.tgreen == rhs.tgreen;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -146,12 +176,12 @@ struct MD5Sum< ::planner_and_control::Perception_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "bd15e37a0feb9c86e718db9ca65322b7";
+    return "ad22ff28744237026a075fb52fe5b27d";
   }
 
   static const char* value(const ::planner_and_control::Perception_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xbd15e37a0feb9c86ULL;
-  static const uint64_t static_value2 = 0xe718db9ca65322b7ULL;
+  static const uint64_t static_value1 = 0xad22ff2874423702ULL;
+  static const uint64_t static_value2 = 0x6a075fb52fe5b27dULL;
 };
 
 template<class ContainerAllocator>
@@ -172,9 +202,16 @@ struct Definition< ::planner_and_control::Perception_<ContainerAllocator> >
   {
     return "float64[] objx\n"
 "float64[] objy\n"
+"float64[] objr\n"
+"\n"
+"string signname\n"
 "float64[] signx\n"
 "float64[] signy\n"
-"float64[] objr\n"
+"\n"
+"bool tred\n"
+"bool tyellow\n"
+"bool tleft\n"
+"bool tgreen\n"
 ;
   }
 
@@ -195,9 +232,14 @@ namespace serialization
     {
       stream.next(m.objx);
       stream.next(m.objy);
+      stream.next(m.objr);
+      stream.next(m.signname);
       stream.next(m.signx);
       stream.next(m.signy);
-      stream.next(m.objr);
+      stream.next(m.tred);
+      stream.next(m.tyellow);
+      stream.next(m.tleft);
+      stream.next(m.tgreen);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -228,6 +270,14 @@ struct Printer< ::planner_and_control::Perception_<ContainerAllocator> >
       s << indent << "  objy[" << i << "]: ";
       Printer<double>::stream(s, indent + "  ", v.objy[i]);
     }
+    s << indent << "objr[]" << std::endl;
+    for (size_t i = 0; i < v.objr.size(); ++i)
+    {
+      s << indent << "  objr[" << i << "]: ";
+      Printer<double>::stream(s, indent + "  ", v.objr[i]);
+    }
+    s << indent << "signname: ";
+    Printer<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other > >::stream(s, indent + "  ", v.signname);
     s << indent << "signx[]" << std::endl;
     for (size_t i = 0; i < v.signx.size(); ++i)
     {
@@ -240,12 +290,14 @@ struct Printer< ::planner_and_control::Perception_<ContainerAllocator> >
       s << indent << "  signy[" << i << "]: ";
       Printer<double>::stream(s, indent + "  ", v.signy[i]);
     }
-    s << indent << "objr[]" << std::endl;
-    for (size_t i = 0; i < v.objr.size(); ++i)
-    {
-      s << indent << "  objr[" << i << "]: ";
-      Printer<double>::stream(s, indent + "  ", v.objr[i]);
-    }
+    s << indent << "tred: ";
+    Printer<uint8_t>::stream(s, indent + "  ", v.tred);
+    s << indent << "tyellow: ";
+    Printer<uint8_t>::stream(s, indent + "  ", v.tyellow);
+    s << indent << "tleft: ";
+    Printer<uint8_t>::stream(s, indent + "  ", v.tleft);
+    s << indent << "tgreen: ";
+    Printer<uint8_t>::stream(s, indent + "  ", v.tgreen);
   }
 };
 

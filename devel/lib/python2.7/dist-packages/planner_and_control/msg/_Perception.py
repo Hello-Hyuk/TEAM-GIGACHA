@@ -8,16 +8,23 @@ import struct
 
 
 class Perception(genpy.Message):
-  _md5sum = "bd15e37a0feb9c86e718db9ca65322b7"
+  _md5sum = "ad22ff28744237026a075fb52fe5b27d"
   _type = "planner_and_control/Perception"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float64[] objx
 float64[] objy
+float64[] objr
+
+string signname
 float64[] signx
 float64[] signy
-float64[] objr"""
-  __slots__ = ['objx','objy','signx','signy','objr']
-  _slot_types = ['float64[]','float64[]','float64[]','float64[]','float64[]']
+
+bool tred
+bool tyellow
+bool tleft
+bool tgreen"""
+  __slots__ = ['objx','objy','objr','signname','signx','signy','tred','tyellow','tleft','tgreen']
+  _slot_types = ['float64[]','float64[]','float64[]','string','float64[]','float64[]','bool','bool','bool','bool']
 
   def __init__(self, *args, **kwds):
     """
@@ -27,7 +34,7 @@ float64[] objr"""
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       objx,objy,signx,signy,objr
+       objx,objy,objr,signname,signx,signy,tred,tyellow,tleft,tgreen
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -40,18 +47,33 @@ float64[] objr"""
         self.objx = []
       if self.objy is None:
         self.objy = []
+      if self.objr is None:
+        self.objr = []
+      if self.signname is None:
+        self.signname = ''
       if self.signx is None:
         self.signx = []
       if self.signy is None:
         self.signy = []
-      if self.objr is None:
-        self.objr = []
+      if self.tred is None:
+        self.tred = False
+      if self.tyellow is None:
+        self.tyellow = False
+      if self.tleft is None:
+        self.tleft = False
+      if self.tgreen is None:
+        self.tgreen = False
     else:
       self.objx = []
       self.objy = []
+      self.objr = []
+      self.signname = ''
       self.signx = []
       self.signy = []
-      self.objr = []
+      self.tred = False
+      self.tyellow = False
+      self.tleft = False
+      self.tgreen = False
 
   def _get_types(self):
     """
@@ -73,6 +95,16 @@ float64[] objr"""
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
       buff.write(struct.Struct(pattern).pack(*self.objy))
+      length = len(self.objr)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sd'%length
+      buff.write(struct.Struct(pattern).pack(*self.objr))
+      _x = self.signname
+      length = len(_x)
+      if python3 or type(_x) == unicode:
+        _x = _x.encode('utf-8')
+        length = len(_x)
+      buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
       length = len(self.signx)
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
@@ -81,10 +113,8 @@ float64[] objr"""
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
       buff.write(struct.Struct(pattern).pack(*self.signy))
-      length = len(self.objr)
-      buff.write(_struct_I.pack(length))
-      pattern = '<%sd'%length
-      buff.write(struct.Struct(pattern).pack(*self.objr))
+      _x = self
+      buff.write(_get_struct_4B().pack(_x.tred, _x.tyellow, _x.tleft, _x.tgreen))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -120,6 +150,23 @@ float64[] objr"""
       start = end
       s = struct.Struct(pattern)
       end += s.size
+      self.objr = s.unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      if python3:
+        self.signname = str[start:end].decode('utf-8', 'rosmsg')
+      else:
+        self.signname = str[start:end]
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sd'%length
+      start = end
+      s = struct.Struct(pattern)
+      end += s.size
       self.signx = s.unpack(str[start:end])
       start = end
       end += 4
@@ -129,14 +176,14 @@ float64[] objr"""
       s = struct.Struct(pattern)
       end += s.size
       self.signy = s.unpack(str[start:end])
+      _x = self
       start = end
       end += 4
-      (length,) = _struct_I.unpack(str[start:end])
-      pattern = '<%sd'%length
-      start = end
-      s = struct.Struct(pattern)
-      end += s.size
-      self.objr = s.unpack(str[start:end])
+      (_x.tred, _x.tyellow, _x.tleft, _x.tgreen,) = _get_struct_4B().unpack(str[start:end])
+      self.tred = bool(self.tred)
+      self.tyellow = bool(self.tyellow)
+      self.tleft = bool(self.tleft)
+      self.tgreen = bool(self.tgreen)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -157,6 +204,16 @@ float64[] objr"""
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
       buff.write(self.objy.tostring())
+      length = len(self.objr)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sd'%length
+      buff.write(self.objr.tostring())
+      _x = self.signname
+      length = len(_x)
+      if python3 or type(_x) == unicode:
+        _x = _x.encode('utf-8')
+        length = len(_x)
+      buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
       length = len(self.signx)
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
@@ -165,10 +222,8 @@ float64[] objr"""
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
       buff.write(self.signy.tostring())
-      length = len(self.objr)
-      buff.write(_struct_I.pack(length))
-      pattern = '<%sd'%length
-      buff.write(self.objr.tostring())
+      _x = self
+      buff.write(_get_struct_4B().pack(_x.tred, _x.tyellow, _x.tleft, _x.tgreen))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -205,6 +260,23 @@ float64[] objr"""
       start = end
       s = struct.Struct(pattern)
       end += s.size
+      self.objr = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=length)
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      if python3:
+        self.signname = str[start:end].decode('utf-8', 'rosmsg')
+      else:
+        self.signname = str[start:end]
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sd'%length
+      start = end
+      s = struct.Struct(pattern)
+      end += s.size
       self.signx = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=length)
       start = end
       end += 4
@@ -214,14 +286,14 @@ float64[] objr"""
       s = struct.Struct(pattern)
       end += s.size
       self.signy = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=length)
+      _x = self
       start = end
       end += 4
-      (length,) = _struct_I.unpack(str[start:end])
-      pattern = '<%sd'%length
-      start = end
-      s = struct.Struct(pattern)
-      end += s.size
-      self.objr = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=length)
+      (_x.tred, _x.tyellow, _x.tleft, _x.tgreen,) = _get_struct_4B().unpack(str[start:end])
+      self.tred = bool(self.tred)
+      self.tyellow = bool(self.tyellow)
+      self.tleft = bool(self.tleft)
+      self.tgreen = bool(self.tgreen)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -230,3 +302,9 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
+_struct_4B = None
+def _get_struct_4B():
+    global _struct_4B
+    if _struct_4B is None:
+        _struct_4B = struct.Struct("<4B")
+    return _struct_4B
