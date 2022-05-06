@@ -19,4 +19,6 @@
           TLEFT
           TGREEN-VAL
           TGREEN
+          STOP-VAL
+          STOP
 ))

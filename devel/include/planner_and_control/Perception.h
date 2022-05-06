@@ -33,7 +33,8 @@ struct Perception_
     , tred(false)
     , tyellow(false)
     , tleft(false)
-    , tgreen(false)  {
+    , tgreen(false)
+    , stop(false)  {
     }
   Perception_(const ContainerAllocator& _alloc)
     : objx(_alloc)
@@ -45,7 +46,8 @@ struct Perception_
     , tred(false)
     , tyellow(false)
     , tleft(false)
-    , tgreen(false)  {
+    , tgreen(false)
+    , stop(false)  {
   (void)_alloc;
     }
 
@@ -80,6 +82,9 @@ struct Perception_
 
    typedef uint8_t _tgreen_type;
   _tgreen_type tgreen;
+
+   typedef uint8_t _stop_type;
+  _stop_type stop;
 
 
 
@@ -119,7 +124,8 @@ bool operator==(const ::planner_and_control::Perception_<ContainerAllocator1> & 
     lhs.tred == rhs.tred &&
     lhs.tyellow == rhs.tyellow &&
     lhs.tleft == rhs.tleft &&
-    lhs.tgreen == rhs.tgreen;
+    lhs.tgreen == rhs.tgreen &&
+    lhs.stop == rhs.stop;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -176,12 +182,12 @@ struct MD5Sum< ::planner_and_control::Perception_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "ad22ff28744237026a075fb52fe5b27d";
+    return "bef5baa9c251c18149bfea75d54f4953";
   }
 
   static const char* value(const ::planner_and_control::Perception_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xad22ff2874423702ULL;
-  static const uint64_t static_value2 = 0x6a075fb52fe5b27dULL;
+  static const uint64_t static_value1 = 0xbef5baa9c251c181ULL;
+  static const uint64_t static_value2 = 0x49bfea75d54f4953ULL;
 };
 
 template<class ContainerAllocator>
@@ -212,6 +218,8 @@ struct Definition< ::planner_and_control::Perception_<ContainerAllocator> >
 "bool tyellow\n"
 "bool tleft\n"
 "bool tgreen\n"
+"\n"
+"bool stop\n"
 ;
   }
 
@@ -240,6 +248,7 @@ namespace serialization
       stream.next(m.tyellow);
       stream.next(m.tleft);
       stream.next(m.tgreen);
+      stream.next(m.stop);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -298,6 +307,8 @@ struct Printer< ::planner_and_control::Perception_<ContainerAllocator> >
     Printer<uint8_t>::stream(s, indent + "  ", v.tleft);
     s << indent << "tgreen: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.tgreen);
+    s << indent << "stop: ";
+    Printer<uint8_t>::stream(s, indent + "  ", v.stop);
   }
 };
 

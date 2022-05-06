@@ -41,11 +41,10 @@ class Motion_Planner:
         self.current_lane = 0
         self.lane_weight = []
 
-        self.current_lane = input("current lane(left : 1, right : 2) : ") # temporary code(to aviod lidar dectection)
+        self.current_lane = int(input("current lane(left : 1, right : 2) : "))
 
-        if self.current_lane == '1':
+        if self.current_lane == 1:
             self.lane_weight = [10000, 0, 10000]
-
         else:
             self.lane_weight = [10000, 10000, 0]
 

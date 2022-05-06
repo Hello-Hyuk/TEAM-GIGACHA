@@ -61,12 +61,12 @@ class Behavior_Planner:
             elif self.sign_dis > 5 and self.sign_detected == 0:
                 self.behavior = "go_side"
                 self.go_side_check = False
-
+        
         if self.state == "right_sign detected":
             if self.perception.tgreen == 1:
                 self.behavior = "turn_right"
             else:
-                if self.perception.stop == 1:
+                if self.ego.index >= 1000 and self.ego.index <= 1050:
                     self.behavior = "stop"
                 else:
                     self.behavior = "turn_right"
