@@ -73,9 +73,9 @@ class Motion_Planner:
                             if(i == 1):
                                 self.lane_weight[i] = 10000
                                 self.lane_weight[i+1] = 0
-                            elif(i==2):
-                                self.lane_weight[i] = 10000
-                                self.lane_weight[i-1] = 0
+                            # elif(i==2):
+                            #     self.lane_weight[i] = 10000
+                            #     self.lane_weight[i-1] = 0
                             path_check = False
                             break
 

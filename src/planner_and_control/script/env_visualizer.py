@@ -2,7 +2,7 @@ import rospy
 
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 
-from sensor_msgs.msg import PointCloud
+from sensor_msgs.msg import PointCloud, Imu
 from geometry_msgs.msg import Point32
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Quaternion
@@ -25,7 +25,8 @@ class environmentVisualizer:
         rospy.Subscriber('/global_path', customPath, self.globalpath_callback)
         rospy.Subscriber('/trajectory', customPath, self.localpath_callback)
         rospy.Subscriber('/perception', Perception, self.object_callback)
-        rospy.Subscriber('/simul_imu', Pose, self.simul_imu_callback)
+        # rospy.Subscriber('/simul_imu', Pose, self.simul_imu_callback) # simul
+        rospy.Subscriber('/imu', Imu, self.simul_imu_callback) # real
         
         # Publisher
         self.vis_global_path_pub = rospy.Publisher("/vis_global_path", Path, queue_size=1) # using path
@@ -91,6 +92,7 @@ class environmentVisualizer:
         # heading.pose.orientation = msg.heading
         # self.vis_pose.pose.pose.orientation.w = heading.pose.orientation
 
+        # 
         # heading = Quaternion()
         # heading.w = msg.heading
         # self.vis_pose.pose.pose.orientation.w = heading.w
