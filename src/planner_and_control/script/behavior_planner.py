@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from re import A
 import rospy
 from math import sqrt
 from time import time
@@ -47,46 +48,27 @@ class Behavior_Planner:
         if self.state == "parking":
             self.mission.parking()
             
-        elif self.state == "static obstacle detected":
+        elif self.state == "static_obstacle_detected":
             self.mission.static_obstacle(self.perception.objx, self.perception.objy)
             
-        elif self.state == "stop_sign detected":
+        elif self.state == "stop_sign_detected":
             self.mission.stop()
 
-        elif self.state == "right_sign detected":
+        elif self.state == "right_sign_detected":
             self.mission.turn_right()
+
+        elif self.state == "left_sign_detected":
+            self.mission.turn_left()
+            
+        elif self.state == "child_area":
+            pass
 
         else:
             self.mission.go()
 
         print(f"behavior_planner : {self.ego.behavior_decision}")
         print(f"speed : {self.ego.target_speed}")
-        if self.state == "stop_sign detected":
-            self.sign_dis = sqrt((self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
-            if self.sign_dis <= 5:
-                if self.go_side_check == False:
-                    self.behavior = "stop"
-                    self.wait_time = time()
-                    self.go_side_check = True
-                if self.behavior == "stop" and time() - self.wait_time > 3:
-                    self.behavior = "go"
-                    self.sign_detected = 1
-            elif self.sign_dis > 5 and self.sign_detected == 0:
-                self.behavior = "go_side"
-                self.go_side_check = False
-        
 
-        if self.state == "right_sign detected":
-            if self.perception.tgreen == 1:
-                self.behavior = "turn_right"
-            else:
-                if self.ego.index >= 1000 and self.ego.index <= 1050:
-                    self.behavior = "stop"
-                else:
-                    self.behavior = "turn_right"
-                
-            
-        
         self.behavior = self.ego.behavior_decision
         self.pub_behavior.publish(self.behavior)
         self.pub_ego.publish(self.ego)

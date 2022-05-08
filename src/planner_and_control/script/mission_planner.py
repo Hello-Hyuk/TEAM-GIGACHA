@@ -33,15 +33,20 @@ class Mission_Planner:
 
     def run(self):
 
-        if self.perception.signname == "turnright":
-            self.state = "right_sign detected"
+        if self.perception.signname == "turn_right_traffic_light":
+            self.state = "right_sign_detected"
 
         elif self.perception.signname == "static_obstacle":
-            self.state = "static obstacle detected"           
+            self.state = "static_obstacle_detected"           
 
         elif self.perception.signname == "delivery":
-            self.state = "stop sign detected"
+            self.state = "stop_sign_detected"
 
+        elif self.perception.signname == "child_area":
+            self.state = "child_area"
+        
+        elif self.perception.signname == "turn_left_traffic_light":
+            self.state = "left_sign_detected"
         else:
             self.state = "go"
         print(f"mission_planner : {self.state}")

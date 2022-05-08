@@ -13,7 +13,6 @@ class Vision:
         self.vision.objy = []
         self.vision.objr = []
         self.vision.signname = "go"
-        self.make_input()
 
     def make_input(self):
         x = float(input("object x : "))

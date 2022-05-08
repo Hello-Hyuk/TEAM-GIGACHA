@@ -62,19 +62,31 @@ class Mission():
             self.go_side_check = False
 
     def static_obstacle(self, objx, objy):
-        self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
-        if self.obs_dis <= 3:
-            self.ego.target_speed = 5.0
-        else:
-            self.ego.target_speed = 10.0
-        self.ego.behavior_decision = "static_obstacle_avoidance"
+        if (len(self.perception.objx)!= 0):
+            self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
+            if self.obs_dis <= 3:
+                self.ego.target_speed = 5.0
+            else:
+                self.ego.target_speed = 10.0
+            self.ego.behavior_decision = "static_obstacle_avoidance"
 
 
     def turn_right(self):
-        if self.perception.tgreen == 1:
-            self.ego.behavior_decision = "turn_right"
-        else:
-            if self.perception.stop == 1:
-                self.ego.behavior_decision = "stop"
-            else:
+        if self.ego.behavior_decision == "right_sign_detected":
+            if self.perception.tgreen == 1:
                 self.ego.behavior_decision = "turn_right"
+            else:
+                if self.ego.index >= 1000 and self.ego.index <= 1050:
+                    self.ego.behavior_decision = "stop"
+                else:
+                    self.ego.behavior_decision = "turn_right"
+    
+    def turn_left(self):  #left 수정
+        if self.ego.behavior_decision == "right_sign detected":
+            if self.perception.tgreen == 1:
+                self.ego.behavior_decision = "turn_right"
+            else:
+                if self.ego.index >= 1000 and self.ego.index <= 1050:
+                    self.ego.behavior_decision = "stop"
+                else:
+                    self.ego.behavior_decision = "turn_right"
