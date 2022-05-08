@@ -16,17 +16,16 @@ class Ego_updater:
         self.ego = Ego()
 
         self.ego.map_folder = input("folder name : ")
-        self.ego.map_file = input("file name : ")
 
         if self.ego.map_folder == "1":
             self.ego.map_folder = "songdo_track"
+            self.ego.map_file = "songdo_track"
         elif self.ego.map_folder == "2":
             self.ego.map_folder = "kcity_simul"
-
-        if self.ego.map_file == "1":
-            self.ego.map_file = "songdo_track"
-        elif self.ego.map_file == "2":
             self.ego.map_file = "ex"
+        elif self.ego.map_folder == "3":
+            self.ego.map_folder = "kcity_simul/turn_right"
+            self.ego.map_file = "turn_right"
 
         self.IF = IndexFinder(self.ego)
 

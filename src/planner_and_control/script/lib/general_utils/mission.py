@@ -70,7 +70,6 @@ class Mission():
                 self.ego.target_speed = 10.0
             self.ego.behavior_decision = "static_obstacle_avoidance"
 
-
     def turn_right(self):
         if self.perception.tgreen == 1:
             self.ego.behavior_decision = "turn_right"
@@ -80,14 +79,14 @@ class Mission():
             else:
                 self.ego.behavior_decision = "turn_right"
     
-    def turn_left(self):  #left 수정
-        if self.perception.tgreen == 1:
-            self.ego.behavior_decision = "turn_right"
+    def turn_left(self):
+        if self.perception.tleft == 1:
+            self.ego.behavior_decision = "turn_left"
         else:
-            if self.ego.index >= 1000 and self.ego.index <= 1050:
+            if self.ego.index >= 2750 and self.ego.index <= 2800:
                 self.ego.behavior_decision = "stop"
             else:
-                self.ego.behavior_decision = "turn_right"
+                self.ego.behavior_decision = "turn_left"
 
     def child_area(self):
         pass

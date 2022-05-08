@@ -108,16 +108,20 @@ class Motion_Planner:
             self.weight_function_obstacle_avoidance()
             self.select_trajectory()
         
-        if self.behavior.data == "go_side":
+        elif self.behavior.data == "go_side":
             self.weight_sign_function()
             self.select_trajectory()
         
-        if self.behavior.data == "stop":
+        elif self.behavior.data == "stop":
             self.trajectory.x = []
             self.trajectory.y = []
 
-        if self.behavior.data == "turn_right":
+        elif self.behavior.data == "turn_right":
             self.lane_weight = [10000, 10000, 0]
+            self.select_trajectory()
+
+        elif self.behavior.data == "turn_left":
+            self.lane_weight = [10000, 0, 10000]
             self.select_trajectory()
 
         else:  ## self.behavior == "go"

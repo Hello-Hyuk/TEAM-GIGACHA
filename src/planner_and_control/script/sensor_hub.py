@@ -4,7 +4,7 @@ from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from planner_and_control.msg import Local
 from sensor_msgs.msg import PointCloud
 from planner_and_control.msg import Serial_Info
-from planner_and_control.msg import Perception
+from planner_and_control.msg import Perception, Ego
 from math import cos, sin, pi
 
 
@@ -20,6 +20,7 @@ class Sensor_hub:
 
         self.pub1 = rospy.Publisher("/perception", Perception, queue_size = 1)
 
+        self.ego = Ego()
         self.perception = Perception()
         self.perception.signx = [63.7384548403, 0]
         self.perception.signy = [111.167584983, 0]

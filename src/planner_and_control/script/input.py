@@ -54,6 +54,9 @@ class Input:
         elif (self.mission == 4):
             self.perception.signname = "delivery"
         
+        else:
+            self.perception.signname = " "
+        
     def run(self):
         self.pub.publish(self.perception)
         self.function()
