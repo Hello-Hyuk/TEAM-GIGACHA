@@ -61,7 +61,7 @@ class Behavior_Planner:
             self.mission.turn_left()
             
         elif self.state == "child_area":
-            self.mission.child_area()
+            self.mission.child_area(self.perception.signx, self.perception.signy)
 
         else:
             self.mission.go()

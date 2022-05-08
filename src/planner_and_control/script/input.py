@@ -43,7 +43,9 @@ class Input:
 
         elif (self.mission == 2):
             self.perception.signname = "child_area"
-
+            self.perception.signx = float(input("signx : "))
+            self.perception.signy = float(input("signy : "))
+            
         elif (self.mission == 3):
             self.perception.tred = int(input("red(on : 1, off : 0) : "))
             self.perception.tyellow = int(input("yellow(on : 1, off : 0) : "))
@@ -53,7 +55,9 @@ class Input:
 
         elif (self.mission == 4):
             self.perception.signname = "delivery"
-        
+            self.perception.signx = float(input("signx : "))
+            self.perception.signy = float(input("signy : "))
+            
     def run(self):
         self.pub.publish(self.perception)
         self.function()

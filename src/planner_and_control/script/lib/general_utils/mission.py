@@ -89,5 +89,8 @@ class Mission():
             else:
                 self.ego.behavior_decision = "turn_right"
 
-    def child_area(self):
-        pass
+    def child_area(self, signx, signy):
+        self.sign_dis = sqrt((self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
+        if self.sign_dis <=3:
+            self.ego.target_speed = 5.0
+        self.ego.behavior_decision = "child_area"
