@@ -8,6 +8,10 @@ class Input:
         self.pub = rospy.Publisher("/input", Perception, queue_size = 1)
         self.perception = Perception()
         self.perception.signname = " "
+        self.perception.tred = False
+        self.perception.tyellow = False
+        self.perception.tleft = False
+        self.perception.tgreen = False
         self.perception.objx = []
         self.perception.objy = []
         self.perception.objr = []
