@@ -1,0 +1,55 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_71ddc/fast"
+/usr/bin/make -f CMakeFiles/cmTC_71ddc.dir/build.make CMakeFiles/cmTC_71ddc.dir/build
+make[1]: Entering directory '/home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_71ddc.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_71ddc.dir/CheckSymbolExists.c.o   -c /home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_71ddc
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_71ddc.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_71ddc.dir/CheckSymbolExists.c.o  -o cmTC_71ddc 
+CMakeFiles/cmTC_71ddc.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_71ddc.dir/build.make:97: recipe for target 'cmTC_71ddc' failed
+make[1]: *** [cmTC_71ddc] Error 1
+make[1]: Leaving directory '/home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_71ddc/fast' failed
+make: *** [cmTC_71ddc/fast] Error 2
+
+File /home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_f2e90/fast"
+/usr/bin/make -f CMakeFiles/cmTC_f2e90.dir/build.make CMakeFiles/cmTC_f2e90.dir/build
+make[1]: Entering directory '/home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f2e90.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_f2e90.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_f2e90
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f2e90.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_f2e90.dir/CheckFunctionExists.c.o  -o cmTC_f2e90 -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_f2e90.dir/build.make:97: recipe for target 'cmTC_f2e90' failed
+make[1]: *** [cmTC_f2e90] Error 1
+make[1]: Leaving directory '/home/gigacha/TEAM-GIGACHA/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_f2e90/fast' failed
+make: *** [cmTC_f2e90/fast] Error 2
+
+

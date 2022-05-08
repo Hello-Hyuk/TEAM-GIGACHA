@@ -80,7 +80,7 @@ class Mission():
             else:
                 self.ego.behavior_decision = "turn_right"
     
-    def turn_left(self):  #left 수정
+    def turn_left(self):
         if self.perception.tgreen == 1:
             self.ego.behavior_decision = "turn_right"
         else:
@@ -90,7 +90,10 @@ class Mission():
                 self.ego.behavior_decision = "turn_right"
 
     def child_area(self, signx, signy):
-        self.sign_dis = sqrt((self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
-        if self.sign_dis <=3:
-            self.ego.target_speed = 5.0
-        self.ego.behavior_decision = "child_area"
+        if (len(self.perception.signx)!= 0):
+            self.sign_dis = sqrt((self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
+            if self.sign_dis <= 15:
+                self.ego.target_speed = 7.0
+            else:
+                self.ego.target_speed = 20.0
+            self.ego.behavior_decision = "child_area"
