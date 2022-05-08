@@ -71,9 +71,11 @@ class Behavior_Planner:
                 if self.behavior == "stop" and time() - self.wait_time > 3:
                     self.behavior = "go"
                     self.sign_detected = 1
+            elif self.sign_dis > 5 and self.sign_detected == 0:
                 self.behavior = "go_side"
                 self.go_side_check = False
         
+
         if self.state == "right_sign detected":
             if self.perception.tgreen == 1:
                 self.behavior = "turn_right"
@@ -83,7 +85,7 @@ class Behavior_Planner:
                 else:
                     self.behavior = "turn_right"
                 
-            elif self.sign_dis > 5 and self.sign_detected == 0:
+            
         
         self.behavior = self.ego.behavior_decision
         self.pub_behavior.publish(self.behavior)
