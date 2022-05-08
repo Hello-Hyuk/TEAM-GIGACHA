@@ -30,6 +30,9 @@ class Ego {
       this.brake = null;
       this.gear = null;
       this.auto_manual = null;
+      this.map_folder = null;
+      this.map_file = null;
+      this.behavior_decision = null;
     }
     else {
       if (initObj.hasOwnProperty('x')) {
@@ -104,6 +107,24 @@ class Ego {
       else {
         this.auto_manual = 0;
       }
+      if (initObj.hasOwnProperty('map_folder')) {
+        this.map_folder = initObj.map_folder
+      }
+      else {
+        this.map_folder = '';
+      }
+      if (initObj.hasOwnProperty('map_file')) {
+        this.map_file = initObj.map_file
+      }
+      else {
+        this.map_file = '';
+      }
+      if (initObj.hasOwnProperty('behavior_decision')) {
+        this.behavior_decision = initObj.behavior_decision
+      }
+      else {
+        this.behavior_decision = '';
+      }
     }
   }
 
@@ -133,6 +154,12 @@ class Ego {
     bufferOffset = _serializer.int16(obj.gear, buffer, bufferOffset);
     // Serialize message field [auto_manual]
     bufferOffset = _serializer.int16(obj.auto_manual, buffer, bufferOffset);
+    // Serialize message field [map_folder]
+    bufferOffset = _serializer.string(obj.map_folder, buffer, bufferOffset);
+    // Serialize message field [map_file]
+    bufferOffset = _serializer.string(obj.map_file, buffer, bufferOffset);
+    // Serialize message field [behavior_decision]
+    bufferOffset = _serializer.string(obj.behavior_decision, buffer, bufferOffset);
     return bufferOffset;
   }
 
@@ -164,11 +191,21 @@ class Ego {
     data.gear = _deserializer.int16(buffer, bufferOffset);
     // Deserialize message field [auto_manual]
     data.auto_manual = _deserializer.int16(buffer, bufferOffset);
+    // Deserialize message field [map_folder]
+    data.map_folder = _deserializer.string(buffer, bufferOffset);
+    // Deserialize message field [map_file]
+    data.map_file = _deserializer.string(buffer, bufferOffset);
+    // Deserialize message field [behavior_decision]
+    data.behavior_decision = _deserializer.string(buffer, bufferOffset);
     return data;
   }
 
   static getMessageSize(object) {
-    return 56;
+    let length = 0;
+    length += object.map_folder.length;
+    length += object.map_file.length;
+    length += object.behavior_decision.length;
+    return length + 68;
   }
 
   static datatype() {
@@ -178,7 +215,7 @@ class Ego {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '0869400e66da0a77dc77cb9c63aed1a9';
+    return 'a00057935a45c5ac10ab11c4cf274023';
   }
 
   static messageDefinition() {
@@ -196,6 +233,9 @@ class Ego {
     int32 brake
     int16 gear
     int16 auto_manual
+    string map_folder
+    string map_file
+    string behavior_decision
     `;
   }
 
@@ -287,6 +327,27 @@ class Ego {
     }
     else {
       resolved.auto_manual = 0
+    }
+
+    if (msg.map_folder !== undefined) {
+      resolved.map_folder = msg.map_folder;
+    }
+    else {
+      resolved.map_folder = ''
+    }
+
+    if (msg.map_file !== undefined) {
+      resolved.map_file = msg.map_file;
+    }
+    else {
+      resolved.map_file = ''
+    }
+
+    if (msg.behavior_decision !== undefined) {
+      resolved.behavior_decision = msg.behavior_decision;
+    }
+    else {
+      resolved.behavior_decision = ''
     }
 
     return resolved;

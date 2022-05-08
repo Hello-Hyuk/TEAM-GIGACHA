@@ -9,9 +9,10 @@ from lib.cubic_spline_planner import calc_spline_course
 
 
 # 송도
-# base_lat = 37.383784   
-# base_lon = 126.654310
-# base_alt = 15.4
+base_lat = 37.383784   
+base_lon = 126.654310
+base_alt = 15.4
+
 # 송도 건물 옆
 # base_lat = 37.3851693 #새로운 베이스
 # base_lon = 126.6562271
@@ -34,6 +35,7 @@ base_alt = 15.4
 
 def get_xy(lat, lon, alt): #점들 사이의 새로운 점들을 설정 
     e, n, u = pm.geodetic2enu(lat, lon, alt, base_lat, base_lon, base_alt)
+    print("hello")
     return e, n
 
 def cubic(name,*args): # args에는 1,2,3,4,5,6 등 막 들어 수있음

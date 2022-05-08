@@ -20,7 +20,6 @@ class Localization():
         self.msg.y = self.gps.y
         self.msg.heading = self.imu.yaw
 
-
         self.pub.publish(self.msg)
 
         # print("Localization On...")

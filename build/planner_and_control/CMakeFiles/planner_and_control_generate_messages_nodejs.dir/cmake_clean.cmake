@@ -11,7 +11,6 @@ file(REMOVE_RECURSE
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Obstacles.js"
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Path.js"
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Perception.js"
-  "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Obj.js"
 )
 
 # Per-language clean rules from dependency scanning.

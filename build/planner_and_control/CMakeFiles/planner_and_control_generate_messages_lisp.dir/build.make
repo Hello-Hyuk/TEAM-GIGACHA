@@ -64,7 +64,6 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Obstacles.lisp
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Path.lisp
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Perception.lisp
-planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Obj.lisp
 
 
 /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Sign.lisp: /opt/ros/melodic/lib/genlisp/gen_lisp.py
@@ -128,11 +127,6 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating Lisp code from planner_and_control/Perception.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg
 
-/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Obj.lisp: /opt/ros/melodic/lib/genlisp/gen_lisp.py
-/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Obj.lisp: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Generating Lisp code from planner_and_control/Obj.msg"
-	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obj.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg
-
 planner_and_control_generate_messages_lisp: planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp
 planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Sign.lisp
 planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/CircleObstacle.lisp
@@ -145,7 +139,6 @@ planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/sha
 planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Obstacles.lisp
 planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Path.lisp
 planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Perception.lisp
-planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Obj.lisp
 planner_and_control_generate_messages_lisp: planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp.dir/build.make
 
 .PHONY : planner_and_control_generate_messages_lisp
