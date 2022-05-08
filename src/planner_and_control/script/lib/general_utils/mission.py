@@ -88,3 +88,6 @@ class Mission():
                 self.ego.behavior_decision = "stop"
             else:
                 self.ego.behavior_decision = "turn_right"
+
+    def child_area(self):
+        pass
