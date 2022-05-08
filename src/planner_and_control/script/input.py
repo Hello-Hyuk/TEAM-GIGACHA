@@ -11,10 +11,14 @@ class Input:
         self.perception.objx = []
         self.perception.objy = []
         self.perception.objr = []
+        self.perception.tred = 0
+        self.perception.tyellow = 0
+        self.perception.tleft = 0
+        self.perception.tgreen = 0
         self.perception.signname = "go"
     
     def function(self):
-        self.mission = int(input("which mission? (0: obstacle, 1: trun_right, 2: child, 3: turn_left, 4: delivery) : "))
+        self.mission = int(input("which mission? (0: obstacle, 1: turn_right, 2: child, 3: turn_left, 4: delivery) : "))
         if(self.mission == 0):
             x = float(input("object x : "))
             y = float(input("object y : "))
@@ -54,7 +58,7 @@ class Input:
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
     ss = Input()
-    rate = rospy.Rate(20)
+    rate = rospy.Rate(1)
     while not rospy.is_shutdown():
         ss.run()
         rate.sleep

@@ -15,7 +15,7 @@ class Sensor_hub:
         rospy.Subscriber("/s1", Local, self.camera1_callback) # Camera 1
         rospy.Subscriber("/s3", Local, self.camera3_callback) # Camera 3
         rospy.Subscriber("/vision", Perception, self.vision_callback) # Camera 3
-        rospy.Subscriber("/input", Perception, self.turn_right_callback)
+        rospy.Subscriber("/input", Perception, self.input_callback)
         rospy.Subscriber("/pose", Local, self.local_callback) # local_pose
 
         self.pub1 = rospy.Publisher("/perception", Perception, queue_size = 1)
@@ -45,7 +45,10 @@ class Sensor_hub:
             self.perception.obj.x.append(msg.objx[i] * cos(theta) + msg.objy[i] * -sin(theta) + self.ego.x)
             self.perception.obj.y.append(msg.objx[i] * sin(theta) + msg.objy[i] * cos(theta) + self.ego.y)
 
-    def turn_right_callback(self, msg):
+    def input_callback(self, msg):
+        self.perception.objx = msg.objx
+        self.perception.objy = msg.objy
+        self.perception.objr = msg.objr
         self.perception.tred = msg.tred
         self.perception.tyellow = msg.tyellow
         self.perception.tleft = msg.tleft
@@ -54,13 +57,12 @@ class Sensor_hub:
 
     def run(self):
         self.pub1.publish(self.perception)
-        
-        print("sensor_hub is operating..")
+        # print("sensor_hub is operating..")
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
     ss = Sensor_hub()
-    rate = rospy.Rate(50)
+    rate = rospy.Rate(5)
     while not rospy.is_shutdown():
         ss.run()
         rate.sleep

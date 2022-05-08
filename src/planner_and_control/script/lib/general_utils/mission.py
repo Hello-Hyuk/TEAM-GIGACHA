@@ -72,21 +72,19 @@ class Mission():
 
 
     def turn_right(self):
-        if self.ego.behavior_decision == "right_sign_detected":
-            if self.perception.tgreen == 1:
-                self.ego.behavior_decision = "turn_right"
+        if self.perception.tgreen == 1:
+            self.ego.behavior_decision = "turn_right"
+        else:
+            if self.ego.index >= 1000 and self.ego.index <= 1050:
+                self.ego.behavior_decision = "stop"
             else:
-                if self.ego.index >= 1000 and self.ego.index <= 1050:
-                    self.ego.behavior_decision = "stop"
-                else:
-                    self.ego.behavior_decision = "turn_right"
+                self.ego.behavior_decision = "turn_right"
     
     def turn_left(self):  #left 수정
-        if self.ego.behavior_decision == "right_sign detected":
-            if self.perception.tgreen == 1:
-                self.ego.behavior_decision = "turn_right"
+        if self.perception.tgreen == 1:
+            self.ego.behavior_decision = "turn_right"
+        else:
+            if self.ego.index >= 1000 and self.ego.index <= 1050:
+                self.ego.behavior_decision = "stop"
             else:
-                if self.ego.index >= 1000 and self.ego.index <= 1050:
-                    self.ego.behavior_decision = "stop"
-                else:
-                    self.ego.behavior_decision = "turn_right"
+                self.ego.behavior_decision = "turn_right"
