@@ -24,7 +24,7 @@ class Ego_updater:
             self.ego.map_folder = "kcity_simul"
 
         if self.ego.map_file == "1":
-            self.ego.map_file = "songdo_track"
+            self.ego.map_file = "songdo_straight"
         elif self.ego.map_file == "2":
             self.ego.map_file = "ex"
 

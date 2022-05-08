@@ -63,11 +63,13 @@ class Mission():
 
     def static_obstacle(self, objx, objy):
         self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
-        if self.obs_dis <= 3:
+        self.ego.behavior_decision = "static_obstacle_avoidance"
+        if self.obs_dis <= 10:
+            self.ego.target_speed = 10.0
+            else self.obs_dis <= 5:
             self.ego.target_speed = 5.0
         else:
-            self.ego.target_speed = 10.0
-        self.ego.behavior_decision = "static_obstacle_avoidance"
+            self.ego.target_speed = 15.0
 
 
     def turn_right(self):
