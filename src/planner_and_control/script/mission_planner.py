@@ -47,6 +47,10 @@ class Mission_Planner:
         
         elif self.perception.signname == "turn_left_traffic_light":
             self.state = "left_sign_detected"
+
+        elif self.perception.signname == "non_traffic_right":
+            self.state ="right_sign_area"
+
         else:
             self.state = "go"
         print(f"mission_planner : {self.state}")
