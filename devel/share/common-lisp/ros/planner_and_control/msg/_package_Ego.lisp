@@ -27,6 +27,4 @@
           MAP_FOLDER
           MAP_FILE-VAL
           MAP_FILE
-          BEHAVIOR_DECISION-VAL
-          BEHAVIOR_DECISION
 ))

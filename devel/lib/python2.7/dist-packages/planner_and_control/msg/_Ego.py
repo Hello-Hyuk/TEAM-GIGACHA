@@ -8,7 +8,7 @@ import struct
 
 
 class Ego(genpy.Message):
-  _md5sum = "a00057935a45c5ac10ab11c4cf274023"
+  _md5sum = "7b3b99500febf6cd8a603841e01e0e77"
   _type = "planner_and_control/Ego"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float64 x
@@ -24,10 +24,9 @@ int32 brake
 int16 gear
 int16 auto_manual
 string map_folder
-string map_file
-string behavior_decision"""
-  __slots__ = ['x','y','heading','index','target_speed','target_brake','target_gear','speed','steer','brake','gear','auto_manual','map_folder','map_file','behavior_decision']
-  _slot_types = ['float64','float64','float64','int32','float32','float32','float32','float32','float32','int32','int16','int16','string','string','string']
+string map_file"""
+  __slots__ = ['x','y','heading','index','target_speed','target_brake','target_gear','speed','steer','brake','gear','auto_manual','map_folder','map_file']
+  _slot_types = ['float64','float64','float64','int32','float32','float32','float32','float32','float32','int32','int16','int16','string','string']
 
   def __init__(self, *args, **kwds):
     """
@@ -37,7 +36,7 @@ string behavior_decision"""
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       x,y,heading,index,target_speed,target_brake,target_gear,speed,steer,brake,gear,auto_manual,map_folder,map_file,behavior_decision
+       x,y,heading,index,target_speed,target_brake,target_gear,speed,steer,brake,gear,auto_manual,map_folder,map_file
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -74,8 +73,6 @@ string behavior_decision"""
         self.map_folder = ''
       if self.map_file is None:
         self.map_file = ''
-      if self.behavior_decision is None:
-        self.behavior_decision = ''
     else:
       self.x = 0.
       self.y = 0.
@@ -91,7 +88,6 @@ string behavior_decision"""
       self.auto_manual = 0
       self.map_folder = ''
       self.map_file = ''
-      self.behavior_decision = ''
 
   def _get_types(self):
     """
@@ -114,12 +110,6 @@ string behavior_decision"""
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
       _x = self.map_file
-      length = len(_x)
-      if python3 or type(_x) == unicode:
-        _x = _x.encode('utf-8')
-        length = len(_x)
-      buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
-      _x = self.behavior_decision
       length = len(_x)
       if python3 or type(_x) == unicode:
         _x = _x.encode('utf-8')
@@ -159,15 +149,6 @@ string behavior_decision"""
         self.map_file = str[start:end].decode('utf-8', 'rosmsg')
       else:
         self.map_file = str[start:end]
-      start = end
-      end += 4
-      (length,) = _struct_I.unpack(str[start:end])
-      start = end
-      end += length
-      if python3:
-        self.behavior_decision = str[start:end].decode('utf-8', 'rosmsg')
-      else:
-        self.behavior_decision = str[start:end]
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -189,12 +170,6 @@ string behavior_decision"""
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
       _x = self.map_file
-      length = len(_x)
-      if python3 or type(_x) == unicode:
-        _x = _x.encode('utf-8')
-        length = len(_x)
-      buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
-      _x = self.behavior_decision
       length = len(_x)
       if python3 or type(_x) == unicode:
         _x = _x.encode('utf-8')
@@ -235,15 +210,6 @@ string behavior_decision"""
         self.map_file = str[start:end].decode('utf-8', 'rosmsg')
       else:
         self.map_file = str[start:end]
-      start = end
-      end += 4
-      (length,) = _struct_I.unpack(str[start:end])
-      start = end
-      end += length
-      if python3:
-        self.behavior_decision = str[start:end].decode('utf-8', 'rosmsg')
-      else:
-        self.behavior_decision = str[start:end]
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill

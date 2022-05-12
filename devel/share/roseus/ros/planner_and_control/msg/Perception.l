@@ -14,7 +14,7 @@
 
 (defclass planner_and_control::Perception
   :super ros::object
-  :slots (_objx _objy _objr _signname _signx _signy _tred _tyellow _tleft _tgreen _stop ))
+  :slots (_objx _objy _objr _signname _signx _signy _rightx _righty _tred _tyellow _tleft _tgreen _stop ))
 
 (defmethod planner_and_control::Perception
   (:init
@@ -25,6 +25,8 @@
     ((:signname __signname) "")
     ((:signx __signx) (make-array 0 :initial-element 0.0 :element-type :float))
     ((:signy __signy) (make-array 0 :initial-element 0.0 :element-type :float))
+    ((:rightx __rightx) (make-array 0 :initial-element 0.0 :element-type :float))
+    ((:righty __righty) (make-array 0 :initial-element 0.0 :element-type :float))
     ((:tred __tred) nil)
     ((:tyellow __tyellow) nil)
     ((:tleft __tleft) nil)
@@ -38,6 +40,8 @@
    (setq _signname (string __signname))
    (setq _signx __signx)
    (setq _signy __signy)
+   (setq _rightx __rightx)
+   (setq _righty __righty)
    (setq _tred __tred)
    (setq _tyellow __tyellow)
    (setq _tleft __tleft)
@@ -62,6 +66,12 @@
   (:signy
    (&optional __signy)
    (if __signy (setq _signy __signy)) _signy)
+  (:rightx
+   (&optional __rightx)
+   (if __rightx (setq _rightx __rightx)) _rightx)
+  (:righty
+   (&optional __righty)
+   (if __righty (setq _righty __righty)) _righty)
   (:tred
    (&optional __tred)
    (if __tred (setq _tred __tred)) _tred)
@@ -92,6 +102,10 @@
     (* 8    (length _signx)) 4
     ;; float64[] _signy
     (* 8    (length _signy)) 4
+    ;; float64[] _rightx
+    (* 8    (length _rightx)) 4
+    ;; float64[] _righty
+    (* 8    (length _righty)) 4
     ;; bool _tred
     1
     ;; bool _tyellow
@@ -133,6 +147,16 @@
      (write-long (length _signy) s)
      (dotimes (i (length _signy))
        (sys::poke (elt _signy i) (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
+       )
+     ;; float64[] _rightx
+     (write-long (length _rightx) s)
+     (dotimes (i (length _rightx))
+       (sys::poke (elt _rightx i) (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
+       )
+     ;; float64[] _righty
+     (write-long (length _righty) s)
+     (dotimes (i (length _righty))
+       (sys::poke (elt _righty i) (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
        )
      ;; bool _tred
        (if _tred (write-byte -1 s) (write-byte 0 s))
@@ -185,6 +209,20 @@
      (dotimes (i n)
      (setf (elt _signy i) (sys::peek buf ptr- :double)) (incf ptr- 8)
      ))
+   ;; float64[] _rightx
+   (let (n)
+     (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4)
+     (setq _rightx (instantiate float-vector n))
+     (dotimes (i n)
+     (setf (elt _rightx i) (sys::peek buf ptr- :double)) (incf ptr- 8)
+     ))
+   ;; float64[] _righty
+   (let (n)
+     (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4)
+     (setq _righty (instantiate float-vector n))
+     (dotimes (i n)
+     (setf (elt _righty i) (sys::peek buf ptr- :double)) (incf ptr- 8)
+     ))
    ;; bool _tred
      (setq _tred (not (= 0 (sys::peek buf ptr- :char)))) (incf ptr- 1)
    ;; bool _tyellow
@@ -199,7 +237,7 @@
    self)
   )
 
-(setf (get planner_and_control::Perception :md5sum-) "bef5baa9c251c18149bfea75d54f4953")
+(setf (get planner_and_control::Perception :md5sum-) "ac796173eec7500d90ff0331b9cf57b9")
 (setf (get planner_and_control::Perception :datatype-) "planner_and_control/Perception")
 (setf (get planner_and_control::Perception :definition-)
       "float64[] objx
@@ -209,6 +247,9 @@ float64[] objr
 string signname
 float64[] signx
 float64[] signy
+
+float64[] rightx
+float64[] righty
 
 bool tred
 bool tyellow
@@ -220,6 +261,6 @@ bool stop
 
 
 
-(provide :planner_and_control/Perception "bef5baa9c251c18149bfea75d54f4953")
+(provide :planner_and_control/Perception "ac796173eec7500d90ff0331b9cf57b9")
 
 

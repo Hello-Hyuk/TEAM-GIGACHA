@@ -14,7 +14,7 @@
 
 (defclass planner_and_control::Path
   :super ros::object
-  :slots (_x _y _heading _k ))
+  :slots (_x _y _heading _k _select_lane ))
 
 (defmethod planner_and_control::Path
   (:init
@@ -23,12 +23,14 @@
     ((:y __y) (make-array 0 :initial-element 0.0 :element-type :float))
     ((:heading __heading) (make-array 0 :initial-element 0.0 :element-type :float))
     ((:k __k) (make-array 0 :initial-element 0.0 :element-type :float))
+    ((:select_lane __select_lane) 0)
     )
    (send-super :init)
    (setq _x __x)
    (setq _y __y)
    (setq _heading __heading)
    (setq _k __k)
+   (setq _select_lane (round __select_lane))
    self)
   (:x
    (&optional __x)
@@ -42,6 +44,9 @@
   (:k
    (&optional __k)
    (if __k (setq _k __k)) _k)
+  (:select_lane
+   (&optional __select_lane)
+   (if __select_lane (setq _select_lane __select_lane)) _select_lane)
   (:serialization-length
    ()
    (+
@@ -53,6 +58,8 @@
     (* 8    (length _heading)) 4
     ;; float64[] _k
     (* 8    (length _k)) 4
+    ;; int16 _select_lane
+    2
     ))
   (:serialize
    (&optional strm)
@@ -78,6 +85,8 @@
      (dotimes (i (length _k))
        (sys::poke (elt _k i) (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
        )
+     ;; int16 _select_lane
+       (write-word _select_lane s)
      ;;
      (if (null strm) (get-output-stream-string s))))
   (:deserialize
@@ -110,21 +119,24 @@
      (dotimes (i n)
      (setf (elt _k i) (sys::peek buf ptr- :double)) (incf ptr- 8)
      ))
+   ;; int16 _select_lane
+     (setq _select_lane (sys::peek buf ptr- :short)) (incf ptr- 2)
    ;;
    self)
   )
 
-(setf (get planner_and_control::Path :md5sum-) "c2a75c907e39ce890d33be82252d4cf2")
+(setf (get planner_and_control::Path :md5sum-) "0e23544cfda31e4456235bd2624aadc2")
 (setf (get planner_and_control::Path :datatype-) "planner_and_control/Path")
 (setf (get planner_and_control::Path :definition-)
       "float64[] x
 float64[] y
 float64[] heading
 float64[] k
+int16 select_lane
 ")
 
 
 
-(provide :planner_and_control/Path "c2a75c907e39ce890d33be82252d4cf2")
+(provide :planner_and_control/Path "0e23544cfda31e4456235bd2624aadc2")
 
 

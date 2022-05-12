@@ -24,6 +24,8 @@ class Perception {
       this.signname = null;
       this.signx = null;
       this.signy = null;
+      this.rightx = null;
+      this.righty = null;
       this.tred = null;
       this.tyellow = null;
       this.tleft = null;
@@ -66,6 +68,18 @@ class Perception {
       }
       else {
         this.signy = [];
+      }
+      if (initObj.hasOwnProperty('rightx')) {
+        this.rightx = initObj.rightx
+      }
+      else {
+        this.rightx = [];
+      }
+      if (initObj.hasOwnProperty('righty')) {
+        this.righty = initObj.righty
+      }
+      else {
+        this.righty = [];
       }
       if (initObj.hasOwnProperty('tred')) {
         this.tred = initObj.tred
@@ -114,6 +128,10 @@ class Perception {
     bufferOffset = _arraySerializer.float64(obj.signx, buffer, bufferOffset, null);
     // Serialize message field [signy]
     bufferOffset = _arraySerializer.float64(obj.signy, buffer, bufferOffset, null);
+    // Serialize message field [rightx]
+    bufferOffset = _arraySerializer.float64(obj.rightx, buffer, bufferOffset, null);
+    // Serialize message field [righty]
+    bufferOffset = _arraySerializer.float64(obj.righty, buffer, bufferOffset, null);
     // Serialize message field [tred]
     bufferOffset = _serializer.bool(obj.tred, buffer, bufferOffset);
     // Serialize message field [tyellow]
@@ -143,6 +161,10 @@ class Perception {
     data.signx = _arrayDeserializer.float64(buffer, bufferOffset, null)
     // Deserialize message field [signy]
     data.signy = _arrayDeserializer.float64(buffer, bufferOffset, null)
+    // Deserialize message field [rightx]
+    data.rightx = _arrayDeserializer.float64(buffer, bufferOffset, null)
+    // Deserialize message field [righty]
+    data.righty = _arrayDeserializer.float64(buffer, bufferOffset, null)
     // Deserialize message field [tred]
     data.tred = _deserializer.bool(buffer, bufferOffset);
     // Deserialize message field [tyellow]
@@ -164,7 +186,9 @@ class Perception {
     length += object.signname.length;
     length += 8 * object.signx.length;
     length += 8 * object.signy.length;
-    return length + 29;
+    length += 8 * object.rightx.length;
+    length += 8 * object.righty.length;
+    return length + 37;
   }
 
   static datatype() {
@@ -174,7 +198,7 @@ class Perception {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return 'bef5baa9c251c18149bfea75d54f4953';
+    return 'ac796173eec7500d90ff0331b9cf57b9';
   }
 
   static messageDefinition() {
@@ -187,6 +211,9 @@ class Perception {
     string signname
     float64[] signx
     float64[] signy
+    
+    float64[] rightx
+    float64[] righty
     
     bool tred
     bool tyellow
@@ -243,6 +270,20 @@ class Perception {
     }
     else {
       resolved.signy = []
+    }
+
+    if (msg.rightx !== undefined) {
+      resolved.rightx = msg.rightx;
+    }
+    else {
+      resolved.rightx = []
+    }
+
+    if (msg.righty !== undefined) {
+      resolved.righty = msg.righty;
+    }
+    else {
+      resolved.righty = []
     }
 
     if (msg.tred !== undefined) {

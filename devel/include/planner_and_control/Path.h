@@ -27,13 +27,15 @@ struct Path_
     : x()
     , y()
     , heading()
-    , k()  {
+    , k()
+    , select_lane(0)  {
     }
   Path_(const ContainerAllocator& _alloc)
     : x(_alloc)
     , y(_alloc)
     , heading(_alloc)
-    , k(_alloc)  {
+    , k(_alloc)
+    , select_lane(0)  {
   (void)_alloc;
     }
 
@@ -50,6 +52,9 @@ struct Path_
 
    typedef std::vector<double, typename ContainerAllocator::template rebind<double>::other >  _k_type;
   _k_type k;
+
+   typedef int16_t _select_lane_type;
+  _select_lane_type select_lane;
 
 
 
@@ -83,7 +88,8 @@ bool operator==(const ::planner_and_control::Path_<ContainerAllocator1> & lhs, c
   return lhs.x == rhs.x &&
     lhs.y == rhs.y &&
     lhs.heading == rhs.heading &&
-    lhs.k == rhs.k;
+    lhs.k == rhs.k &&
+    lhs.select_lane == rhs.select_lane;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -140,12 +146,12 @@ struct MD5Sum< ::planner_and_control::Path_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "c2a75c907e39ce890d33be82252d4cf2";
+    return "0e23544cfda31e4456235bd2624aadc2";
   }
 
   static const char* value(const ::planner_and_control::Path_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xc2a75c907e39ce89ULL;
-  static const uint64_t static_value2 = 0x0d33be82252d4cf2ULL;
+  static const uint64_t static_value1 = 0x0e23544cfda31e44ULL;
+  static const uint64_t static_value2 = 0x56235bd2624aadc2ULL;
 };
 
 template<class ContainerAllocator>
@@ -168,6 +174,7 @@ struct Definition< ::planner_and_control::Path_<ContainerAllocator> >
 "float64[] y\n"
 "float64[] heading\n"
 "float64[] k\n"
+"int16 select_lane\n"
 ;
   }
 
@@ -190,6 +197,7 @@ namespace serialization
       stream.next(m.y);
       stream.next(m.heading);
       stream.next(m.k);
+      stream.next(m.select_lane);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -232,6 +240,8 @@ struct Printer< ::planner_and_control::Path_<ContainerAllocator> >
       s << indent << "  k[" << i << "]: ";
       Printer<double>::stream(s, indent + "  ", v.k[i]);
     }
+    s << indent << "select_lane: ";
+    Printer<int16_t>::stream(s, indent + "  ", v.select_lane);
   }
 };
 

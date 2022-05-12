@@ -8,15 +8,16 @@ import struct
 
 
 class Path(genpy.Message):
-  _md5sum = "c2a75c907e39ce890d33be82252d4cf2"
+  _md5sum = "0e23544cfda31e4456235bd2624aadc2"
   _type = "planner_and_control/Path"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float64[] x
 float64[] y
 float64[] heading
-float64[] k"""
-  __slots__ = ['x','y','heading','k']
-  _slot_types = ['float64[]','float64[]','float64[]','float64[]']
+float64[] k
+int16 select_lane"""
+  __slots__ = ['x','y','heading','k','select_lane']
+  _slot_types = ['float64[]','float64[]','float64[]','float64[]','int16']
 
   def __init__(self, *args, **kwds):
     """
@@ -26,7 +27,7 @@ float64[] k"""
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       x,y,heading,k
+       x,y,heading,k,select_lane
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -43,11 +44,14 @@ float64[] k"""
         self.heading = []
       if self.k is None:
         self.k = []
+      if self.select_lane is None:
+        self.select_lane = 0
     else:
       self.x = []
       self.y = []
       self.heading = []
       self.k = []
+      self.select_lane = 0
 
   def _get_types(self):
     """
@@ -77,6 +81,8 @@ float64[] k"""
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
       buff.write(struct.Struct(pattern).pack(*self.k))
+      _x = self.select_lane
+      buff.write(_get_struct_h().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -121,6 +127,9 @@ float64[] k"""
       s = struct.Struct(pattern)
       end += s.size
       self.k = s.unpack(str[start:end])
+      start = end
+      end += 2
+      (self.select_lane,) = _get_struct_h().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -149,6 +158,8 @@ float64[] k"""
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
       buff.write(self.k.tostring())
+      _x = self.select_lane
+      buff.write(_get_struct_h().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -194,6 +205,9 @@ float64[] k"""
       s = struct.Struct(pattern)
       end += s.size
       self.k = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=length)
+      start = end
+      end += 2
+      (self.select_lane,) = _get_struct_h().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -202,3 +216,9 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
+_struct_h = None
+def _get_struct_h():
+    global _struct_h
+    if _struct_h is None:
+        _struct_h = struct.Struct("<h")
+    return _struct_h

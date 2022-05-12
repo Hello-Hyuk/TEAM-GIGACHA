@@ -37,8 +37,7 @@ struct Ego_
     , gear(0)
     , auto_manual(0)
     , map_folder()
-    , map_file()
-    , behavior_decision()  {
+    , map_file()  {
     }
   Ego_(const ContainerAllocator& _alloc)
     : x(0.0)
@@ -54,8 +53,7 @@ struct Ego_
     , gear(0)
     , auto_manual(0)
     , map_folder(_alloc)
-    , map_file(_alloc)
-    , behavior_decision(_alloc)  {
+    , map_file(_alloc)  {
   (void)_alloc;
     }
 
@@ -103,9 +101,6 @@ struct Ego_
    typedef std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other >  _map_file_type;
   _map_file_type map_file;
 
-   typedef std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other >  _behavior_decision_type;
-  _behavior_decision_type behavior_decision;
-
 
 
 
@@ -148,8 +143,7 @@ bool operator==(const ::planner_and_control::Ego_<ContainerAllocator1> & lhs, co
     lhs.gear == rhs.gear &&
     lhs.auto_manual == rhs.auto_manual &&
     lhs.map_folder == rhs.map_folder &&
-    lhs.map_file == rhs.map_file &&
-    lhs.behavior_decision == rhs.behavior_decision;
+    lhs.map_file == rhs.map_file;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -206,12 +200,12 @@ struct MD5Sum< ::planner_and_control::Ego_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "a00057935a45c5ac10ab11c4cf274023";
+    return "7b3b99500febf6cd8a603841e01e0e77";
   }
 
   static const char* value(const ::planner_and_control::Ego_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xa00057935a45c5acULL;
-  static const uint64_t static_value2 = 0x10ab11c4cf274023ULL;
+  static const uint64_t static_value1 = 0x7b3b99500febf6cdULL;
+  static const uint64_t static_value2 = 0x8a603841e01e0e77ULL;
 };
 
 template<class ContainerAllocator>
@@ -244,7 +238,6 @@ struct Definition< ::planner_and_control::Ego_<ContainerAllocator> >
 "int16 auto_manual\n"
 "string map_folder\n"
 "string map_file\n"
-"string behavior_decision\n"
 ;
   }
 
@@ -277,7 +270,6 @@ namespace serialization
       stream.next(m.auto_manual);
       stream.next(m.map_folder);
       stream.next(m.map_file);
-      stream.next(m.behavior_decision);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -324,8 +316,6 @@ struct Printer< ::planner_and_control::Ego_<ContainerAllocator> >
     Printer<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other > >::stream(s, indent + "  ", v.map_folder);
     s << indent << "map_file: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other > >::stream(s, indent + "  ", v.map_file);
-    s << indent << "behavior_decision: ";
-    Printer<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other > >::stream(s, indent + "  ", v.behavior_decision);
   }
 };
 

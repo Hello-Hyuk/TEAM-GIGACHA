@@ -22,6 +22,7 @@ class Path {
       this.y = null;
       this.heading = null;
       this.k = null;
+      this.select_lane = null;
     }
     else {
       if (initObj.hasOwnProperty('x')) {
@@ -48,6 +49,12 @@ class Path {
       else {
         this.k = [];
       }
+      if (initObj.hasOwnProperty('select_lane')) {
+        this.select_lane = initObj.select_lane
+      }
+      else {
+        this.select_lane = 0;
+      }
     }
   }
 
@@ -61,6 +68,8 @@ class Path {
     bufferOffset = _arraySerializer.float64(obj.heading, buffer, bufferOffset, null);
     // Serialize message field [k]
     bufferOffset = _arraySerializer.float64(obj.k, buffer, bufferOffset, null);
+    // Serialize message field [select_lane]
+    bufferOffset = _serializer.int16(obj.select_lane, buffer, bufferOffset);
     return bufferOffset;
   }
 
@@ -76,6 +85,8 @@ class Path {
     data.heading = _arrayDeserializer.float64(buffer, bufferOffset, null)
     // Deserialize message field [k]
     data.k = _arrayDeserializer.float64(buffer, bufferOffset, null)
+    // Deserialize message field [select_lane]
+    data.select_lane = _deserializer.int16(buffer, bufferOffset);
     return data;
   }
 
@@ -85,7 +96,7 @@ class Path {
     length += 8 * object.y.length;
     length += 8 * object.heading.length;
     length += 8 * object.k.length;
-    return length + 16;
+    return length + 18;
   }
 
   static datatype() {
@@ -95,7 +106,7 @@ class Path {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return 'c2a75c907e39ce890d33be82252d4cf2';
+    return '0e23544cfda31e4456235bd2624aadc2';
   }
 
   static messageDefinition() {
@@ -105,6 +116,7 @@ class Path {
     float64[] y
     float64[] heading
     float64[] k
+    int16 select_lane
     `;
   }
 
@@ -140,6 +152,13 @@ class Path {
     }
     else {
       resolved.k = []
+    }
+
+    if (msg.select_lane !== undefined) {
+      resolved.select_lane = msg.select_lane;
+    }
+    else {
+      resolved.select_lane = 0
     }
 
     return resolved;

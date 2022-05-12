@@ -30,6 +30,8 @@ struct Perception_
     , signname()
     , signx()
     , signy()
+    , rightx()
+    , righty()
     , tred(false)
     , tyellow(false)
     , tleft(false)
@@ -43,6 +45,8 @@ struct Perception_
     , signname(_alloc)
     , signx(_alloc)
     , signy(_alloc)
+    , rightx(_alloc)
+    , righty(_alloc)
     , tred(false)
     , tyellow(false)
     , tleft(false)
@@ -70,6 +74,12 @@ struct Perception_
 
    typedef std::vector<double, typename ContainerAllocator::template rebind<double>::other >  _signy_type;
   _signy_type signy;
+
+   typedef std::vector<double, typename ContainerAllocator::template rebind<double>::other >  _rightx_type;
+  _rightx_type rightx;
+
+   typedef std::vector<double, typename ContainerAllocator::template rebind<double>::other >  _righty_type;
+  _righty_type righty;
 
    typedef uint8_t _tred_type;
   _tred_type tred;
@@ -121,6 +131,8 @@ bool operator==(const ::planner_and_control::Perception_<ContainerAllocator1> & 
     lhs.signname == rhs.signname &&
     lhs.signx == rhs.signx &&
     lhs.signy == rhs.signy &&
+    lhs.rightx == rhs.rightx &&
+    lhs.righty == rhs.righty &&
     lhs.tred == rhs.tred &&
     lhs.tyellow == rhs.tyellow &&
     lhs.tleft == rhs.tleft &&
@@ -182,12 +194,12 @@ struct MD5Sum< ::planner_and_control::Perception_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "bef5baa9c251c18149bfea75d54f4953";
+    return "ac796173eec7500d90ff0331b9cf57b9";
   }
 
   static const char* value(const ::planner_and_control::Perception_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xbef5baa9c251c181ULL;
-  static const uint64_t static_value2 = 0x49bfea75d54f4953ULL;
+  static const uint64_t static_value1 = 0xac796173eec7500dULL;
+  static const uint64_t static_value2 = 0x90ff0331b9cf57b9ULL;
 };
 
 template<class ContainerAllocator>
@@ -213,6 +225,9 @@ struct Definition< ::planner_and_control::Perception_<ContainerAllocator> >
 "string signname\n"
 "float64[] signx\n"
 "float64[] signy\n"
+"\n"
+"float64[] rightx\n"
+"float64[] righty\n"
 "\n"
 "bool tred\n"
 "bool tyellow\n"
@@ -244,6 +259,8 @@ namespace serialization
       stream.next(m.signname);
       stream.next(m.signx);
       stream.next(m.signy);
+      stream.next(m.rightx);
+      stream.next(m.righty);
       stream.next(m.tred);
       stream.next(m.tyellow);
       stream.next(m.tleft);
@@ -298,6 +315,18 @@ struct Printer< ::planner_and_control::Perception_<ContainerAllocator> >
     {
       s << indent << "  signy[" << i << "]: ";
       Printer<double>::stream(s, indent + "  ", v.signy[i]);
+    }
+    s << indent << "rightx[]" << std::endl;
+    for (size_t i = 0; i < v.rightx.size(); ++i)
+    {
+      s << indent << "  rightx[" << i << "]: ";
+      Printer<double>::stream(s, indent + "  ", v.rightx[i]);
+    }
+    s << indent << "righty[]" << std::endl;
+    for (size_t i = 0; i < v.righty.size(); ++i)
+    {
+      s << indent << "  righty[" << i << "]: ";
+      Printer<double>::stream(s, indent + "  ", v.righty[i]);
     }
     s << indent << "tred: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.tred);

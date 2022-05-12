@@ -11,6 +11,10 @@
           SIGNX
           SIGNY-VAL
           SIGNY
+          RIGHTX-VAL
+          RIGHTX
+          RIGHTY-VAL
+          RIGHTY
           TRED-VAL
           TRED
           TYELLOW-VAL

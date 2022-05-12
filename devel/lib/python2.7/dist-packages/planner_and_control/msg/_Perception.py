@@ -8,7 +8,7 @@ import struct
 
 
 class Perception(genpy.Message):
-  _md5sum = "bef5baa9c251c18149bfea75d54f4953"
+  _md5sum = "ac796173eec7500d90ff0331b9cf57b9"
   _type = "planner_and_control/Perception"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float64[] objx
@@ -19,14 +19,17 @@ string signname
 float64[] signx
 float64[] signy
 
+float64[] rightx
+float64[] righty
+
 bool tred
 bool tyellow
 bool tleft
 bool tgreen
 
 bool stop"""
-  __slots__ = ['objx','objy','objr','signname','signx','signy','tred','tyellow','tleft','tgreen','stop']
-  _slot_types = ['float64[]','float64[]','float64[]','string','float64[]','float64[]','bool','bool','bool','bool','bool']
+  __slots__ = ['objx','objy','objr','signname','signx','signy','rightx','righty','tred','tyellow','tleft','tgreen','stop']
+  _slot_types = ['float64[]','float64[]','float64[]','string','float64[]','float64[]','float64[]','float64[]','bool','bool','bool','bool','bool']
 
   def __init__(self, *args, **kwds):
     """
@@ -36,7 +39,7 @@ bool stop"""
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       objx,objy,objr,signname,signx,signy,tred,tyellow,tleft,tgreen,stop
+       objx,objy,objr,signname,signx,signy,rightx,righty,tred,tyellow,tleft,tgreen,stop
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -57,6 +60,10 @@ bool stop"""
         self.signx = []
       if self.signy is None:
         self.signy = []
+      if self.rightx is None:
+        self.rightx = []
+      if self.righty is None:
+        self.righty = []
       if self.tred is None:
         self.tred = False
       if self.tyellow is None:
@@ -74,6 +81,8 @@ bool stop"""
       self.signname = ''
       self.signx = []
       self.signy = []
+      self.rightx = []
+      self.righty = []
       self.tred = False
       self.tyellow = False
       self.tleft = False
@@ -118,6 +127,14 @@ bool stop"""
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
       buff.write(struct.Struct(pattern).pack(*self.signy))
+      length = len(self.rightx)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sd'%length
+      buff.write(struct.Struct(pattern).pack(*self.rightx))
+      length = len(self.righty)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sd'%length
+      buff.write(struct.Struct(pattern).pack(*self.righty))
       _x = self
       buff.write(_get_struct_5B().pack(_x.tred, _x.tyellow, _x.tleft, _x.tgreen, _x.stop))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
@@ -181,6 +198,22 @@ bool stop"""
       s = struct.Struct(pattern)
       end += s.size
       self.signy = s.unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sd'%length
+      start = end
+      s = struct.Struct(pattern)
+      end += s.size
+      self.rightx = s.unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sd'%length
+      start = end
+      s = struct.Struct(pattern)
+      end += s.size
+      self.righty = s.unpack(str[start:end])
       _x = self
       start = end
       end += 5
@@ -228,6 +261,14 @@ bool stop"""
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
       buff.write(self.signy.tostring())
+      length = len(self.rightx)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sd'%length
+      buff.write(self.rightx.tostring())
+      length = len(self.righty)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sd'%length
+      buff.write(self.righty.tostring())
       _x = self
       buff.write(_get_struct_5B().pack(_x.tred, _x.tyellow, _x.tleft, _x.tgreen, _x.stop))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
@@ -292,6 +333,22 @@ bool stop"""
       s = struct.Struct(pattern)
       end += s.size
       self.signy = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=length)
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sd'%length
+      start = end
+      s = struct.Struct(pattern)
+      end += s.size
+      self.rightx = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=length)
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sd'%length
+      start = end
+      s = struct.Struct(pattern)
+      end += s.size
+      self.righty = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=length)
       _x = self
       start = end
       end += 5
