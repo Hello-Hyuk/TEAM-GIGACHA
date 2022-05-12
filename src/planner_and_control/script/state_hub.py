@@ -1,3 +1,4 @@
+from ast import Str
 import rospy
 from std_msgs.msg import String
 from planner_and_control.msg import Path, Control_Info, Ego, Perception
@@ -39,15 +40,20 @@ class State_hub:
         self.perception = msg
 
     def run(self):
-        # print("------------------------------------------------------")
-        print(f"[mission_planner] : {self.state}")
-        print(f"[behavior_planner] : {self.behavior}")
-        # #print("motion_planner : " + self.motion)
-        # print("[control_info]")
-        # print(self.control)
-        # print("[sign_name]")
-        # print(self.perception.signname)
-        # print("------------------------------------------------------")
+        print("------------------------------------------------------")
+        print("\n[map_name]")
+        print(self.ego.map_file)
+        print("\n[mission_planner]")
+        print(self.state)
+        print("\n[behavior_planner]")
+        print(self.behavior)
+        print("\n[motion_planner]")
+        print("select line : " + str(self.motion.select_lane)) 
+        print("\n[controll_info]")
+        print(self.control)
+        print("\n[sing_name]")
+        print(self.perception.signname)
+        print("------------------------------------------------------")
 
 if __name__ == "__main__":
     A = State_hub()

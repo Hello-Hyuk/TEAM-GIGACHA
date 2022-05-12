@@ -39,8 +39,10 @@ class Motion_Planner:
 
         if self.current_lane == 1:
             self.lane_weight = [10000, 0, 10000]
+            self.trajectory.select_lane = int(len(self.lane_weight)/2)
         else:
             self.lane_weight = [10000, 10000, 0]
+            self.trajectory.select_lane = 2
         
         # rviz
         self.global_path_pub = rospy.Publisher('/global_path', CustomPath, queue_size = 1)
@@ -68,7 +70,7 @@ class Motion_Planner:
                 for j in range(len(self.generated_path[i].poses)): # paths' index
                     if path_check == False:
                         break
-                    for k in range(len(self.perception.objx)): # # of obj
+                    for k in range(len(self.perception.objx)): # of obj
                         ob_point_distance = sqrt((self.generated_path[i].poses[j].pose.position.x - self.perception.objx[k])**2 + (self.generated_path[i].poses[j].pose.position.y - self.perception.objy[k])**2)
                         if ob_point_distance < self.perception.objr[k]:
                             if(i == 1):
@@ -131,6 +133,7 @@ class Motion_Planner:
             self.select_trajectory()
         
         # path publish
+        self.trajectory.select_lane = self.selected_lane
         self.global_path_pub.publish(self.global_path)
         self.trajectory_pub.publish(self.trajectory)
         # print(f"trajectory : {self.trajectory.x}")
