@@ -69,7 +69,12 @@ class Mission():
             if self.obs_dis <= 5:
                 self.ego.target_speed = 5.0
             else:
-                self.ego.target_speed = 10.0
+                # Prevent sudden acceleration
+                cur_t = time()
+                if time() == (cur_t + 3):
+                    self.ego.target_speed = 15.0
+                else:
+                    self.ego.target_speed = 5.0
 
     def turn_right(self):
         if self.perception.tgreen == 1:
