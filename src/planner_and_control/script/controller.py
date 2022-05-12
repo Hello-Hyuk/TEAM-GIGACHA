@@ -3,11 +3,10 @@
 import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from lib.controller_utils.pure_pursuit import PurePursuit
+from lib.controller_utils.pid import PID
 from lib.controller_utils.longtidudinal_controller import longitudinalController
 from std_msgs.msg import String
-from planner_and_control.msg import Path
-from planner_and_control.msg import Control_Info
-from planner_and_control.msg import Ego
+from planner_and_control.msg import Path, Control_Info, Ego
 
 class LocalPath:
     def __init__(self):
@@ -30,7 +29,7 @@ class Controller:
         self.target_speed = 5.0
         
         self.lat_controller = PurePursuit(self.ego, self.trajectory)
-        self.lon_controller = longitudinalController(self.ego, self.target_speed)
+        self.lon_controller = PID(self.ego)
 
     def motion_callback(self, msg):
         self.trajectory.data = msg
@@ -55,8 +54,13 @@ class Controller:
             print("++++++")
         # a = list(self.trajectory.data.x)
         # print(f"trajectory : {a[0]}")
-        #self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()         ## PID off
-        self.control_msg.speed, self.control_msg.brake = self.ego.data.target_speed, 0               ## PID on
+        if self.ego.speed > self.ego.target_speed:
+            self.control_msg.speed = self.lon_controller.decel()
+        else:
+            self.control_msg.speed = self.ego.data.target_speed
+
+        self.control_msg.brake = 0       ## PID on
+        # self.control_msg.speed, self.control_msg.brake = self.ego.data.target_speed, 0               ## PID off
         self.control_pub.publish(self.control_msg)
 
 if __name__ == "__main__":
