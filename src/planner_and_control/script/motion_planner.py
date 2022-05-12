@@ -17,16 +17,6 @@ class Motion_Planner:
     def __init__(self):
         rospy.init_node('Motion_Planner', anonymous = False)
 
-        rospy.Subscriber('/ego', Ego, self.ego_callback)
-        rospy.Subscriber('/perception', Perception, self.perception_callback)
-        rospy.Subscriber('/behavior', String, self.behavior_callback)
-
-        # rviz
-        self.global_path_pub = rospy.Publisher('/global_path', CustomPath, queue_size = 1)
-        self.trajectory_pub = rospy.Publisher('/trajectory', CustomPath, queue_size = 1)
-        for i in range(1,4):
-            globals()['lattice_path_{}_pub'.format(i)] = rospy.Publisher('lattice_path_{}'.format(i),Path,queue_size=1) 
-
         self.ego = Ego()
         self.perception = Perception()
         self.behavior = ''
@@ -45,6 +35,16 @@ class Motion_Planner:
             self.lane_weight = [10000, 0, 10000]
         else:
             self.lane_weight = [10000, 10000, 0]
+        
+        rospy.Subscriber('/ego', Ego, self.ego_callback)
+        rospy.Subscriber('/perception', Perception, self.perception_callback)
+        rospy.Subscriber('/behavior', String, self.behavior_callback)
+
+        # rviz
+        self.global_path_pub = rospy.Publisher('/global_path', CustomPath, queue_size = 1)
+        self.trajectory_pub = rospy.Publisher('/trajectory', CustomPath, queue_size = 1)
+        for i in range(1,4):
+            globals()['lattice_path_{}_pub'.format(i)] = rospy.Publisher('lattice_path_{}'.format(i),Path,queue_size=1) 
 
     def ego_callback(self, msg):
         self.ego = msg
