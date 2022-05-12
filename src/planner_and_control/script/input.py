@@ -15,6 +15,8 @@ class Input:
         self.perception.objx = []
         self.perception.objy = []
         self.perception.objr = []
+        self.perception.signx = []
+        self.perception.signy = []
         self.perception.tred = 0
         self.perception.tyellow = 0
         self.perception.tleft = 0
@@ -43,7 +45,11 @@ class Input:
 
         elif (self.mission == 2):
             self.perception.signname = "child_area"
-
+            x = float(input("signx : "))
+            y = float(input("signy : ")) 
+            self.perception.signx.append(x)
+            self.perception.signy.append(y)
+            
         elif (self.mission == 3):
             self.perception.tred = int(input("red(on : 1, off : 0) : "))
             self.perception.tyellow = int(input("yellow(on : 1, off : 0) : "))

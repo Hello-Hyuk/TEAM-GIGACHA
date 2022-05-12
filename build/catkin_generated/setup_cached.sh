@@ -7,8 +7,15 @@
 # new environment variables
 
 # modified environment variables
+<<<<<<< HEAD
 export CMAKE_PREFIX_PATH="/home/gigacha/TEAM-GIGACHA/devel:$CMAKE_PREFIX_PATH"
 export PATH='/opt/ros/melodic/bin:/usr/local/cuda-11.4/bin:/home/gigacha/.local/bin:/home/gigacha/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/cuda-11.4/bin'
 export PWD='/home/gigacha/TEAM-GIGACHA/build'
 export ROSLISP_PACKAGE_DIRECTORIES='/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp'
 export ROS_PACKAGE_PATH="/home/gigacha/TEAM-GIGACHA/src:$ROS_PACKAGE_PATH"
+=======
+export LD_LIBRARY_PATH='/opt/ros/melodic/lib'
+export PKG_CONFIG_PATH='/opt/ros/melodic/lib/pkgconfig'
+export PWD='/home/gigacha/TEAM-GIGACHA/build'
+export PYTHONPATH='/opt/ros/melodic/lib/python2.7/dist-packages'
+>>>>>>> child_area

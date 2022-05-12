@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
-from planner_and_control.msg import Local
+from planner_and_control.msg import Local, Ego
 from sensor_msgs.msg import PointCloud
 from planner_and_control.msg import Serial_Info
 from planner_and_control.msg import Perception, Ego
@@ -22,8 +22,6 @@ class Sensor_hub:
 
         self.ego = Ego()
         self.perception = Perception()
-        self.perception.signx = [63.7384548403, 0]
-        self.perception.signy = [111.167584983, 0]
         
     def local_callback(self, msg):
         self.ego.x = msg.x
@@ -47,6 +45,8 @@ class Sensor_hub:
             self.perception.obj.y.append(msg.objx[i] * sin(theta) + msg.objy[i] * cos(theta) + self.ego.y)
 
     def input_callback(self, msg):
+        self.perception.signx = msg.signx
+        self.perception.signy = msg.signy
         self.perception.objx = msg.objx
         self.perception.objy = msg.objy
         self.perception.objr = msg.objr
