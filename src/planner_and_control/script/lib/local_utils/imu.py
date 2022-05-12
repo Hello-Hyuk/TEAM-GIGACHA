@@ -22,7 +22,7 @@ class IMU():
         roll, pitch, yaw = efq(orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w)
 
         self.yaw = np.rad2deg(-1*yaw)
-        self.battery = data.angular_velocity.x
+        # self.battery = data.angular_velocity.x
 
 if __name__ == '__main__':
     try:
