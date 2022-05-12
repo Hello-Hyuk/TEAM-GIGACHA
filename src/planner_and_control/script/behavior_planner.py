@@ -30,7 +30,7 @@ class Behavior_Planner:
         self.traffic_dis = 100
         self.go_side_check = False
         self.sign_detected = 0 # action just one time
-        self.wait_time = time()
+        self.mission = Mission(self.ego, self.perception)
 
     def ego_callback(self, msg):
         self.ego = msg
@@ -42,13 +42,11 @@ class Behavior_Planner:
         self.state = msg.data
 
     def run(self):
-        self.mission = Mission(self.ego, self.perception)
-            
         if self.state == "parking":
             self.mission.parking()
             
         elif self.state == "static_obstacle_detected":
-            self.mission.static_obstacle(self.perception.objx, self.perception.objy)
+            self.mission.static_obstacle(self.perception.objx, self.perception.objy, self.ego)
             
         elif self.state == "stop_sign_detected":
             self.mission.stop()
@@ -66,10 +64,10 @@ class Behavior_Planner:
             self.mission.go()
 
         print(f"behavior_planner : {self.mission.behavior_decision}")
-        print(f"speed : {self.ego.target_speed}")
+        print(f"speed : {self.mission.ego.target_speed}")
 
         self.pub_behavior.publish(self.mission.behavior_decision)
-        self.pub_ego.publish(self.ego)
+        self.pub_ego.publish(self.mission.ego)
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()

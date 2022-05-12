@@ -16,7 +16,7 @@ class Sensor_hub:
         rospy.Subscriber("/s3", Local, self.camera3_callback) # Camera 3
         rospy.Subscriber("/vision", Perception, self.vision_callback) # Camera
         rospy.Subscriber("/lidar", Perception, self.lidar_callback) # lidar
-        # rospy.Subscriber("/input", Perception, self.input_callback)
+        rospy.Subscriber("/input", Perception, self.input_callback)
         rospy.Subscriber("/pose", Local, self.local_callback) # local_pose
 
         self.pub1 = rospy.Publisher("/perception", Perception, queue_size = 1)
@@ -50,17 +50,17 @@ class Sensor_hub:
         # radius calculation
         msg.objr = abs((msg.objleft - msg.objright) / 2)
 
-    # def input_callback(self, msg):
-    #     self.perception.signx = msg.signx
-    #     self.perception.signy = msg.signy
-    #     self.perception.objx = msg.objx
-    #     self.perception.objy = msg.objy
-    #     self.perception.objr = msg.objr
-    #     self.perception.tred = msg.tred
-    #     self.perception.tyellow = msg.tyellow
-    #     self.perception.tleft = msg.tleft
-    #     self.perception.tgreen = msg.tgreen
-    #     self.perception.signname = msg.signname
+    def input_callback(self, msg):
+        self.perception.signx = msg.signx
+        self.perception.signy = msg.signy
+        self.perception.objx = msg.objx
+        self.perception.objy = msg.objy
+        self.perception.objr = msg.objr
+        self.perception.tred = msg.tred
+        self.perception.tyellow = msg.tyellow
+        self.perception.tleft = msg.tleft
+        self.perception.tgreen = msg.tgreen
+        self.perception.signname = msg.signname
 
     def run(self):
         self.pub1.publish(self.perception)

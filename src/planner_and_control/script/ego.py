@@ -12,7 +12,6 @@ class Ego_updater:
         rospy.Subscriber("/pose", Local, self.local_callback) # local
         rospy.Subscriber("/behavior_ego", Ego, self.behavior_callback) 
         rospy.Subscriber("/serial", Serial_Info, self.serial_callback) # serial
-        rospy.Subscriber('/behavior', String, self.behavior_string_callback)
 
         self.ego = Ego()
 
@@ -46,9 +45,6 @@ class Ego_updater:
         self.ego.brake = msg.brake
         self.ego.gear = msg.gear
         self.ego.auto_manual = msg.auto_manual
-
-    def behavior_string_callback(self, msg):
-        self.ego.behavior_decision = msg.behavior_decision
 
     def run(self):
         self.ego.index = self.IF.run()

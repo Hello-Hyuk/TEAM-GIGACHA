@@ -1,6 +1,6 @@
 import rospy
 from math import sqrt
-import time
+from time import time
 
 class Mission():
     def __init__(self, eg, pc):
@@ -8,6 +8,9 @@ class Mission():
         self.ego = eg
         self.mission_complete = False
         self.behavior_decision = " "
+        self.timer = time()
+        self.time_checker = False
+        self.obstacle_checker = False
 
     def go(self):
         self.ego.gear = 0
@@ -62,19 +65,26 @@ class Mission():
             self.behavior_decision = "go_side"
             self.go_side_check = False
 
-    def static_obstacle(self, objx, objy):
+    def static_obstacle(self, objx, objy, ego):
+        self.ego = ego
         self.behavior_decision = "static_obstacle_avoidance"
-        if (len(self.perception.objx) > 0):
-            self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
+        if (len(objx) > 0):
+            self.obs_dis = sqrt((objx[0] - self.ego.x)**2 + (objy[0] - self.ego.y)**2)
             if self.obs_dis <= 5:
                 self.ego.target_speed = 5.0
-            else:
-                # Prevent sudden acceleration
-                cur_t = time()
-                if time() == (cur_t + 3):
-                    self.ego.target_speed = 15.0
-                else:
+                self.obstacle_checker = True
+                self.time_checker = False
+            elif self.obs_dis > 5 and self.obstacle_checker == True:
+                if self.time_checker == False:
+                    self.cur_t = time()
+                    self.time_checker = True
+
+                if time() - self.cur_t < 3:
                     self.ego.target_speed = 5.0
+                else:
+                    self.ego.target_speed = 15.0
+            else:
+                self.ego.target_speed = 15.0
 
     def turn_right(self):
         if self.perception.tgreen == 1:
