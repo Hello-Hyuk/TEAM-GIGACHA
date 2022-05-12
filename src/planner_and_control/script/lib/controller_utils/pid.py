@@ -13,7 +13,7 @@ class PID:
         self.target_ex = 0
         self.delta_target = 0
 
-    def pid(self)
+    def pid(self):
         if self.ego.auto_manual > self.pre_auto_manual : 
             self.error_sum = 0.0
             
