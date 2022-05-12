@@ -7,11 +7,10 @@ import threading
 import struct
 import rospy
 
-
 class Serial_IO:
     def __init__(self):
         # Serial Connect
-        self.ser = serial.Serial("/dev/erp42", 115200)
+        self.ser = serial.Serial("/dev/ttyUSB1", 115200)
         print("Serial_IO: Serial connecting to /dev/erp42...")
 
         # ROS Publish

@@ -21,13 +21,13 @@ class State_hub:
         self.perception = Perception()
 
     def ego_callback(self, msg):
-        self.ego = msg
+        self.ego.x = msg.x
 
     def state_callback(self, msg):  #mission_planner callback
-        self.state = msg
+        self.state = msg.data
 
     def behavior_callback(self, msg):  #behavior_planner
-        self.behavior = msg
+        self.behavior = msg.data
 
     def motion_callback(self, msg):
         self.motion = msg
@@ -39,22 +39,19 @@ class State_hub:
         self.perception = msg
 
     def run(self):
-        print("------------------------------------------------------")
-        print("\n[mission_planner]")
-        print(self.state)
-        print("\n[behavior_planner]")
-        print(self.behavior)
-        #print("motion_planner : " + self.motion)
-        print("\n[controll_info]")
-        print(self.control)
-        print("\n[sing_name]")
-        print(self.perception.signname)
-        print("------------------------------------------------------")
+        # print("------------------------------------------------------")
+        print(f"[mission_planner] : {self.state}")
+        print(f"[behavior_planner] : {self.behavior}")
+        # #print("motion_planner : " + self.motion)
+        # print("[control_info]")
+        # print(self.control)
+        # print("[sign_name]")
+        # print(self.perception.signname)
+        # print("------------------------------------------------------")
 
 if __name__ == "__main__":
     A = State_hub()
-    rate = rospy.Rate(5)
+    rate = rospy.Rate(20)
     while not rospy.is_shutdown():
         A.run()
         rate.sleep
-        

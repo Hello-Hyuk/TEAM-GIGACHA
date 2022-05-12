@@ -12,4 +12,3 @@ int16 gear
 int16 auto_manual
 string map_folder
 string map_file
-string behavior_decision

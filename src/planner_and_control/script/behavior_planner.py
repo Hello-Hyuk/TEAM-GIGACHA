@@ -25,13 +25,12 @@ class Behavior_Planner:
         self.perception = Perception()
         self.state = String()
 
-        self.behavior = ""
+        self.behavior = " "
         self.sign_dis = 100
         self.traffic_dis = 100
         self.go_side_check = False
         self.sign_detected = 0 # action just one time
         self.wait_time = time()
-        
 
     def ego_callback(self, msg):
         self.ego = msg
@@ -66,11 +65,10 @@ class Behavior_Planner:
         else:
             self.mission.go()
 
-        print(f"behavior_planner : {self.ego.behavior_decision}")
+        print(f"behavior_planner : {self.mission.behavior_decision}")
         print(f"speed : {self.ego.target_speed}")
 
-        self.behavior = self.ego.behavior_decision
-        self.pub_behavior.publish(self.behavior)
+        self.pub_behavior.publish(self.mission.behavior_decision)
         self.pub_ego.publish(self.ego)
 
 if __name__ == "__main__":
