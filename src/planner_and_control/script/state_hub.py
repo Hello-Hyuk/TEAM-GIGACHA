@@ -1,3 +1,4 @@
+from ast import Str
 import rospy
 from std_msgs.msg import String
 from planner_and_control.msg import Path, Control_Info, Ego, Perception
@@ -40,11 +41,14 @@ class State_hub:
 
     def run(self):
         print("------------------------------------------------------")
+        print("\n[map_name]")
+        print(self.ego.map_file)
         print("\n[mission_planner]")
         print(self.state)
         print("\n[behavior_planner]")
         print(self.behavior)
-        #print("motion_planner : " + self.motion)
+        print("\n[motion_planner]")
+        print("select line : " + str(self.motion.select_lane)) 
         print("\n[controll_info]")
         print(self.control)
         print("\n[sing_name]")
