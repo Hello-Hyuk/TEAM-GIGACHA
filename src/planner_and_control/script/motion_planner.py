@@ -76,11 +76,9 @@ class Motion_Planner:
                             if(i == 1):
                                 self.lane_weight[i] = 10000
                                 self.lane_weight[i+1] = 0
-                                self.trajectory.select_lane = i+1
                             elif(i==2):
                                 self.lane_weight[i] = 10000
                                 self.lane_weight[i-1] = 0
-                                self.trajectory.select_lane = i-1
                             path_check = False
                             break
 
@@ -126,18 +124,16 @@ class Motion_Planner:
         elif self.behavior == "turn_right":
             self.lane_weight = [10000, 10000, 0]
             self.select_trajectory()
-            self.trajectory.select_lane = 2
 
         elif self.behavior == "turn_left":
             self.lane_weight = [10000, 0, 10000]
             self.select_trajectory()
-            self.trajectory.select_lane = 1
 
         else:  ## self.behavior == "go"
             self.select_trajectory()
         
         # path publish
-
+        self.trajectory.select_lane = self.selected_lane
         self.global_path_pub.publish(self.global_path)
         self.trajectory_pub.publish(self.trajectory)
         # print(f"trajectory : {self.trajectory.x}")
