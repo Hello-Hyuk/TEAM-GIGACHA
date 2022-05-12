@@ -17,10 +17,16 @@ class Motion_Planner:
     def __init__(self):
         rospy.init_node('Motion_Planner', anonymous = False)
 
+        rospy.Subscriber('/ego', Ego, self.ego_callback)
+        rospy.Subscriber('/perception', Perception, self.perception_callback)
+        rospy.Subscriber('/behavior', String, self.behavior_callback)
+
         self.ego = Ego()
         self.perception = Perception()
-        self.behavior = ''
         self.global_path = CustomPath()
+        self.local_path = Path()
+        self.behavior = ''
+        
         self.trajectory = CustomPath()
         self.generated_path = Path()
         self.trajectory_name = ""
@@ -36,10 +42,6 @@ class Motion_Planner:
         else:
             self.lane_weight = [10000, 10000, 0]
         
-        rospy.Subscriber('/ego', Ego, self.ego_callback)
-        rospy.Subscriber('/perception', Perception, self.perception_callback)
-        rospy.Subscriber('/behavior', String, self.behavior_callback)
-
         # rviz
         self.global_path_pub = rospy.Publisher('/global_path', CustomPath, queue_size = 1)
         self.trajectory_pub = rospy.Publisher('/trajectory', CustomPath, queue_size = 1)
@@ -56,7 +58,7 @@ class Motion_Planner:
         self.perception = msg
     
     def behavior_callback(self, msg):
-        self.behavior = msg
+        self.behavior = msg.data
 
     # avoidance driving
     def weight_function_obstacle_avoidance(self):
@@ -84,6 +86,7 @@ class Motion_Planner:
             self.lane_weight[i] = sqrt((self.generated_path[i].poses[-1].pose.position.x - self.perception.signx[0])**2 + (self.generated_path[i].poses[-1].pose.position.y - self.perception.signy[0])**2)
 
     def select_trajectory(self):
+        # if (len(self.local_path.poses) > 10):
         self.selected_lane = self.lane_weight.index(min(self.lane_weight))
         self.local_path = self.generated_path[self.selected_lane]
         self.trajectory_name = self.selected_lane
@@ -104,23 +107,23 @@ class Motion_Planner:
         self.local_path = findLocalPath(self.global_path, self.ego) # local path (50)
         self.generated_path = path_maker(self.local_path, self.ego) # lattice paths
 
-        if self.behavior.data == "static_obstacle_avoidance":
+        if self.behavior == "static_obstacle_avoidance":
             self.weight_function_obstacle_avoidance()
             self.select_trajectory()
         
-        elif self.behavior.data == "go_side":
+        elif self.behavior == "go_side":
             self.weight_sign_function()
             self.select_trajectory()
         
-        elif self.behavior.data == "stop":
+        elif self.behavior == "stop":
             self.trajectory.x = []
             self.trajectory.y = []
 
-        elif self.behavior.data == "turn_right":
+        elif self.behavior == "turn_right":
             self.lane_weight = [10000, 10000, 0]
             self.select_trajectory()
 
-        elif self.behavior.data == "turn_left":
+        elif self.behavior == "turn_left":
             self.lane_weight = [10000, 0, 10000]
             self.select_trajectory()
 

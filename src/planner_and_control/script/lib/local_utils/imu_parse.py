@@ -6,7 +6,7 @@ from sensor_msgs.msg import Imu
 
 class AHRS_Parsing:
     def __init__(self):
-        self.ser = serial.Serial('/dev/tty', baudrate = 115200)
+        self.ser = serial.Serial('/dev/imu', baudrate = 115200)
         rospy.init_node("imu_raw", anonymous=False)
         print('AHRS_Parsing : Serial connecting to /dev/imu')
 
@@ -31,7 +31,7 @@ class AHRS_Parsing:
         self.raw_data.angular_velocity.x = float(sdata[5])
 
         self.pub.publish(self.raw_data)
-        # print(self.raw_data)
+        print(self.raw_data)
 
 
 if __name__ == "__main__":

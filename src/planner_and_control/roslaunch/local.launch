@@ -3,13 +3,13 @@
 <launch>
 
 <!--=================================e2box_AHRS=========================-->
-  <node pkg="e2box_imu" type="e2box_imu_node" name="e2box_imu_node" output="screen">
+  <!--<node pkg="e2box_imu" type="e2box_imu_node" name="e2box_imu_node" output="screen">
     <param name="port" type="string" value="/dev/imu" />
     <param name="baudrate" type="int" value="115200" />
-  </node>
+  </node>-->
 
 <!--=================================e2box_AHRS V5=========================-->
-<!--  <node pkg="planner_and_control" type="imu_parse.py" name="imu_raw" respawn="true"/> -->
+ <node pkg="planner_and_control" type="imu_parse.py" name="imu_raw" respawn="true"/>
   
 <!--=================================GNSS_Parsing=========================-->
   <node pkg="planner_and_control" type="gps_parse.py" name="Gngga_parse"   respawn="true"/>
