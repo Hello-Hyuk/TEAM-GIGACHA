@@ -24,7 +24,7 @@ class Input:
         self.perception.signname = "go"
     
     def function(self):
-        self.mission = int(input("which mission? (0: obstacle, 1: turn_right, 2: child, 3: turn_left, 4: delivery) : "))
+        self.mission = int(input("which mission? (0: obstacle, 1: turn_right, 2: child, 3: turn_left, 4: delivery, 5 : non_traffic_light turn_right) : "))
         if(self.mission == 0):
             x = float(input("object x : "))
             y = float(input("object y : "))
@@ -59,6 +59,9 @@ class Input:
 
         elif (self.mission == 4):
             self.perception.signname = "delivery"
+
+        elif (self.mission == 5):
+            self.perception.signname = "non_traffic_right"
         
         else:
             self.perception.signname = " "
