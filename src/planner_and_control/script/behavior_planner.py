@@ -60,6 +60,10 @@ class Behavior_Planner:
         elif self.state == "child_area":
             self.mission.child_area(self.perception.signx, self.perception.signy)
 
+        elif self.state == "right_sign_area":
+            self.mission.non_traffic_right
+
+
         else:
             self.mission.go()
 
