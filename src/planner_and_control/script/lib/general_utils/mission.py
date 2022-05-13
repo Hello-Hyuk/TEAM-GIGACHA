@@ -12,6 +12,10 @@ class Mission():
         self.time_checker = False
         self.obstacle_checker = False
 
+    def update_parameter(self, eg, pc):
+        self.perception = pc
+        self.ego = eg
+
     def go(self):
         self.ego.gear = 0
         self.ego.target_speed = 20.0
@@ -65,11 +69,10 @@ class Mission():
             self.behavior_decision = "go_side"
             self.go_side_check = False
 
-    def static_obstacle(self, objx, objy, ego):
-        self.ego = ego
+    def static_obstacle(self):
         self.behavior_decision = "static_obstacle_avoidance"
-        if (len(objx) > 0):
-            self.obs_dis = sqrt((objx[0] - self.ego.x)**2 + (objy[0] - self.ego.y)**2)
+        if (len(self.perception.objx) > 0):
+            self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
             if self.obs_dis <= 5:
                 self.ego.target_speed = 5.0
                 self.obstacle_checker = True

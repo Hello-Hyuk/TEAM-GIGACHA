@@ -42,11 +42,13 @@ class Behavior_Planner:
         self.state = msg.data
 
     def run(self):
+        self.mission.update_parameter(self.ego, self.perception)
+
         if self.state == "parking":
             self.mission.parking()
             
         elif self.state == "static_obstacle_detected":
-            self.mission.static_obstacle(self.perception.objx, self.perception.objy, self.ego)
+            self.mission.static_obstacle()
             
         elif self.state == "stop_sign_detected":
             self.mission.stop()
@@ -62,7 +64,6 @@ class Behavior_Planner:
 
         elif self.state == "right_sign_area":
             self.mission.non_traffic_right
-
 
         else:
             self.mission.go()
