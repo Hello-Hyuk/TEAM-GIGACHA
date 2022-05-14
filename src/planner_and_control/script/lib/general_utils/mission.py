@@ -116,9 +116,9 @@ class Mission():
             if self.right_dis<=5:
                 if self.go_check == False:
                     self.behavior_decision = "stop"
-                    self.wait_time1=time()
+                    self.wait_time_right=time()
                     self.go_check = True
-                if self.behavior_decision =="stop" and time()-self.wait_time1>2:
+                if self.behavior_decision =="stop" and time()-self.wait_time_right>2:
                     self.behavior_decision = "turn_right"
                  
 

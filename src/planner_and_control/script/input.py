@@ -62,6 +62,10 @@ class Input:
 
         elif (self.mission == 5):
             self.perception.signname = "non_traffic_right"
+            x = float(input("rightx : "))
+            y = float(input("righty : ")) 
+            self.perception.rightx.append(x)
+            self.perception.righty.append(y)
         
         else:
             self.perception.signname = " "
