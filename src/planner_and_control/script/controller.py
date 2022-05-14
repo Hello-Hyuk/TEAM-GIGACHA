@@ -45,14 +45,22 @@ class Controller:
             print("++++++")
         # a = list(self.trajectory.data.x)
         # print(f"trajectory : {a[0]}")
+<<<<<<< Updated upstream
         
         if self.ego.data.speed > self.ego.data.target_speed:
             self.control_msg.speed = self.lon_controller.decel()
+=======
+        if self.ego.speed > self.ego.target_speed:
+            # self.control_msg.speed = self.lon_controller.decel()
+            self.control_msg.speed = self.ego.data.target_speed
+            self.control_msg.brake = 100
+>>>>>>> Stashed changes
         else:
             self.control_msg.speed = self.ego.data.target_speed
+            self.control_msg.brake = 1
 
-        self.control_msg.brake = 0       ## PID on
-        # self.control_msg.speed, self.control_msg.brake = self.ego.data.target_speed, 0               ## PID off
+       ## PID on
+        # self.control_msg.speed, self.control_msg.brake = self.ego.data.target_speed, 1               ## PID off
         self.control_pub.publish(self.control_msg)
 
     def run(self):
