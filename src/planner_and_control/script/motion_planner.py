@@ -72,15 +72,23 @@ class Motion_Planner:
                         break
                     for k in range(len(self.perception.objx)): # of obj
                         ob_point_distance = sqrt((self.generated_path[i].poses[j].pose.position.x - self.perception.objx[k])**2 + (self.generated_path[i].poses[j].pose.position.y - self.perception.objy[k])**2)
-                        if ob_point_distance < self.perception.objr[k]:
-                            if(i == 1):
-                                self.lane_weight[i] = 10000
-                                self.lane_weight[i+1] = 0
-                            elif(i==2):
-                                self.lane_weight[i] = 10000
-                                self.lane_weight[i-1] = 0
+                        if ob_point_distance < self.perception.objr[k]: #and self.Obstacle_in_section == 0:
+                            self.isObstacle[i] = k
+                            #if(i == 1):
+                            #    self.lane_weight[i] = 10000
+                            #    self.lane_weight[i+1] = 0
+                            # elif(i==2):
+                            #     self.lane_weight[i] = 10000
+                            #     self.lane_weight[i-1] = 0
                             path_check = False
                             break
+        for i in range(len(self.generated_path)):
+            if (self.current_lane == 1 and self.isObstacle[1]!=0):
+                if(self.isObstacle[1] < self.isObstacle[2]):
+                    self.lane_weight = [1000, 1000, 0]
+            elif (self.current_lane == 2 and self.isObstacle[2] !=0):
+                if(self.isObstacle[1] > self.isObstacle[2]):
+                    self.lane_weight = [1000, 0, 1000]
 
     # go_to_sign
     def weight_sign_function(self):
