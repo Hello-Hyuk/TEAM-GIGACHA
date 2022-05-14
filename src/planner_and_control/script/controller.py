@@ -47,7 +47,7 @@ class Controller:
         if self.ego.data.speed > self.ego.data.target_speed:
             # self.control_msg.speed = self.lon_controller.decel()
             self.control_msg.speed = self.ego.data.target_speed
-            self.control_msg.brake = 50
+            self.control_msg.brake = 30
 
         else:
             self.control_msg.speed = self.ego.data.target_speed

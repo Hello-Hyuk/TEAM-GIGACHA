@@ -18,11 +18,7 @@ class Localization():
     def main(self):
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
-        # self.msg.heading = self.imu.yaw - 15
         self.msg.heading = self.imu.yaw
-        # if self.msg.heading >= 180:
-        #     self.msg.heading -= 345
-
         self.pub.publish(self.msg)
 
         # print("Localization On...")
