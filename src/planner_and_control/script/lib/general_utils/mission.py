@@ -72,12 +72,13 @@ class Mission():
     def static_obstacle(self):
         self.behavior_decision = "static_obstacle_avoidance"
         if (len(self.perception.objx) > 0):
-            self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
-            if self.obs_dis <= 5:
+            index = len(self.perception.objy)
+            self.obs_dis = sqrt((self.perception.objx[index - 1] - self.ego.x)**2 + (self.perception.objy[index - 1] - self.ego.y)**2)
+            if self.obs_dis <= 15:
                 self.ego.target_speed = 5.0
                 self.obstacle_checker = True
                 self.time_checker = False
-            elif self.obs_dis > 5 and self.obstacle_checker == True:
+            elif self.obs_dis > 15 and self.obstacle_checker == True:
                 if self.time_checker == False:
                     self.cur_t = time()
                     self.time_checker = True

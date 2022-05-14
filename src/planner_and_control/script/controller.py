@@ -36,14 +36,6 @@ class Controller:
     def ego_callback(self, msg):
         self.ego.data = msg
         
-    def run(self):
-        if len(self.trajectory.data.x) == 0:
-            self.publish_control_info(1,0)
-        else:
-            self.publish_control_info(0,0)
-        self.target_speed = 20.0
-        # print("Controller On..")
-
     def publish_control_info(self, estop, gear):
         self.control_msg.emergency_stop = estop
         self.control_msg.gear = gear
@@ -53,14 +45,24 @@ class Controller:
             print("++++++")
         # a = list(self.trajectory.data.x)
         # print(f"trajectory : {a[0]}")
-        if self.ego.speed > self.ego.target_speed:
-            self.control_msg.speed = self.lon_controller.decel()
-        else:
-            self.control_msg.speed = self.ego.data.target_speed
+        
+        # if self.ego.data.speed > self.ego.data.target_speed:
+        #     self.control_msg.speed = self.lon_controller.decel()
+        # else:
+        #     self.control_msg.speed = self.ego.data.target_speed
 
-        self.control_msg.brake = 0       ## PID on
-        # self.control_msg.speed, self.control_msg.brake = self.ego.data.target_speed, 0               ## PID off
+        # self.control_msg.brake = 0       ## PID on
+        self.control_msg.speed, self.control_msg.brake = self.ego.data.target_speed, 0               ## PID off
         self.control_pub.publish(self.control_msg)
+
+    def run(self):
+        if len(self.trajectory.data.x) == 0:
+            self.publish_control_info(1,0)
+        else:
+            self.publish_control_info(0,0)
+        self.target_speed = 20.0
+        # print("Controller On..")
+
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
