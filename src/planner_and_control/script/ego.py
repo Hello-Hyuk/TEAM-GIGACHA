@@ -45,6 +45,7 @@ class Ego_updater:
         self.ego.brake = msg.brake
         self.ego.gear = msg.gear
         self.ego.auto_manual = msg.auto_manual
+        # self.ego.emergency_stop = msg.emergency_stop
 
     def run(self):
         self.ego.index = self.IF.run()
