@@ -12,6 +12,7 @@ class Mission():
         self.time_checker = False
         self.obstacle_checker = False
 
+
     def update_parameter(self, eg, pc):
         self.perception = pc
         self.ego = eg
@@ -99,13 +100,6 @@ class Mission():
             else:
                 self.behavior_decision = "turn_right"
 
-    def non_traffic_right(self):
-        if(len(self.perception.rightx)!=0):
-            self.right_dis=sqrt((self.perception.rightx[0] - self.ego.x)**2 + (self.perception.righty[0] - self.ego.y)**2)
-            if self.right_dis<=5:
-                self.behavior_decision = "stop"
-                time.sleep(2)
-                self.behavior_decision = "turn_right"
     
     def turn_left(self):
         if self.perception.tleft == 1:
@@ -115,6 +109,20 @@ class Mission():
                 self.behavior_decision = "stop"
             else:
                 self.behavior_decision = "turn_left"
+
+
+    def non_traffic_right(self):
+        if(len(self.perception.rightx)!=0):
+            self.right_dis=sqrt((self.perception.rightx[0] - self.ego.x)**2 + (self.perception.righty[0] - self.ego.y)**2)
+            if self.right_dis<=5:
+                if self.go_check == False:
+                    self.behavior_decision = "stop"
+                    self.wait_time_right=time()
+                    self.go_check = True
+                if self.behavior_decision =="stop" and time()-self.wait_time_right>2:
+                    self.behavior_decision = "turn_right"
+                 
+
 
     def child_area(self, signx, signy):
         if (len(self.perception.signx)!= 0):

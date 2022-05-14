@@ -12,8 +12,8 @@ class LocalPath:
         self.data = Path()
 
 class ControlEgo:
-    def __init__(self):
-        self.data = Ego()
+     def __init__(self):
+         self.data = Ego()
 
 class Controller:
     def __init__(self):

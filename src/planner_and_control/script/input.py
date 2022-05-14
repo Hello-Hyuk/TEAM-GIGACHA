@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from planner_and_control.msg import Perception
@@ -62,6 +64,10 @@ class Input:
 
         elif (self.mission == 5):
             self.perception.signname = "non_traffic_right"
+            x = float(input("rightx : "))
+            y = float(input("righty : ")) 
+            self.perception.rightx.append(x)
+            self.perception.righty.append(y)
         
         elif (self.mission == 6):
             self.perception.signname = "parking"
