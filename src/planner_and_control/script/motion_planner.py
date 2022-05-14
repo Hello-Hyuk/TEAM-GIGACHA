@@ -89,6 +89,8 @@ class Motion_Planner:
             elif (self.selected_lane == 2 and self.isObstacle[2] !=0):
                 if(self.isObstacle[1] > self.isObstacle[2]):
                     self.lane_weight = [1000, 0, 1000]
+            else:
+                self.ego.emergency_stop = 1
 
     # go_to_sign
     def weight_sign_function(self):
