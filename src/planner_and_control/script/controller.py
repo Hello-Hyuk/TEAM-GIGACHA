@@ -12,8 +12,8 @@ class LocalPath:
         self.data = Path()
 
 class ControlEgo:
-    def __init__(self):
-        self.data = Ego()
+     def __init__(self):
+         self.data = Ego()
 
 class Controller:
     def __init__(self):
@@ -53,7 +53,7 @@ class Controller:
             print("++++++")
         # a = list(self.trajectory.data.x)
         # print(f"trajectory : {a[0]}")
-        if self.ego.speed > self.ego.target_speed:
+        if self.ego.data.speed > self.ego.data.target_speed:
             self.control_msg.speed = self.lon_controller.decel()
         else:
             self.control_msg.speed = self.ego.data.target_speed
