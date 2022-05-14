@@ -42,20 +42,10 @@ class State_hub:
         self.perception = msg
 
     def run(self):
-        print("------------------------------------------------------")
-        print("\n[map_name]")
-        print(self.ego.map_file)
-        print("\n[mission_planner]")
-        print(self.state)
-        print("\n[behavior_planner]")
-        print(self.behavior)
-        print("\n[motion_planner]")
-        print("select line : " + str(self.motion.select_lane)) 
-        print("\n[controll_info]")
-        print(self.control)
-        print("\n[sing_name]")
-        print(self.perception.signname)
-        print("------------------------------------------------------")
+        print(f"------------------------------------------------------\n[map_name] \n {self.ego.map_file}\n\n[mission_planner]\n{self.state}\n\nbehavior_planner]\n{self.behavior}\n\n[motion_planner]\nselect line : {self.motion.select_lane}\n\n[control_info]\n{self.control}\n\n[sing_name]\n{self.perception.signname}\n------------------------------------------------------\n")
+        
+
+
 
 if __name__ == "__main__":
     A = State_hub()
