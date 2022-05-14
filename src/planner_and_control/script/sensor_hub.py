@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
-from planner_and_control.msg import Local, Ego
+from planner_and_control.msg import Local, Obstacles
 from sensor_msgs.msg import PointCloud
 from planner_and_control.msg import Serial_Info
 from planner_and_control.msg import Perception, Ego
 from math import cos, sin, pi
+from ....lidar_ws.src.obstacle_detector.msg import Obstacles as LidarObstacles
 
+# import sys
+# sys.path.append("/home/gigacha/lidar_ws/src/obstacle_detector/msg")
+# from . import Obstacles as LidarObstacles
 
 class Sensor_hub:
     def __init__(self):
@@ -15,7 +19,7 @@ class Sensor_hub:
         rospy.Subscriber("/s1", Local, self.camera1_callback) # Camera 1
         rospy.Subscriber("/s3", Local, self.camera3_callback) # Camera 3
         rospy.Subscriber("/vision", Perception, self.vision_callback) # Camera
-        rospy.Subscriber("/lidar", Perception, self.lidar_callback) # lidar
+        rospy.Subscriber("/obstacles", LidarObstacles, self.lidar_callback) # lidar
         rospy.Subscriber("/input", Perception, self.input_callback)
         rospy.Subscriber("/pose", Local, self.local_callback) # local_pose
 
@@ -42,13 +46,30 @@ class Sensor_hub:
         pass
 
     def lidar_callback(self, msg):
-        # absolute coordinates transition
+        print("adsf")
+
+        print(msg)
+        
         theta = (self.ego.heading) * pi / 180
-        for i in range(len(msg.objx)):
-            self.perception.obj.x.append(msg.objx[i] * cos(theta) + msg.objy[i] * -sin(theta) + self.ego.x)
-            self.perception.obj.y.append(msg.objx[i] * sin(theta) + msg.objy[i] * cos(theta) + self.ego.y)
-        # radius calculation
-        msg.objr = abs((msg.objleft - msg.objright) / 2)
+
+        objx = []
+        objy = []
+        objr = []
+        for i in range(len(msg.segments)):
+            objx.append(msg.segments[i].mid_point.x * cos(theta) + msg.segments[i].mid_point.y * -sin(theta) + self.ego.x)
+            objy.append(msg.segments[i].mid_point.x * sin(theta) + msg.segments[i].mid_point.y * cos(theta) + self.ego.y)
+            objr.append( sqrt((msg.segments[i].first_point.x - msg.segments[i].last_point.x)**2 + (msg.segments[i].first_point.y - msg.segments[i].last_point.y)**2) / 2)
+
+        self.perception.objx = objx
+        self.perception.objy = objy
+        self.perception.objr = objr
+
+        # # absolute coordinates transition
+        # for i in range(len(msg.objx)):
+        #     self.perception.obj.x.append(msg.objx[i] * cos(theta) + msg.objy[i] * -sin(theta) + self.ego.x)
+        #     self.perception.obj.y.append(msg.objx[i] * sin(theta) + msg.objy[i] * cos(theta) + self.ego.y)
+        # # radius calculation
+        # msg.objr = abs((msg.objleft - msg.objright) / 2)
 
     def input_callback(self, msg):
         self.perception.signx = msg.signx
