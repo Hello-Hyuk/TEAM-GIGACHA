@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 import rospy
 import pymap3d
-from planner_and_control.msg import Gngga
+# from planner_and_control.msg import Gngga
+from sensor_msgs.msg import NavSatFix
 
 class GPS():
     def __init__(self):
-        rospy.Subscriber("/Gngga_raw", Gngga, self.gps_call_back)
+        # rospy.Subscriber("/Gngga_raw", Gngga, self.gps_call_back)
+        rospy.Subscriber("ublox_gps/fix", NavSatFix, self.gps_call_back)
         
         self.x = 0
         self.y = 0

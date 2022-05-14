@@ -6,11 +6,6 @@ from sensor_msgs.msg import PointCloud
 from planner_and_control.msg import Serial_Info
 from planner_and_control.msg import Perception, Ego
 from math import cos, sin, pi
-from ....lidar_ws.src.obstacle_detector.msg import Obstacles as LidarObstacles
-
-# import sys
-# sys.path.append("/home/gigacha/lidar_ws/src/obstacle_detector/msg")
-# from . import Obstacles as LidarObstacles
 
 class Sensor_hub:
     def __init__(self):
@@ -19,7 +14,7 @@ class Sensor_hub:
         rospy.Subscriber("/s1", Local, self.camera1_callback) # Camera 1
         rospy.Subscriber("/s3", Local, self.camera3_callback) # Camera 3
         rospy.Subscriber("/vision", Perception, self.vision_callback) # Camera
-        rospy.Subscriber("/obstacles", LidarObstacles, self.lidar_callback) # lidar
+        rospy.Subscriber("/obstacles", Obstacles, self.lidar_callback) # lidar
         rospy.Subscriber("/input", Perception, self.input_callback)
         rospy.Subscriber("/pose", Local, self.local_callback) # local_pose
 
