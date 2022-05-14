@@ -9,7 +9,7 @@ class PI:
         self.dt = 1.0 / 10.0
         self.target_ex = 0
 
-    def pid(self):
+    def pi(self):
 
         error = self.ego.data.target_speed - self.ego.data.speed
         self.error_sum += error
@@ -19,8 +19,9 @@ class PI:
     def decel(self):
         self.P = 1
         self.I = 1
-        self.pid()
+        self.pi()
 
+        print(f"pi speed : {self.speed}")
         return self.speed
 
     # def accel(self):

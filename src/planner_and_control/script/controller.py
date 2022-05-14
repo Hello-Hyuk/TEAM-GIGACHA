@@ -46,13 +46,13 @@ class Controller:
         # a = list(self.trajectory.data.x)
         # print(f"trajectory : {a[0]}")
         
-        # if self.ego.data.speed > self.ego.data.target_speed:
-        #     self.control_msg.speed = self.lon_controller.decel()
-        # else:
-        #     self.control_msg.speed = self.ego.data.target_speed
+        if self.ego.data.speed > self.ego.data.target_speed:
+            self.control_msg.speed = self.lon_controller.decel()
+        else:
+            self.control_msg.speed = self.ego.data.target_speed
 
-        # self.control_msg.brake = 0       ## PID on
-        self.control_msg.speed, self.control_msg.brake = self.ego.data.target_speed, 0               ## PID off
+        self.control_msg.brake = 0       ## PID on
+        # self.control_msg.speed, self.control_msg.brake = self.ego.data.target_speed, 0               ## PID off
         self.control_pub.publish(self.control_msg)
 
     def run(self):
