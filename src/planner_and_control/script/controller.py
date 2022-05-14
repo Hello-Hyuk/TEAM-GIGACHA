@@ -44,10 +44,10 @@ class Controller:
         except IndexError:
             print("++++++")
 
-        if self.ego.speed > self.ego.target_speed:
+        if self.ego.data.speed > self.ego.data.target_speed:
             # self.control_msg.speed = self.lon_controller.decel()
             self.control_msg.speed = self.ego.data.target_speed
-            self.control_msg.brake = 100
+            self.control_msg.brake = 50
 
         else:
             self.control_msg.speed = self.ego.data.target_speed
