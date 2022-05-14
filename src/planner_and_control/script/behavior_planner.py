@@ -31,6 +31,7 @@ class Behavior_Planner:
         self.go_side_check = False
         self.sign_detected = 0 # action just one time
         self.mission = Mission(self.ego, self.perception)
+        self.state_remember = "go"
 
     def ego_callback(self, msg):
         self.ego = msg
@@ -43,6 +44,9 @@ class Behavior_Planner:
 
     def run(self):
         self.mission.update_parameter(self.ego, self.perception)
+        if self.state_remember != self.state:
+            self.state_remember = self.state
+            self.mission.time_checker = False           
 
         if self.state == "parking":
             self.mission.parking()
@@ -63,7 +67,7 @@ class Behavior_Planner:
             self.mission.child_area(self.perception.signx, self.perception.signy)
 
         elif self.state == "right_sign_area":
-            self.mission.non_traffic_right
+            self.mission.non_traffic_right()
 
         else:
             self.mission.go()

@@ -65,6 +65,8 @@ class Motion_Planner:
 
     # avoidance driving
     def weight_function_obstacle_avoidance(self):
+        self.isObstacle = [1000, 1000, 1000]
+
         for i in range(len(self.generated_path)): # 0,1,2
             path_check = True
             if path_check == True:
@@ -74,7 +76,7 @@ class Motion_Planner:
                     for k in range(len(self.perception.objx)): # of obj
                         ob_point_distance = sqrt((self.generated_path[i].poses[j].pose.position.x - self.perception.objx[k])**2 + (self.generated_path[i].poses[j].pose.position.y - self.perception.objy[k])**2)
                         if ob_point_distance < self.perception.objr[k]: #and self.Obstacle_in_section == 0:
-                            self.isObstacle[i] = k
+                            self.isObstacle[i] = j
                             print("+++++++++obstacle in " + str(i) + "+++++++++++++++++")
                             #if(i == 1):
                             #    self.lane_weight[i] = 10000
@@ -84,8 +86,8 @@ class Motion_Planner:
                             #     self.lane_weight[i-1] = 0
                             path_check = False
                             break
-                        else:
-                            self.isObstacle[i] = 1000
+                        # else:
+                        #     self.isObstacle[i] = 1000
         print("isObstacle", self.isObstacle)
         
         if (self.selected_lane == 1 and self.isObstacle[1] != 1000):

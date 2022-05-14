@@ -31,10 +31,15 @@ class Input:
             x = float(input("object x : "))
             y = float(input("object y : "))
             r = float(input("object r : "))
-            self.perception.objx.append(x)
-            self.perception.objy.append(y)
-            self.perception.objr.append(r)
-            self.perception.signname = "static_obstacle"
+            if x == 0 and y == 0 and r == 0:
+                self.perception.objx = []
+                self.perception.objy = []
+                self.perception.objr = []
+            else:
+                self.perception.objx.append(x)
+                self.perception.objy.append(y)
+                self.perception.objr.append(r)
+                self.perception.signname = "static_obstacle"
 
             print(f"x : {self.perception.objx}, y : {self.perception.objy}, r : {self.perception.objr}")
 
@@ -64,10 +69,6 @@ class Input:
 
         elif (self.mission == 5):
             self.perception.signname = "non_traffic_right"
-            x = float(input("rightx : "))
-            y = float(input("righty : ")) 
-            self.perception.rightx.append(x)
-            self.perception.righty.append(y)
         
         elif (self.mission == 6):
             self.perception.signname = "parking"

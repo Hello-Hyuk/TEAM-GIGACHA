@@ -12,7 +12,6 @@ class Mission():
         self.time_checker = False
         self.obstacle_checker = False
 
-
     def update_parameter(self, eg, pc):
         self.perception = pc
         self.ego = eg
@@ -112,15 +111,26 @@ class Mission():
 
 
     def non_traffic_right(self):
-        if(len(self.perception.rightx)!=0):
-            self.right_dis=sqrt((self.perception.rightx[0] - self.ego.x)**2 + (self.perception.righty[0] - self.ego.y)**2)
-            if self.right_dis<=5:
-                if self.go_check == False:
-                    self.behavior_decision = "stop"
-                    self.wait_time_right=time()
-                    self.go_check = True
-                if self.behavior_decision =="stop" and time()-self.wait_time_right>2:
-                    self.behavior_decision = "turn_right"
+        if self.ego.index >= 1000 and self.ego.index <= 1050:
+            self.behavior_decision = "stop"
+            if self.time_checker == False:
+                self.time_checker = True
+                self.cur_t = time()
+            
+            if time() - self.cur_t > 3:
+                self.behavior_decision = "turn_right"
+        else:
+            self.behavior_decision = "turn_right"
+
+        # if(len(self.perception.rightx)!=0):
+        #     self.right_dis=sqrt((self.perception.rightx[0] - self.ego.x)**2 + (self.perception.righty[0] - self.ego.y)**2)
+        #     if self.right_dis<=5:
+        #         if self.go_check == False:
+        #             self.behavior_decision = "stop"
+        #             self.wait_time_right=time()
+        #             self.go_check = True
+        #         if self.behavior_decision =="stop" and time()-self.wait_time_right>2:
+        #             self.behavior_decision = "turn_right"
                  
 
 

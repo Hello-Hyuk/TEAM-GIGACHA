@@ -3,7 +3,7 @@
 import rospy
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from lib.controller_utils.pure_pursuit import PurePursuit
-from lib.controller_utils.pi import PI
+from lib.controller_utils.pi_controller import PI
 from std_msgs.msg import String
 from planner_and_control.msg import Path, Control_Info, Ego
 
