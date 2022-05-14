@@ -39,7 +39,7 @@ class Motion_Planner:
 
         if self.current_lane == 1:
             self.lane_weight = [10000, 0, 10000]
-            self.trajectory.select_lane = int(len(self.lane_weight)/2)
+            self.trajectory.select_lane = 1
         else:
             self.lane_weight = [10000, 10000, 0]
             self.trajectory.select_lane = 2

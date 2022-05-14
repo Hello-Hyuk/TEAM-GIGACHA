@@ -24,7 +24,7 @@ class State_hub:
         self.perception = Perception()
 
     def ego_callback(self, msg):
-        self.ego.x = msg.x
+        self.ego = msg
 
     def state_callback(self, msg):  #mission_planner callback
         self.state = msg.data
