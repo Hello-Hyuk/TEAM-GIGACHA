@@ -83,10 +83,10 @@ class Motion_Planner:
                             path_check = False
                             break
         for i in range(len(self.generated_path)):
-            if (self.current_lane == 1 and self.isObstacle[1]!=0):
+            if (self.selected_lane == 1 and self.isObstacle[1]!=0):
                 if(self.isObstacle[1] < self.isObstacle[2]):
                     self.lane_weight = [1000, 1000, 0]
-            elif (self.current_lane == 2 and self.isObstacle[2] !=0):
+            elif (self.selected_lane == 2 and self.isObstacle[2] !=0):
                 if(self.isObstacle[1] > self.isObstacle[2]):
                     self.lane_weight = [1000, 0, 1000]
 
