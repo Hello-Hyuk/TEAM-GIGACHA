@@ -87,4 +87,4 @@ if __name__ == "__main__":
     rate = rospy.Rate(1)
     while not rospy.is_shutdown():
         ss.run()
-        rate.sleep
+        rate.sleep()
