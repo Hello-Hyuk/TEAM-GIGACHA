@@ -26,6 +26,12 @@ class Ego_updater:
         elif self.ego.map_folder == "3":
             self.ego.map_folder = "kcity_simul/turn_right"
             self.ego.map_file = "turn_right"
+        elif self.ego.map_folder == "4":
+            self.ego.map_folder = "songdo_track/maps"
+            self.ego.map_file = "songdo_right"
+        elif self.ego.map_folder == "5":
+            self.ego.map_folder = "songdo_track/maps"
+            self.ego.map_file = "songdo_left"
 
         self.IF = IndexFinder(self.ego)
 

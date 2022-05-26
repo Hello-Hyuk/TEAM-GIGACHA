@@ -14,7 +14,7 @@ def combine_csv(number_of_files):
                 float_array = [float(array[0]), float(array[1])] #, float(array[2])]
                 real_array.append(float_array)
             
-    with open('maps/songdo_track/maps/songdo_right.csv',\
+    with open('maps/songdo_track/maps/songdo_left.csv',\
          'w', newline = '') as all_nodes_file: 
         writer = csv.writer(all_nodes_file)
         writer.writerows(real_array)

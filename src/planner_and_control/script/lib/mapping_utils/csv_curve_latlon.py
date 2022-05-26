@@ -42,7 +42,7 @@ def cubic(name,*args): # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     colnames=['lon', 'lat']
     # df = pd.read_csv(f'maps/Siheung/nodes/turn_right/turn_right_line.csv', names=colnames, header=None) # siheung
-    df = pd.read_csv(f'maps/songdo_track/nodes/songdo_right.csv', names=colnames, header=None)
+    df = pd.read_csv(f'maps/songdo_track/nodes/songdo_left.csv', names=colnames, header=None)
     x=[]
     y=[]
     
