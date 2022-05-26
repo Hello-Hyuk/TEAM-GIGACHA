@@ -21,12 +21,7 @@ class Mission():
     def go(self):
         self.ego.gear = 0
         self.ego.target_speed = 10.0
-        if self.ego.index >= 263 or self.stop_checker == True:
-            self.behavior_decision = "stop"
-            self.stop_checker = True
-            print("stop")
-        else:
-            self.behavior_decision = "driving"
+        self.behavior_decision = "driving"
         
     def parking(self):
         if self.ego.index >= 500 and self.ego.index <= 550:
