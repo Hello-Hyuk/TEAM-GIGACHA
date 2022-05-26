@@ -10,10 +10,6 @@ import struct
 from geometry_msgs.msg import Pose
 import threading
 
-
-
-
-
 class UDP_GPS_Parser :
     def __init__(self,ip,port,data_type):
         self.type=data_type
@@ -21,8 +17,7 @@ class UDP_GPS_Parser :
         recv_address = (ip,port)
         self.sock.bind(recv_address)
         self.data_size=65535 
-        self.parsed_data=None
-
+        self.parsed_data = None
 
     def recv_udp_data(self):
         raw_data, sender = self.sock.recvfrom(self.data_size)

@@ -51,7 +51,7 @@ class Ego_updater:
         self.ego.index = self.IF.run()
         self.ego_pub.publish(self.ego)
 
-        print("Ego updater is operating")
+        # print("Ego updater is operating")
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()

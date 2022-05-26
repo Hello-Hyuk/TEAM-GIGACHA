@@ -12,14 +12,21 @@ class Mission():
         self.time_checker = False
         self.obstacle_checker = False
 
+        self.stop_checker = False
+
     def update_parameter(self, eg, pc):
         self.perception = pc
         self.ego = eg
 
     def go(self):
         self.ego.gear = 0
-        self.ego.target_speed = 20.0
-        self.behavior_decision = "driving"
+        self.ego.target_speed = 10.0
+        if self.ego.index >= 263 or self.stop_checker == True:
+            self.behavior_decision = "stop"
+            self.stop_checker = True
+            print("stop")
+        else:
+            self.behavior_decision = "driving"
         
     def parking(self):
         if self.ego.index >= 500 and self.ego.index <= 550:
