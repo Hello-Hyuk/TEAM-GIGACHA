@@ -189,13 +189,13 @@ for (root, directories, files) in os.walk(dir_path):
                 
                 # if truck == True:
                 #     if (ct5 >= 1) and ct2 <= 2 and ct0 <= 3:
-                if car == False :
-                    if (motor == True or bi == True or bus == True):
+                # if car == False :
+                #     if (motor == True or bi == True or bus == True):
                         
                 #     #if (ct1 >= 1 or ct3 >= 1 or ct4 >= 1) and ct2 <= 8: 
                     #if (ct1 >= 1 or ct3 >= 1 or ct4 >= 1) and ct0 < 10: 
-                # if car == True:
-                #     if ct2 >= 5 and ct0 <= 1 and ct1 <= 1 and ct3 <= 1 and ct4 <= 1 and ct5 <= 1:
+                if car == True:
+                    if ct2 >= 0 and ct0 <= 0 and ct1 <= 0 and ct3 <= 0 and ct4 <= 0 and ct5 <= 0:
                         class0 += ct0
                         class1 += ct1
                         class2 += ct2
