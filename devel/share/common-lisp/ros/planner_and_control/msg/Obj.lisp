@@ -166,10 +166,10 @@
   "1cc8151f0e156e549859bb17a6e74a08")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<Obj>)))
   "Returns full string definition for message of type '<Obj>"
-  (cl:format cl:nil "float64[] x~%float64[] y~%float64[] r~%~%"))
+  (cl:format cl:nil "float64[] x~%float64[] y~%float64[] r~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'Obj)))
   "Returns full string definition for message of type 'Obj"
-  (cl:format cl:nil "float64[] x~%float64[] y~%float64[] r~%~%"))
+  (cl:format cl:nil "float64[] x~%float64[] y~%float64[] r~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <Obj>))
   (cl:+ 0
      4 (cl:reduce #'cl:+ (cl:slot-value msg 'x) :key #'(cl:lambda (ele) (cl:declare (cl:ignorable ele)) (cl:+ 8)))

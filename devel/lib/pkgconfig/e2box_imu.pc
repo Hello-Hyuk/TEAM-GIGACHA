@@ -1,4 +1,4 @@
-prefix=/home/gigacha/TEAM-GIGACHA/devel
+prefix=/home/jay/Dev/TEAM-GIGACHA/devel
 
 Name: e2box_imu
 Description: Description of e2box_imu

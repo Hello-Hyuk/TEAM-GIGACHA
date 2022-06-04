@@ -1,2 +1,2 @@
-e2box_AHRS:planner_and_control
--DCATKIN_DEVEL_PREFIX=/home/gigacha/TEAM-GIGACHA/devel -DCMAKE_INSTALL_PREFIX=/home/gigacha/TEAM-GIGACHA/install -G Unix Makefiles
+cam_lidar_calibration:e2box_AHRS:planner_and_control:usb_cam:velodyne/velodyne:velodyne/velodyne_driver:velodyne/velodyne_laserscan:velodyne/velodyne_msgs:velodyne/velodyne_pcl:velodyne/velodyne_pointcloud
+-DCATKIN_DEVEL_PREFIX=/home/jay/Dev/TEAM-GIGACHA/devel -DCMAKE_INSTALL_PREFIX=/home/jay/Dev/TEAM-GIGACHA/install -G Unix Makefiles

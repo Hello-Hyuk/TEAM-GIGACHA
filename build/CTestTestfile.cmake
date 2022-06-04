@@ -1,9 +1,17 @@
 # CMake generated Testfile for 
-# Source directory: /home/gigacha/TEAM-GIGACHA/src
-# Build directory: /home/gigacha/TEAM-GIGACHA/build
+# Source directory: /home/jay/Dev/TEAM-GIGACHA/src
+# Build directory: /home/jay/Dev/TEAM-GIGACHA/build
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.
 subdirs("gtest")
+subdirs("velodyne/velodyne")
+subdirs("velodyne/velodyne_msgs")
 subdirs("planner_and_control")
 subdirs("e2box_AHRS")
+subdirs("cam_lidar_calibration")
+subdirs("usb_cam")
+subdirs("velodyne/velodyne_driver")
+subdirs("velodyne/velodyne_laserscan")
+subdirs("velodyne/velodyne_pcl")
+subdirs("velodyne/velodyne_pointcloud")

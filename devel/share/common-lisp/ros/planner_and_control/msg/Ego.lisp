@@ -309,10 +309,10 @@
   "0869400e66da0a77dc77cb9c63aed1a9")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<Ego>)))
   "Returns full string definition for message of type '<Ego>"
-  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 target_speed~%float32 target_brake~%float32 target_gear~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%int16 auto_manual~%~%"))
+  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 target_speed~%float32 target_brake~%float32 target_gear~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%int16 auto_manual~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'Ego)))
   "Returns full string definition for message of type 'Ego"
-  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 target_speed~%float32 target_brake~%float32 target_gear~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%int16 auto_manual~%~%"))
+  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%int32 index~%float32 target_speed~%float32 target_brake~%float32 target_gear~%float32 speed~%float32 steer~%int32 brake~%int16 gear~%int16 auto_manual~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <Ego>))
   (cl:+ 0
      8

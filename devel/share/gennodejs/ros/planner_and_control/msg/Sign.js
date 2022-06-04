@@ -70,7 +70,7 @@ class Sign {
 
   static getMessageSize(object) {
     let length = 0;
-    length += object.name.length;
+    length += _getByteLength(object.name);
     length += 8 * object.x.length;
     length += 8 * object.y.length;
     return length + 12;
