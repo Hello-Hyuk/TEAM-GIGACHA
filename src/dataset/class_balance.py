@@ -141,6 +141,7 @@ for (root, directories, files) in os.walk(dir_path):
         truck = False
         car = False
         person = False
+        img_cnt = 0
         ct0 = 0
         ct1 = 0
         ct2 = 0
@@ -194,8 +195,8 @@ for (root, directories, files) in os.walk(dir_path):
                         
                 #     #if (ct1 >= 1 or ct3 >= 1 or ct4 >= 1) and ct2 <= 8: 
                     #if (ct1 >= 1 or ct3 >= 1 or ct4 >= 1) and ct0 < 10: 
-                if car == True:
-                    if ct2 >= 0 and ct0 <= 0 and ct1 <= 0 and ct3 <= 0 and ct4 <= 0 and ct5 <= 0:
+                if truck == True:
+                    if ct0 <= 0 and ct2 <=0 and ct1 <= 0 and ct3 <= 0 and ct4 <= 0 :
                         class0 += ct0
                         class1 += ct1
                         class2 += ct2
@@ -208,6 +209,9 @@ for (root, directories, files) in os.walk(dir_path):
                         #print(img)
                         #shutil.move(dir_path + img, dst_path + img)
                         #shutil.move(dir_path + txt, dst_path + txt)
+                        img_cnt += 1
+                        if(img_cnt==8000):
+                            breaker1=True
                 else:
                     carc += 1
                     # shutil.move(dir_path + img, tmp_path + img)
@@ -223,8 +227,9 @@ for (root, directories, files) in os.walk(dir_path):
 print("person : ", class0)
 print("bicycle : ", class1)
 print("car : ", class2)
+print("img number : ",img_cnt)
 print("motocycle : ", class3)
 print("bus : ", class4)
 print("truck : ", class5)
-print("only car : ",carc)
-print("else : ",unknown)
+print("else : ",carc)
+print("else2 : ",unknown)
