@@ -57,9 +57,7 @@ class Localization():
         self.msg.heading = rad2deg(yaw) % 360 #East = 0, North = 90, West = 180, South = 270 deg 
 
         print(f'msg.heading : {self.msg.heading}')
-            
-
-    
+        
 if __name__ == '__main__':
     Activate_Signal_Interrupt_Handler()
     loc = Localization()

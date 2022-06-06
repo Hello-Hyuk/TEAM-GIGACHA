@@ -5,7 +5,6 @@ from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from sensor_msgs.msg import PointCloud, Imu
 from geometry_msgs.msg import Point32
 from geometry_msgs.msg import PoseStamped
-from geometry_msgs.msg import Quaternion
 from geometry_msgs.msg import Pose
 from nav_msgs.msg import Odometry, Path
 from visualization_msgs.msg import MarkerArray, Marker
@@ -22,6 +21,7 @@ class environmentVisualizer:
         
         # Subscriber
         rospy.Subscriber('/pose', Local, self.pose_callback)
+        rospy.Subscriber('/imu', Imu, self.imu_callback))
         rospy.Subscriber('/global_path', customPath, self.globalpath_callback)
         rospy.Subscriber('/trajectory', customPath, self.localpath_callback)
         rospy.Subscriber('/perception', Perception, self.object_callback)
@@ -73,6 +73,7 @@ class environmentVisualizer:
         # self.target.header.frame_id = "map"
 
         self.t = time()
+
         
     def pose_callback(self, msg):
         ppoint = Point32()
@@ -82,6 +83,7 @@ class environmentVisualizer:
         self.vis_pose.pose.pose.position.x = ppoint.x
         self.vis_pose.pose.pose.position.y = ppoint.y
         self.vis_trajectory.header.stamp = rospy.Time.now()
+        self.vis_pose.pose.pose.orientation = msg.orientation
         if self.t - time() < 0.5 :
             self.t = time()
             self.vis_trajectory.points.append(ppoint)

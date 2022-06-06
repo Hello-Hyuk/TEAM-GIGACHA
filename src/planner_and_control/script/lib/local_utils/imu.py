@@ -1,25 +1,26 @@
 #!/usr/bin/env python3
 import rospy
 import numpy as np
+import time
 
 from lib.local_utils.euler_from_quaternion import euler_from_quaternion as efq
 from sensor_msgs.msg import Imu
-from geometry_msgs.msg import Pose
 
 class IMU():
     def __init__(self):
-        self.yaw = 0
-        self.yaw_rate = 0
+        self.heading = 0.0
         self.battery = 0
+        self.time = 0.0
         
         rospy.Subscriber("/imu", Imu, self.imu_call_back)
-        rospy.Subscriber("/simul_imu", Pose, self.imu_call_back)
+
+        imu = Imu()
+        self.orientation_q = imu.orientation()
 
     def imu_call_back(self, data):
-
-        # self.yaw_rate = data.angular_velocity.z ### for kalman filter
-        orientation_q = data.orientation
-        roll, pitch, yaw = efq(orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w)
+        self.time = time.time()
+        self.orientation_q = data.orientation
+        roll, pitch, yaw = efq(self.orientation_q.x, self.orientation_q.y, self.orientation_q.z, self.orientation_q.w)
 
         self.yaw = np.rad2deg(-1*yaw)
         self.battery = data.angular_velocity.x
