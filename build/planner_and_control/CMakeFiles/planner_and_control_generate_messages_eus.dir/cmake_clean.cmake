@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/SegmentObstacle.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Gngga.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Local.l"
+  "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Displacement.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Ego.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Obstacles.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Path.l"

@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/SegmentObstacle.js"
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Gngga.js"
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Local.js"
+  "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Displacement.js"
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Ego.js"
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Obstacles.js"
   "/home/gigacha/TEAM-GIGACHA/devel/share/gennodejs/ros/planner_and_control/msg/Path.js"

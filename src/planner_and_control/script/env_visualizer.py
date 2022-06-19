@@ -21,12 +21,12 @@ class environmentVisualizer:
         
         # Subscriber
         rospy.Subscriber('/pose', Local, self.pose_callback)
-        rospy.Subscriber('/imu', Imu, self.imu_callback))
+        # rospy.Subscriber('/imu', Imu, self.imu_callback)
         rospy.Subscriber('/global_path', customPath, self.globalpath_callback)
         rospy.Subscriber('/trajectory', customPath, self.localpath_callback)
         rospy.Subscriber('/perception', Perception, self.object_callback)
         # rospy.Subscriber('/simul_imu', Pose, self.simul_imu_callback) # simul
-        rospy.Subscriber('/imu', Imu, self.simul_imu_callback) # real
+        # rospy.Subscriber('/imu', Imu, self.simul_imu_callback) # real
         
         # Publisher
         self.vis_global_path_pub = rospy.Publisher("/vis_global_path", Path, queue_size=1) # using path
@@ -34,6 +34,9 @@ class environmentVisualizer:
         
         self.vis_trajectory_pub = rospy.Publisher("/vis_trajectory", PointCloud, queue_size=1)
         self.vis_pose_pub = rospy.Publisher("/vis_position", Odometry, queue_size=1)
+
+        self.vis_trajectory_pub_dr = rospy.Publisher("/vis_trajectory_dr", PointCloud, queue_size=1)
+        self.vis_pose_pub_dr = rospy.Publisher("/vis_position_dr", Odometry, queue_size=1)
         
         self.vis_obj_pub = rospy.Publisher("/vis_obj", MarkerArray, queue_size=1)        
 
@@ -49,9 +52,15 @@ class environmentVisualizer:
         
         self.vis_trajectory = PointCloud()
         self.vis_trajectory.header.frame_id = "map"
+
+        self.vis_trajectory_dr = PointCloud()
+        self.vis_trajectory_dr.header.frame_id = "map"
         
         self.vis_pose = Odometry()
         self.vis_pose.header.frame_id = "map"
+
+        self.vis_pose_dr = Odometry()
+        self.vis_pose_dr.header.frame_id = "map"
 
         # self.obsmap_pub = rospy.Publisher("/vis_map", PointCloud, queue_size=1)
         # self.obsmap = PointCloud()
@@ -73,7 +82,7 @@ class environmentVisualizer:
         # self.target.header.frame_id = "map"
 
         self.t = time()
-
+        self.d = time()
         
     def pose_callback(self, msg):
         ppoint = Point32()
@@ -83,10 +92,24 @@ class environmentVisualizer:
         self.vis_pose.pose.pose.position.x = ppoint.x
         self.vis_pose.pose.pose.position.y = ppoint.y
         self.vis_trajectory.header.stamp = rospy.Time.now()
-        self.vis_pose.pose.pose.orientation = msg.orientation
+        # self.vis_pose.pose.pose.orientation = msg.orientation
         if self.t - time() < 0.5 :
             self.t = time()
             self.vis_trajectory.points.append(ppoint)
+
+
+        ppoint_dr = Point32()
+        ppoint_dr.x = msg.dr_x
+        ppoint_dr.y = msg.dr_y
+        ppoint_dr.z = 0
+        self.vis_pose_dr.pose.pose.position.x = ppoint_dr.x
+        self.vis_pose_dr.pose.pose.position.y = ppoint_dr.y
+        self.vis_trajectory_dr.header.stamp = rospy.Time.now()
+        # self.vis_pose_dr.pose.pose.orientation = msg.orientation
+        if self.d - time() < 0.5 :
+            self.d = time()
+            self.vis_trajectory_dr.points.append(ppoint_dr)
+
 
         # car heading
         # simul
@@ -99,8 +122,8 @@ class environmentVisualizer:
         # heading.w = msg.heading
         # self.vis_pose.pose.pose.orientation.w = heading.w
 
-    def simul_imu_callback(self, msg):
-        self.vis_pose.pose.pose.orientation = msg.orientation
+    # def simul_imu_callback(self, msg):
+    #     self.vis_pose.pose.pose.orientation = msg.orientation
         
     def globalpath_callback(self, msg):
         global_path = Path()
@@ -181,10 +204,11 @@ class environmentVisualizer:
         self.vis_local_path_pub.publish(self.vis_local_path)
 
         self.vis_trajectory_pub.publish(self.vis_trajectory)
+        self.vis_trajectory_pub_dr.publish(self.vis_trajectory_dr)
 
         # self.vis_pose.header.stamp = rospy.Time.now()
         self.vis_pose_pub.publish(self.vis_pose)
-        
+        self.vis_pose_pub_dr.publish(self.vis_pose_dr)
         
         
         # self.obsmap.points = self.ego.obs_map.points

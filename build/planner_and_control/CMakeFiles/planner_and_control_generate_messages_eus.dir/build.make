@@ -60,6 +60,7 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/SegmentObstacle.l
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Gngga.l
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Local.l
+planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Displacement.l
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Ego.l
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Obstacles.l
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Path.l
@@ -105,9 +106,14 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating EusLisp code from planner_and_control/Local.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg
 
+/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Displacement.l: /opt/ros/melodic/lib/geneus/gen_eus.py
+/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Displacement.l: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Displacement.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Generating EusLisp code from planner_and_control/Displacement.msg"
+	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Displacement.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg
+
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Ego.l: /opt/ros/melodic/lib/geneus/gen_eus.py
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Ego.l: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Generating EusLisp code from planner_and_control/Ego.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Generating EusLisp code from planner_and_control/Ego.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg
 
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Obstacles.l: /opt/ros/melodic/lib/geneus/gen_eus.py
@@ -116,21 +122,21 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Obstacles.l: /opt/ros/melodic/share/geometry_msgs/msg/Point.msg
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Obstacles.l: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Obstacles.l: /opt/ros/melodic/share/std_msgs/msg/Header.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Generating EusLisp code from planner_and_control/Obstacles.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Generating EusLisp code from planner_and_control/Obstacles.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg
 
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Path.l: /opt/ros/melodic/lib/geneus/gen_eus.py
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Path.l: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Generating EusLisp code from planner_and_control/Path.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating EusLisp code from planner_and_control/Path.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg
 
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Perception.l: /opt/ros/melodic/lib/geneus/gen_eus.py
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Perception.l: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating EusLisp code from planner_and_control/Perception.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Generating EusLisp code from planner_and_control/Perception.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg
 
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/manifest.l: /opt/ros/melodic/lib/geneus/gen_eus.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Generating EusLisp manifest code for planner_and_control"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Generating EusLisp manifest code for planner_and_control"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py -m -o /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control planner_and_control std_msgs geometry_msgs planner_and_control
 
 planner_and_control_generate_messages_eus: planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus
@@ -141,6 +147,7 @@ planner_and_control_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/shar
 planner_and_control_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/SegmentObstacle.l
 planner_and_control_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Gngga.l
 planner_and_control_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Local.l
+planner_and_control_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Displacement.l
 planner_and_control_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Ego.l
 planner_and_control_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Obstacles.l
 planner_and_control_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Path.l

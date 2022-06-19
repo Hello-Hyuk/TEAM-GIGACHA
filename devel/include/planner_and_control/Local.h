@@ -27,12 +27,16 @@ struct Local_
   Local_()
     : x(0.0)
     , y(0.0)
+    , dr_x(0.0)
+    , dr_y(0.0)
     , heading(0.0)
     , orientation()  {
     }
   Local_(const ContainerAllocator& _alloc)
     : x(0.0)
     , y(0.0)
+    , dr_x(0.0)
+    , dr_y(0.0)
     , heading(0.0)
     , orientation(_alloc)  {
   (void)_alloc;
@@ -45,6 +49,12 @@ struct Local_
 
    typedef double _y_type;
   _y_type y;
+
+   typedef double _dr_x_type;
+  _dr_x_type dr_x;
+
+   typedef double _dr_y_type;
+  _dr_y_type dr_y;
 
    typedef double _heading_type;
   _heading_type heading;
@@ -83,6 +93,8 @@ bool operator==(const ::planner_and_control::Local_<ContainerAllocator1> & lhs, 
 {
   return lhs.x == rhs.x &&
     lhs.y == rhs.y &&
+    lhs.dr_x == rhs.dr_x &&
+    lhs.dr_y == rhs.dr_y &&
     lhs.heading == rhs.heading &&
     lhs.orientation == rhs.orientation;
 }
@@ -141,12 +153,12 @@ struct MD5Sum< ::planner_and_control::Local_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "34e4b013bc19f1206fca6ef96d3f25bd";
+    return "3634eb56b1476d5ac73863f45ec8bdb8";
   }
 
   static const char* value(const ::planner_and_control::Local_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x34e4b013bc19f120ULL;
-  static const uint64_t static_value2 = 0x6fca6ef96d3f25bdULL;
+  static const uint64_t static_value1 = 0x3634eb56b1476d5aULL;
+  static const uint64_t static_value2 = 0xc73863f45ec8bdb8ULL;
 };
 
 template<class ContainerAllocator>
@@ -167,6 +179,8 @@ struct Definition< ::planner_and_control::Local_<ContainerAllocator> >
   {
     return "float64 x\n"
 "float64 y\n"
+"float64 dr_x\n"
+"float64 dr_y\n"
 "float64 heading\n"
 "geometry_msgs/Quaternion orientation\n"
 "================================================================================\n"
@@ -197,6 +211,8 @@ namespace serialization
     {
       stream.next(m.x);
       stream.next(m.y);
+      stream.next(m.dr_x);
+      stream.next(m.dr_y);
       stream.next(m.heading);
       stream.next(m.orientation);
     }
@@ -221,6 +237,10 @@ struct Printer< ::planner_and_control::Local_<ContainerAllocator> >
     Printer<double>::stream(s, indent + "  ", v.x);
     s << indent << "y: ";
     Printer<double>::stream(s, indent + "  ", v.y);
+    s << indent << "dr_x: ";
+    Printer<double>::stream(s, indent + "  ", v.dr_x);
+    s << indent << "dr_y: ";
+    Printer<double>::stream(s, indent + "  ", v.dr_y);
     s << indent << "heading: ";
     Printer<double>::stream(s, indent + "  ", v.heading);
     s << indent << "orientation: ";

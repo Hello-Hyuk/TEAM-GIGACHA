@@ -60,6 +60,7 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/SegmentObstacle.lisp
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Gngga.lisp
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Local.lisp
+planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Displacement.lisp
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Ego.lisp
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Obstacles.lisp
 planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Path.lisp
@@ -104,9 +105,14 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating Lisp code from planner_and_control/Local.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg
 
+/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Displacement.lisp: /opt/ros/melodic/lib/genlisp/gen_lisp.py
+/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Displacement.lisp: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Displacement.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Generating Lisp code from planner_and_control/Displacement.msg"
+	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Displacement.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg
+
 /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Ego.lisp: /opt/ros/melodic/lib/genlisp/gen_lisp.py
 /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Ego.lisp: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Generating Lisp code from planner_and_control/Ego.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Generating Lisp code from planner_and_control/Ego.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Ego.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg
 
 /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Obstacles.lisp: /opt/ros/melodic/lib/genlisp/gen_lisp.py
@@ -115,17 +121,17 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp: /home
 /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Obstacles.lisp: /opt/ros/melodic/share/geometry_msgs/msg/Point.msg
 /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Obstacles.lisp: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/CircleObstacle.msg
 /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Obstacles.lisp: /opt/ros/melodic/share/std_msgs/msg/Header.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Generating Lisp code from planner_and_control/Obstacles.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Generating Lisp code from planner_and_control/Obstacles.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Obstacles.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg
 
 /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Path.lisp: /opt/ros/melodic/lib/genlisp/gen_lisp.py
 /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Path.lisp: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Generating Lisp code from planner_and_control/Path.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating Lisp code from planner_and_control/Path.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Path.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg
 
 /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Perception.lisp: /opt/ros/melodic/lib/genlisp/gen_lisp.py
 /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Perception.lisp: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating Lisp code from planner_and_control/Perception.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Generating Lisp code from planner_and_control/Perception.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Perception.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg
 
 planner_and_control_generate_messages_lisp: planner_and_control/CMakeFiles/planner_and_control_generate_messages_lisp
@@ -136,6 +142,7 @@ planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/sha
 planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/SegmentObstacle.lisp
 planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Gngga.lisp
 planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Local.lisp
+planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Displacement.lisp
 planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Ego.lisp
 planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Obstacles.lisp
 planner_and_control_generate_messages_lisp: /home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Path.lisp

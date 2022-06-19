@@ -17,6 +17,16 @@
     :initarg :y
     :type cl:float
     :initform 0.0)
+   (dr_x
+    :reader dr_x
+    :initarg :dr_x
+    :type cl:float
+    :initform 0.0)
+   (dr_y
+    :reader dr_y
+    :initarg :dr_y
+    :type cl:float
+    :initform 0.0)
    (heading
     :reader heading
     :initarg :heading
@@ -47,6 +57,16 @@
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:y-val is deprecated.  Use planner_and_control-msg:y instead.")
   (y m))
 
+(cl:ensure-generic-function 'dr_x-val :lambda-list '(m))
+(cl:defmethod dr_x-val ((m <Local>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:dr_x-val is deprecated.  Use planner_and_control-msg:dr_x instead.")
+  (dr_x m))
+
+(cl:ensure-generic-function 'dr_y-val :lambda-list '(m))
+(cl:defmethod dr_y-val ((m <Local>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:dr_y-val is deprecated.  Use planner_and_control-msg:dr_y instead.")
+  (dr_y m))
+
 (cl:ensure-generic-function 'heading-val :lambda-list '(m))
 (cl:defmethod heading-val ((m <Local>))
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:heading-val is deprecated.  Use planner_and_control-msg:heading instead.")
@@ -68,6 +88,24 @@
     (cl:write-byte (cl:ldb (cl:byte 8 48) bits) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 56) bits) ostream))
   (cl:let ((bits (roslisp-utils:encode-double-float-bits (cl:slot-value msg 'y))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 32) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 40) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 48) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 56) bits) ostream))
+  (cl:let ((bits (roslisp-utils:encode-double-float-bits (cl:slot-value msg 'dr_x))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 32) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 40) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 48) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 56) bits) ostream))
+  (cl:let ((bits (roslisp-utils:encode-double-float-bits (cl:slot-value msg 'dr_y))))
     (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
@@ -118,6 +156,26 @@
       (cl:setf (cl:ldb (cl:byte 8 40) bits) (cl:read-byte istream))
       (cl:setf (cl:ldb (cl:byte 8 48) bits) (cl:read-byte istream))
       (cl:setf (cl:ldb (cl:byte 8 56) bits) (cl:read-byte istream))
+    (cl:setf (cl:slot-value msg 'dr_x) (roslisp-utils:decode-double-float-bits bits)))
+    (cl:let ((bits 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 32) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 40) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 48) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 56) bits) (cl:read-byte istream))
+    (cl:setf (cl:slot-value msg 'dr_y) (roslisp-utils:decode-double-float-bits bits)))
+    (cl:let ((bits 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 32) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 40) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 48) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 56) bits) (cl:read-byte istream))
     (cl:setf (cl:slot-value msg 'heading) (roslisp-utils:decode-double-float-bits bits)))
   (roslisp-msg-protocol:deserialize (cl:slot-value msg 'orientation) istream)
   msg
@@ -130,18 +188,20 @@
   "planner_and_control/Local")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<Local>)))
   "Returns md5sum for a message object of type '<Local>"
-  "34e4b013bc19f1206fca6ef96d3f25bd")
+  "3634eb56b1476d5ac73863f45ec8bdb8")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'Local)))
   "Returns md5sum for a message object of type 'Local"
-  "34e4b013bc19f1206fca6ef96d3f25bd")
+  "3634eb56b1476d5ac73863f45ec8bdb8")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<Local>)))
   "Returns full string definition for message of type '<Local>"
-  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%geometry_msgs/Quaternion orientation~%================================================================================~%MSG: geometry_msgs/Quaternion~%# This represents an orientation in free space in quaternion form.~%~%float64 x~%float64 y~%float64 z~%float64 w~%~%~%"))
+  (cl:format cl:nil "float64 x~%float64 y~%float64 dr_x~%float64 dr_y~%float64 heading~%geometry_msgs/Quaternion orientation~%================================================================================~%MSG: geometry_msgs/Quaternion~%# This represents an orientation in free space in quaternion form.~%~%float64 x~%float64 y~%float64 z~%float64 w~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'Local)))
   "Returns full string definition for message of type 'Local"
-  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%geometry_msgs/Quaternion orientation~%================================================================================~%MSG: geometry_msgs/Quaternion~%# This represents an orientation in free space in quaternion form.~%~%float64 x~%float64 y~%float64 z~%float64 w~%~%~%"))
+  (cl:format cl:nil "float64 x~%float64 y~%float64 dr_x~%float64 dr_y~%float64 heading~%geometry_msgs/Quaternion orientation~%================================================================================~%MSG: geometry_msgs/Quaternion~%# This represents an orientation in free space in quaternion form.~%~%float64 x~%float64 y~%float64 z~%float64 w~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <Local>))
   (cl:+ 0
+     8
+     8
      8
      8
      8
@@ -152,6 +212,8 @@
   (cl:list 'Local
     (cl:cons ':x (x msg))
     (cl:cons ':y (y msg))
+    (cl:cons ':dr_x (dr_x msg))
+    (cl:cons ':dr_y (dr_y msg))
     (cl:cons ':heading (heading msg))
     (cl:cons ':orientation (orientation msg))
 ))

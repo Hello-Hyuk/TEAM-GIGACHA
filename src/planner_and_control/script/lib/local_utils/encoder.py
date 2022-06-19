@@ -2,15 +2,15 @@ import rospy
 import serial
 from std_msgs.msg import Int64
 from planner_and_control.msg import Serial_Info
-from planner_and_control.msg import Encoder
+from planner_and_control.msg import Displacement
 
-class Encdoer: # 1 rev per 100 pulse (when it goes straight)
+class DP: # 1 rev per 100 pulse (when it goes straight)
     def __init__(self):
-        rospy.init_node("Encoder", anonymous = False)
+        rospy.init_node('Encoder', anonymous = False)
         rospy.Subscriber("/serial", Serial_Info, self.serialCallback)
-        self.pub = rospy.Publisher('/encoder', Encoder, queue_size=1)
-        self.ser = serial.Serial("/dev/encoder", 115200)
-        self.encoder = Encoder()
+        self.pub = rospy.Publisher('/encoder', Displacement, queue_size=1)
+        self.ser = serial.Serial(port = '/dev/ttyACM0', baudrate = 115200)
+        self.encoder = Displacement()
 
         self.flag = True
         self.left_data = 0 # displacement [pulse]
@@ -22,20 +22,29 @@ class Encdoer: # 1 rev per 100 pulse (when it goes straight)
         self.diff_left = 0
         self.diff_right = 0
 
+        self.init = 0
+
     def serialCallback(self, msg):
-        self.left_data = msg.encoder
+        self.read_encoder()
+        data = msg.encoder
+        if self.init ==0:
+            self.init = int(data[0]) + int(data[1])*256\
+                 + int(data[2])*256**2 + int(data[3])*256**3
+
+        self.left_data = int(data[0]) + int(data[1])*256\
+                 + int(data[2])*256**2 + int(data[3])*256**3 - self.init
+        # print(self.left_data)
 
     def read_encoder(self):
         res = self.ser.readline()
-
-        while True:
-            try:
-                print(int(res))
-                break
-            except:
-                res = self.ser.readline()
+        try:
+            data = res.decode('ascii')
+            # print(int(data))
+            self.right_data = int(data)
+        except:
+            UnicodeDecodeError
         
-        self.right_data = int(res)
+        
 
     def filter(self):
         if self.flag:
@@ -65,7 +74,7 @@ class Encdoer: # 1 rev per 100 pulse (when it goes straight)
 
 
 if __name__ == '__main__':
-    enc = Encoder()
+    enc = DP()
     rate = rospy.Rate(50)
 
     while not rospy.is_shutdown():

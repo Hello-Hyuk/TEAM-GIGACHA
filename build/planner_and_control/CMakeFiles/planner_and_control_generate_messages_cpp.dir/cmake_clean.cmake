@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/SegmentObstacle.h"
   "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Gngga.h"
   "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Local.h"
+  "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Displacement.h"
   "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Ego.h"
   "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Obstacles.h"
   "/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Path.h"

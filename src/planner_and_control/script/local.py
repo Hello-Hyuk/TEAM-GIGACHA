@@ -20,7 +20,7 @@ class Localization():
         self.imu = IMU()
         self.dr = DR()
 
-    def main(self, msg):
+    def main(self, data):
         main_time = time.time()
         time_sync = None
 
@@ -28,7 +28,7 @@ class Localization():
         self.msg.y = self.gps.y
         self.msg.dr_x = self.dr.x
         self.msg.dr_y = self.dr.y
-        self.msg.orientation = self.imu.orientation_q
+        # self.msg.orientation = self.imu.orientation_q
 
         if (main_time - self.gps.time) < 0.2 and (main_time - self.imu.time) < 0.2: # time syncronize
             time_sync = "Sync"
@@ -43,11 +43,12 @@ class Localization():
         
         self.pub.publish(self.msg)
 
-        rospy.loginfo("======================")
-        rospy.loginfo("x : {0}, y : {1}".format(self.msg.x, self.msg.y))
-        rospy.loginfo("heading : {0}, switch : {1}".format(self.msg.heading, self.gps.heading_switch))
-        rospy.loginfo("time sync : {0}".format(time_sync))
+        rospy.loginfo("======================\n")
+        rospy.loginfo("x : {0}, y : {1}\n".format(self.msg.x, self.msg.y))
+        rospy.loginfo("heading : {0}, switch : {1}\n".format(self.msg.heading, self.gps.heading_switch))
+        rospy.loginfo("time sync : {0}\n".format(time_sync))
 
 if __name__ == '__main__':
     loc = Localization()
     rospy.Subscriber("/timer", Time, loc.main)
+    rospy.spin()

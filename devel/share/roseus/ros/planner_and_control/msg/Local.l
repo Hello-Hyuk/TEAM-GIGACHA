@@ -16,19 +16,23 @@
 
 (defclass planner_and_control::Local
   :super ros::object
-  :slots (_x _y _heading _orientation ))
+  :slots (_x _y _dr_x _dr_y _heading _orientation ))
 
 (defmethod planner_and_control::Local
   (:init
    (&key
     ((:x __x) 0.0)
     ((:y __y) 0.0)
+    ((:dr_x __dr_x) 0.0)
+    ((:dr_y __dr_y) 0.0)
     ((:heading __heading) 0.0)
     ((:orientation __orientation) (instance geometry_msgs::Quaternion :init))
     )
    (send-super :init)
    (setq _x (float __x))
    (setq _y (float __y))
+   (setq _dr_x (float __dr_x))
+   (setq _dr_y (float __dr_y))
    (setq _heading (float __heading))
    (setq _orientation __orientation)
    self)
@@ -38,6 +42,12 @@
   (:y
    (&optional __y)
    (if __y (setq _y __y)) _y)
+  (:dr_x
+   (&optional __dr_x)
+   (if __dr_x (setq _dr_x __dr_x)) _dr_x)
+  (:dr_y
+   (&optional __dr_y)
+   (if __dr_y (setq _dr_y __dr_y)) _dr_y)
   (:heading
    (&optional __heading)
    (if __heading (setq _heading __heading)) _heading)
@@ -55,6 +65,10 @@
     8
     ;; float64 _y
     8
+    ;; float64 _dr_x
+    8
+    ;; float64 _dr_y
+    8
     ;; float64 _heading
     8
     ;; geometry_msgs/Quaternion _orientation
@@ -68,6 +82,10 @@
        (sys::poke _x (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
      ;; float64 _y
        (sys::poke _y (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
+     ;; float64 _dr_x
+       (sys::poke _dr_x (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
+     ;; float64 _dr_y
+       (sys::poke _dr_y (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
      ;; float64 _heading
        (sys::poke _heading (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
      ;; geometry_msgs/Quaternion _orientation
@@ -80,6 +98,10 @@
      (setq _x (sys::peek buf ptr- :double)) (incf ptr- 8)
    ;; float64 _y
      (setq _y (sys::peek buf ptr- :double)) (incf ptr- 8)
+   ;; float64 _dr_x
+     (setq _dr_x (sys::peek buf ptr- :double)) (incf ptr- 8)
+   ;; float64 _dr_y
+     (setq _dr_y (sys::peek buf ptr- :double)) (incf ptr- 8)
    ;; float64 _heading
      (setq _heading (sys::peek buf ptr- :double)) (incf ptr- 8)
    ;; geometry_msgs/Quaternion _orientation
@@ -88,11 +110,13 @@
    self)
   )
 
-(setf (get planner_and_control::Local :md5sum-) "34e4b013bc19f1206fca6ef96d3f25bd")
+(setf (get planner_and_control::Local :md5sum-) "3634eb56b1476d5ac73863f45ec8bdb8")
 (setf (get planner_and_control::Local :datatype-) "planner_and_control/Local")
 (setf (get planner_and_control::Local :definition-)
       "float64 x
 float64 y
+float64 dr_x
+float64 dr_y
 float64 heading
 geometry_msgs/Quaternion orientation
 ================================================================================
@@ -108,6 +132,6 @@ float64 w
 
 
 
-(provide :planner_and_control/Local "34e4b013bc19f1206fca6ef96d3f25bd")
+(provide :planner_and_control/Local "3634eb56b1476d5ac73863f45ec8bdb8")
 
 

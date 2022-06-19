@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/SegmentObstacle.lisp"
   "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Gngga.lisp"
   "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Local.lisp"
+  "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Displacement.lisp"
   "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Ego.lisp"
   "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Obstacles.lisp"
   "/home/gigacha/TEAM-GIGACHA/devel/share/common-lisp/ros/planner_and_control/msg/Path.lisp"

@@ -21,6 +21,8 @@ class Local {
       // initObj === null is a special case for deserialization where we don't initialize fields
       this.x = null;
       this.y = null;
+      this.dr_x = null;
+      this.dr_y = null;
       this.heading = null;
       this.orientation = null;
     }
@@ -36,6 +38,18 @@ class Local {
       }
       else {
         this.y = 0.0;
+      }
+      if (initObj.hasOwnProperty('dr_x')) {
+        this.dr_x = initObj.dr_x
+      }
+      else {
+        this.dr_x = 0.0;
+      }
+      if (initObj.hasOwnProperty('dr_y')) {
+        this.dr_y = initObj.dr_y
+      }
+      else {
+        this.dr_y = 0.0;
       }
       if (initObj.hasOwnProperty('heading')) {
         this.heading = initObj.heading
@@ -58,6 +72,10 @@ class Local {
     bufferOffset = _serializer.float64(obj.x, buffer, bufferOffset);
     // Serialize message field [y]
     bufferOffset = _serializer.float64(obj.y, buffer, bufferOffset);
+    // Serialize message field [dr_x]
+    bufferOffset = _serializer.float64(obj.dr_x, buffer, bufferOffset);
+    // Serialize message field [dr_y]
+    bufferOffset = _serializer.float64(obj.dr_y, buffer, bufferOffset);
     // Serialize message field [heading]
     bufferOffset = _serializer.float64(obj.heading, buffer, bufferOffset);
     // Serialize message field [orientation]
@@ -73,6 +91,10 @@ class Local {
     data.x = _deserializer.float64(buffer, bufferOffset);
     // Deserialize message field [y]
     data.y = _deserializer.float64(buffer, bufferOffset);
+    // Deserialize message field [dr_x]
+    data.dr_x = _deserializer.float64(buffer, bufferOffset);
+    // Deserialize message field [dr_y]
+    data.dr_y = _deserializer.float64(buffer, bufferOffset);
     // Deserialize message field [heading]
     data.heading = _deserializer.float64(buffer, bufferOffset);
     // Deserialize message field [orientation]
@@ -81,7 +103,7 @@ class Local {
   }
 
   static getMessageSize(object) {
-    return 56;
+    return 72;
   }
 
   static datatype() {
@@ -91,7 +113,7 @@ class Local {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '34e4b013bc19f1206fca6ef96d3f25bd';
+    return '3634eb56b1476d5ac73863f45ec8bdb8';
   }
 
   static messageDefinition() {
@@ -99,6 +121,8 @@ class Local {
     return `
     float64 x
     float64 y
+    float64 dr_x
+    float64 dr_y
     float64 heading
     geometry_msgs/Quaternion orientation
     ================================================================================
@@ -131,6 +155,20 @@ class Local {
     }
     else {
       resolved.y = 0.0
+    }
+
+    if (msg.dr_x !== undefined) {
+      resolved.dr_x = msg.dr_x;
+    }
+    else {
+      resolved.dr_x = 0.0
+    }
+
+    if (msg.dr_y !== undefined) {
+      resolved.dr_y = msg.dr_y;
+    }
+    else {
+      resolved.dr_y = 0.0
     }
 
     if (msg.heading !== undefined) {
