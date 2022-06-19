@@ -23,6 +23,8 @@
 
 <!--=================================Localization=========================-->
   <node pkg="planner_and_control" type="time_sync.py" name="time" respawn="true"/>
+  <node pkg="planner_and_control" type="encoder.py" name="Encoder" respawn="true"/>
+  
   <node pkg="planner_and_control" type="local.py" name="Localization"  respawn="true" output="screen"/>
 
 
