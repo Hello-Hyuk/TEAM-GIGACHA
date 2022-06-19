@@ -21,12 +21,10 @@ class environmentVisualizer:
         
         # Subscriber
         rospy.Subscriber('/pose', Local, self.pose_callback)
-        # rospy.Subscriber('/imu', Imu, self.imu_callback)
         rospy.Subscriber('/global_path', customPath, self.globalpath_callback)
         rospy.Subscriber('/trajectory', customPath, self.localpath_callback)
         rospy.Subscriber('/perception', Perception, self.object_callback)
         # rospy.Subscriber('/simul_imu', Pose, self.simul_imu_callback) # simul
-        # rospy.Subscriber('/imu', Imu, self.simul_imu_callback) # real
         
         # Publisher
         self.vis_global_path_pub = rospy.Publisher("/vis_global_path", Path, queue_size=1) # using path
@@ -92,7 +90,7 @@ class environmentVisualizer:
         self.vis_pose.pose.pose.position.x = ppoint.x
         self.vis_pose.pose.pose.position.y = ppoint.y
         self.vis_trajectory.header.stamp = rospy.Time.now()
-        # self.vis_pose.pose.pose.orientation = msg.orientation
+        self.vis_pose.pose.pose.orientation = msg.orientation
         if self.t - time() < 0.5 :
             self.t = time()
             self.vis_trajectory.points.append(ppoint)
@@ -105,7 +103,7 @@ class environmentVisualizer:
         self.vis_pose_dr.pose.pose.position.x = ppoint_dr.x
         self.vis_pose_dr.pose.pose.position.y = ppoint_dr.y
         self.vis_trajectory_dr.header.stamp = rospy.Time.now()
-        # self.vis_pose_dr.pose.pose.orientation = msg.orientation
+        self.vis_pose_dr.pose.pose.orientation = msg.orientation
         if self.d - time() < 0.5 :
             self.d = time()
             self.vis_trajectory_dr.points.append(ppoint_dr)

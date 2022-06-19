@@ -28,7 +28,7 @@ class Localization():
         self.msg.y = self.gps.y
         self.msg.dr_x = self.dr.x
         self.msg.dr_y = self.dr.y
-        # self.msg.orientation = self.imu.orientation_q
+        self.msg.orientation = self.imu.orientation_q
 
         if (main_time - self.gps.time) < 0.2 and (main_time - self.imu.time) < 0.2: # time syncronize
             time_sync = "Sync"

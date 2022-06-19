@@ -9,7 +9,8 @@ class DP: # 1 rev per 100 pulse (when it goes straight)
         rospy.init_node('Encoder', anonymous = False)
         rospy.Subscriber("/serial", Serial_Info, self.serialCallback)
         self.pub = rospy.Publisher('/encoder', Displacement, queue_size=1)
-        self.ser = serial.Serial(port = '/dev/ttyACM0', baudrate = 115200)
+        # self.ser = serial.Serial(port = '/dev/ttyACM0', baudrate = 115200)
+        self.ser = serial.Serial(port = '/dev/encoder', baudrate = 115200)
         self.encoder = Displacement()
 
         self.flag = True
@@ -27,25 +28,21 @@ class DP: # 1 rev per 100 pulse (when it goes straight)
     def serialCallback(self, msg):
         self.read_encoder()
         data = msg.encoder
-        if self.init ==0:
+        if self.init == 0:
             self.init = int(data[0]) + int(data[1])*256\
                  + int(data[2])*256**2 + int(data[3])*256**3
 
         self.left_data = int(data[0]) + int(data[1])*256\
                  + int(data[2])*256**2 + int(data[3])*256**3 - self.init
-        # print(self.left_data)
 
     def read_encoder(self):
         res = self.ser.readline()
         try:
             data = res.decode('ascii')
-            # print(int(data))
             self.right_data = int(data)
         except:
             UnicodeDecodeError
         
-        
-
     def filter(self):
         if self.flag:
             self.left = self.left_data
