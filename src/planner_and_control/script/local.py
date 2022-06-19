@@ -5,6 +5,7 @@ from std_msgs.msg import Time
 from planner_and_control.msg import Local
 from lib.local_utils.gps import GPS
 from lib.local_utils.imu import IMU
+from lib.local_utils.dead_reckoning import DR
 
 class Localization():
     def __init__(self):
@@ -17,6 +18,7 @@ class Localization():
 
         self.gps = GPS()
         self.imu = IMU()
+        self.dr = DR()
 
     def main(self, msg):
         main_time = time.time()
@@ -24,6 +26,8 @@ class Localization():
 
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
+        self.msg.dr_x = self.dr.x
+        self.msg.dr_y = self.dr.y
         self.msg.orientation = self.imu.orientation_q
 
         if (main_time - self.gps.time) < 0.2 and (main_time - self.imu.time) < 0.2: # time syncronize

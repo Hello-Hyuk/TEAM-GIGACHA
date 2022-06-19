@@ -22,7 +22,7 @@ class DR:
         self.flag = True
 
     def encoderCallback(self, msg):
-        self.left = msg.left
+        self.left = msg.left # saved pulse
         self.right = msg.right
 
     def dead_reckoning(self, msg):
