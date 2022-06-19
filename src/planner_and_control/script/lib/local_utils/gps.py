@@ -14,6 +14,8 @@ class GPS():
         self.x = 0.0
         self.y = 0.0
         self.heading = 0.0
+        self.heading_switch = False
+
         self.time = 0.0
 
         self.base = rospy.get_param("Songdo_track") # KCity, Songdo, Songdo_track, Siheung
@@ -35,9 +37,11 @@ class GPS():
         headAcc = data.headAcc
         lpf = LPF()
 
-        if headAcc < 500000:
+        if headAcc < 600000:
+            self.heading_switch = True
             self.heading = lpf.low_pass_filter(gps_heading, 30, 0.1)
         else:
+            self.heading_switch = False
             self.heading = 0.0
 
 if __name__ == '__main__':
