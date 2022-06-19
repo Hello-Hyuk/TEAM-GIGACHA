@@ -101,6 +101,7 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_eus: /home/
 
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Local.l: /opt/ros/melodic/lib/geneus/gen_eus.py
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Local.l: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg
+/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg/Local.l: /opt/ros/melodic/share/geometry_msgs/msg/Quaternion.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating EusLisp code from planner_and_control/Local.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/planner_and_control/msg
 

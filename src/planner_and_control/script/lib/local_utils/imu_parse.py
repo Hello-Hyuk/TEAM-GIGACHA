@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import serial
 import rospy
-
 from sensor_msgs.msg import Imu
 
 class AHRS_Parsing:
@@ -31,8 +30,6 @@ class AHRS_Parsing:
         self.raw_data.angular_velocity.x = float(sdata[5])
 
         self.pub.publish(self.raw_data)
-        print(self.raw_data)
-
 
 if __name__ == "__main__":
     imu = AHRS_Parsing()

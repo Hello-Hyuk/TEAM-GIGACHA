@@ -5,4 +5,6 @@
           Y
           HEADING-VAL
           HEADING
+          ORIENTATION-VAL
+          ORIENTATION
 ))
