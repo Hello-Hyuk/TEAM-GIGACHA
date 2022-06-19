@@ -18,7 +18,7 @@ class Localization():
         self.gps = GPS()
         self.imu = IMU()
 
-    def main(self):
+    def main(self, msg):
         main_time = time.time()
         time_sync = None
 

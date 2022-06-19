@@ -21,7 +21,12 @@
     :reader heading
     :initarg :heading
     :type cl:float
-    :initform 0.0))
+    :initform 0.0)
+   (orientation
+    :reader orientation
+    :initarg :orientation
+    :type geometry_msgs-msg:Quaternion
+    :initform (cl:make-instance 'geometry_msgs-msg:Quaternion)))
 )
 
 (cl:defclass Local (<Local>)
@@ -46,6 +51,11 @@
 (cl:defmethod heading-val ((m <Local>))
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:heading-val is deprecated.  Use planner_and_control-msg:heading instead.")
   (heading m))
+
+(cl:ensure-generic-function 'orientation-val :lambda-list '(m))
+(cl:defmethod orientation-val ((m <Local>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader planner_and_control-msg:orientation-val is deprecated.  Use planner_and_control-msg:orientation instead.")
+  (orientation m))
 (cl:defmethod roslisp-msg-protocol:serialize ((msg <Local>) ostream)
   "Serializes a message object of type '<Local>"
   (cl:let ((bits (roslisp-utils:encode-double-float-bits (cl:slot-value msg 'x))))
@@ -75,6 +85,7 @@
     (cl:write-byte (cl:ldb (cl:byte 8 40) bits) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 48) bits) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 56) bits) ostream))
+  (roslisp-msg-protocol:serialize (cl:slot-value msg 'orientation) ostream)
 )
 (cl:defmethod roslisp-msg-protocol:deserialize ((msg <Local>) istream)
   "Deserializes a message object of type '<Local>"
@@ -108,6 +119,7 @@
       (cl:setf (cl:ldb (cl:byte 8 48) bits) (cl:read-byte istream))
       (cl:setf (cl:ldb (cl:byte 8 56) bits) (cl:read-byte istream))
     (cl:setf (cl:slot-value msg 'heading) (roslisp-utils:decode-double-float-bits bits)))
+  (roslisp-msg-protocol:deserialize (cl:slot-value msg 'orientation) istream)
   msg
 )
 (cl:defmethod roslisp-msg-protocol:ros-datatype ((msg (cl:eql '<Local>)))
@@ -118,21 +130,22 @@
   "planner_and_control/Local")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<Local>)))
   "Returns md5sum for a message object of type '<Local>"
-  "bc1dd36b5547fef69e6daa06ae2e13ac")
+  "34e4b013bc19f1206fca6ef96d3f25bd")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'Local)))
   "Returns md5sum for a message object of type 'Local"
-  "bc1dd36b5547fef69e6daa06ae2e13ac")
+  "34e4b013bc19f1206fca6ef96d3f25bd")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<Local>)))
   "Returns full string definition for message of type '<Local>"
-  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%~%"))
+  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%geometry_msgs/Quaternion orientation~%================================================================================~%MSG: geometry_msgs/Quaternion~%# This represents an orientation in free space in quaternion form.~%~%float64 x~%float64 y~%float64 z~%float64 w~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'Local)))
   "Returns full string definition for message of type 'Local"
-  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%~%"))
+  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%geometry_msgs/Quaternion orientation~%================================================================================~%MSG: geometry_msgs/Quaternion~%# This represents an orientation in free space in quaternion form.~%~%float64 x~%float64 y~%float64 z~%float64 w~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <Local>))
   (cl:+ 0
      8
      8
      8
+     (roslisp-msg-protocol:serialization-length (cl:slot-value msg 'orientation))
 ))
 (cl:defmethod roslisp-msg-protocol:ros-message-to-list ((msg <Local>))
   "Converts a ROS message object to a list"
@@ -140,4 +153,5 @@
     (cl:cons ':x (x msg))
     (cl:cons ':y (y msg))
     (cl:cons ':heading (heading msg))
+    (cl:cons ':orientation (orientation msg))
 ))

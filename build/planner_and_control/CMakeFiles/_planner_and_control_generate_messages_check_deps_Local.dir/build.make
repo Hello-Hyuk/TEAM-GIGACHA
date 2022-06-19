@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/gigacha/TEAM-GIGACHA/build
 include planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Local.dir/progress.make
 
 planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Local:
-	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py planner_and_control /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg 
+	cd /home/gigacha/TEAM-GIGACHA/build/planner_and_control && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py planner_and_control /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg geometry_msgs/Quaternion
 
 _planner_and_control_generate_messages_check_deps_Local: planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Local
 _planner_and_control_generate_messages_check_deps_Local: planner_and_control/CMakeFiles/_planner_and_control_generate_messages_check_deps_Local.dir/build.make

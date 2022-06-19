@@ -15,6 +15,7 @@
 #include <ros/builtin_message_traits.h>
 #include <ros/message_operations.h>
 
+#include <geometry_msgs/Quaternion.h>
 
 namespace planner_and_control
 {
@@ -26,12 +27,14 @@ struct Local_
   Local_()
     : x(0.0)
     , y(0.0)
-    , heading(0.0)  {
+    , heading(0.0)
+    , orientation()  {
     }
   Local_(const ContainerAllocator& _alloc)
     : x(0.0)
     , y(0.0)
-    , heading(0.0)  {
+    , heading(0.0)
+    , orientation(_alloc)  {
   (void)_alloc;
     }
 
@@ -45,6 +48,9 @@ struct Local_
 
    typedef double _heading_type;
   _heading_type heading;
+
+   typedef  ::geometry_msgs::Quaternion_<ContainerAllocator>  _orientation_type;
+  _orientation_type orientation;
 
 
 
@@ -77,7 +83,8 @@ bool operator==(const ::planner_and_control::Local_<ContainerAllocator1> & lhs, 
 {
   return lhs.x == rhs.x &&
     lhs.y == rhs.y &&
-    lhs.heading == rhs.heading;
+    lhs.heading == rhs.heading &&
+    lhs.orientation == rhs.orientation;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -134,12 +141,12 @@ struct MD5Sum< ::planner_and_control::Local_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "bc1dd36b5547fef69e6daa06ae2e13ac";
+    return "34e4b013bc19f1206fca6ef96d3f25bd";
   }
 
   static const char* value(const ::planner_and_control::Local_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xbc1dd36b5547fef6ULL;
-  static const uint64_t static_value2 = 0x9e6daa06ae2e13acULL;
+  static const uint64_t static_value1 = 0x34e4b013bc19f120ULL;
+  static const uint64_t static_value2 = 0x6fca6ef96d3f25bdULL;
 };
 
 template<class ContainerAllocator>
@@ -161,6 +168,15 @@ struct Definition< ::planner_and_control::Local_<ContainerAllocator> >
     return "float64 x\n"
 "float64 y\n"
 "float64 heading\n"
+"geometry_msgs/Quaternion orientation\n"
+"================================================================================\n"
+"MSG: geometry_msgs/Quaternion\n"
+"# This represents an orientation in free space in quaternion form.\n"
+"\n"
+"float64 x\n"
+"float64 y\n"
+"float64 z\n"
+"float64 w\n"
 ;
   }
 
@@ -182,6 +198,7 @@ namespace serialization
       stream.next(m.x);
       stream.next(m.y);
       stream.next(m.heading);
+      stream.next(m.orientation);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -206,6 +223,9 @@ struct Printer< ::planner_and_control::Local_<ContainerAllocator> >
     Printer<double>::stream(s, indent + "  ", v.y);
     s << indent << "heading: ";
     Printer<double>::stream(s, indent + "  ", v.heading);
+    s << indent << "orientation: ";
+    s << std::endl;
+    Printer< ::geometry_msgs::Quaternion_<ContainerAllocator> >::stream(s, indent + "  ", v.orientation);
   }
 };
 

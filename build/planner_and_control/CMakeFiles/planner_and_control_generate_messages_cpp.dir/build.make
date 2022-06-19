@@ -106,6 +106,7 @@ planner_and_control/CMakeFiles/planner_and_control_generate_messages_cpp: /home/
 
 /home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Local.h: /opt/ros/melodic/lib/gencpp/gen_cpp.py
 /home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Local.h: /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg
+/home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Local.h: /opt/ros/melodic/share/geometry_msgs/msg/Quaternion.msg
 /home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control/Local.h: /opt/ros/melodic/share/gencpp/msg.h.template
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating C++ code from planner_and_control/Local.msg"
 	cd /home/gigacha/TEAM-GIGACHA/src/planner_and_control && /home/gigacha/TEAM-GIGACHA/build/catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Iplanner_and_control:/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg -p planner_and_control -o /home/gigacha/TEAM-GIGACHA/devel/include/planner_and_control -e /opt/ros/melodic/share/gencpp/cmake/..

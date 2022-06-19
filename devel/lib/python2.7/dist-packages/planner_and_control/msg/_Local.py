@@ -6,16 +6,27 @@ python3 = True if sys.hexversion > 0x03000000 else False
 import genpy
 import struct
 
+import geometry_msgs.msg
 
 class Local(genpy.Message):
-  _md5sum = "bc1dd36b5547fef69e6daa06ae2e13ac"
+  _md5sum = "34e4b013bc19f1206fca6ef96d3f25bd"
   _type = "planner_and_control/Local"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float64 x
 float64 y
-float64 heading"""
-  __slots__ = ['x','y','heading']
-  _slot_types = ['float64','float64','float64']
+float64 heading
+geometry_msgs/Quaternion orientation
+================================================================================
+MSG: geometry_msgs/Quaternion
+# This represents an orientation in free space in quaternion form.
+
+float64 x
+float64 y
+float64 z
+float64 w
+"""
+  __slots__ = ['x','y','heading','orientation']
+  _slot_types = ['float64','float64','float64','geometry_msgs/Quaternion']
 
   def __init__(self, *args, **kwds):
     """
@@ -25,7 +36,7 @@ float64 heading"""
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       x,y,heading
+       x,y,heading,orientation
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -40,10 +51,13 @@ float64 heading"""
         self.y = 0.
       if self.heading is None:
         self.heading = 0.
+      if self.orientation is None:
+        self.orientation = geometry_msgs.msg.Quaternion()
     else:
       self.x = 0.
       self.y = 0.
       self.heading = 0.
+      self.orientation = geometry_msgs.msg.Quaternion()
 
   def _get_types(self):
     """
@@ -58,7 +72,7 @@ float64 heading"""
     """
     try:
       _x = self
-      buff.write(_get_struct_3d().pack(_x.x, _x.y, _x.heading))
+      buff.write(_get_struct_7d().pack(_x.x, _x.y, _x.heading, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -70,11 +84,13 @@ float64 heading"""
     if python3:
       codecs.lookup_error("rosmsg").msg_type = self._type
     try:
+      if self.orientation is None:
+        self.orientation = geometry_msgs.msg.Quaternion()
       end = 0
       _x = self
       start = end
-      end += 24
-      (_x.x, _x.y, _x.heading,) = _get_struct_3d().unpack(str[start:end])
+      end += 56
+      (_x.x, _x.y, _x.heading, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w,) = _get_struct_7d().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -88,7 +104,7 @@ float64 heading"""
     """
     try:
       _x = self
-      buff.write(_get_struct_3d().pack(_x.x, _x.y, _x.heading))
+      buff.write(_get_struct_7d().pack(_x.x, _x.y, _x.heading, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -101,11 +117,13 @@ float64 heading"""
     if python3:
       codecs.lookup_error("rosmsg").msg_type = self._type
     try:
+      if self.orientation is None:
+        self.orientation = geometry_msgs.msg.Quaternion()
       end = 0
       _x = self
       start = end
-      end += 24
-      (_x.x, _x.y, _x.heading,) = _get_struct_3d().unpack(str[start:end])
+      end += 56
+      (_x.x, _x.y, _x.heading, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w,) = _get_struct_7d().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -114,9 +132,9 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_3d = None
-def _get_struct_3d():
-    global _struct_3d
-    if _struct_3d is None:
-        _struct_3d = struct.Struct("<3d")
-    return _struct_3d
+_struct_7d = None
+def _get_struct_7d():
+    global _struct_7d
+    if _struct_7d is None:
+        _struct_7d = struct.Struct("<7d")
+    return _struct_7d

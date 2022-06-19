@@ -69,7 +69,7 @@ add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
 
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" NAME_WE)
 add_custom_target(_planner_and_control_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" ""
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "planner_and_control" "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg" "geometry_msgs/Quaternion"
 )
 
 #
@@ -117,7 +117,7 @@ _generate_msg_cpp(planner_and_control
 _generate_msg_cpp(planner_and_control
   "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
   "${MSG_I_FLAGS}"
-  ""
+  "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Quaternion.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_cpp(planner_and_control
@@ -230,7 +230,7 @@ _generate_msg_eus(planner_and_control
 _generate_msg_eus(planner_and_control
   "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
   "${MSG_I_FLAGS}"
-  ""
+  "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Quaternion.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_eus(planner_and_control
@@ -343,7 +343,7 @@ _generate_msg_lisp(planner_and_control
 _generate_msg_lisp(planner_and_control
   "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
   "${MSG_I_FLAGS}"
-  ""
+  "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Quaternion.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_lisp(planner_and_control
@@ -456,7 +456,7 @@ _generate_msg_nodejs(planner_and_control
 _generate_msg_nodejs(planner_and_control
   "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
   "${MSG_I_FLAGS}"
-  ""
+  "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Quaternion.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_nodejs(planner_and_control
@@ -569,7 +569,7 @@ _generate_msg_py(planner_and_control
 _generate_msg_py(planner_and_control
   "/home/gigacha/TEAM-GIGACHA/src/planner_and_control/msg/Local.msg"
   "${MSG_I_FLAGS}"
-  ""
+  "/opt/ros/melodic/share/geometry_msgs/cmake/../msg/Quaternion.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/planner_and_control
 )
 _generate_msg_py(planner_and_control
