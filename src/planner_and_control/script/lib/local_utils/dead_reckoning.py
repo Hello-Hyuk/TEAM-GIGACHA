@@ -3,6 +3,7 @@ import math
 from std_msgs.msg import Time
 from planner_and_control.msg import Displacement
 from lib.local_utils.imu import IMU
+from lib.local_utils.gps import GPS
 
 
 class DR:
@@ -10,10 +11,12 @@ class DR:
         rospy.Subscriber("/encoder", Displacement, self.encoderCallback)
         rospy.Subscriber("/timer", Time, self.dead_reckoning)
 
-        self.x = 0.0
-        self.y = 0.0
-        self.velocity = 0.0
         self.imu = IMU()
+        self.gps = GPS()
+
+        self.x = self.gps.x # initial position
+        self.y = self.gps.y # initial position
+        self.velocity = 0        
 
         self.left = 0 #[pulse]
         self.right = 0 #[pulse]

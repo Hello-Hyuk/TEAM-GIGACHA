@@ -26,8 +26,9 @@ class Localization():
 
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
-        self.msg.dr_x = self.gps.x + self.dr.x
-        self.msg.dr_y = self.gps.y + self.dr.y
+        self.msg.dr_x = self.dr.x
+        self.msg.dr_y = self.dr.y
+        self.msg.dr_vel = self.dr.velocity
         self.msg.orientation = self.imu.orientation_q
 
         if (main_time - self.gps.time) < 0.2 and (main_time - self.imu.time) < 0.2: # time syncronize
@@ -46,6 +47,7 @@ class Localization():
         print("======================")
         print("x : {0}, y : {1}".format(self.msg.x, self.msg.y))
         print("heading : {0}".format(self.msg.heading))
+        print("velocity : {0}".format(self.msg.dr_vel))
         print("switch : {0}".format(self.gps.heading_switch))
         print("time sync : {0}".format(time_sync))
 
