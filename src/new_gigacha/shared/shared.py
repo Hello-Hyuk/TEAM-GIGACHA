@@ -6,6 +6,7 @@ class Shared:
     def __init__(self):
         self.ego = Ego()
         self.perception = Perception()
+        self.state = ''
         self.global_path = Path()
         self.local_path = []
 
