@@ -14,8 +14,6 @@ class MissionPlanner(threading.Thread):
         self.period = 1.0 / rate
         self.shared = parent.shared
 
-        self.ego = Ego()
-        self.perception = Perception()
         self.state = ''
         self.obs_dis = 100
         self.sign = ''
@@ -23,27 +21,26 @@ class MissionPlanner(threading.Thread):
     
     def run(self):
         while True:
-            self.ego.speed = 1
-            if self.perception.signname == "turn_right_traffic_light":
+            if self.shared.perception.signname == "turn_right_traffic_light":
                 self.state = "right_sign_detected"
 
-            elif self.perception.signname == "static_obstacle":
+            elif self.shared.perception.signname == "static_obstacle":
                 self.state = "static_obstacle_detected"           
 
-            elif self.perception.signname == "delivery":
+            elif self.shared.perception.signname == "delivery":
                 self.state = "stop_sign_detected"
 
-            elif self.perception.signname == "child_area":
+            elif self.shared.perception.signname == "child_area":
                 self.state = "child_area"
             
-            elif self.perception.signname == "turn_left_traffic_light":
+            elif self.shared.perception.signname == "turn_left_traffic_light":
                 self.state = "left_sign_detected"
 
-            elif self.perception.signname == "non_traffic_right":
+            elif self.shared.perception.signname == "non_traffic_right":
                 self.state ="right_sign_area"
 
             else:
                 self.state = "go"
              # print(f"mission_planner : {self.state}")
-    
+
             sleep(self.period)

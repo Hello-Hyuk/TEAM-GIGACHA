@@ -2,15 +2,16 @@ from math import sqrt
 from time import time
 
 class Mission():
-    def __init__(self, eg, pc):
+    def __init__(self, eg, pc, bd):
         self.perception = pc
         self.ego = eg
-        self.mission_complete = False
-        self.behavior_decision = " "
-        self.timer = time()
+        self.behavior_decision = bd
+
         self.time_checker = False
         self.obstacle_checker = False
-        self.stop_checker = False
+        self.sign_dis = 100
+        self.go_side_check = False
+        self.sign_detected = 0 # action just one time
 
     def update_parameter(self, eg, pc):
         self.perception = pc
@@ -132,8 +133,6 @@ class Mission():
         #         if self.behavior_decision =="stop" and time()-self.wait_time_right>2:
         #             self.behavior_decision = "turn_right"
                  
-
-
     def child_area(self, signx, signy):
         if (len(self.perception.signx)!= 0):
             self.sign_dis = sqrt((self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
