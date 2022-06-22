@@ -8,7 +8,9 @@ class Planner:
 
 
 
-                self.planner.daemon = True
-        self.planner.start()        self.planner.daemon = True
-        self.planner.start()        self.planner.daemon = True
+        self.planner.daemon = True
+        self.planner.start()        
+        self.planner.daemon = True
+        self.planner.start()        
+        self.planner.daemon = True
         self.planner.start()
