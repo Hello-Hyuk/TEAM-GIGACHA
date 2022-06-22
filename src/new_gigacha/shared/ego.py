@@ -25,3 +25,6 @@ class Ego():
         self.input_speed = 0
         self.input_steer = 0
         self.input_brake = 0
+
+        #
+        self.selected_lane = 0

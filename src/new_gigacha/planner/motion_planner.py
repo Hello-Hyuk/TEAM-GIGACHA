@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
+import struct
 import threading
 from time import sleep
 import sys,os
 from socket import MsgFlag
 from lib.planner_utils.LPP import path_maker  # LPP 구현 하기
-from planner_and_control.msg import Path as CustomPath
-from planner_and_control.msg import Ego
-from planner_and_control.msg import Perception
 from std_msgs.msg import String
 from nav_msgs.msg import Path
 from math import sqrt
@@ -17,13 +15,8 @@ class MotionPlanner(threading.Thread):
         self.period = 1.0 / rate
         self.shared = parent.shared
         #추가
-        self.ego = Ego()
-        self.perception = Perception()
-        self.global_path = CustomPath()
         self.local_path = Path()
-        self.behavior = ''
-        
-        self.trajectory = CustomPath()
+        self.trajectory = Path()
         self.generated_path = Path()
         self.trajectory_name = ""
         self.map_switch = 0
@@ -32,7 +25,7 @@ class MotionPlanner(threading.Thread):
         self.lane_weight = []
         self.isObstacle = [1000, 1000, 1000]
 
-        #self.current_lane = int(input("current lane(left : 1, right : 2) : "))
+        self.current_lane = int(input("current lane(left : 1, right : 2) : "))
 
         if self.current_lane == 1:
             self.lane_weight = [10000, 0, 10000]
@@ -66,8 +59,6 @@ class MotionPlanner(threading.Thread):
     
     def run(self):
         while True:
-            self.ego.speed = 1
-            #추가
             self.local_path = findLocalPath(self.global_path, self.ego) # local path (50)
             self.generated_path = path_maker(self.local_path, self.ego) # lattice paths
 
