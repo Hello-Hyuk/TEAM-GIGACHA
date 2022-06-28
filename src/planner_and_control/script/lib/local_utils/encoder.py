@@ -48,7 +48,7 @@ class DP: # 1 rev per 100 pulse (when it goes straight)
             self.left = self.left_data
             self.right = self.right_data
             self.flag = False
-        
+         
         if (abs(self.left_data - self.left) > 100):
             self.left = self.left_data + self.diff_left
         else:

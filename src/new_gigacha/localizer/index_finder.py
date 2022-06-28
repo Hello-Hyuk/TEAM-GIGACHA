@@ -1,8 +1,5 @@
-
 from math import hypot
-from planner_and_control.msg import Ego
-from lib.general_utils.read_global_path import read_global_path
-from planner_and_control.msg import Path
+from localizer.read_global_path import read_global_path
 
 class IndexFinder:
     def __init__(self, eg):

@@ -5,6 +5,8 @@ class Ego():
         #Local to Ego
         self.x = 0
         self.y = 0
+        self.dr_x = 0
+        self.dr_y = 0
         self.heading = 0
         self.index = 0
 

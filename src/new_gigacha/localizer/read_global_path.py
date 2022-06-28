@@ -1,4 +1,3 @@
-
 import csv
 from numpy import rad2deg
 
