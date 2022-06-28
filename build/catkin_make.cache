@@ -1,2 +1,2 @@
-e2box_AHRS:planner_and_control
--DCATKIN_DEVEL_PREFIX=/home/gigacha/TEAM-GIGACHA/devel -DCMAKE_INSTALL_PREFIX=/home/gigacha/TEAM-GIGACHA/install -G Unix Makefiles
+
+-DCATKIN_DEVEL_PREFIX=/home/jay/Dev/TEAM-GIGACHA/devel -DCMAKE_INSTALL_PREFIX=/home/jay/Dev/TEAM-GIGACHA/install -G Unix Makefiles
