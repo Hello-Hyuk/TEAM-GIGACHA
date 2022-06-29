@@ -2,19 +2,20 @@ from math import sqrt
 from time import time
 
 class Mission():
-    def __init__(self, eg, pc):
+    def __init__(self, eg, pc, pl):
         self.perception = pc
         self.ego = eg
+        self.behavior_decision = pl.behavior_decision
         self.mission_complete = False
-        self.behavior_decision = " "
         self.timer = time()
         self.time_checker = False
         self.obstacle_checker = False
         self.stop_checker = False
 
-    def update_parameter(self, eg, pc):
+    def update_parameter(self, eg, pc, pl):
         self.perception = pc
         self.ego = eg
+        self.behavior_decision = pl.behavior_decision
 
     def go(self):
         self.ego.gear = 0

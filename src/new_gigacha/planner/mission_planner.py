@@ -9,7 +9,7 @@ class MissionPlanner(threading.Thread):
     
         self.ego = parent.shared.ego
         self.perception = parent.shared.perception
-        self.state = parent.shared.state
+        self.state = parent.shared.plan.state
     
     def run(self):
         while True:

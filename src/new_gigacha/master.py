@@ -14,8 +14,6 @@ from utils.serial_reader import SerialReader
 from utils.serial_writer import SerialWriter
 from utils.sig_int_handler import ActivateSignalInterruptHandler
 
-
-
 from time import sleep
 
 class Master(threading.Thread):

@@ -4,7 +4,8 @@ import threading
 from time import sleep
 import sys,os
 from socket import MsgFlag
-from lib.planner_utils.LPP import path_maker  # LPP 구현 하기
+from sub_function.find_local_path import findLocalPath
+from sub_function.LPP import path_maker  # LPP 구현 하기
 from std_msgs.msg import String
 from nav_msgs.msg import Path
 from math import sqrt
@@ -44,7 +45,7 @@ class MotionPlanner(threading.Thread):
         self.local_path = self.generated_path[self.selected_lane]
         self.trajectory_name = self.selected_lane
 
-        tmp_trajectory = CustomPath()
+        tmp_trajectory = Path()
         for i in range (len(self.local_path.poses)):
             tmp_trajectory.x.append(self.local_path.poses[i].pose.position.x)
             tmp_trajectory.y.append(self.local_path.poses[i].pose.position.y)
@@ -56,33 +57,70 @@ class MotionPlanner(threading.Thread):
         else:
             print(f"motion_planner : selected lane {self.trajectory_name}, local_path")
 
-    
+    def weight_function_obstacle_avoidance(self):
+        self.isObstacle = [1000, 1000, 1000]
+
+        for i in range(len(self.generated_path)): # 0,1,2
+            path_check = True
+            if path_check == True:
+                for j in range(len(self.generated_path[i].poses)): # paths' index
+                    if path_check == False:
+                        break
+                    for k in range(len(self.perception.objx)): # of obj
+                        ob_point_distance = sqrt((self.generated_path[i].poses[j].pose.position.x - self.perception.objx[k])**2 + (self.generated_path[i].poses[j].pose.position.y - self.perception.objy[k])**2)
+                        if ob_point_distance < self.perception.objr[k]: #and self.Obstacle_in_section == 0:
+                            self.isObstacle[i] = j
+                            print("+++++++++obstacle in " + str(i) + "+++++++++++++++++")
+                            #if(i == 1):
+                            #    self.lane_weight[i] = 10000
+                            #    self.lane_weight[i+1] = 0
+                            # elif(i==2):
+                            #     self.lane_weight[i] = 10000
+                            #     self.lane_weight[i-1] = 0
+                            path_check = False
+                            break
+                        # else:
+                        #     self.isObstacle[i] = 1000
+        print("isObstacle", self.isObstacle)
+        
+        if (self.selected_lane == 1 and self.isObstacle[1] != 1000):
+            if(self.isObstacle[1] < self.isObstacle[2]):
+                print("+++++++++++++\nobstacle in lane 1\n++++++++++++")
+                self.lane_weight = [1000, 1000, 0]
+        elif (self.selected_lane == 2 and self.isObstacle[2] != 1000):
+            if(self.isObstacle[1] > self.isObstacle[2]):
+                print("+++++++++++++\nobstacle in lane 2\n++++++++++++")
+                self.lane_weight = [1000, 0, 1000]
+        else:
+            # self.ego.emergency_stop = 1
+            pass
+
     def run(self):
         while True:
-            self.local_path = findLocalPath(self.global_path, self.ego) # local path (50)
-            self.generated_path = path_maker(self.local_path, self.ego) # lattice paths
+            self.local_path = findLocalPath(self.shared.global_path, self.shared.ego) # local path (50)
+            self.generated_path = path_maker(self.local_path, self.shared.ego) # lattice paths
 
-            if self.behavior == "static_obstacle_avoidance":
+            if self.shared.plan.behavior_decision == "static_obstacle_avoidance":
                 self.weight_function_obstacle_avoidance()
                 self.select_trajectory()
             
-            elif self.behavior == "go_side":
+            elif self.shared.plan.behavior_decision == "go_side":
                 self.weight_sign_function()
                 self.select_trajectory()
             
-            elif self.behavior == "stop":
-                self.trajectory.x = []
-                self.trajectory.y = []
+            elif self.shared.plan.behavior_decision == "stop":
+                self.plan.trajectory.x = []
+                self.plan.trajectory.y = []
 
-            elif self.behavior == "turn_right":
+            elif self.shared.plan.behavior_decision == "turn_right":
                 self.lane_weight = [10000, 10000, 0]
                 self.select_trajectory()
 
-            elif self.behavior == "turn_left":
+            elif self.shared.plan.behavior_decision == "turn_left":
                 self.lane_weight = [10000, 0, 10000]
                 self.select_trajectory()
 
-            else:  ## self.behavior == "go"
+            else:  ## self.shared.plan.behavior_decision == "go"
                 self.select_trajectory()
             
             # path publish
