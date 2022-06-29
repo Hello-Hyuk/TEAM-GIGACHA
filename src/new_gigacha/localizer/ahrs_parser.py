@@ -33,6 +33,9 @@ class AHRS_Parsing:
 
 if __name__ == "__main__":
     imu = AHRS_Parsing()
-
-    while not rospy.is_shutdown():
-        imu.parser()
+    
+    try:
+        while not rospy.is_shutdown():
+            imu.parser()
+    except rospy.ROSInitException:
+        pass
