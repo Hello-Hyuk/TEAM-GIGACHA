@@ -1,17 +1,13 @@
 #!/usr/bin/env python3
-from localizer.read_global_path import read_global_path
-import rospy
 import time
-from std_msgs.msg import Time
-from planner_and_control.msg import Local
-from lib.local_utils.gps import GPS
-from lib.local_utils.imu import IMU
-from lib.local_utils.dead_reckoning import DR
-
 import csv
-
 import threading
+from math import hypot
 from time import sleep
+
+from localizer.ahrs import IMU
+from localizer.gps import GPS
+from localizer.dead_reckoning import DR
 
 class Localizer(threading.Thread):
     def __init__(self, parent, rate):
@@ -20,7 +16,13 @@ class Localizer(threading.Thread):
         self.period = 1.0 / rate
         self.shared = parent.shared
         self.global_path = self.shared.global_path
-        self.read_global_path()
+        self.ego = self.shared.ego
+
+        self.read_global_path() # only one time
+
+        self.imu = IMU()
+        self.gps = GPS()
+        self.dr = DR()
         
     def read_global_path(self):
         with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
@@ -31,61 +33,50 @@ class Localizer(threading.Thread):
                 self.glboal_path.k.append(float(line[2]))
                 self.glboal_path.yaw.append(float(line[3]))
 
+    def index_finder(self):
+        min_dis = -1
+        min_idx = 0
+        step_size = 100
+        save_idx = 0
 
-    def run(self):
-        while True:
-            self.ego.speed = 1
-            sleep(self.period)
+        for i in range(max(self.ego.index - step_size, 0), self.ego.index + step_size):
+            try:
+                dis = hypot(self.global_path.x[i] - self.ego.x, self.global_path.y[i] - self.ego.y)
+            except IndexError:
+                break
+            if (min_dis > dis or min_dis == -1) and save_idx <= i:
+                min_dis = dis
+                min_idx = i
+                save_idx = i
 
+        self.ego.index = min_idx
 
-
-
-
-class Localization():
-    def __init__(self):
-        rospy.init_node('Localization', anonymous=False)
-
-        self.pub = rospy.Publisher('/pose', Local, queue_size = 1)
-        rospy.loginfo("============Localization On============")
-
-        self.msg = Local()
-
-        self.gps = GPS()
-        self.imu = IMU()
-        self.dr = DR()
-
-    def main(self, data):
+    def heading_decision(self):
+        global time_sync
         main_time = time.time()
         time_sync = None
 
-        self.msg.x = self.gps.x
-        self.msg.y = self.gps.y
-        self.msg.dr_x = self.dr.x
-        self.msg.dr_y = self.dr.y
-        self.msg.dr_vel = self.dr.velocity
-        self.msg.orientation = self.imu.orientation_q
-
-        if (main_time - self.gps.time) < 0.2 and (main_time - self.imu.time) < 0.2: # time syncronize
+        if (main_time - self.gps.time) < 0.2 and (main_time - self.imu.time) < 0.2:
             time_sync = "Sync"
             if self.gps.heading_switch == True:
                 offset = self.gps.heading - self.imu.heading
-                self.msg.heading = self.imu.heading + offset # heading correction with gps heading
+                self.ego.heading = self.imu.heading + offset
             else:
-                self.msg.heading = self.imu.heading
+                self.ego.heading = self.imu.heading
         else:
             time_sync = "Unsync"
-            self.msg.heading = self.imu.heading
-        
-        self.pub.publish(self.msg)
+            self.ego.heading = self.imu.heading
 
-        print("======================")
-        print("x : {0}, y : {1}".format(self.msg.x, self.msg.y))
-        print("heading : {0}".format(self.msg.heading))
-        print("velocity : {0}".format(self.msg.dr_vel))
-        print("switch : {0}".format(self.gps.heading_switch))
-        print("time sync : {0}".format(time_sync))
+    def run(self):
+        while True:
+            self.heading_decision()
+            self.ego.x = self.gps.x
+            self.ego.y = self.gps.y
+            self.ego.dr_x = self.dr.x
+            self.ego.dr_y = self.dr.y
+            self.index_finder()
 
-if __name__ == '__main__':
-    loc = Localization()
-    rospy.Subscriber("/timer", Time, loc.main)
-    rospy.spin()
+            print("x : {0}, y : {1}, heading : {2}, switch : {3}, time sync : {4}, index : {5}"\
+            .format(self.ego.x, self.ego.y, self.ego.heading, self.gps.heading_switch, time_sync, self.ego.index))
+
+            sleep(self.period)
