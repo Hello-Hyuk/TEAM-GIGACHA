@@ -3,6 +3,7 @@ import rospy
 import pymap3d
 import time
 import json
+from geometry_msgs.msg import Pose
 from localizer.low_pass_filter import LPF
 from sensor_msgs.msg import NavSatFix
 from ublox_msgs.msg import NavPVT
@@ -11,6 +12,7 @@ class GPS():
     def __init__(self):
         rospy.Subscriber("ublox_gps/fix", NavSatFix, self.gps_call_back)
         rospy.Subscriber("ublox_gps/navpvt", NavPVT, self.navpvt_call_back)
+        rospy.Subscriber("/simul_gps", Pose, self.gps_call_back_simul)
         
         self.x = 0.0
         self.y = 0.0
@@ -30,6 +32,11 @@ class GPS():
     def gps_call_back(self, data):
         self.x, self.y, _ = pymap3d.geodetic2enu(data.latitude, data.longitude, self.alt, \
                                             self.lat, self.lon, self.alt)
+
+    def gps_call_back_simul(self, data):
+        self.x, self.y, _ = pymap3d.geodetic2enu(data.position.x, data.position.y, self.alt, \
+                                    self.lat , self.lon, self.alt)
+
 
     def navpvt_call_back(self, data):
         self.time = time.time()

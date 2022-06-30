@@ -2,7 +2,7 @@
 import rospy
 import numpy as np
 import time
-
+from geometry_msgs.msg import Pose
 from localizer.euler_from_quaternion import euler_from_quaternion as efq
 from sensor_msgs.msg import Imu
 from geometry_msgs.msg import Quaternion
@@ -14,6 +14,7 @@ class IMU():
         self.time = 0.0
         
         rospy.Subscriber("/imu", Imu, self.imu_call_back)
+        rospy.Subscriber("/simul_imu", Pose, self.imu_call_back)
 
         self.orientation_q = Quaternion()
 
@@ -22,8 +23,10 @@ class IMU():
         self.orientation_q = data.orientation
         roll, pitch, yaw = efq(self.orientation_q.x, self.orientation_q.y, self.orientation_q.z, self.orientation_q.w)
 
-        self.heading = np.rad2deg(-1*yaw)%360
-        self.battery = data.angular_velocity.x
+        # self.heading = np.rad2deg(-1*yaw)%360 # real world
+        # self.battery = data.angular_velocity.x
+        self.heading = np.rad2deg(yaw)%360 # simul
+
 
 if __name__ == '__main__':
     try:
