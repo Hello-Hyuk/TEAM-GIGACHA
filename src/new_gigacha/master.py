@@ -13,6 +13,7 @@ from controller.lon_controller import LonController
 from utils.serial_reader import SerialReader
 from utils.serial_writer import SerialWriter
 from utils.sig_int_handler import ActivateSignalInterruptHandler
+from utils.env_visualizer import Visualizer
 
 
 
