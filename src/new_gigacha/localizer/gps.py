@@ -19,7 +19,7 @@ class GPS():
 
         self.time = 0.0
 
-        with open('base.json') as base:
+        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/localizer/base.json') as base:
             base_data = json.load(base)
 
         self.base = base_data["Songdo_track"] # KCity, Songdo, Songdo_track, Siheung

@@ -27,7 +27,8 @@ bool tyellow
 bool tleft
 bool tgreen
 
-bool stop"""
+bool stop
+"""
   __slots__ = ['objx','objy','objr','signname','signx','signy','rightx','righty','tred','tyellow','tleft','tgreen','stop']
   _slot_types = ['float64[]','float64[]','float64[]','string','float64[]','float64[]','float64[]','float64[]','bool','bool','bool','bool','bool']
 

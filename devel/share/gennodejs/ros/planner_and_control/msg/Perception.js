@@ -221,6 +221,7 @@ class Perception {
     bool tgreen
     
     bool stop
+    
     `;
   }
 

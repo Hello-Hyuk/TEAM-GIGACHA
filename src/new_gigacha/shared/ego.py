@@ -1,7 +1,5 @@
-from planner_and_control.msg import Local
-
 class Ego():
-    def __init__(self, parent):
+    def __init__(self):
         #Local to Ego
         self.x = 0
         self.y = 0

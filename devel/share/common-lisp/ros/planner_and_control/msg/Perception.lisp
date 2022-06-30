@@ -422,10 +422,10 @@
   "ac796173eec7500d90ff0331b9cf57b9")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<Perception>)))
   "Returns full string definition for message of type '<Perception>"
-  (cl:format cl:nil "float64[] objx~%float64[] objy~%float64[] objr~%~%string signname~%float64[] signx~%float64[] signy~%~%float64[] rightx~%float64[] righty~%~%bool tred~%bool tyellow~%bool tleft~%bool tgreen~%~%bool stop~%~%"))
+  (cl:format cl:nil "float64[] objx~%float64[] objy~%float64[] objr~%~%string signname~%float64[] signx~%float64[] signy~%~%float64[] rightx~%float64[] righty~%~%bool tred~%bool tyellow~%bool tleft~%bool tgreen~%~%bool stop~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'Perception)))
   "Returns full string definition for message of type 'Perception"
-  (cl:format cl:nil "float64[] objx~%float64[] objy~%float64[] objr~%~%string signname~%float64[] signx~%float64[] signy~%~%float64[] rightx~%float64[] righty~%~%bool tred~%bool tyellow~%bool tleft~%bool tgreen~%~%bool stop~%~%"))
+  (cl:format cl:nil "float64[] objx~%float64[] objy~%float64[] objr~%~%string signname~%float64[] signx~%float64[] signy~%~%float64[] rightx~%float64[] righty~%~%bool tred~%bool tyellow~%bool tleft~%bool tgreen~%~%bool stop~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <Perception>))
   (cl:+ 0
      4 (cl:reduce #'cl:+ (cl:slot-value msg 'objx) :key #'(cl:lambda (ele) (cl:declare (cl:ignorable ele)) (cl:+ 8)))

@@ -1,3 +1,4 @@
+import threading
 from math import hypot, cos, sin, degrees, atan2, radians, pi
 
 class LatController(threading.Thread):

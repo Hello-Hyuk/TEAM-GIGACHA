@@ -4,8 +4,8 @@ import threading
 from time import sleep
 import sys,os
 from socket import MsgFlag
-from sub_function.find_local_path import findLocalPath
-from sub_function.LPP import path_maker  # LPP 구현 하기
+from .sub_function.find_local_path import findLocalPath
+from .sub_function.LPP import path_maker  # LPP 구현 하기
 from std_msgs.msg import String
 from nav_msgs.msg import Path
 from math import sqrt

@@ -1,7 +1,8 @@
+import rospy
 from planner_and_control.msg import Perception
 
-class Perception():
-   def __init__(self, parent):
+class Perception_():
+   def __init__(self):
 
       rospy.Subscriber("/input", Perception, self.input_callback)
 
@@ -10,10 +11,10 @@ class Perception():
       self.objx = []
       self.objy = []
       self.objr = []
-      self.tred = 0
-      self.tyellow = 0
-      self.tleft = 0
-      self.tgreen = 0
+      self.tred = False
+      self.tyellow = False
+      self.tleft = False
+      self.tgreen = False
       self.signname = ""
 
    def input_callback(self, msg):

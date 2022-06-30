@@ -15,8 +15,9 @@ class Localizer(threading.Thread):
         self.mapname = parent.args.map
         self.period = 1.0 / rate
         self.shared = parent.shared
-        self.global_path = self.shared.global_path
         self.ego = self.shared.ego
+        self.global_path = self.shared.global_path
+
 
         self.read_global_path() # only one time
 
@@ -28,10 +29,10 @@ class Localizer(threading.Thread):
         with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
             csv_reader = csv.reader(csv_file)
             for line in csv_reader:
-                self.glboal_path.x.append(float(line[0]))
-                self.glboal_path.y.append(float(line[1]))
-                self.glboal_path.k.append(float(line[2]))
-                self.glboal_path.yaw.append(float(line[3]))
+                self.global_path.x.append(float(line[0]))
+                self.global_path.y.append(float(line[1]))
+                # self.global_path.k.append(float(line[2]))
+                # self.global_path.yaw.append(float(line[3]))
 
     def index_finder(self):
         min_dis = -1
@@ -76,7 +77,8 @@ class Localizer(threading.Thread):
             self.ego.dr_y = self.dr.y
             self.index_finder()
 
-            print("x : {0}, y : {1}, heading : {2}, switch : {3}, time sync : {4}, index : {5}"\
-            .format(self.ego.x, self.ego.y, self.ego.heading, self.gps.heading_switch, time_sync, self.ego.index))
+            # print("x : {0}, y : {1}, heading : {2}, switch : {3}, time sync : {4}, index : {5}"\
+            # .format(self.ego.x, self.ego.y, self.ego.heading, self.gps.heading_switch, time_sync, self.ego.index))
 
             sleep(self.period)
+            

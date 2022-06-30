@@ -9,7 +9,7 @@ from planner.mission_planner import MissionPlanner
 from planner.behavior_planner import BehaviorPlanner
 from planner.motion_planner import MotionPlanner
 from controller.lat_controller import LatController
-from controller.lon_controller import LonController
+# from controller.lon_controller import LonController
 from utils.serial_reader import SerialReader
 from utils.serial_writer import SerialWriter
 from utils.sig_int_handler import ActivateSignalInterruptHandler
@@ -22,13 +22,14 @@ class Master(threading.Thread):
         self.args = args
         self.period = 1.0 / ui_rate
 
-        # self.ser = serial.Serial("/dev/ttyUSB0", 115200) # Simulation
-        self.ser = serial.Serial("/dev/erp42", 115200) # Real World
+        self.ser = serial.Serial("/dev/ttyUSB0", 115200) # Simulation
+        # self.ser = serial.Serial("/dev/erp42", 115200) # Real World
 
         rospy.init_node('master', anonymous=False)
     
     def run(self):
-        self.shared = Shared(self)
+        self.shared = Shared()
+        # self.shared.run()
 
         self.localizer = Localizer(self, rate=1)
         self.init_thread(self.localizer)
@@ -45,8 +46,8 @@ class Master(threading.Thread):
         self.lat_controller = LatController(self, rate=3)
         self.init_thread(self.lat_controller)
 
-        self.lon_controller = LonController(self, rate=3)
-        self.init_thread(self.lon_controller)
+        # self.lon_controller = LonController(self, rate=3)
+        # self.init_thread(self.lon_controller)
 
         self.serial_reader = SerialReader(self, rate=25)
         self.init_thread(self.serial_reader)
@@ -54,8 +55,8 @@ class Master(threading.Thread):
         self.serial_writer = SerialWriter(self, rate=25)
         self.init_thread(self.serial_writer)
 
-        self.visualizer = Visualizer(self, rate=1)
-        self.init_thread(self.visualizer)
+        # self.visualizer = Visualizer(self, rate=1)
+        # self.init_thread(self.visualizer)
 
         while True:
             if self.ego.speed == 1:
@@ -76,7 +77,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='kcity/map1',
+        default='kcity_parking/parking_curve',
         help='kcity/map1, songdo/map2, yonghyeon'
     )
 
