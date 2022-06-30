@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import struct
 import threading
 from time import sleep
 import sys,os
