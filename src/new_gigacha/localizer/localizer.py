@@ -52,6 +52,7 @@ class Localizer(threading.Thread):
 
         self.ego.index = min_idx
 
+
     def heading_decision(self):
         global time_sync
         main_time = time.time()
@@ -68,6 +69,7 @@ class Localizer(threading.Thread):
             time_sync = "Unsync"
             self.ego.heading = self.imu.heading
 
+
     def run(self):
         while True:
             self.heading_decision()
@@ -81,4 +83,3 @@ class Localizer(threading.Thread):
             # .format(self.ego.x, self.ego.y, self.ego.heading, self.gps.heading_switch, time_sync, self.ego.index))
 
             sleep(self.period)
-            

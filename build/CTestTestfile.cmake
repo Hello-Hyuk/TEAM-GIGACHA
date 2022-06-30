@@ -5,5 +5,5 @@
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.
 subdirs("gtest")
+subdirs("local_pkg")
 subdirs("planner_and_control")
-subdirs("e2box_AHRS")

@@ -426,6 +426,12 @@ gtest_main_LIB_DEPENDS:STATIC=general;-lpthread;general;gtest;
 //Path to a library.
 lib:FILEPATH=/opt/ros/melodic/lib/libxmlrpcpp.so
 
+//Value Computed by CMake
+local_pkg_BINARY_DIR:STATIC=/home/gigacha/TEAM-GIGACHA/build/local_pkg
+
+//Value Computed by CMake
+local_pkg_SOURCE_DIR:STATIC=/home/gigacha/TEAM-GIGACHA/src/local_pkg
+
 //The directory containing a CMake configuration file for message_generation.
 message_generation_DIR:PATH=/opt/ros/melodic/share/message_generation/cmake
 
