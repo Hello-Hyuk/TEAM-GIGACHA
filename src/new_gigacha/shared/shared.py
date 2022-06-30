@@ -1,3 +1,4 @@
+from new_gigacha.shared.behavior_decision import BehaviorDecision
 from .ego import Ego
 from .perception import Perception
 from .path import Path
