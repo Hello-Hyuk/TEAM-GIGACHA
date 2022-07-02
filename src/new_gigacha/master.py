@@ -5,6 +5,7 @@ import serial
 
 from shared.shared import Shared
 from localizer.localizer import Localizer
+from localizer.encoder import Encoder
 from planner.mission_planner import MissionPlanner
 from planner.behavior_planner import BehaviorPlanner
 from planner.motion_planner import MotionPlanner
@@ -34,6 +35,9 @@ class Master(threading.Thread):
         self.localizer = Localizer(self, rate=50)
         self.init_thread(self.localizer)
 
+        self.encoder = Encoder(self, rate = 20)
+        self.init_thread(self.encoder)
+
         self.mission_planner = MissionPlanner(self, rate=10)
         self.init_thread(self.mission_planner)
 
@@ -43,10 +47,8 @@ class Master(threading.Thread):
         self.motion_planner = MotionPlanner(self, rate=20)
         self.init_thread(self.motion_planner)
 
-
         self.lat_controller = LatController(self, rate=20)
         self.init_thread(self.lat_controller)
-
 
         # self.lon_controller = LonController(self, rate=3)
         # self.init_thread(self.lon_controller)

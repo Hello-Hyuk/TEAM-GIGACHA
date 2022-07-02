@@ -4,7 +4,7 @@ import pymap3d
 import time
 import json
 from geometry_msgs.msg import Pose
-from localizer.low_pass_filter import LPF
+from localizer.local_functions import LPF
 from sensor_msgs.msg import NavSatFix
 from ublox_msgs.msg import NavPVT
 

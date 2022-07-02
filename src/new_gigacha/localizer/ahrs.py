@@ -3,7 +3,7 @@ import rospy
 import numpy as np
 import time
 from geometry_msgs.msg import Pose
-from localizer.euler_from_quaternion import euler_from_quaternion as efq
+from localizer.local_functions import euler_from_quaternion as efq
 from sensor_msgs.msg import Imu
 from geometry_msgs.msg import Quaternion
 

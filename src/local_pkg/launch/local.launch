@@ -23,5 +23,5 @@
 
 <!--=================================Localization=========================-->
   <node pkg="local_pkg" type="time_sync.py" name="time" respawn="true"/>
-  <node pkg="local_pkg" type="encoder.py" name="Encoder" respawn="true"/>
+  <node pkg="local_pkg" type="encoder_parser.py" name="Encoder" respawn="true"/>
 </launch>
