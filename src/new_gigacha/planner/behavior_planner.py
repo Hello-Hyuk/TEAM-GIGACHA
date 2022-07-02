@@ -24,7 +24,7 @@ class BehaviorPlanner(threading.Thread):
     
     def run(self):
         while True:            
-            print("state : ", self.plan.state)
+            # print("state : ", self.plan.state)
 
             if self.state_remember != self.plan.state:
                 self.state_remember = self.plan.state
@@ -54,7 +54,7 @@ class BehaviorPlanner(threading.Thread):
             else:
                 self.mission.go()
 
-            print(f"behavior_planner : {self.plan.behavior_decision}")
-            print(f"speed : {self.ego.target_speed}")
+            # print(f"behavior_planner : {self.plan.behavior_decision}")
+            # print(f"speed : {self.ego.target_speed}")
             
             sleep(self.period)

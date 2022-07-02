@@ -30,37 +30,38 @@ class Master(threading.Thread):
     
     def run(self):
         self.shared = Shared()
-        self.shared.run()
 
-        self.localizer = Localizer(self, rate=10)
+        self.localizer = Localizer(self, rate=50)
         self.init_thread(self.localizer)
 
-        self.mission_planner = MissionPlanner(self, rate=2)
+        self.mission_planner = MissionPlanner(self, rate=10)
         self.init_thread(self.mission_planner)
 
-        self.behavior_planner = BehaviorPlanner(self, rate=2)
+        self.behavior_planner = BehaviorPlanner(self, rate=10)
         self.init_thread(self.behavior_planner)
 
-        self.motion_planner = MotionPlanner(self, rate=2)
+        self.motion_planner = MotionPlanner(self, rate=20)
         self.init_thread(self.motion_planner)
 
-        self.lat_controller = LatController(self, rate=3)
+
+        self.lat_controller = LatController(self, rate=20)
         self.init_thread(self.lat_controller)
+
 
         # self.lon_controller = LonController(self, rate=3)
         # self.init_thread(self.lon_controller)
 
-        self.serial_reader = SerialReader(self, rate=25)
+        self.serial_reader = SerialReader(self, rate=20)
         self.init_thread(self.serial_reader)
 
-        self.serial_writer = SerialWriter(self, rate=25)
+        self.serial_writer = SerialWriter(self, rate=10)
         self.init_thread(self.serial_writer)
 
-        self.visualizer = Visualizer(self, rate=1)
-        self.init_thread(self.visualizer)
+        # self.visualizer = Visualizer(self, rate=1)
+        # self.init_thread(self.visualizer)
 
         while True:
-            print(self.shared.plan.state)
+            # print(self.shared.plan.state)
             sleep(self.period)
 
     def init_thread(self, module):
@@ -73,7 +74,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='kcity_parking/parking_curve',
+        default='kcity_simul/ex',
         help='kcity/map1, songdo/map2, yonghyeon'
     )
 

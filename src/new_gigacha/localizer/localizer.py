@@ -17,8 +17,6 @@ class Localizer(threading.Thread):
         self.shared = parent.shared
         self.ego = self.shared.ego
         self.global_path = self.shared.global_path
-        # print("Localizaer")
-
 
         self.read_global_path() # only one time
 

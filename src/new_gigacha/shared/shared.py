@@ -9,16 +9,7 @@ class Shared:
         self.perception = Perception_()
         self.state = ''
         self.global_path = Path()
-        self.local_path = []
-        self.local_path_num = 4
+        self.cut_path = Path()
+        self.lattice_path = []
+        self.selected_lane = 1
         self.plan = Plan()
-        # self.state = " "
-        # self.behavior_decision = " "
-        # self.trajectory = Path()
-
-        for i in range(9):
-            lattice = Path()
-            self.local_path.append(lattice)
-
-    def run(self):
-        pass

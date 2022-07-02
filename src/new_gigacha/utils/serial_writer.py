@@ -9,7 +9,7 @@ class SerialWriter(threading.Thread):
         self.ser = parent.ser
         self.ego = parent.shared.ego
 
-        print("SerialWriter")
+        # print("SerialWriter")
 
     def run(self):
         while True:
@@ -18,6 +18,7 @@ class SerialWriter(threading.Thread):
                 self.ego.input_speed = 20
 
             self.ego.input_speed = max(0, min(self.ego.input_speed, 20))
+ 
 
             if self.ego.input_brake > 200:
                 self.ego.input_brake = 200
@@ -39,6 +40,7 @@ class SerialWriter(threading.Thread):
             )
             self.ser.write(result)
 
-            print(self.ego.input_gear)
+            # print(self.ego.input_gear)
+            # print(self.ego.input_steer)
 
             sleep(self.period)

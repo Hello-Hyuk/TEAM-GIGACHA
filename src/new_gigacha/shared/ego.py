@@ -23,9 +23,9 @@ class Ego():
         self.target_gear = 0
 
         #Controller to Serial (writer)
-        self.input_estop = 1
-        self.input_gear = 1
-        self.input_speed = 0
+        self.input_estop = 0
+        self.input_gear = 0
+        self.input_speed = 20
         self.input_steer = 0
         self.input_brake = 0
 

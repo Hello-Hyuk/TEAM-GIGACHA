@@ -1,17 +1,12 @@
-from nav_msgs.msg import Path
-from geometry_msgs.msg import PoseStamped
 from math import sqrt
 
-def findLocalPath(path, ego):
-    out_path = Path()
-    current_x = ego.x
-    current_y = ego.y
+def findLocalPath(path, ego, cut_path):
     current_index = 0
     min_dis = float('inf')
 
     for i in range(len(path.x)):
-        dx = current_x - path.x[i]
-        dy = current_y - path.y[i]
+        dx = ego.x - path.x[i]
+        dy = ego.y - path.y[i]
         dis = sqrt(dx*dx + dy*dy)
         if dis < min_dis:
             min_dis = dis
@@ -22,17 +17,13 @@ def findLocalPath(path, ego):
     else:
         last_local_index = current_index + 100
 
-    for i in range(current_index, last_local_index) :
-        read_pose = PoseStamped()
-
-        read_pose.pose.position.x = path.x[i]
-        read_pose.pose.position.y = path.y[i]
-        read_pose.pose.position.z = 0
-        read_pose.pose.orientation.x = 0
-        read_pose.pose.orientation.y = 0
-        read_pose.pose.orientation.z = 0
-        read_pose.pose.orientation.w = 1
-
-        out_path.poses.append(read_pose)
-
-    return out_path
+    if len(cut_path.x) == 0:
+        for i in range(current_index, last_local_index):
+            cut_path.x.append(path.x[i])
+            cut_path.y.append(path.y[i])
+    else:
+        count = 0
+        for i in range(current_index, last_local_index):
+            cut_path.x[count] = path.x[i]
+            cut_path.y[count] = path.y[i]
+            count += 1
