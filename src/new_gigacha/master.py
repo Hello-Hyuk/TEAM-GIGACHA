@@ -30,9 +30,9 @@ class Master(threading.Thread):
     
     def run(self):
         self.shared = Shared()
-        # self.shared.run()
+        self.shared.run()
 
-        self.localizer = Localizer(self, rate=1)
+        self.localizer = Localizer(self, rate=10)
         self.init_thread(self.localizer)
 
         self.mission_planner = MissionPlanner(self, rate=2)
@@ -56,16 +56,11 @@ class Master(threading.Thread):
         self.serial_writer = SerialWriter(self, rate=25)
         self.init_thread(self.serial_writer)
 
-        # self.visualizer = Visualizer(self, rate=1)
-        # self.init_thread(self.visualizer)
+        self.visualizer = Visualizer(self, rate=1)
+        self.init_thread(self.visualizer)
 
         while True:
-            if self.ego.speed == 1:
-                print(self.args.map)
-                print('planner')
-            else:
-                print('controller')
-            
+            print(self.shared.plan.state)
             sleep(self.period)
 
     def init_thread(self, module):

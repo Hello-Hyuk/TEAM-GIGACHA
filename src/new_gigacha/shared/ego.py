@@ -8,7 +8,10 @@ class Ego():
         self.heading = 0
         self.index = 0
 
-        #Serial to Ego
+        #Serial to Ego (reader)
+        self.auto_manual = 0
+        self.emergency_stop = 0
+        self.encoder = []
         self.speed = 0
         self.brake = 0
         self.gear = 0
@@ -19,7 +22,7 @@ class Ego():
         self.target_speed = 0
         self.target_gear = 0
 
-        #Controller to Serial
+        #Controller to Serial (writer)
         self.input_estop = 1
         self.input_gear = 1
         self.input_speed = 0

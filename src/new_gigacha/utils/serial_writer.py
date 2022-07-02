@@ -9,6 +9,8 @@ class SerialWriter(threading.Thread):
         self.ser = parent.ser
         self.ego = parent.shared.ego
 
+        print("SerialWriter")
+
     def run(self):
         while True:
             #Min/Max Limit
@@ -36,5 +38,7 @@ class SerialWriter(threading.Thread):
                 0x0A
             )
             self.ser.write(result)
+
+            print(self.ego.input_gear)
 
             sleep(self.period)
