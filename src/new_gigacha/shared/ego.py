@@ -3,10 +3,14 @@ class Ego():
         #Local to Ego
         self.x = 0
         self.y = 0
-        self.dr_x = 0
-        self.dr_y = 0
         self.heading = 0
         self.index = 0
+        
+        #Odometry
+        self.dr_x = 0
+        self.dr_y = 0
+        self.dis_left = 0 #[m]
+        self.dis_right = 0 #[m]
 
         #Serial to Ego (reader)
         self.auto_manual = 0
@@ -28,6 +32,3 @@ class Ego():
         self.input_speed = 20
         self.input_steer = 0
         self.input_brake = 0
-
-        #
-        self.selected_lane = 0

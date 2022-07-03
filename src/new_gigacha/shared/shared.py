@@ -2,7 +2,6 @@ from .ego import Ego
 from .perception import Perception_
 from .path import Path
 from .plan import Plan
-from .displacement import Displacement
 
 class Shared:
     def __init__(self):
@@ -19,6 +18,3 @@ class Shared:
         self.lattice_path = []
         self.selected_lane = 1
         self.plan = Plan()
-
-        # for odometry
-        self.dp = Displacement()
