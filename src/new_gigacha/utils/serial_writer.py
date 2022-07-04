@@ -18,7 +18,6 @@ class SerialWriter(threading.Thread):
                 self.ego.input_speed = 20
 
             self.ego.input_speed = max(0, min(self.ego.input_speed, 20))
- 
 
             if self.ego.input_brake > 200:
                 self.ego.input_brake = 200

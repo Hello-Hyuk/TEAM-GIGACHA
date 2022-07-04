@@ -43,10 +43,8 @@ class Master(threading.Thread):
         self.motion_planner = MotionPlanner(self, rate=20)
         self.init_thread(self.motion_planner)
 
-
         self.lat_controller = LatController(self, rate=20)
         self.init_thread(self.lat_controller)
-
 
         # self.lon_controller = LonController(self, rate=3)
         # self.init_thread(self.lon_controller)
@@ -61,7 +59,6 @@ class Master(threading.Thread):
         # self.init_thread(self.visualizer)
 
         while True:
-            # print(self.shared.plan.state)
             sleep(self.period)
 
     def init_thread(self, module):

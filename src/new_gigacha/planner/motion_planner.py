@@ -75,16 +75,14 @@ class MotionPlanner(threading.Thread):
             pass
 
     def path_maker(self):
-
         lattice = []
 
-        # cut_path = CustomPath()
+        # cut_path = Path()
 
         # for i in range (len(local_path.poses)):
         #     cut_path.x.append(local_path.poses[i].pose.position.x)
         #     cut_path.y.append(local_path.poses[i].pose.position.y)
         
-
         look_distance = int(self.ego.speed * 2)
 
         if look_distance < 2 :
@@ -184,9 +182,8 @@ class MotionPlanner(threading.Thread):
                         lattice[lane_num].y.append(tmp_y)
 
         if len(self.lattice_path) == 0:
-            self.lattice_path.append(lattice[0])
-            self.lattice_path.append(lattice[1])
-            self.lattice_path.append(lattice[2])
+            for i in range(3):
+                self.lattice_path.append(lattice[i])
         else:
             for i in range(3):
                 self.lattice_path[i] = lattice[i]
@@ -195,7 +192,7 @@ class MotionPlanner(threading.Thread):
         while True:
             # print(len(self.global_path.x))
             findLocalPath(self.global_path, self.ego, self.cut_path) # from global path (50indexes)
-            self.path_maker() # lattice_path
+            self.generate_path = self.path_maker() # lattice_path
 
             # print(len(self.lattice_path))
 
