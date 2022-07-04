@@ -17,6 +17,7 @@ def path_maker(local_path, ego):
     current_y = ego.y
     current_speed = ego.speed
 
+
     look_distance = int(current_speed * 2)
 
     if look_distance < 2 :
@@ -25,6 +26,7 @@ def path_maker(local_path, ego):
         look_distance = 10
     
     look_distance = 35
+
 
     if len(ref_local_path.x) > look_distance :
         global_ref_start_point = (ref_local_path.x[0], ref_local_path.y[0])

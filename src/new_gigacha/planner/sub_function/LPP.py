@@ -6,12 +6,11 @@ def path_maker(cut_path, ego, lattice_path):
 
     lattice = []
 
-    # cut_path = CustomPath()
+    cut_path = CustomPath()
 
-    # for i in range (len(local_path.poses)):
-    #     cut_path.x.append(local_path.poses[i].pose.position.x)
-    #     cut_path.y.append(local_path.poses[i].pose.position.y)
-    
+    for i in range (len(local_path.poses)):
+        cut_path.x.append(local_path.poses[i].pose.position.x)
+        cut_path.y.append(local_path.poses[i].pose.position.y)
 
     look_distance = int(ego.speed * 2)
 

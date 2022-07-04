@@ -7,11 +7,10 @@ class LatController(threading.Thread):
         super().__init__()
         self.period = 1.0 / rate
         self.shared = parent.shared
-        self.ego = self.shared.ego
-        self.plan = self.shared.plan
+        self.ego = parent.shared.ego
+        self.plan = parent.shared.plan
 
-        self.lattice_path = self.shared.lattice_path
-        self.selected_lane = self.shared.selected_lane
+        self.lattice_path = parent.shared.lattice_path
  
         self.WB = 1.04 # wheel base
         self.k = 0.3 #1.5
@@ -20,7 +19,7 @@ class LatController(threading.Thread):
     def run(self):
         while True:
             try:
-                self.path = self.lattice_path[self.selected_lane]
+                self.path = self.lattice_path[self.shared.selected_lane]
                 lookahead = min(self.k * self.ego.speed + self.lookahead_default, 6)
 
                 target_index = len(self.path.x) - 20

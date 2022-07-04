@@ -59,6 +59,7 @@ class Master(threading.Thread):
         # self.init_thread(self.visualizer)
 
         while True:
+            print(self.shared.ego.x," and ", self.shared.ego.y)
             sleep(self.period)
 
     def init_thread(self, module):

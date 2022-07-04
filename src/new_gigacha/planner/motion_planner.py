@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from re import A
 import threading
 from time import sleep
 from math import sqrt
@@ -14,74 +15,64 @@ class MotionPlanner(threading.Thread):
         super().__init__()
         self.period = 1.0 / rate
         self.shared = parent.shared
-        self.plan = self.shared.plan
+        self.plan = parent.shared.plan
 
         # self.trajectory = self.plan.trajectory # to controller
-        self.global_path = self.shared.global_path # from localizer
-        self.ego = self.shared.ego
+        self.global_path = parent.shared.global_path # from localizer
+        self.ego = parent.shared.ego
 
-        self.cut_path = self.shared.cut_path # from global path (find_local_path)
-        self.lattice_path = self.shared.lattice_path # from LPP []
+        self.cut_path = parent.shared.cut_path # from global path (find_local_path)
+        self.lattice_path = parent.shared.lattice_path # from LPP []
 
         self.lane_weight = [10000, 0, 10000]
         self.isObstacle = [1000, 1000, 1000]
 
-        self.selected_lane = self.shared.selected_lane
-
     # def weight_sign_function(self):
     #     for i in range(len(self.lattice_path)):
-    #         self.lane_weight[i] = sqrt((self.lattice_path[i].x[-1] - self.perception.signx[0])**2 + (self.generated_path[i].poses[-1].pose.position.y - self.perception.signy[0])**2)
+    #         self.lane_weight[i] = sqrt((self.lattice_path[i].x[-1] - self.shared.perception.signx[0])**2 + (self.lattice_path[i].poses[-1].pose.position.y - self.perception.signy[0])**2)
 
     def select_trajectory(self):
-        self.selected_lane = self.lane_weight.index(min(self.lane_weight))
+        self.shared.selected_lane = self.lane_weight.index(min(self.lane_weight))
         # self.trajectory = self.lattice_path[self.selected_lane]
 
     def weight_function_obstacle_avoidance(self):
         self.isObstacle = [1000, 1000, 1000]
 
-        for i in range(len(self.generated_path)): # 0,1,2
+        for i in range(len(self.lattice_path)): # 0,1,2
             path_check = True
             if path_check == True:
-                for j in range(len(self.generated_path[i].poses)): # paths' index
+                for j in range(len(self.lattice_path[i].x)): # paths' index
                     if path_check == False:
                         break
-                    for k in range(len(self.perception.objx)): # of obj
-                        ob_point_distance = sqrt((self.generated_path[i].poses[j].pose.position.x - self.perception.objx[k])**2 + (self.generated_path[i].poses[j].pose.position.y - self.perception.objy[k])**2)
-                        if ob_point_distance < self.perception.objr[k]: #and self.Obstacle_in_section == 0:
+                    for k in range(len(self.shared.perception.objx)): # of obj
+                        ob_point_distance = sqrt((self.lattice_path[i].x[j] - self.shared.perception.objx[k])**2 + (self.lattice_path[i].y[j] - self.shared.perception.objy[k])**2)
+                        if ob_point_distance < self.shared.perception.objr[k]: #and self.Obstacle_in_section == 0:
                             self.isObstacle[i] = j
-                            print("+++++++++obstacle in " + str(i) + "+++++++++++++++++")
-                            #if(i == 1):
-                            #    self.lane_weight[i] = 10000
-                            #    self.lane_weight[i+1] = 0
-                            # elif(i==2):
-                            #     self.lane_weight[i] = 10000
-                            #     self.lane_weight[i-1] = 0
+                            if(i == 1):
+                                self.lane_weight[i] = 10000
+                                self.lane_weight[i+1] = 0
+                            elif(i==2):
+                                self.lane_weight[i] = 10000
+                                self.lane_weight[i-1] = 0
                             path_check = False
                             break
                         # else:
                         #     self.isObstacle[i] = 1000
-        print("isObstacle", self.isObstacle)
         
-        if (self.selected_lane == 1 and self.isObstacle[1] != 1000):
-            if(self.isObstacle[1] < self.isObstacle[2]):
-                print("+++++++++++++\nobstacle in lane 1\n++++++++++++")
-                self.lane_weight = [1000, 1000, 0]
-        elif (self.selected_lane == 2 and self.isObstacle[2] != 1000):
-            if(self.isObstacle[1] > self.isObstacle[2]):
-                print("+++++++++++++\nobstacle in lane 2\n++++++++++++")
-                self.lane_weight = [1000, 0, 1000]
-        else:
-            # self.ego.emergency_stop = 1
-            pass
+        # if (self.shared.selected_lane == 1 and self.isObstacle[1] != 1000):
+        #     if(self.isObstacle[1] < self.isObstacle[2]):
+        #         print("+++++++++++++\nobstacle in lane 1\n++++++++++++")
+        #         self.lane_weight = [1000, 1000, 0]
+        # elif (self.shared.selected_lane == 2 and self.isObstacle[2] != 1000):
+        #     if(self.isObstacle[1] > self.isObstacle[2]):
+        #         print("+++++++++++++\nobstacle in lane 2\n++++++++++++")
+        #         self.lane_weight = [1000, 0, 1000]
+        # else:
+        #     # self.ego.emergency_stop = 1
+        #     pass
 
     def path_maker(self):
         lattice = []
-
-        # cut_path = Path()
-
-        # for i in range (len(local_path.poses)):
-        #     cut_path.x.append(local_path.poses[i].pose.position.x)
-        #     cut_path.y.append(local_path.poses[i].pose.position.y)
         
         look_distance = int(self.ego.speed * 2)
 
@@ -192,7 +183,7 @@ class MotionPlanner(threading.Thread):
         while True:
             # print(len(self.global_path.x))
             findLocalPath(self.global_path, self.ego, self.cut_path) # from global path (50indexes)
-            self.generate_path = self.path_maker() # lattice_path
+            self.path_maker() # lattice_path
 
             # print(len(self.lattice_path))
 
