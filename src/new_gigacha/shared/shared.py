@@ -5,8 +5,13 @@ from .plan import Plan
 
 class Shared:
     def __init__(self):
+        # in common 
         self.ego = Ego()
+
+        # for perception
         self.perception = Perception_()
+
+        # for planner
         self.state = ''
         self.global_path = Path()
         self.cut_path = Path()

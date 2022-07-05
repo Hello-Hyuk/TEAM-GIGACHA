@@ -1,6 +1,5 @@
 import threading
 import struct
-import rospy
 from time import sleep
 
 class SerialReader(threading.Thread):

@@ -2,27 +2,26 @@
 import time
 import csv
 import threading
+import math
 from math import hypot
 from time import sleep
 
 from localizer.ahrs import IMU
 from localizer.gps import GPS
-from localizer.dead_reckoning import DR
 
 class Localizer(threading.Thread):
     def __init__(self, parent, rate):
         super().__init__()
         self.mapname = parent.args.map
         self.period = 1.0 / rate
-        self.shared = parent.shared
-        self.ego = self.shared.ego
-        self.global_path = self.shared.global_path
+
+        self.ego = parent.shared.ego
+        self.global_path = parent.shared.global_path
 
         self.read_global_path() # only one time
 
         self.imu = IMU()
         self.gps = GPS()
-        self.dr = DR()
         
     def read_global_path(self):
         with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
@@ -51,7 +50,6 @@ class Localizer(threading.Thread):
 
         self.ego.index = min_idx
 
-
     def heading_decision(self):
         global time_sync
         main_time = time.time()
@@ -68,14 +66,11 @@ class Localizer(threading.Thread):
             time_sync = "Unsync"
             self.ego.heading = self.imu.heading
 
-
     def run(self):
         while True:
             self.heading_decision()
             self.ego.x = self.gps.x
             self.ego.y = self.gps.y
-            self.ego.dr_x = self.dr.x
-            self.ego.dr_y = self.dr.y
             self.index_finder()
 
             # print("x : {0}, y : {1}, heading : {2}, switch : {3}, time sync : {4}, index : {5}"\
