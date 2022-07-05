@@ -12,11 +12,6 @@ class Mission():
         self.obstacle_checker = False
         self.stop_checker = False
 
-    def update_parameter(self, eg, pc, pl):
-        self.perception = pc
-        self.ego = eg
-        self.plan.behavior_decision = pl.plan.behavior_decision
-
     def go(self):
         self.ego.gear = 0
         self.ego.target_speed = 20.0
