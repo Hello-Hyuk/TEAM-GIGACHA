@@ -29,46 +29,6 @@ class LonController(threading.Thread):
         self.road_friction=0.15
  
 
-
-
-
-
-"""
-def pid(a,b)
-이 함수는 속도a에서 속도b로 가는동안 속도에 관한 pid제어를 하는 함수입니다.
-
-a와 b는 속도에 관한 파라미터로 float형으로 입력되어야합니다.
-
-최종적으로 목표 속도 b를 리턴합니다.
-
-
-"""
-    def pid(self,ego_vel,target_vel):
-        self.error=target_vel-ego_vel
-        self.error_sum+=self.error
-        
-        output=self.P*error + self.I*self.error_sum*self.dt + self.D*(self.error-self.pre_error)/self.dt
-
-        out_vel=target_vel+output
-
-
-
-        return out_vel
-
-
-
-
-"""
-def curve_based_velocity(a,b)
-이 함수는 글로벌 패스 a를 가져와서 (-b,b)범위의 인덱스에 곡선 구간 속도제어를 도입합니다.
-a의 역할은 해당 계산을 수행할시 a의 x,y값을 사용합니다.
-
-
-최종적으로  out_vel_plan 이라는 속도값이 담긴 list를 리턴합니다.
-
-
-"""
-
     def curve_based_velocity(self,global_path,point_num):
         out_vel_plan=[]
         for i in range(0,point_num):
@@ -78,8 +38,8 @@ a의 역할은 해당 계산을 수행할시 a의 x,y값을 사용합니다.
             x_list=[]
             y_list=[]
             for box in  range(-point_num,point_num):
-                x=global_path.poses[i+box].pose.position.x
-                y=global_path.poses[i+box].pose.position.y
+                x=global_path.x[i+box]
+                y=global_path.x[i+box]
                 x_list.append([-2*x,-2*y,1])
                 y_list.append(-(x*x)-(y*y))
                 
@@ -109,10 +69,10 @@ a의 역할은 해당 계산을 수행할시 a의 x,y값을 사용합니다.
         while True:
             try:
 
-                vel_profile=self.curveBasedVelocity(self.global_path,30)
+                self.speed=self.curve_based_velocity(self.global_path,30)
+                self.ego.input_speed=self.speed[self.ego.index]
+               
 
-                self.ego.input_speed = self.pid(self.ego.speed, vel_profile[self.ego.index])
-            
             except IndexError:
                 print("+++++++++++++++++")
 
