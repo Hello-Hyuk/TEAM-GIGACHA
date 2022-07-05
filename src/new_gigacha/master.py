@@ -35,8 +35,8 @@ class Master(threading.Thread):
         self.localizer = Localizer(self, rate=50)
         self.init_thread(self.localizer)
 
-        self.DR = DR(self, rate = 50)
-        self.init_thread(self.DR)
+        # self.DR = DR(self, rate = 50)
+        # self.init_thread(self.DR)
 
         self.mission_planner = MissionPlanner(self, rate=10)
         self.init_thread(self.mission_planner)
@@ -76,7 +76,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='kcity_simul/ex',
+        default='kcity_simul/turn_right/turn_right',
         help='kcity/map1, songdo/map2, yonghyeon'
     )
 
