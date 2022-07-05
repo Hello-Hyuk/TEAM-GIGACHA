@@ -143,3 +143,18 @@ class Mission():
             else:
                 self.ego.target_speed = 20.0
             self.plan.behavior_decision = "child_area"
+
+    def emergency_stop(self):
+        self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
+        if self.obs_dis <= 5:
+            if self.check == False:
+                self.plan.behavior_decision = "stop"
+                self.wait_time = time()
+                self.check = True
+            if self.plan.behavior_decision == "stop" and time() - self.wait_time > 5:
+                self.plan.behavior_decision = "static_obstacle_detected"
+                #self.sign_detected = 1
+        elif self.sign_dis > 5: #and self.sign_detected == 0:
+            self.plan.behavior_decision = "go"
+            self.check = False
+        
