@@ -5,7 +5,6 @@ import serial
 
 from shared.shared import Shared
 from localizer.localizer import Localizer
-from localizer.dead_reckoning import DR
 from planner.mission_planner import MissionPlanner
 from planner.behavior_planner import BehaviorPlanner
 from planner.motion_planner import MotionPlanner
@@ -56,9 +55,6 @@ class Master(threading.Thread):
 
         self.serial_writer = SerialWriter(self, rate=10)
         self.init_thread(self.serial_writer)
-
-        self.DR = DR(self, rate=50)
-        self.init_thread(self.DR)
 
         # self.visualizer = Visualizer(self, rate=1)
         # self.init_thread(self.visualizer)
