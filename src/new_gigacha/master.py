@@ -35,8 +35,8 @@ class Master(threading.Thread):
         self.localizer = Localizer(self, rate=50)
         self.init_thread(self.localizer)
 
-        self.DR = DR(self, rate = 50)
-        self.init_thread(self.DR)
+        # self.DR = DR(self, rate = 50)
+        # self.init_thread(self.DR)
 
         self.mission_planner = MissionPlanner(self, rate=10)
         self.init_thread(self.mission_planner)
@@ -63,7 +63,8 @@ class Master(threading.Thread):
         # self.init_thread(self.visualizer)
 
         while True:
-            print(self.shared.ego.x," and ", self.shared.ego.y)
+            print(self.shared.ego.x," and ", self.shared.ego.y,"and",self.shared.perception.objx,"and",self.shared.perception.objy,"and",self.shared.selected_lane)
+            # print(self.shared.perception.objx,"and",self.shared.perception.objy,"and",self.shared.selected_lane)
             sleep(self.period)
 
     def init_thread(self, module):
