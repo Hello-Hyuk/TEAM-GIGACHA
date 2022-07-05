@@ -2,7 +2,6 @@ import threading
 import rospy
 import argparse
 import serial
-
 from shared.shared import Shared
 from localizer.localizer import Localizer
 from planner.mission_planner import MissionPlanner
@@ -32,7 +31,7 @@ class Master(threading.Thread):
     def run(self):
         self.shared = Shared()
 
-        self.localizer = Localizer(self, rate=50)
+        self.localizer = Localizer(self, rate=10)
         self.init_thread(self.localizer)
 
         self.mission_planner = MissionPlanner(self, rate=10)

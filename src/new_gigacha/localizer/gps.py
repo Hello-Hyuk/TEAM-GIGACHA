@@ -36,6 +36,7 @@ class GPS():
     def gps_call_back_simul(self, data):
         self.x, self.y, _ = pymap3d.geodetic2enu(data.position.x, data.position.y, self.alt, \
                                     self.lat , self.lon, self.alt)
+        self.time = time.time()
 
 
     def navpvt_call_back(self, data):

@@ -24,7 +24,9 @@ class Localizer(threading.Thread):
 
         self.gps = GPS()
         self.imu = IMU()
-        self.odometry = Odometry(self.ego, self.gps, self.imu)
+        # self.odometry = Odometry(self.ego, self.gps, self.imu)
+
+        self.offset = 0
 
     def read_global_path(self):
         with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
@@ -36,7 +38,6 @@ class Localizer(threading.Thread):
                 # self.global_path.yaw.append(float(line[3]))
 
     def index_finder(self):
-        start_time = time.time()
         min_dis = -1
         min_idx = 0
         step_size = 100
@@ -55,24 +56,21 @@ class Localizer(threading.Thread):
 
         self.ego.index = min_idx
 
-        last_time = time.time()
-        print('Used_time_index_finder:{0}sec'.format(last_time - start_time))
-
     def heading_decision(self):
         global time_sync
         main_time = time.time()
         time_sync = None
-
+        # print('gps duration: {},,,imu duration: {}'.format((main_time - self.gps.time),(main_time - self.imu.time)))
         if (main_time - self.gps.time) < 0.2 and (main_time - self.imu.time) < 0.2:
             time_sync = "Sync"
             if self.gps.heading_switch == True:
-                offset = self.gps.heading - self.imu.heading
-                self.ego.heading = self.imu.heading + offset
+                self.offset = self.gps.heading - self.imu.heading
+                self.ego.heading = self.imu.heading + self.offset
             else:
-                self.ego.heading = self.imu.heading
+                self.ego.heading = self.imu.heading + self.offset
         else:
             time_sync = "Unsync"
-            self.ego.heading = self.imu.heading
+            self.ego.heading = self.imu.heading + self.offset
 
     def run(self):
         while True:
@@ -81,7 +79,7 @@ class Localizer(threading.Thread):
             self.ego.y = self.gps.y
             self.index_finder()
 
-            # print("x : {0}, y : {1}, heading : {2}, switch : {3}, time sync : {4}, index : {5}"\
-            # .format(self.ego.x, self.ego.y, self.ego.heading, self.gps.heading_switch, time_sync, self.ego.index))
+            print("x : {0}, y : {1}, heading : {2}, switch : {3}, time sync : {4}, index : {5}"\
+            .format(self.ego.x, self.ego.y, self.ego.heading, self.gps.heading_switch, time_sync, self.ego.index))
 
             sleep(self.period)
