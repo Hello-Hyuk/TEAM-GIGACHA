@@ -8,6 +8,8 @@ from time import sleep
 
 from localizer.ahrs import IMU
 from localizer.gps import GPS
+from localizer.odometry import Odometry
+
 
 class Localizer(threading.Thread):
     def __init__(self, parent, rate):
@@ -18,11 +20,12 @@ class Localizer(threading.Thread):
         self.ego = parent.shared.ego
         self.global_path = parent.shared.global_path
 
-        self.read_global_path() # only one time
+        self.read_global_path()  # only one time
 
-        self.imu = IMU()
         self.gps = GPS()
-        
+        self.imu = IMU()
+        self.odometry = Odometry(self.ego, self.gps, self.imu)
+
     def read_global_path(self):
         with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
             csv_reader = csv.reader(csv_file)
@@ -33,6 +36,7 @@ class Localizer(threading.Thread):
                 # self.global_path.yaw.append(float(line[3]))
 
     def index_finder(self):
+        start_time = time.time()
         min_dis = -1
         min_idx = 0
         step_size = 100
@@ -40,7 +44,8 @@ class Localizer(threading.Thread):
 
         for i in range(max(self.ego.index - step_size, 0), self.ego.index + step_size):
             try:
-                dis = hypot(self.global_path.x[i] - self.ego.x, self.global_path.y[i] - self.ego.y)
+                dis = hypot(
+                    self.global_path.x[i] - self.ego.x, self.global_path.y[i] - self.ego.y)
             except IndexError:
                 break
             if (min_dis > dis or min_dis == -1) and save_idx <= i:
@@ -49,6 +54,9 @@ class Localizer(threading.Thread):
                 save_idx = i
 
         self.ego.index = min_idx
+
+        last_time = time.time()
+        print('Used_time_index_finder:{0}sec'.format(last_time - start_time))
 
     def heading_decision(self):
         global time_sync

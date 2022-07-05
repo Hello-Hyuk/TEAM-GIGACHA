@@ -5,7 +5,6 @@ import serial
 
 from shared.shared import Shared
 from localizer.localizer import Localizer
-from localizer.dead_reckoning import DR
 from planner.mission_planner import MissionPlanner
 from planner.behavior_planner import BehaviorPlanner
 from planner.motion_planner import MotionPlanner
@@ -18,25 +17,23 @@ from utils.env_visualizer import Visualizer
 
 from time import sleep
 
+
 class Master(threading.Thread):
     def __init__(self, args, ui_rate):
         super().__init__()
         self.args = args
         self.period = 1.0 / ui_rate
 
-        self.ser = serial.Serial("/dev/ttyUSB0", 115200) # Simulation
+        self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
         # self.ser = serial.Serial("/dev/erp42", 115200) # Real World
 
         rospy.init_node('master', anonymous=False)
-    
+
     def run(self):
         self.shared = Shared()
 
         self.localizer = Localizer(self, rate=50)
         self.init_thread(self.localizer)
-
-        self.DR = DR(self, rate = 50)
-        self.init_thread(self.DR)
 
         self.mission_planner = MissionPlanner(self, rate=10)
         self.init_thread(self.mission_planner)
@@ -69,6 +66,7 @@ class Master(threading.Thread):
     def init_thread(self, module):
         module.daemon = True
         module.start()
+
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser(

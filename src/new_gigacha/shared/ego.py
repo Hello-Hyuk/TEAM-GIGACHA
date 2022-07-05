@@ -1,18 +1,16 @@
 class Ego():
     def __init__(self):
-        #Local to Ego
+        # Local to Ego
         self.x = 0
         self.y = 0
         self.heading = 0
         self.index = 0
-        
-        #Odometry
+
+        # Odometry
         self.dr_x = 0
         self.dr_y = 0
-        self.dis_left = 0 #[m]
-        self.dis_right = 0 #[m]
 
-        #Serial to Ego (reader)
+        # Serial to Ego (reader)
         self.auto_manual = 0
         self.emergency_stop = 0
         self.encoder = []
@@ -22,11 +20,11 @@ class Ego():
         self.steer = 0
         self.alive = 0
 
-        #Planner to Controller
+        # Planner to Controller
         self.target_speed = 0
         self.target_gear = 0
 
-        #Controller to Serial (writer)
+        # Controller to Serial (writer)
         self.input_estop = 0
         self.input_gear = 0
         self.input_speed = 20
