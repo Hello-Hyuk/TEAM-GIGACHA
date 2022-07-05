@@ -1,16 +1,16 @@
 import numpy as np
 from math import cos,sin,atan2
 from shared.path import Path
-
+from planner_and_control.msg import Path as CustomPath
 def path_maker(cut_path, ego, lattice_path):
 
     lattice = []
 
-    cut_path = CustomPath()
+    ref_cut_path = CustomPath()
 
-    for i in range (len(local_path.poses)):
-        cut_path.x.append(local_path.poses[i].pose.position.x)
-        cut_path.y.append(local_path.poses[i].pose.position.y)
+    for i in range (len(cut_path.poses)):
+        ref_cut_path.x.append(cut_path.poses[i].pose.position.x)
+        ref_cut_path.y.append(cut_path.poses[i].pose.position.y)
 
     look_distance = int(ego.speed * 2)
 
@@ -21,10 +21,10 @@ def path_maker(cut_path, ego, lattice_path):
     
     look_distance = 35
 
-    if len(cut_path.x) > look_distance :
-        global_ref_start_point = (cut_path.x[0], cut_path.y[0])
-        global_ref_start_next_point = (cut_path.x[1], cut_path.y[1])
-        global_ref_end_point = (cut_path.x[look_distance], cut_path.y[look_distance])
+    if len(ref_cut_path.x) > look_distance :
+        global_ref_start_point = (ref_cut_path.x[0], ref_cut_path.y[0])
+        global_ref_start_next_point = (ref_cut_path.x[1], ref_cut_path.y[1])
+        global_ref_end_point = (ref_cut_path.x[look_distance], ref_cut_path.y[look_distance])
         
         theta = atan2(global_ref_start_next_point[1]-global_ref_start_point[1], global_ref_start_next_point[0]-global_ref_start_point[0])
         translation = [global_ref_start_point[0], global_ref_start_point[1]]
@@ -88,17 +88,17 @@ def path_maker(cut_path, ego, lattice_path):
             #add_point_size = len(cut_path.x)
         add_point_size = 75
 
-        if add_point_size > len(cut_path.x) - 2:
-            add_point_size = len(cut_path.x)
+        if add_point_size > len(ref_cut_path.x) - 2:
+            add_point_size = len(ref_cut_path.x)
 
         elif add_point_size < 5 :
             add_point_size = 5
          
         for i in range(look_distance, add_point_size):
-            if i + 1 < len(cut_path.x):
-                tmp_theta = atan2(cut_path.y[i+1] - cut_path.y[i], cut_path.x[i+1] - cut_path.x[i])
+            if i + 1 < len(ref_cut_path.x):
+                tmp_theta = atan2(ref_cut_path.y[i+1] - ref_cut_path.y[i], ref_cut_path.x[i+1] - ref_cut_path.x[i])
                 
-                tmp_translation = [cut_path.x[i], cut_path.y[i]]
+                tmp_translation = [ref_cut_path.x[i], ref_cut_path.y[i]]
                 tmp_t = np.array([[cos(tmp_theta), -sin(tmp_theta), tmp_translation[0]], [sin(tmp_theta), cos(tmp_theta), tmp_translation[1]], [0,0,1]])
 
                 for lane_num in range(3):
