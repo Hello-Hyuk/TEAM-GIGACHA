@@ -79,7 +79,7 @@ class Localizer(threading.Thread):
             self.ego.y = self.gps.y
             self.index_finder()
 
-            print("x : {0}, y : {1}, heading : {2}, switch : {3}, time sync : {4}, index : {5}"\
-            .format(self.ego.x, self.ego.y, self.ego.heading, self.gps.heading_switch, time_sync, self.ego.index))
+            # print("x : {0}, y : {1}, heading : {2}, switch : {3}, time sync : {4}, index : {5}"\
+            # .format(self.ego.x, self.ego.y, self.ego.heading, self.gps.heading_switch, time_sync, self.ego.index))
 
             sleep(self.period)
