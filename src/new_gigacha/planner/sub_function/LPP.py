@@ -112,3 +112,4 @@ def path_maker(cut_path, ego, lattice_path):
     
     lattice_path = lattice
     print(len(lattice_path))
+
