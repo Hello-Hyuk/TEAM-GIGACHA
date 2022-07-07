@@ -15,18 +15,20 @@ class Visualizer(threading.Thread):
         super().__init__()
         self.period = 1.0 / rate
         self.perception = parent.shared.perception
-        self.ego = parent.shared.ego
         self.shared = parent.shared
-        # self.local_path = parent.shared.local_path
+        self.ego = parent.shared.ego
 
-        self.global_path = self.shared.global_path
-        
-        # init node
-        # rospy.init_node("Environment_Visualizer", anonymous=False)
+        self.global_path = self.shared.global_path # from localizer
+        # self.cut_path = self.shared.cut_path # from global path (find_local_path)
+        # self.lattice_path = self.shared.lattice_path # from LPP []
+        # self.local_path = self.lattice_path[self.shared.selected_lane]
         
         # Publisher
         self.vis_global_path_pub = rospy.Publisher("/vis_global_path", Path, queue_size=1) # using path
         # self.vis_local_path_pub = rospy.Publisher("/vis_local_path", Path, queue_size=1) # using path
+        # self.vis_lattice_path_0_pub = rospy.Publisher("/vis_lattice_path_0", Path, queue_size=1)
+        # self.vis_lattice_path_1_pub = rospy.Publisher("/vis_lattice_path_1", Path, queue_size=1)
+        # self.vis_lattice_path_2_pub = rospy.Publisher("/vis_lattice_path_2", Path, queue_size=1)
         
         # self.vis_trajectory_pub = rospy.Publisher("/vis_trajectory", PointCloud, queue_size=1)
         # self.vis_pose_pub = rospy.Publisher("/vis_position", Odometry, queue_size=1)
@@ -36,7 +38,6 @@ class Visualizer(threading.Thread):
         # self.vis_trajectory_pub_dr = rospy.Publisher("/vis_trajectory_dr", PointCloud, queue_size=1)
         # self.vis_pose_pub_dr = rospy.Publisher("/vis_position_dr", Odometry, queue_size=1)
 
-        # self.vis_global_path = PointCloud() # using pointcloud
         self.vis_global_path = Path() # using path
         self.vis_global_path.header.frame_id = "map"
         
@@ -61,7 +62,7 @@ class Visualizer(threading.Thread):
     def run(self):
         while True:
             try:
-                #########################pose##############################
+                ######################### POSE ##############################
                 
                 # ppoint = Point32()
                 # ppoint.x = self.ego.x
@@ -100,9 +101,8 @@ class Visualizer(threading.Thread):
                 # heading.w = self.ego.heading
                 # self.vis_pose.pose.pose.orientation.w = heading.w
                 
-                #############################global path########################################
-                
-                global_path = Path()
+                ############################# GLOBAL PATH ########################################
+                gp = Path()
                 for i in range(len(self.global_path.x)):
                     read_pose=PoseStamped()
                     read_pose.pose.position.x = self.global_path.x[i]
@@ -112,10 +112,12 @@ class Visualizer(threading.Thread):
                     read_pose.pose.orientation.y=0
                     read_pose.pose.orientation.z=0
                     read_pose.pose.orientation.w=1
-                    global_path.poses.append(read_pose)
-                self.vis_global_path.poses = global_path.poses
+                    gp.poses.append(read_pose)
+                self.vis_global_path.poses = gp.poses
+                print(self.vis_global_path.poses[0].pose.position.x)
+                print(self.vis_global_path.poses[0].pose.position.y)
                 
-                ####################################local path################################################
+                #################################### LOCAL PATH ################################################
                 
                 # local_path = Path()
                 # for i in range(len(self.local_path.x)):
@@ -129,7 +131,33 @@ class Visualizer(threading.Thread):
                 #     read_pose.pose.orientation.w=1
                 #     local_path.poses.append(read_pose)  
                 # self.vis_local_path.poses = local_path.poses
-                
+
+                #################################### LATTICE PATHS ################################################
+
+                # lattice_path_0 = Path()
+                # lattice_path_1 = Path()
+                # lattice_path_2 = Path()
+                # for i in range(len(self.lattice_path)):
+                #     for j in range(len(self.lattice_path[0].x)):
+                #         read_pose=PoseStamped()
+                #         read_pose.pose.position.x = self.lattice_path[i].x[j]
+                #         read_pose.pose.position.y = self.lattice_path[i].y[j]
+                #         read_pose.pose.position.z = 0
+                #         read_pose.pose.orientation.x=0
+                #         read_pose.pose.orientation.y=0
+                #         read_pose.pose.orientation.z=0
+                #         read_pose.pose.orientation.w=1
+                #         if i == 0:
+                #             lattice_path_0.poses.append(read_pose)
+                #         elif i == 1:
+                #             lattice_path_1.poses.append(read_pose)
+                #         elif i == 2:
+                #             lattice_path_2.poses.append(read_pose)
+                # self.vis_lattice_path_0.poses = lattice_path_0.poses
+                # self.vis_lattice_path_1.poses = lattice_path_1.poses
+                # self.vis_lattice_path_2.poses = lattice_path_2.poses
+
+
                 #############################object#########################################
                 
                 # vis_obj = MarkerArray()
@@ -161,14 +189,18 @@ class Visualizer(threading.Thread):
                 #     vis_obj.markers.append(circle_marker)
                 #     c_id = c_id + 1
                     
-                # publish
+                # # publish
                 # self.vis_obj_pub.publish(vis_obj)
                 
-                # self.vis_global_path.header.stamp = rospy.Time.now()
+                self.vis_global_path.header.stamp = rospy.Time.now()
                 self.vis_global_path_pub.publish(self.vis_global_path)
                 
                 # self.vis_local_path.header.stamp = rospy.Time.now()
                 # self.vis_local_path_pub.publish(self.vis_local_path)
+
+                # self.vis_lattice_path_0_pub.publish(self.vis_lattice_path_0)
+                # self.vis_lattice_path_1_pub.publish(self.vis_lattice_path_1)
+                # self.vis_lattice_path_2_pub.publish(self.vis_lattice_path_2)
 
                 # self.vis_trajectory_pub.publish(self.vis_trajectory)
                 # self.vis_trajectory_pub_dr.publish(self.vis_trajectory_dr)
@@ -177,5 +209,5 @@ class Visualizer(threading.Thread):
                 # self.vis_pose_pub.publish(self.vis_pose)
                 # self.vis_pose_pub_dr.publish(self.vis_pose_dr)
             except IndexError:
-                    print("+++++++++++++++++")
+                print("+++++++++++++++++")
             sleep(self.period)
