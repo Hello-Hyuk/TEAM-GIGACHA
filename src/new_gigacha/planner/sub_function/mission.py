@@ -11,6 +11,7 @@ class Mission():
         self.time_checker = False
         self.obstacle_checker = False
         self.stop_checker = False
+        self.check = False
 
     def update_parameter(self, eg, pc, pl):
         self.perception = pc
@@ -94,21 +95,27 @@ class Mission():
     def turn_right(self):
         if self.perception.tgreen == 1:
             self.plan.behavior_decision = "turn_right"
+            self.ego.target_brake = 0
         else:
             if self.ego.index >= 1000 and self.ego.index <= 1050:
                 self.plan.behavior_decision = "stop"
+                self.ego.target_brake = 200
             else:
                 self.plan.behavior_decision = "turn_right"
+                self.ego.target_brake = 0
 
     
     def turn_left(self):
         if self.perception.tleft == 1:
             self.plan.behavior_decision = "turn_left"
+            self.ego.target_brake = 0
         else:
             if self.ego.index >= 2750 and self.ego.index <= 2800:
                 self.plan.behavior_decision = "stop"
+                self.ego.target_brake = 200
             else:
                 self.plan.behavior_decision = "turn_left"
+                self.ego.target_brake = 0
 
 
     def non_traffic_right(self):
@@ -147,6 +154,7 @@ class Mission():
     def emergency_stop(self):
         self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
         if self.obs_dis <= 5:
+            print("Obstacle Detected")
             if self.check == False:
                 self.plan.behavior_decision = "stop"
                 self.wait_time = time()
