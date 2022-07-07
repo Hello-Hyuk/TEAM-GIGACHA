@@ -21,7 +21,7 @@ class Ego():
         self.alive = 0
 
         # Planner to Controller
-        self.target_speed = 0
+        self.target_speed = 20
         self.target_gear = 0
         self.target_brake = 0
 

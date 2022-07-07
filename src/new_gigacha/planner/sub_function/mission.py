@@ -2,8 +2,9 @@ from math import sqrt
 from time import time
 
 class Mission():
-    def __init__(self, eg, pc, pl):
+    def __init__(self, sh, eg, pc, pl):
         self.perception = pc
+        self.shared = sh
         self.ego = eg
         self.plan = pl
         self.mission_complete = False
@@ -157,18 +158,21 @@ class Mission():
     def emergency_stop(self):
         if (len(self.perception.objx) > 0):
             self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
-            if self.obs_dis <= 5:
-                print("!!!!!!!!!!!!Obstacle Detected!!!!!!!!!!!!")
+            if self.obs_dis <= 10:
                 if self.check == False:
                     self.plan.behavior_decision = "stop"
                     self.ego.target_brake = 200
                     self.wait_time = time()
                     self.check = True
                 if self.plan.behavior_decision == "stop" and time() - self.wait_time > 5:
-                    self.plan.behavior_decision = "static_obstacle_detected"
+                    self.ego.target_brake = 0
+                    self.ego.target_speed = 5.0
+                    self.plan.behavior_decision = "static_obstacle_avoidance"
                     #self.sign_detected = 1
-            elif self.obs_dis > 5: #and self.sign_detected == 0:
+            elif self.obs_dis > 10: #and self.sign_detected == 0:
                 self.plan.behavior_decision = "go"
+                self.ego.target_speed = 20.0
+                self.shared.selected_lane = 1
                 self.check = False
         else:
             self.plan.behavior_decision = "go"

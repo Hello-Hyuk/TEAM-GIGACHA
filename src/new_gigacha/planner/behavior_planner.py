@@ -19,7 +19,7 @@ class BehaviorPlanner(threading.Thread):
         self.traffic_dis = 100
         self.go_side_check = False
         self.sign_detected = 0 # action just one time
-        self.mission = Mission(self.ego, self.perception, self.plan)
+        self.mission = Mission(self.shared, self.ego, self.perception, self.plan)
         self.state_remember = "go"
     
     def run(self):
