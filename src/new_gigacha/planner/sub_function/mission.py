@@ -1,5 +1,6 @@
 from math import sqrt
 from time import time
+from math import cos, sin, pi, sqrt
 
 class Mission():
     def __init__(self, sh, eg, pc, pl):
@@ -177,3 +178,21 @@ class Mission():
         else:
             self.plan.behavior_decision = "go"
             
+    def convert_lidar(self):
+        theta = (self.ego.heading) * pi / 180
+        size = 0
+
+        self.perception.objy = []
+        self.perception.objx = []
+        objx = []
+        objy = []
+
+        if len(self.perception.tmp_objx) != 0:
+            size = len(self.perception.tmp_objx)
+            # size = len(self.perception.tmp_objx)//3
+            for i in range(size):
+                objx.append(self.perception.tmp_objx[i] * cos(theta) + self.perception.tmp_objy[i] * sin(theta) + self.ego.x)
+
+                objy.append(self.perception.tmp_objx[i] * -sin(theta) + self.perception.tmp_objy[i] * cos(theta) + self.ego.y)
+            self.perception.objx = objx
+            self.perception.objy = objy

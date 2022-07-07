@@ -62,12 +62,14 @@ class Master(threading.Thread):
         self.init_thread(self.visualizer)
 
         while True:
-            print('Localization : x : {0}, y : {1}, index : {2}'\
-                .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index))
-            print('Mission : State : {}'.format(self.shared.plan.state))
-            print('Behavior : Decision : {}'.format(self.shared.plan.behavior_decision))
-            print('Motion : Selected lane : {}'.format(self.shared.selected_lane))
-            print('Controller : Speed : {}, Steer : {}, brake : {}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer , self.shared.ego.input_brake))
+            # print('Localization : x : {0}, y : {1}, index : {2}'\
+            #     .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index))
+            # print('Mission : State : {}'.format(self.shared.plan.state))
+            # print('Behavior : Decision : {}'.format(self.shared.plan.behavior_decision))
+            # print('Motion : Selected lane : {}'.format(self.shared.selected_lane))
+            # print('Controller : Speed : {}, Steer : {}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
+            print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
+            print("real :" , self.shared.perception.objx, self.shared.perception.objy)
             sleep(self.period)
 
     def init_thread(self, module):
