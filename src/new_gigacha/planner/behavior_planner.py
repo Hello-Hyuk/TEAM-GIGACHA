@@ -23,41 +23,45 @@ class BehaviorPlanner(threading.Thread):
         self.state_remember = "go"
     
     def run(self):
-        while True:            
-            # print("state : ", self.plan.state)
+        while True:
+            try:
+                self.mission.convert_lidar()
+                # print("state : ", self.plan.state)
 
-            if self.state_remember != self.plan.state:
-                self.state_remember = self.plan.state
-                self.mission.time_checker = False
+                if self.state_remember != self.plan.state:
+                    self.state_remember = self.plan.state
+                    self.mission.time_checker = False
 
-            if self.plan.state == "parking":
-                self.mission.parking()
-                
-            elif self.plan.state == "static_obstacle_detected":
-                self.mission.static_obstacle()
-                
-            elif self.plan.state == "stop_sign_detected":
-                self.mission.stop()
+                if self.plan.state == "parking":
+                    self.mission.parking()
+                    
+                elif self.plan.state == "static_obstacle_detected":
+                    self.mission.static_obstacle()
+                    
+                elif self.plan.state == "stop_sign_detected":
+                    self.mission.stop()
 
-            elif self.plan.state == "right_sign_detected":
-                self.mission.turn_right()
+                elif self.plan.state == "right_sign_detected":
+                    self.mission.turn_right()
 
-            elif self.plan.state == "left_sign_detected":
-                self.mission.turn_left()
-                
-            elif self.plan.state == "child_area":
-                self.mission.child_area(self.shared.perception.signx, self.shared.perception.signy)
+                elif self.plan.state == "left_sign_detected":
+                    self.mission.turn_left()
+                    
+                elif self.plan.state == "child_area":
+                    self.mission.child_area(self.shared.perception.signx, self.shared.perception.signy)
 
-            elif self.plan.state == "right_sign_area":
-                self.mission.non_traffic_right()
+                elif self.plan.state == "right_sign_area":
+                    self.mission.non_traffic_right()
 
-            elif self.plan.state == "emergency_stop":
-                self.mission.emergency_stop()
+                elif self.plan.state == "emergency_stop":
+                    self.mission.emergency_stop()
 
-            else:
-                self.mission.go()
+                else:
+                    self.mission.go()
 
-            # print(f"behavior_planner : {self.plan.behavior_decision}")
-            # print(f"speed : {self.ego.target_speed}")
+                # print(f"behavior_planner : {self.plan.behavior_decision}")
+                # print(f"speed : {self.ego.target_speed}")
+            except IndexError:
+                print("+++++++++++++++++")
             
             sleep(self.period)

@@ -1,5 +1,6 @@
 from math import sqrt
 from time import time
+from math import cos, sin, pi, sqrt
 
 class Mission():
     def __init__(self, eg, pc, pl):
@@ -152,17 +153,36 @@ class Mission():
             self.plan.behavior_decision = "child_area"
 
     def emergency_stop(self):
-        self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
-        if self.obs_dis <= 5:
-            print("Obstacle Detected")
-            if self.check == False:
-                self.plan.behavior_decision = "stop"
-                self.wait_time = time()
-                self.check = True
-            if self.plan.behavior_decision == "stop" and time() - self.wait_time > 5:
-                self.plan.behavior_decision = "static_obstacle_detected"
-                #self.sign_detected = 1
-        elif self.sign_dis > 5: #and self.sign_detected == 0:
-            self.plan.behavior_decision = "go"
-            self.check = False
-        
+        if len(self.perception.objx) != 0:
+            self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
+            if self.obs_dis <= 5:
+                print("Obstacle Detected")
+                if self.check == False:
+                    self.plan.behavior_decision = "stop"
+                    self.wait_time = time()
+                    self.check = True
+                if self.plan.behavior_decision == "stop" and time() - self.wait_time > 5:
+                    self.plan.behavior_decision = "static_obstacle_detected"
+                    #self.sign_detected = 1
+            elif self.sign_dis > 5: #and self.sign_detected == 0:
+                self.plan.behavior_decision = "go"
+                self.check = False
+    
+    def convert_lidar(self):
+        theta = (self.ego.heading) * pi / 180
+        size = 0
+
+        self.perception.objx = []
+        self.perception.objy = []
+        objx = []
+        objy = []
+
+        if len(self.perception.tmp_objx) != 0:
+            size = len(self.perception.tmp_objx)
+            # size = len(self.perception.tmp_objx)//3
+            for i in range(size):
+                objx.append(self.perception.tmp_objx[i] * cos(theta) + self.perception.tmp_objy[i] * sin(theta) + self.ego.x)
+                objy.append(self.perception.tmp_objx[i] * -sin(theta) + self.perception.tmp_objy[i] * cos(theta) + self.ego.y)
+
+            self.perception.objx = objx
+            self.perception.objy = objy

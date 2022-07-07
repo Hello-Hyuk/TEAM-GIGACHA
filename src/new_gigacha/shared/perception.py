@@ -6,20 +6,21 @@ class Perception_():
    def __init__(self):
 
       rospy.Subscriber("/input", Perception, self.input_callback)
-      rospy.Subscriber("/lidar_topic", MarkerArray, self.lidar_callback)
+      rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
 
       self.signx = []
       self.signy = []
-      self.objx = [100, 113]
-      self.objy = [190, 216]
-      self.objr = []
-      self.objw = [1, 1]
+      self.objx = []
+      self.objy = []
+      self.objw = []
       self.objh = []
+      self.tmp_objx = []
+      self.tmp_objy = []
       self.tred = False
       self.tyellow = False
       self.tleft = False
       self.tgreen = False
-      self.signname = "AEB"
+      self.signname = "static_obstacle"
 
    def input_callback(self, msg):
       self.signx = msg.signx
@@ -45,8 +46,8 @@ class Perception_():
          tmp_objw.append(msg.markers[i].scale.x)
          tmp_objh.append(msg.markers[i].scale.y)
       
-      self.objx = tmp_objx
-      self.objy = tmp_objy
+      self.tmp_objx = tmp_objx
+      self.tmp_objy = tmp_objy
       self.objw = tmp_objw
       self.objh = tmp_objh
       

@@ -61,7 +61,7 @@ class Motion():
         else:
             # self.ego.emergency_stop = 1
             pass
-        print("selected_lane is ",self.shared.selected_lane,"lane weight is", self.lane_weight)
+        # print("selected_lane is ",self.shared.selected_lane,"lane weight is", self.lane_weight)
         # print("lane weight is", self.lane_weight)
 
 
