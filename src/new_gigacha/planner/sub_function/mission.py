@@ -12,11 +12,6 @@ class Mission():
         self.obstacle_checker = False
         self.stop_checker = False
 
-    def update_parameter(self, eg, pc, pl):
-        self.perception = pc
-        self.ego = eg
-        self.plan.behavior_decision = pl.plan.behavior_decision
-
     def go(self):
         self.ego.gear = 0
         self.ego.target_speed = 20.0
@@ -94,21 +89,27 @@ class Mission():
     def turn_right(self):
         if self.perception.tgreen == 1:
             self.plan.behavior_decision = "turn_right"
+            self.ego.target_brake = 0
         else:
             if self.ego.index >= 1000 and self.ego.index <= 1050:
                 self.plan.behavior_decision = "stop"
+                self.ego.target_brake = 200
             else:
                 self.plan.behavior_decision = "turn_right"
+                self.ego.target_brake = 0
 
     
     def turn_left(self):
         if self.perception.tleft == 1:
             self.plan.behavior_decision = "turn_left"
+            self.ego.target_brake = 0
         else:
             if self.ego.index >= 2750 and self.ego.index <= 2800:
                 self.plan.behavior_decision = "stop"
+                self.ego.target_brake = 200
             else:
                 self.plan.behavior_decision = "turn_left"
+                self.ego.target_brake = 0
 
 
     def non_traffic_right(self):
@@ -135,7 +136,7 @@ class Mission():
                  
 
 
-    def child_area(self, signx, signy):
+    def child_area(self):
         if (len(self.perception.signx)!= 0):
             self.sign_dis = sqrt((self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
             if self.sign_dis <= 15:
