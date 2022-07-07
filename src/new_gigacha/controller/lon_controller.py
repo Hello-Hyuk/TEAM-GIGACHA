@@ -68,11 +68,10 @@ class LonController(threading.Thread):
     def run(self): 
         while True:
             try:
-
-                self.speed=self.curve_based_velocity(self.global_path,30)
-                self.ego.input_speed=self.speed[self.ego.index]
-               
-
+                # self.speed=self.curve_based_velocity(self.global_path,30)
+                # self.ego.input_speed=self.speed[self.ego.index]
+                self.ego.input_speed = self.ego.target_speed
+                self.ego.input_brake = self.ego.target_brake
             except IndexError:
                 print("+++++++++++++++++")
 
