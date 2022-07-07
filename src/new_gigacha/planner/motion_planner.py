@@ -20,7 +20,6 @@ class MotionPlanner(threading.Thread):
         # self.trajectory = self.plan.trajectory # to controller
         self.global_path = parent.shared.global_path # from localizer
         self.ego = parent.shared.ego
-
         self.cut_path = parent.shared.cut_path # from global path (find_local_path)
         self.lattice_path = parent.shared.lattice_path # from LPP []
 
@@ -46,7 +45,7 @@ class MotionPlanner(threading.Thread):
                         break
                     for k in range(len(self.shared.perception.objx)): # of obj
                         ob_point_distance = sqrt((self.lattice_path[i].x[j] - self.shared.perception.objx[k])**2 + (self.lattice_path[i].y[j] - self.shared.perception.objy[k])**2)
-                        if ob_point_distance < self.shared.perception.objr[k]: #and self.Obstacle_in_section == 0:
+                        if ob_point_distance < (self.shared.perception.objw[k]+1): #and self.Obstacle_in_section == 0:
                             self.isObstacle[i] = j
                             if(i == 1):
                                 self.lane_weight[i] = 10000
@@ -56,21 +55,22 @@ class MotionPlanner(threading.Thread):
                                 self.lane_weight[i-1] = 0
                             path_check = False
                             break
-                        # else:
-                        #     self.isObstacle[i] = 1000
+                        else:
+                            self.isObstacle[i] = 1000
         
-        # if (self.shared.selected_lane == 1 and self.isObstacle[1] != 1000):
-        #     if(self.isObstacle[1] < self.isObstacle[2]):
-        #         print("+++++++++++++\nobstacle in lane 1\n++++++++++++")
-        #         self.lane_weight = [1000, 1000, 0]
-        # elif (self.shared.selected_lane == 2 and self.isObstacle[2] != 1000):
-        #     if(self.isObstacle[1] > self.isObstacle[2]):
-        #         print("+++++++++++++\nobstacle in lane 2\n++++++++++++")
-        #         self.lane_weight = [1000, 0, 1000]
-        # else:
-        #     # self.ego.emergency_stop = 1
-        #     pass
-
+        if (self.shared.selected_lane == 1 and self.isObstacle[1] != 1000):
+            if(self.isObstacle[1] < self.isObstacle[2]):
+                print("+++++++++++++\nobstacle in lane 1\n++++++++++++")
+                self.lane_weight = [1000, 1000, 0]
+        elif (self.shared.selected_lane == 2 and self.isObstacle[2] != 1000):
+            if(self.isObstacle[1] > self.isObstacle[2]):
+                print("+++++++++++++\nobstacle in lane 2\n++++++++++++")
+                self.lane_weight = [1000, 0, 1000]
+        else:
+            # self.ego.emergency_stop = 1
+            pass
+        print("selected_lane is ",self.shared.selected_lane,"lane weight is", self.lane_weight)
+        # print("lane weight is", self.lane_weight)
     def path_maker(self):
         lattice = []
         

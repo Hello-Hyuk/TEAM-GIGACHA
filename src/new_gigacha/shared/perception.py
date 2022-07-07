@@ -8,14 +8,16 @@ class Perception_():
 
       self.signx = []
       self.signy = []
-      self.objx = []
-      self.objy = []
+      self.objx = [100, 113]
+      self.objy = [190, 216]
       self.objr = []
+      self.objw = [1, 1]
+      self.objh = []
       self.tred = False
       self.tyellow = False
       self.tleft = False
       self.tgreen = False
-      self.signname = ""
+      self.signname = "static_obstacle"
 
    def input_callback(self, msg):
       self.signx = msg.signx

@@ -34,6 +34,9 @@ class Master(threading.Thread):
         self.localizer = Localizer(self, rate=10)
         self.init_thread(self.localizer)
 
+        # self.DR = DR(self, rate = 50)
+        # self.init_thread(self.DR)
+
         self.mission_planner = MissionPlanner(self, rate=10)
         self.init_thread(self.mission_planner)
 

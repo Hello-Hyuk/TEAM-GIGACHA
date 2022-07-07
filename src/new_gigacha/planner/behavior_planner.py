@@ -51,6 +51,9 @@ class BehaviorPlanner(threading.Thread):
             elif self.plan.state == "right_sign_area":
                 self.mission.non_traffic_right()
 
+            elif self.plan.state == "emergency_stop":
+                self.mission.emergency_stop()
+
             else:
                 self.mission.go()
 
