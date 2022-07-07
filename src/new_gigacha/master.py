@@ -58,8 +58,8 @@ class Master(threading.Thread):
         self.serial_writer = SerialWriter(self, rate=10)
         self.init_thread(self.serial_writer)
 
-        # self.visualizer = Visualizer(self, rate=1)
-        # self.init_thread(self.visualizer)
+        self.visualizer = Visualizer(self, rate=1)
+        self.init_thread(self.visualizer)
 
         while True:
             print('Localization : x : {0}, y : {1}, index : {2}'\
