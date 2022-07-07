@@ -86,17 +86,15 @@ class Mission():
                 self.ego.target_speed = 5.0
                 self.obstacle_checker = True
                 self.time_checker = False
-            elif self.obs_dis > 15 and self.obstacle_checker == True:
-                if self.time_checker == False:
-                    self.cur_t = time()
-                    self.time_checker = True
-
-                if time() - self.cur_t < 3:
-                    self.ego.target_speed = 5.0
-                else:
-                    self.ego.target_speed = 15.0
+        elif self.obstacle_checker == True:
+            if self.time_checker == False:
+                self.cur_t = time()
+                self.time_checker = True
+            if time() - self.cur_t < 5:
+                self.ego.target_speed = 5.0
             else:
                 self.ego.target_speed = 15.0
+
 
     def turn_right(self):
         if self.perception.tgreen == 1:

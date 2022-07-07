@@ -68,8 +68,8 @@ class Master(threading.Thread):
             print('Behavior : Decision : {}'.format(self.shared.plan.behavior_decision))
             print('Motion : Selected lane : {}'.format(self.shared.selected_lane))
             print('Controller : Speed : {}, Steer : {}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
-            # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
-            # print("real :" , self.shared.perception.objx, self.shared.perception.objy)
+            print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
+            print("real :" , self.shared.perception.objx, self.shared.perception.objy)
             sleep(self.period)
 
     def init_thread(self, module):
