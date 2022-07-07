@@ -11,11 +11,9 @@ class LonController(threading.Thread):
         self.ego = parent.shared.ego
         self.plan = parent.shared.plan
 
-
         self.lattice_path = parent.shared.lattice_path
         self.global_path = parent.shared.global_path
         
-
         self.P = 0
         self.I = 0
         self.D = 0

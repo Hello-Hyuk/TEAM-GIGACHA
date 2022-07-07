@@ -16,5 +16,5 @@ class Shared:
         self.global_path = Path()
         self.cut_path = Path()
         self.lattice_path = []
-        self.selected_lane = 1
+        self.selected_lane = 2
         self.plan = Plan()

@@ -7,6 +7,11 @@ class MissionPlanner(threading.Thread):
         super().__init__()
         self.period = 1.0 / rate
         self.shared = parent.shared
+
+        self.obs_dis = 100
+        self.sign = ''
+        self.sign_dis = 100
+    
         self.ego = self.shared.ego
         self.perception = self.shared.perception
         self.plan = self.shared.plan
