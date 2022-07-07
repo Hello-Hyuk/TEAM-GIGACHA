@@ -35,6 +35,12 @@ class Perception_():
       self.signname = msg.signname
 
    def lidar_callback(self, msg):
+
+      self.tmp_objx = []
+      self.tmp_objy = []
+      self.objw = []
+      self.objh = []
+
       tmp_objx = []
       tmp_objy = []
       tmp_objw = []

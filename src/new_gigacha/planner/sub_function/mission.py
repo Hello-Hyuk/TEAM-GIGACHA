@@ -14,6 +14,7 @@ class Mission():
         self.obstacle_checker = False
         self.stop_checker = False
         self.check = False
+        self.prev_objx = 0
 
     def update_parameter(self, eg, pc, pl):
         self.perception = pc
@@ -186,13 +187,20 @@ class Mission():
         self.perception.objx = []
         objx = []
         objy = []
-
+        
         if len(self.perception.tmp_objx) != 0:
-            size = len(self.perception.tmp_objx)
-            # size = len(self.perception.tmp_objx)//3
-            for i in range(size):
-                objx.append(self.perception.tmp_objx[i] * cos(theta) + self.perception.tmp_objy[i] * sin(theta) + self.ego.x)
-
-                objy.append(self.perception.tmp_objx[i] * -sin(theta) + self.perception.tmp_objy[i] * cos(theta) + self.ego.y)
-            self.perception.objx = objx
-            self.perception.objy = objy
+            if (self.prev_objx == self.perception.tmp_objx[0]):
+                self.perception.tmp_objy = []
+                self.perception.tmp_objx = []
+                self.perception.objw = []
+                self.perception.objh = []
+            elif len(self.perception.tmp_objx) != 0:
+                size = len(self.perception.tmp_objx)
+                # size = len(self.perception.tmp_objx)//3
+                for i in range(size):
+                    objx.append(self.perception.tmp_objx[i] * cos(theta) + self.perception.tmp_objy[i] * -sin(theta) + self.ego.x)
+                    objy.append(self.perception.tmp_objx[i] * sin(theta) + self.perception.tmp_objy[i] * cos(theta) + self.ego.y)
+                self.prev_objx = self.perception.tmp_objx[0]
+            
+        self.perception.objx = objx
+        self.perception.objy = objy

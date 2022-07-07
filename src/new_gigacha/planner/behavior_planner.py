@@ -62,6 +62,7 @@ class BehaviorPlanner(threading.Thread):
                 # print(f"behavior_planner : {self.plan.behavior_decision}")
                 # print(f"speed : {self.ego.target_speed}")
             except IndexError:
+                # pass
                 print("+++++++++++++++++")
             
             sleep(self.period)

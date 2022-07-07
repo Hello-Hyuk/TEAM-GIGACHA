@@ -19,9 +19,6 @@ class Visualizer(threading.Thread):
         self.ego = parent.shared.ego
 
         self.global_path = self.shared.global_path # from localizer
-        self.cut_path = self.shared.cut_path # from global path (find_local_path)
-        self.lattice_path = self.shared.lattice_path # from LPP []
-        self.local_path = self.lattice_path[self.shared.selected_lane]
         
         # Publisher
         self.vis_global_path_pub = rospy.Publisher("/vis_global_path", Path, queue_size=1) # using path
@@ -71,6 +68,9 @@ class Visualizer(threading.Thread):
     def run(self):
         while True:
             try:
+                self.cut_path = self.shared.cut_path # from global path (find_local_path)
+                self.lattice_path = self.shared.lattice_path # from LPP []
+                self.local_path = self.lattice_path[self.shared.selected_lane]
                 ######################### POSE ##############################
                 
                 ppoint = Point32()
@@ -80,7 +80,7 @@ class Visualizer(threading.Thread):
                 self.vis_pose.pose.pose.position.x = ppoint.x
                 self.vis_pose.pose.pose.position.y = ppoint.y
                 self.vis_trajectory.header.stamp = rospy.Time.now()
-                self.vis_pose.pose.pose.orientation = self.ego.orientation
+                self.vis_pose.pose.pose.orientation = self.ego.heading
                 if self.t - time() < 0.5 :
                     self.t = time()
                     self.vis_trajectory.points.append(ppoint)
@@ -123,8 +123,8 @@ class Visualizer(threading.Thread):
                     read_pose.pose.orientation.w=1
                     gp.poses.append(read_pose)
                 self.vis_global_path.poses = gp.poses
-                print(self.vis_global_path.poses[0].pose.position.x)
-                print(self.vis_global_path.poses[0].pose.position.y)
+                # print(self.vis_global_path.poses[0].pose.position.x)
+                # print(self.vis_global_path.poses[0].pose.position.y)
                 
                 #################################### LOCAL PATH ################################################
                 
@@ -175,9 +175,9 @@ class Visualizer(threading.Thread):
                     circle_marker = Marker()
                     circle_marker.header.frame_id = "map"
                     circle_marker.header.stamp = rospy.Time.now()
-                    circle_marker.ns = "circles"
+                    circle_marker.ns = "CUBE"
                     circle_marker.id = c_id
-                    circle_marker.type = Marker.CYLINDER
+                    circle_marker.type = Marker.CUBE
                     circle_marker.action = Marker.ADD
                     circle_marker.pose.position.z = -0.1
                     circle_marker.pose.orientation.x = 0.0
@@ -192,8 +192,8 @@ class Visualizer(threading.Thread):
                     circle_marker.lifetime = rospy.Duration(0.1)
                     circle_marker.pose.position.x = self.perception.objx[i]
                     circle_marker.pose.position.y = self.perception.objy[i]
-                    circle_marker.scale.x = 2.0 * self.perception.objr[i]
-                    circle_marker.scale.y = 2.0 * self.perception.objr[i]
+                    circle_marker.scale.x = self.perception.objw[i]
+                    circle_marker.scale.y = self.perception.objh[i]
                     vis_obj.markers.append(circle_marker)
                     c_id = c_id + 1
                     
