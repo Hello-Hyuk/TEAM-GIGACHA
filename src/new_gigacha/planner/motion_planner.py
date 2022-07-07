@@ -31,7 +31,6 @@ class MotionPlanner(threading.Thread):
             findLocalPath(self.global_path, self.ego, self.cut_path) # from global path (50indexes)
             self.motion.path_maker() # lattice_path
 
-
             # print(len(self.lattice_path))
 
             if self.shared.plan.behavior_decision == "static_obstacle_avoidance":
@@ -42,9 +41,9 @@ class MotionPlanner(threading.Thread):
                 # self.weight_sign_function()
                 self.motion.select_trajectory()
             
-            elif self.shared.plan.behavior_decision == "stop":
-                self.plan.trajectory.x = []
-                self.plan.trajectory.y = []
+            # elif self.shared.plan.behavior_decision == "stop":
+            #     self.plan.trajectory.x = []
+            #     self.plan.trajectory.y = []
 
             elif self.shared.plan.behavior_decision == "turn_right":
                 self.lane_weight = [10000, 10000, 0]

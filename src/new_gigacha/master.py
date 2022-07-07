@@ -8,7 +8,7 @@ from planner.mission_planner import MissionPlanner
 from planner.behavior_planner import BehaviorPlanner
 from planner.motion_planner import MotionPlanner
 from controller.lat_controller import LatController
-# from controller.lon_controller import LonController
+from controller.lon_controller import LonController
 from utils.serial_reader import SerialReader
 from utils.serial_writer import SerialWriter
 from utils.sig_int_handler import ActivateSignalInterruptHandler
@@ -49,8 +49,8 @@ class Master(threading.Thread):
         self.lat_controller = LatController(self, rate=20)
         self.init_thread(self.lat_controller)
 
-        # self.lon_controller = LonController(self, rate=3)
-        # self.init_thread(self.lon_controller)
+        self.lon_controller = LonController(self, rate=3)
+        self.init_thread(self.lon_controller)
 
         self.serial_reader = SerialReader(self, rate=20)
         self.init_thread(self.serial_reader)
@@ -67,7 +67,7 @@ class Master(threading.Thread):
             print('Mission : State : {}'.format(self.shared.plan.state))
             print('Behavior : Decision : {}'.format(self.shared.plan.behavior_decision))
             print('Motion : Selected lane : {}'.format(self.shared.selected_lane))
-            print('Controller : Speed : {}, Steer : {}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
+            print('Controller : Speed : {}, Steer : {}, brake : {}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer , self.shared.ego.input_brake))
             sleep(self.period)
 
     def init_thread(self, module):
