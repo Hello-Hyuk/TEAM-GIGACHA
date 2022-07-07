@@ -75,7 +75,10 @@ class Mission():
         self.plan.behavior_decision = "static_obstacle_avoidance"
         if (len(self.perception.objx) > 0):
             index = len(self.perception.objy)
-            self.obs_dis = sqrt((self.perception.objx[index - 1] - self.ego.x)**2 + (self.perception.objy[index - 1] - self.ego.y)**2)
+            self.obs_dis = 15.5
+            for i in range (0, index):
+                self.dis = sqrt((self.perception.objx[i] - self.ego.x)**2 + (self.perception.objy[i] - self.ego.y)**2)
+                self.obs_dis = min(self.obs_dis, self.dis)
             if self.obs_dis <= 15:
                 self.ego.target_speed = 5.0
                 self.obstacle_checker = True
@@ -152,17 +155,21 @@ class Mission():
             self.plan.behavior_decision = "child_area"
 
     def emergency_stop(self):
-        self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
-        if self.obs_dis <= 5:
-            print("Obstacle Detected")
-            if self.check == False:
-                self.plan.behavior_decision = "stop"
-                self.wait_time = time()
-                self.check = True
-            if self.plan.behavior_decision == "stop" and time() - self.wait_time > 5:
-                self.plan.behavior_decision = "static_obstacle_detected"
-                #self.sign_detected = 1
-        elif self.sign_dis > 5: #and self.sign_detected == 0:
+        if (len(self.perception.objx) > 0):
+            self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
+            if self.obs_dis <= 5:
+                print("!!!!!!!!!!!!Obstacle Detected!!!!!!!!!!!!")
+                if self.check == False:
+                    self.plan.behavior_decision = "stop"
+                    self.ego.target_brake = 200
+                    self.wait_time = time()
+                    self.check = True
+                if self.plan.behavior_decision == "stop" and time() - self.wait_time > 5:
+                    self.plan.behavior_decision = "static_obstacle_detected"
+                    #self.sign_detected = 1
+            elif self.obs_dis > 5: #and self.sign_detected == 0:
+                self.plan.behavior_decision = "go"
+                self.check = False
+        else:
             self.plan.behavior_decision = "go"
-            self.check = False
-        
+            

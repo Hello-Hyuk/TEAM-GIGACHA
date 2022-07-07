@@ -31,7 +31,6 @@ class MotionPlanner(threading.Thread):
             findLocalPath(self.global_path, self.ego, self.cut_path) # from global path (50indexes)
             self.motion.path_maker() # lattice_path
 
-
             # print(len(self.lattice_path))
 
             if self.shared.plan.behavior_decision == "static_obstacle_avoidance":

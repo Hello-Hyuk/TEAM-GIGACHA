@@ -67,7 +67,7 @@ class Master(threading.Thread):
             print('Mission : State : {}'.format(self.shared.plan.state))
             print('Behavior : Decision : {}'.format(self.shared.plan.behavior_decision))
             print('Motion : Selected lane : {}'.format(self.shared.selected_lane))
-            print('Controller : Speed : {}, Steer : {}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
+            print('Controller : Speed : {}, Steer : {}, brake : {}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer , self.shared.ego.input_brake))
             sleep(self.period)
 
     def init_thread(self, module):
