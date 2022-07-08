@@ -20,13 +20,12 @@ class LatController(threading.Thread):
         while True:
             try:
                 self.path = self.lattice_path[self.shared.selected_lane]
-                print(len(self.path.x))
                 lookahead = min(self.k * self.ego.speed + self.lookahead_default, 6)
-                target_index = len(self.path.x) - 20
+                target_index = len(self.path.x) - 1
+                # print(len(self.path.x))
 
                 # lookahead = min(self.k * self.ego.speed + self.lookahead_default, 7)
                 # target_index = lookahead * 10
-                print("target_index", target_index)
                 
                 target_x, target_y = self.path.x[target_index], self.path.y[target_index]
                 tmp = degrees(atan2(target_y - self.ego.y, target_x - self.ego.x)) % 360

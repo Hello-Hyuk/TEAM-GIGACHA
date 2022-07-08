@@ -23,7 +23,7 @@ class Mission():
 
     def go(self):
         self.ego.gear = 0
-        self.ego.target_speed = 20.0
+        self.ego.target_speed = 10.0
         self.plan.behavior_decision = "driving"
         
     def parking(self):

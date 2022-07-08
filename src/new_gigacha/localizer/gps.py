@@ -4,7 +4,7 @@ import pymap3d
 import time
 import json
 from geometry_msgs.msg import Pose
-from localizer.local_functions import LPF
+# from localizer.local_functions import LPF
 from sensor_msgs.msg import NavSatFix
 from ublox_msgs.msg import NavPVT
 
@@ -43,11 +43,11 @@ class GPS():
         self.time = time.time()
         gps_heading = (450-(data.heading * 10**(-5)))%360
         headAcc = data.headAcc
-        lpf = LPF()
+        # lpf = LPF()
 
         if headAcc < 600000:
             self.heading_switch = True
-            self.heading = lpf.low_pass_filter(gps_heading, 30, 0.1)
+            self.heading = gps_heading
         else:
             self.heading_switch = False
             self.heading = 0.0
