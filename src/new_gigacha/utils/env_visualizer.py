@@ -76,6 +76,7 @@ class Visualizer(threading.Thread):
                 ppoint = Point32()
                 ppoint.x = self.ego.x
                 ppoint.y = self.ego.y
+                # print(ppoint.x)
                 ppoint.z = 0
                 self.vis_pose.pose.pose.position.x = ppoint.x
                 self.vis_pose.pose.pose.position.y = ppoint.y

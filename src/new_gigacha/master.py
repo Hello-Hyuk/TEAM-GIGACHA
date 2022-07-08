@@ -23,8 +23,8 @@ class Master(threading.Thread):
         self.args = args
         self.period = 1.0 / ui_rate
 
-        self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
-        # self.ser = serial.Serial("/dev/erp42", 115200) # Real World
+        # self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
+        self.ser = serial.Serial("/dev/erp42", 115200) # Real World
 
         rospy.init_node('master', anonymous=False)
 
@@ -62,14 +62,14 @@ class Master(threading.Thread):
         self.init_thread(self.visualizer)
 
         while True:
-            print('Localization : x : {0}, y : {1}, index : {2}'\
-                .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index))
+            print('Localization : x : {0}, y : {1}, index : {2}, heading : {3}'\
+                .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
             print('Mission : State : {}'.format(self.shared.plan.state))
             print('Behavior : Decision : {}'.format(self.shared.plan.behavior_decision))
             print('Motion : Selected lane : {}'.format(self.shared.selected_lane))
             print('Controller : Speed : {}, Steer : {}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
-            print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
-            print("real :" , self.shared.perception.objx, self.shared.perception.objy)
+            # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
+            # print("real :" , self.shared.perception.objx, self.shared.perception.objy)
             sleep(self.period)
 
     def init_thread(self, module):
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='kcity_simul/ex',
+        default='yonghyeon/Yonghyeon',
         help='kcity/map1, songdo/map2, yonghyeon'
     )
 

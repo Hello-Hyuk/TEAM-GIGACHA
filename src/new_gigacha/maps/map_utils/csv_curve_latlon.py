@@ -5,13 +5,13 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
-from lib.cubic_spline_planner import calc_spline_course
+from cubic_spline_planner import calc_spline_course
 
 
 # 송도
-base_lat = 37.383784   
-base_lon = 126.654310
-base_alt = 15.4
+# base_lat = 37.383784   
+# base_lon = 126.654310
+# base_alt = 15.4
 
 # 송도 건물 옆
 # base_lat = 37.3851693 #새로운 베이스
@@ -33,6 +33,11 @@ base_alt = 15.4
 # base_lon = 126.77315833333333
 # base_alt = 15.4
 
+# yonghyeon_navileguan
+base_lat = 37.4508561
+base_lon = 126.6492464
+base_alt = 15.4
+
 def get_xy(lat, lon, alt): #점들 사이의 새로운 점들을 설정 
     e, n, u = pm.geodetic2enu(lat, lon, alt, base_lat, base_lon, base_alt)
     print("hello")
@@ -42,7 +47,7 @@ def cubic(name,*args): # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     colnames=['lon', 'lat']
     # df = pd.read_csv(f'maps/Siheung/nodes/turn_right/turn_right_line.csv', names=colnames, header=None) # siheung
-    df = pd.read_csv(f'maps/songdo_track/nodes/songdo_left.csv', names=colnames, header=None)
+    df = pd.read_csv(f'yonghyeon.csv', names=colnames, header=None)
     x=[]
     y=[]
     
@@ -58,13 +63,13 @@ def cubic(name,*args): # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     save_df = pd.DataFrame(save_data)
     # save_df.to_csv('maps/Siheung/maps/right/%s.csv'%name, index=False, header = False) # siheung
-    save_df.to_csv('maps/songdo_track/maps/%s.csv'%name, index=False, header = False) 
+    save_df.to_csv('%s.csv'%name, index=False, header = False) 
     print(f"Map saved to maps/{name}.csv")
     plt.scatter(cx, cy)    
     plt.show()
 
     return(cx, cy, cyaw, ck, s)
 
-cubic("1",1,2)
-cubic("2",2,3,4,5,6,7)
-cubic("3",7,8)
+cubic("yonghyeon1",1,2,3,4,5,6,7,8,9)
+# cubic("2",2,3,4,5,6,7)
+# cubic("3",7,8)
