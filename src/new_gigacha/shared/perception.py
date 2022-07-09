@@ -5,10 +5,11 @@ from vision_msgs.msg import Detection2DArray
 
 class Perception_():
    def __init__(self):
+      self.id_check = False
 
       rospy.Subscriber("/input", Perception, self.input_callback)
       rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
-      rospy.Subscriber("/topic", Detection2DArray, self.camera_callback)
+      rospy.Subscriber("/bbox1", Detection2DArray, self.camera_callback)
 
       self.signx = []
       self.signy = []
@@ -37,33 +38,38 @@ class Perception_():
       self.signname = msg.signname
 
    def lidar_callback(self, msg):
-
       self.tmp_objx = []
       self.tmp_objy = []
       self.objw = []
       self.objh = []
 
-      tmp_objx = []
-      tmp_objy = []
-      tmp_objw = []
-      tmp_objh = []
+      if msg.markers[0].id == 0:
+         self.tmp_objx = []
+         self.tmp_objy = []
+         self.objw = []
+         self.objh = []
 
-      for i in range(len(msg.markers)):
-         tmp_objx.append(msg.markers[i].pose.position.x)
-         tmp_objy.append(msg.markers[i].pose.position.y)
-         tmp_objw.append(msg.markers[i].scale.x)
-         tmp_objh.append(msg.markers[i].scale.y)
+      self.tmp_objy.append(msg.markers[0].pose.position.y)
+      self.tmp_objx.append(msg.markers[0].pose.position.x)
+      self.objh.append(msg.markers[0].scale.y)
+      self.objw.append(msg.markers[0].scale.x)
+
+      # for i in range(len(msg.markers)):
+      #    tmp_objx.append(msg.markers[i].pose.position.x)
+      #    tmp_objy.append(msg.markers[i].pose.position.y)
+      #    tmp_objw.append(msg.markers[i].scale.x)
+      #    tmp_objh.append(msg.markers[i].scale.y)
       
-      self.tmp_objx = tmp_objx
-      self.tmp_objy = tmp_objy
-      self.objw = tmp_objw
-      self.objh = tmp_objh
+      # self.tmp_objx = tmp_objx
+      # self.tmp_objy = tmp_objy
+      # self.objw = tmp_objw
+      # self.objh = tmp_objh
       
    def camera_callback(self, msg):
       for i in range(len(msg.detections)):
          if msg.detections[i].results[0].id < 6:
             if msg.detections[i].results[0].id == 0:
-               self.signname = "turn_left"
+               self.signname = "turn_left_traffic_light"
             elif msg.detections[i].results[0].id == 1:
                self.signname = "static_obstacle"
          else:
