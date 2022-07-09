@@ -141,7 +141,7 @@ class Motion():
             
             #if add_point_size > len(cut_path.x) - 2:
                 #add_point_size = len(cut_path.x)
-            add_point_size = 95
+            add_point_size = 60
 
             if add_point_size > len(self.cut_path.x) - 2:
                 add_point_size = len(self.cut_path.x)

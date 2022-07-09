@@ -9,6 +9,7 @@ from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Pose
 from nav_msgs.msg import Odometry, Path
 from visualization_msgs.msg import MarkerArray, Marker
+from localizer.ahrs import IMU
 
 class Visualizer(threading.Thread):
     def __init__(self, parent, rate):
@@ -17,6 +18,7 @@ class Visualizer(threading.Thread):
         self.perception = parent.shared.perception
         self.shared = parent.shared
         self.ego = parent.shared.ego
+        self.imu = IMU()
 
         self.global_path = self.shared.global_path # from localizer
         
@@ -76,12 +78,12 @@ class Visualizer(threading.Thread):
                 ppoint = Point32()
                 ppoint.x = self.ego.x
                 ppoint.y = self.ego.y
-                # print(ppoint.x)
                 ppoint.z = 0
-                self.vis_pose.pose.pose.position.x = ppoint.x
-                self.vis_pose.pose.pose.position.y = ppoint.y
+                self.vis_pose.pose.pose.position.x = self.ego.x
+                self.vis_pose.pose.pose.position.y = self.ego.y
+                self.vis_pose.pose.pose.orientation = self.imu.orientation_q
+                # print(self.vis_pose.pose.pose.orientation)
                 self.vis_trajectory.header.stamp = rospy.Time.now()
-                self.vis_pose.pose.pose.orientation = self.ego.heading
                 if self.t - time() < 0.5 :
                     self.t = time()
                     self.vis_trajectory.points.append(ppoint)
@@ -220,7 +222,7 @@ class Visualizer(threading.Thread):
 
                 # self.vis_trajectory_pub_dr.publish(self.vis_trajectory_dr)
 
-                self.vis_pose.header.stamp = rospy.Time.now()
+                # self.vis_pose.header.stamp = rospy.Time.now()
                 self.vis_pose_pub.publish(self.vis_pose)
                 # self.vis_pose_pub_dr.publish(self.vis_pose_dr)
             except IndexError:
