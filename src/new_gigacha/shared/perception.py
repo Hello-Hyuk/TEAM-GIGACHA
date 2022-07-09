@@ -1,12 +1,14 @@
 import rospy
 from planner_and_control.msg import Perception
 from visualization_msgs.msg import MarkerArray, Marker
+from vision_msgs.msg import Detection2DArray
 
 class Perception_():
    def __init__(self):
 
       rospy.Subscriber("/input", Perception, self.input_callback)
       rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
+      rospy.Subscriber("/topic", Detection2DArray, self.camera_callback)
 
       self.signx = []
       self.signy = []
@@ -57,3 +59,31 @@ class Perception_():
       self.objw = tmp_objw
       self.objh = tmp_objh
       
+   def camera_callback(self, msg):
+      for i in range(len(msg.detections)):
+         if msg.detections[i].results[0].id < 6:
+            if msg.detections[i].results[0].id == 0:
+               self.signname = "turn_left"
+            elif msg.detections[i].results[0].id == 1:
+               self.signname = "static_obstacle"
+         else:
+            if msg.detection[i].results[0].id == 6:
+               self.tred = True
+               self.tyellow = False
+               self.tleft = False
+               self.tgreen = False
+            elif msg.detection[i].results[0].id == 7:
+               self.tred = False
+               self.tyellow = True
+               self.tleft = False
+               self.tgreen = False
+            elif msg.detection[i].results[0].id == 8:
+               self.tred = False
+               self.tyellow = False
+               self.tleft = False
+               self.tgreen = True
+            elif msg.detection[i].results[0].id == 9:
+               self.tred = False
+               self.tyellow = False
+               self.tleft = True
+               self.tgreen = False
