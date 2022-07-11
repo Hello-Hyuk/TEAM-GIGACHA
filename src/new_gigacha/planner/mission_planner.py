@@ -38,6 +38,9 @@ class MissionPlanner(threading.Thread):
 
             elif self.perception.signname == "AEB":
                 self.plan.state = "emergency_stop"
+            
+            elif self.perception.signame == "parking":
+                self.plan.state = "parking"
 
             else:
                 self.plan.state = "go"
