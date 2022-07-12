@@ -19,6 +19,10 @@ class Perception_():
       self.objh = []
       self.tmp_objx = []
       self.tmp_objy = []
+      self.raw_objx = []
+      self.raw_objy = []
+      self.raw_objw = []
+      self.raw_objh = []
       self.tred = False
       self.tyellow = False
       self.tleft = False
@@ -38,21 +42,30 @@ class Perception_():
       self.signname = msg.signname
 
    def lidar_callback(self, msg):
-      self.tmp_objx = []
-      self.tmp_objy = []
-      self.objw = []
-      self.objh = []
-
-      if msg.markers[0].id == 0:
-         self.tmp_objx = []
-         self.tmp_objy = []
-         self.objw = []
-         self.objh = []
-
-      self.tmp_objy.append(msg.markers[0].pose.position.y)
-      self.tmp_objx.append(msg.markers[0].pose.position.x)
-      self.objh.append(msg.markers[0].scale.y)
-      self.objw.append(msg.markers[0].scale.x)
+      
+      if len(msg.markers) > 0:
+         if msg.markers[0].id == 0:
+            self.tmp_objx = []
+            self.tmp_objy = []
+            self.objw = []
+            self.objh = []
+            self.tmp_objx = self.raw_objx
+            self.tmp_objy = self.raw_objy
+            self.objw = self.raw_objw
+            self.objh = self.raw_objh
+            self.raw_objx = []
+            self.raw_objy = []
+            self.raw_objw = []
+            self.raw_objh = []
+            self.raw_objx.append(msg.markers[0].pose.position.x)
+            self.raw_objy.append(msg.markers[0].pose.position.y)
+            self.raw_objw.append(msg.markers[0].scale.x)
+            self.raw_objh.append(msg.markers[0].scale.y)
+         else:
+            self.raw_objx.append(msg.markers[0].pose.position.x)
+            self.raw_objy.append(msg.markers[0].pose.position.y)
+            self.raw_objw.append(msg.markers[0].scale.x)
+            self.raw_objh.append(msg.markers[0].scale.y)
 
       # for i in range(len(msg.markers)):
       #    tmp_objx.append(msg.markers[i].pose.position.x)
