@@ -23,4 +23,4 @@ class Shared:
         self.plan = Plan()
 
         # for parking
-        self.parking = Parking(self.ego, self.global_path)
+        self.park = Parking()

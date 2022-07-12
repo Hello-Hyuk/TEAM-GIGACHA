@@ -9,7 +9,8 @@ class Mission():
         self.shared = sh
         self.ego = eg
         self.plan = pl
-        self.parking = sh.parking
+        self.parking = self.shared.park
+
         self.mission_complete = False
         self.timer = time()
         self.time_checker = False
@@ -37,7 +38,7 @@ class Mission():
                 if (self.parking.mindex - 25 <= self.ego.index <= self.parking.mindex - 20):
                     self.behavior_decision = "parkingForwardOn"
                 else:
-                    self.behavior_decision = 'go'
+                    self.behavior_decision = 'driving'
 
         if self.parking.on:
             if 0 <= self.parking.stop_index - self.parking.index <= 3:
@@ -47,6 +48,10 @@ class Mission():
                         self.now = time()
                     if time() - self.now > 3:
                         self.behavior_decision = "parkingBackwardOn"
+                        self.now = 0
+                elif self.parking.direction == 2:
+                    self.parking.on = False
+                    self.behavior_decision = 'driving'
 
     # def park(self):
     #     if self.ego.index >= 500 and self.ego.index <= 550:

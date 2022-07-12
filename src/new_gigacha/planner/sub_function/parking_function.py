@@ -3,6 +3,62 @@ from numpy import rad2deg
 import pymap3d
 from shared.path import Path
 
+
+class Parking_Motion():
+    def __init__(self, sh, pl, eg):
+        self.shared = sh
+        self.plan = pl
+        self.ego = eg
+
+        self.global_path = self.shared.global_path
+        self.parking = self.shared.park
+
+    def make_parking_tra(self):
+        if len(self.parking.forward_path.x) == 0:
+            self.parking.forward_path, self.parking.backward_path, self.parking.mindex = findParkingPath(
+                self.ego, self.global_path)
+
+    def park_index_finder(self):
+        min_dis = -1
+        min_idx = 0
+        step_size = 10
+        save_idx = self.parking.index
+
+        for i in range(max(self.parking.index - step_size, 0), self.parking.index + step_size):
+            try:
+                dis = hypot(
+                    self.global_path.x[i] - self.ego.x, self.global_path.y[i] - self.ego.y)
+            except IndexError:
+                break
+            if (min_dis > dis or min_dis == -1) and save_idx <= i:
+                min_dis = dis
+                min_idx = i
+                save_idx = i
+
+        self.parking.index = min_idx
+
+    def parking_drive(self, direction):
+        self.parking.on = True
+        self.parking.direction = direction
+        self.parking.index = self.park_index_finder()
+
+        if self.parking.direction == 0:
+            self.parking.stop_index = len(
+                self.parking.forward_path.x)
+        elif self.parking.direction == 2:
+            self.parking.stop_index = len(
+                self.parking.backward_path.x)
+
+        print(self.parking.direction)
+        print('park_mindex:{}'.format(self.parking.mindex))
+        print('stop_index:{}'.format(self.parking.stop_index))
+        print('parking.index:{}'.format(self.parking.index))
+
+
+############################################################################
+#####              ↓↓↓↓ parking path create function ↓↓↓↓               ####
+############################################################################
+
 WB = 1.04
 max_angle = 27
 kingpin_r = 0.05
