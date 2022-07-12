@@ -30,7 +30,7 @@ class Parking_Motion():
         min_dis = -1
         min_idx = 0
         step_size = 10
-        save_idx = self.parking.index
+        save_idx = 0
 
         for i in range(max(self.parking.index - step_size, 0), self.parking.index + step_size):
             try:
@@ -43,7 +43,7 @@ class Parking_Motion():
                 min_idx = i
                 save_idx = i
 
-        self.parking.index = min_idx
+        return min_idx
 
     def parking_drive(self, direction):
         self.parking.on = True
@@ -209,10 +209,14 @@ def make_arc_path(x, y, start, end, radius, path, direction):
 # base_alt = 15.4
 
 # simul_kcity_sangwook
-base_lat = 37.2389871166175
-base_lon = 126.772996046328
-base_alt = 15.4
+# base_lat = 37.2389871166175
+# base_lon = 126.772996046328
+# base_alt = 15.4
 
+#simul kcity
+base_lat = 37.239231667
+base_lon = 126.773156667
+base_alt = 15.4
 # Songdo ParkingLot
 # parking_lat = 37.3848150059503
 # parking_lon = 126.655830146935

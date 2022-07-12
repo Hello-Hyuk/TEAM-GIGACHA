@@ -1,4 +1,3 @@
-from new_gigacha.shared.parking import Parking
 from .ego import Ego
 from .perception import Perception_
 from .path import Path

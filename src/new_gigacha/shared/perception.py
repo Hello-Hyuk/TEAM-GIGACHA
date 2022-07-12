@@ -23,7 +23,7 @@ class Perception_():
       self.tyellow = False
       self.tleft = False
       self.tgreen = False
-      self.signname = "go"
+      self.signname = "parking"
 
    def input_callback(self, msg):
       self.signx = msg.signx

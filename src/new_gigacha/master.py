@@ -23,8 +23,8 @@ class Master(threading.Thread):
         self.args = args
         self.period = 1.0 / ui_rate
 
-        # self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
-        self.ser = serial.Serial("/dev/erp42", 115200) # Real World
+        self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
+        # self.ser = serial.Serial("/dev/erp42", 115200) # Real World
 
         rospy.init_node('master', anonymous=False)
 
@@ -84,8 +84,8 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='yonghyeon/Yonghyeon',
-        help='kcity/map1, songdo/map2, yonghyeon'
+        default='kcity_simul/final',
+        help='kcity/map1, songdo/map2, yonghyeon, kcity_simul/final'
     )
 
     ActivateSignalInterruptHandler()

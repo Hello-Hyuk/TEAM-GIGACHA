@@ -31,27 +31,27 @@ class Mission():
         self.plan.behavior_decision = "driving"
 
     def Parking(self):
-        if len(self.parking.forward_path) == 0:
-            self.behavior_decision = "parking_trajectory_Create"
+        if len(self.parking.forward_path.x) == 0:
+            self.plan.behavior_decision = "parking_trajectory_Create"
         else:
             if self.parking.on == False:
                 if (self.parking.mindex - 25 <= self.ego.index <= self.parking.mindex - 20):
-                    self.behavior_decision = "parkingForwardOn"
+                    self.plan.behavior_decision = "parkingForwardOn"
                 else:
-                    self.behavior_decision = 'driving'
+                    self.plan.behavior_decision = 'driving'
 
         if self.parking.on:
             if 0 <= self.parking.stop_index - self.parking.index <= 3:
-                self.behavior_decision = "stop"
+                self.plan.behavior_decision = "stop"
                 if self.parking.direction == 0:
                     if self.now == 0:
                         self.now = time()
                     if time() - self.now > 3:
-                        self.behavior_decision = "parkingBackwardOn"
+                        self.plan.behavior_decision = "parkingBackwardOn"
                         self.now = 0
                 elif self.parking.direction == 2:
                     self.parking.on = False
-                    self.behavior_decision = 'driving'
+                    self.plan.behavior_decision = 'driving'
 
     # def park(self):
     #     if self.ego.index >= 500 and self.ego.index <= 550:
