@@ -3,9 +3,10 @@ from math import sqrt
 from time import time
 
 class Mission():
-    def __init__(self, eg, pc):
+    def __init__(self, eg, pc, pk):
         self.perception = pc
         self.ego = eg
+        self.parking = pk
         self.mission_complete = False
         self.behavior_decision = " "
         self.timer = time()
@@ -23,7 +24,7 @@ class Mission():
         self.ego.target_speed = 20.0
         self.behavior_decision = "driving"
         
-    def parking(self):
+    def Parking(self):
         if self.ego.index >= 500 and self.ego.index <= 550:
             self.ego.brake = 1
             self.ego.target_speed = 0.0

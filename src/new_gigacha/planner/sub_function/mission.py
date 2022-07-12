@@ -2,12 +2,14 @@ from math import sqrt
 from time import time
 from math import cos, sin, pi, sqrt
 
+
 class Mission():
     def __init__(self, sh, eg, pc, pl):
         self.perception = pc
         self.shared = sh
         self.ego = eg
         self.plan = pl
+        self.parking = sh.parking
         self.mission_complete = False
         self.timer = time()
         self.time_checker = False
@@ -15,6 +17,7 @@ class Mission():
         self.stop_checker = False
         self.check = False
         self.prev_objx = 0
+        self.now = 0
 
     def update_parameter(self, eg, pc, pl):
         self.perception = pc
@@ -25,43 +28,63 @@ class Mission():
         self.ego.gear = 0
         self.ego.target_speed = 10.0
         self.plan.behavior_decision = "driving"
-        
-    def parking(self):
-        if self.ego.index >= 500 and self.ego.index <= 550:
-            self.ego.brake = 1
-            self.ego.target_speed = 0.0
-            self.plan.behavior_decision = "parking_ready"
-            time.sleep(5)
 
-            self.ego.brake = -1
-            self.ego.target_speed = 5
-            self.plan.behavior_decision = "parking_start"
-            
-            if self.ego.index >= 700 and self.ego.index <= 750:
-                self.ego.brake = 1
-                self.ego.target_speed = 0.0
-                self.ego.gear = 2
-                self.plan.behavior_decision = "parking_complete"
-                time.sleep(5)
-                
-        if self.behavior.decision == "parking_complete":
-            self.ego.brake = -1
-            self.ego.target_speed = 5.0
-            self.plan.behavior_decision = "backward_driving"
+    def Parking(self):
+        if len(self.parking.forward_path) == 0:
+            self.behavior_decision = "parking_trajectory_Create"
+        else:
+            if self.parking.on == False:
+                if (self.parking.mindex - 25 <= self.ego.index <= self.parking.mindex - 20):
+                    self.behavior_decision = "parkingForwardOn"
+                else:
+                    self.behavior_decision = 'go'
 
-            if (self.ego.index >= 500 and self.ego.index <= 550) and self.behavior.decision == "backward driving":
-                self.ego.brake = 1
-                self.ego.target_speed = 0.0
-                self.ego.gear = 0
-                self.plan.behavior_decision = "go_back_to_driving"
-                time.sleep(5)
+        if self.parking.on:
+            if 0 <= self.parking.stop_index - self.parking.index <= 3:
+                self.behavior_decision = "stop"
+                if self.parking.direction == 0:
+                    if self.now == 0:
+                        self.now = time()
+                    if time() - self.now > 3:
+                        self.behavior_decision = "parkingBackwardOn"
 
-                self.ego.brake = -1
-                self.ego.target_speed = 15.0
-                self.plan.behavior_decision = "driving"
+    # def park(self):
+    #     if self.ego.index >= 500 and self.ego.index <= 550:
+    #         self.ego.brake = 1
+    #         self.ego.target_speed = 0.0
+    #         self.plan.behavior_decision = "parking_ready"
+    #         time.sleep(5)
+
+    #         self.ego.brake = -1
+    #         self.ego.target_speed = 5
+    #         self.plan.behavior_decision = "parking_start"
+
+    #         if self.ego.index >= 700 and self.ego.index <= 750:
+    #             self.ego.brake = 1
+    #             self.ego.target_speed = 0.0
+    #             self.ego.gear = 2
+    #             self.plan.behavior_decision = "parking_complete"
+    #             time.sleep(5)
+
+    #     if self.behavior.decision == "parking_complete":
+    #         self.ego.brake = -1
+    #         self.ego.target_speed = 5.0
+    #         self.plan.behavior_decision = "backward_driving"
+
+    #         if (self.ego.index >= 500 and self.ego.index <= 550) and self.behavior.decision == "backward driving":
+    #             self.ego.brake = 1
+    #             self.ego.target_speed = 0.0
+    #             self.ego.gear = 0
+    #             self.plan.behavior_decision = "go_back_to_driving"
+    #             time.sleep(5)
+
+    #             self.ego.brake = -1
+    #             self.ego.target_speed = 15.0
+    #             self.plan.behavior_decision = "driving"
 
     def stop(self):
-        self.sign_dis = sqrt((self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
+        self.sign_dis = sqrt(
+            (self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
         if self.sign_dis <= 5:
             if self.go_side_check == False:
                 self.plan.behavior_decision = "stop"
@@ -79,8 +102,9 @@ class Mission():
         if (len(self.perception.objx) > 0):
             index = len(self.perception.objy)
             self.obs_dis = 15.5
-            for i in range (0, index):
-                self.dis = sqrt((self.perception.objx[i] - self.ego.x)**2 + (self.perception.objy[i] - self.ego.y)**2)
+            for i in range(0, index):
+                self.dis = sqrt(
+                    (self.perception.objx[i] - self.ego.x)**2 + (self.perception.objy[i] - self.ego.y)**2)
                 self.obs_dis = min(self.obs_dis, self.dis)
             if self.obs_dis <= 15:
                 self.ego.target_speed = 5.0
@@ -95,7 +119,6 @@ class Mission():
             else:
                 self.ego.target_speed = 15.0
 
-
     def turn_right(self):
         if self.perception.tgreen == 1:
             self.plan.behavior_decision = "turn_right"
@@ -108,7 +131,6 @@ class Mission():
                 self.plan.behavior_decision = "turn_right"
                 self.ego.target_brake = 0
 
-    
     def turn_left(self):
         if self.perception.tleft == 1:
             self.plan.behavior_decision = "turn_left"
@@ -121,14 +143,13 @@ class Mission():
                 self.plan.behavior_decision = "turn_left"
                 self.ego.target_brake = 0
 
-
     def non_traffic_right(self):
         if self.ego.index >= 1000 and self.ego.index <= 1050:
             self.plan.behavior_decision = "stop"
             if self.time_checker == False:
                 self.time_checker = True
                 self.cur_t = time()
-            
+
             if time() - self.cur_t > 3:
                 self.plan.behavior_decision = "turn_right"
         else:
@@ -143,12 +164,11 @@ class Mission():
         #             self.go_check = True
         #         if self.plan.behavior_decision =="stop" and time()-self.wait_time_right>2:
         #             self.plan.behavior_decision = "turn_right"
-                 
-
 
     def child_area(self, signx, signy):
-        if (len(self.perception.signx)!= 0):
-            self.sign_dis = sqrt((self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
+        if (len(self.perception.signx) != 0):
+            self.sign_dis = sqrt(
+                (self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
             if self.sign_dis <= 15:
                 self.ego.target_speed = 7.0
             else:
@@ -157,7 +177,8 @@ class Mission():
 
     def emergency_stop(self):
         if (len(self.perception.objx) > 0):
-            self.obs_dis = sqrt((self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
+            self.obs_dis = sqrt(
+                (self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
             if self.obs_dis <= 10:
                 if self.check == False:
                     self.plan.behavior_decision = "stop"
@@ -169,14 +190,14 @@ class Mission():
                     self.ego.target_speed = 5.0
                     self.plan.behavior_decision = "static_obstacle_avoidance"
                     #self.sign_detected = 1
-            elif self.obs_dis > 10: #and self.sign_detected == 0:
+            elif self.obs_dis > 10:  # and self.sign_detected == 0:
                 self.plan.behavior_decision = "go"
                 self.ego.target_speed = 20.0
                 self.shared.selected_lane = 1
                 self.check = False
         else:
             self.plan.behavior_decision = "go"
-            
+
     def convert_lidar(self):
         theta = (self.ego.heading) * pi / 180
         size = 0
@@ -185,7 +206,7 @@ class Mission():
         self.perception.objx = []
         objx = []
         objy = []
-        
+
         if len(self.perception.tmp_objx) != 0:
             if (self.prev_objx == self.perception.tmp_objx[0]):
                 self.perception.tmp_objy = []
@@ -196,9 +217,11 @@ class Mission():
                 size = len(self.perception.tmp_objx)
                 # size = len(self.perception.tmp_objx)//3
                 for i in range(size):
-                    objx.append(self.perception.tmp_objx[i] * cos(theta) + self.perception.tmp_objy[i] * -sin(theta) + self.ego.x)
-                    objy.append(self.perception.tmp_objx[i] * sin(theta) + self.perception.tmp_objy[i] * cos(theta) + self.ego.y)
+                    objx.append(self.perception.tmp_objx[i] * cos(
+                        theta) + self.perception.tmp_objy[i] * -sin(theta) + self.ego.x)
+                    objy.append(self.perception.tmp_objx[i] * sin(
+                        theta) + self.perception.tmp_objy[i] * cos(theta) + self.ego.y)
                 self.prev_objx = self.perception.tmp_objx[0]
-            
+
         self.perception.objx = objx
         self.perception.objy = objy

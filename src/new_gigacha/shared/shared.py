@@ -1,11 +1,14 @@
+from new_gigacha.shared.parking import Parking
 from .ego import Ego
 from .perception import Perception_
 from .path import Path
 from .plan import Plan
+from .parking import Parking
+
 
 class Shared:
     def __init__(self):
-        # in common 
+        # in common
         self.ego = Ego()
 
         # for perception
@@ -18,3 +21,6 @@ class Shared:
         self.lattice_path = []
         self.selected_lane = 1
         self.plan = Plan()
+
+        # for parking
+        self.parking = Parking(self.ego, self.global_path)
