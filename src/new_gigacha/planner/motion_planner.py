@@ -63,6 +63,7 @@ class MotionPlanner(threading.Thread):
                 # print(self.shared.plan.behavior_decision)
                 self.motion.select_trajectory()
 
+            # parking
             elif self.shared.plan.behavior_decision == "parking_trajectory_Create":
                 self.park_motion.make_parking_tra()
 
@@ -71,6 +72,8 @@ class MotionPlanner(threading.Thread):
 
             elif self.shared.plan.behavior_decision == "parkingBackwardOn":
                 self.park_motion.parking_drive(2)
+
+            
 
             # print(self.trajectory.x)
             sleep(self.period)

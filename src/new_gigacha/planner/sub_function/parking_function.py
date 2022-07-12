@@ -1,8 +1,8 @@
+import pymap3d
+import json
+from shared.path import Path
 from math import cos, degrees, radians, sin, atan2, sqrt, hypot
 from numpy import rad2deg
-import pymap3d
-from shared.path import Path
-
 
 class Parking_Motion():
     def __init__(self, sh, pl, eg):
@@ -13,10 +13,18 @@ class Parking_Motion():
         self.global_path = self.shared.global_path
         self.parking = self.shared.park
 
+        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/localizer/parking_KCity.json') as pkc:
+            self.parking_point = json.load(pkc)
+
     def make_parking_tra(self):
+        self.point = self.parking_point[self.parking.select_num]
+        start_point = self.point["start"]
+        end_point = self.point["end"]
+        x = start_point[0]
+        y = start_point[1]
         if len(self.parking.forward_path.x) == 0:
             self.parking.forward_path, self.parking.backward_path, self.parking.mindex = findParkingPath(
-                self.ego, self.global_path)
+                self.ego, self.global_path, x, y)
 
     def park_index_finder(self):
         min_dis = -1
@@ -68,14 +76,14 @@ smooth_radius = 5
 # 여기서 parking_lot은 주차 구역 입구 정중앙을 뜻함.
 
 
-def findParkingPath(ego, path):
+def findParkingPath(ego, path, x, y):
     global heading
     min_index = 0
     min_dis = 10000000
     forward_path = Path()
     backward_path = Path()
 
-    parking_x, parking_y = parking_call_back()
+    parking_x, parking_y = parking_call_back(x,y)
 
     parking_lot = {
         'x': parking_x,
@@ -221,7 +229,7 @@ parking_lon = 126.773196841119
 # parking_lon = 126.773241462183
 
 
-def parking_call_back():
-    x, y, _ = pymap3d.geodetic2enu(parking_lat, parking_lon, base_alt,
+def parking_call_back(x1,y1):
+    x, y, _ = pymap3d.geodetic2enu(x1, y1, base_alt,
                                    base_lat, base_lon, base_alt)
     return x, y
