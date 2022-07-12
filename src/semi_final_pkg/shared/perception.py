@@ -8,18 +8,16 @@ class Perception_():
 
       rospy.Subscriber("/input", Perception, self.input_callback)
 
-
       self.objx = []
       self.objy = []
       self.objr = []
 
    def input_callback(self, msg):
-
       self.objx = msg.objx
       self.objy = msg.objy
       self.objr = msg.objr
 
-
+   
 #    def lidar_callback(self, msg):
 #       self.tmp_objx = []
 #       self.tmp_objy = []

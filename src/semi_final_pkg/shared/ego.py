@@ -27,3 +27,7 @@ class Ego():
         self.input_speed = 20
         self.input_steer = 0
         self.input_brake = 0
+
+        # semi_final point
+        self.point_x = 0
+        self.point_y = 0

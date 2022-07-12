@@ -34,8 +34,8 @@ class Master(threading.Thread):
         # self.DR = DR(self, rate = 50)
         # self.init_thread(self.DR)
 
-        self.motion_planner = MotionPlanner(self, rate=20)
-        self.init_thread(self.motion_planner)
+        self.planner = Planner(self, rate=20)
+        self.init_thread(self.planner)
 
         self.lat_controller = LatController(self, rate=20)
         self.init_thread(self.lat_controller)
@@ -66,6 +66,7 @@ class Master(threading.Thread):
         module.start()
 
 if __name__ == "__main__":
+#########################################################
     argparser = argparse.ArgumentParser(
         description="GIGACHA"
     )
@@ -74,7 +75,7 @@ if __name__ == "__main__":
         default='yonghyeon/Yonghyeon',
         help='kcity/map1, songdo/map2, yonghyeon'
     )
-
+###########################################################
     ActivateSignalInterruptHandler()
     args = argparser.parse_args()
     master = Master(args, ui_rate=10)

@@ -13,27 +13,24 @@ class Planner(threading.Thread):
         self.perception = self.shared.perception
         self.plan = self.shared.plan
 
-        self.state = " "
         self.state_remember = "1st"
-    
+
     def run(self):
         while True:
             try:
-                self.mission.convert_lidar()
-                # print("state : ", self.plan.state)
+                self.ego.point_x = self.perception.objx
+                self.ego.point_y = self.perception.objy
 
-                if self.state_remember != self.plan.state:
-                    self.state_remember = self.plan.state
-                    self.mission.time_checker = False
+                if ##처음상태:
+                    self.plan.state == "1st"
 
-                if self.plan.state == "parking":
-                    self.mission.parking()
 
-                else:
-                    self.mission.go()
+                    ##맵을 다 땄다는 트리거==True
 
-                # print(f"behavior_planner : {self.plan.behavior_decision}")
-                # print(f"speed : {self.ego.target_speed}")
+
+                elif ##맵을 다 땄다는 트리거==True:
+                    self.plan.state =="after_2nd"
+                    
             except IndexError:
                 # pass
                 print("+++++++++++++++++")
