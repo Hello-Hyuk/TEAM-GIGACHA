@@ -63,6 +63,6 @@ class LonController(threading.Thread):
                 self.ego.input_speed = self.ego.target_speed
                 self.ego.input_brake = self.ego.target_brake
             except IndexError:
-                print("+++++++++++++++++")
+                print("++++++++lon_controller+++++++++")
 
             sleep(self.period)

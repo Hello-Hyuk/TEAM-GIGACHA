@@ -38,6 +38,6 @@ class LatController(threading.Thread):
 
                 self.ego.input_steer = max(min(degrees(angle), 27.0), -27.0)
             except IndexError:
-                print("+++++++++++++++++")
+                print("++++++++lat_controller+++++++++")
 
             sleep(self.period)

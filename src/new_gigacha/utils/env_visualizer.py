@@ -226,5 +226,5 @@ class Visualizer(threading.Thread):
                 self.vis_pose_pub.publish(self.vis_pose)
                 # self.vis_pose_pub_dr.publish(self.vis_pose_dr)
             except IndexError:
-                print("+++++++++++++++++")
+                print("++++++++env_visualizer+++++++++")
             sleep(self.period)
