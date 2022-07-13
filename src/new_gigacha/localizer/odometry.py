@@ -5,14 +5,13 @@ import math
 
 
 class Odometry():
-    def __init__(self, ego, gps, imu):
+    def __init__(self, ego, gps):
         rospy.Subscriber('/encoder', Displacement, self.encoderCallback)
         self.right = 0  # pulse from sensor
         self.left = 0  # pulse from serial
 
         self.ego = ego
         self.gps = gps
-        self.imu = imu
 
         self.init = 0
         self.flag_filter = True
@@ -91,8 +90,8 @@ class Odometry():
 
         dis = (self.dis_left + self.dis_right) / 2
 
-        self.ego.dr_x += dis*math.cos(math.radians(self.imu.heading))
-        self.ego.dr_y += dis*math.sin(math.radians(self.imu.heading))
+        self.ego.dr_x += dis*math.cos(math.radians(self.ego.heading))
+        self.ego.dr_y += dis*math.sin(math.radians(self.ego.heading))
 
     def encoderCallback(self, msg):
         self.left = self.serialTopulse()

@@ -9,6 +9,8 @@ from time import sleep
 from localizer.ahrs import IMU
 from localizer.gps import GPS
 from localizer.odometry import Odometry
+from localizer.dr_enc import DR_enc
+from localizer.dr_imu import DR_imu
 
 
 class Localizer(threading.Thread):
@@ -24,7 +26,9 @@ class Localizer(threading.Thread):
 
         self.gps = GPS()
         self.imu = IMU()
-        # self.odometry = Odometry(self.ego, self.gps, self.imu)
+        # self.odometry = Odometry(self.ego, self.gps)
+        # self.dr_enc = DR_enc(self.ego)
+        # self.dr_imu = DR_imu(self.imu)
 
         self.offset = 0
 
@@ -60,7 +64,7 @@ class Localizer(threading.Thread):
         global time_sync
         main_time = time.time()
         time_sync = None
-        # print('gps duration: {},,,imu duration: {}'.format((main_time - self.gps.time),(main_time - self.imu.time)))
+
         if (main_time - self.gps.time) < 0.2 and (main_time - self.imu.time) < 0.2:
             time_sync = "Sync"
             if self.gps.heading_switch == True:

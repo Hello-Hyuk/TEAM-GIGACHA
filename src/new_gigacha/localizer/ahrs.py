@@ -13,6 +13,10 @@ class IMU():
         self.battery = 0
         self.time = 0.0
         
+        self.linear_accel_x = 0.0
+        self.linear_accel_y = 0.0
+        self.angular_velocity_z = 0.0
+        
         rospy.Subscriber("/imu", Imu, self.imu_call_back)
         rospy.Subscriber("/simul_imu", Pose, self.imu_call_back)
 
