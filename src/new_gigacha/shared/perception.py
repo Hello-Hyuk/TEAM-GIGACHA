@@ -69,27 +69,40 @@ class Perception_():
       for i in range(len(msg.detections)):
          if msg.detections[i].results[0].id < 6:
             if msg.detections[i].results[0].id == 0:
-               self.signname = "turn_left_traffic_light"
+               self.signname = "turn_left_traffic_light"   #A1
             elif msg.detections[i].results[0].id == 1:
-               self.signname = "static_obstacle"
+               self.signname = "turn_right_traffic_light" #A2
+            elif msg.detections[i].results[0].id == 2:
+               self.signname = "static_obstacle" #A3
+            elif msg.detections[i].results[0].id == 3:
+               self.signname = "AEB" #B1
+            elif msg.detections[i].results[0].id == 4:
+               self.signname = "non_traffic_right" #B2
+            elif msg.detections[i].results[0].id == 5:
+               self.signname = "parking"  #B3
          else:
-            if msg.detection[i].results[0].id == 6:
+            if msg.detection[i].results[0].id == 6 or msg.detection[i].results[0].id == 7:
                self.tred = True
                self.tyellow = False
                self.tleft = False
                self.tgreen = False
-            elif msg.detection[i].results[0].id == 7:
+            elif msg.detection[i].results[0].id == 8 or msg.detection[i].results[0].id == 9:
                self.tred = False
                self.tyellow = True
                self.tleft = False
                self.tgreen = False
-            elif msg.detection[i].results[0].id == 8:
+            elif msg.detection[i].results[0].id == 10 or msg.detection[i].results[0].id == 11:
                self.tred = False
                self.tyellow = False
                self.tleft = False
                self.tgreen = True
-            elif msg.detection[i].results[0].id == 9:
-               self.tred = False
+            elif msg.detection[i].results[0].id == 12:
+               self.tred = True
                self.tyellow = False
                self.tleft = True
                self.tgreen = False
+            elif msg.detection[i].results[0].id == 13:
+               self.tred = False
+               self.tyellow = False
+               self.tleft = True
+               self.tgreen = True
