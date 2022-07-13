@@ -71,6 +71,9 @@ class Master(threading.Thread):
             # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
             # print("tmp :" ,len(self.shared.perception.tmp_objx))
             # print("real :" , self.shared.perception.objx, self.shared.perception.objy)
+            print('park_mindex:{}'.format(self.shared.park.mindex))
+            print('stop_index:{}'.format(self.shared.park.stop_index))
+            print('parking.index:{}'.format(self.shared.park.index))
             sleep(self.period)
 
     def init_thread(self, module):

@@ -21,7 +21,7 @@ class Visualizer(threading.Thread):
         self.imu = IMU()
 
         self.global_path = self.shared.global_path # from localizer
-        self.parking_path = self.shared.park.forward_path
+        self.parking = self.shared.park
 
         # Publisher
         self.vis_global_path_pub = rospy.Publisher("/vis_global_path", Path, queue_size=1) # using path
@@ -207,18 +207,18 @@ class Visualizer(threading.Thread):
                     c_id = c_id + 1
 
                 ######################## PARKING PATH ##########################
-                park = Path()
-                for i in range(len(self.parking_path.x)):
+                parking = Path()
+                for i in range(len(self.parking.forward_path.x)):
                     read_pose=PoseStamped()
-                    read_pose.pose.position.x = self.parking_path.x[i]
-                    read_pose.pose.position.y = self.parking_path.y[i]
+                    read_pose.pose.position.x = self.parking.forward_path.x[i]
+                    read_pose.pose.position.y = self.parking.forward_path.y[i]
                     read_pose.pose.position.z = 0
                     read_pose.pose.orientation.x=0
                     read_pose.pose.orientation.y=0
                     read_pose.pose.orientation.z=0
                     read_pose.pose.orientation.w=1
-                    gp.poses.append(read_pose)
-                self.vis_parking_path.poses = park.poses
+                    parking.poses.append(read_pose)
+                self.vis_parking_path.poses = parking.poses
 
                 # publish
                 self.vis_obj_pub.publish(vis_obj)

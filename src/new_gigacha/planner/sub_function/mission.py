@@ -35,7 +35,7 @@ class Mission():
             self.plan.behavior_decision = "parking_trajectory_Create"
         else:
             if self.parking.on == False:
-                if (self.parking.mindex - 25 <= self.ego.index <= self.parking.mindex - 20):
+                if (self.parking.mindex - 15 <= self.ego.index <= self.parking.mindex - 10):
                     self.plan.behavior_decision = "parkingForwardOn"
                 else:
                     self.plan.behavior_decision = 'driving'
@@ -49,9 +49,9 @@ class Mission():
                     if time() - self.now > 3:
                         self.plan.behavior_decision = "parkingBackwardOn"
                         self.now = 0
-                elif self.parking.direction == 2:
-                    self.parking.on = False
-                    self.plan.behavior_decision = 'driving'
+                # elif self.parking.direction == 2:
+                #     self.parking.on = False
+                #     self.plan.behavior_decision = 'driving'
 
     # def park(self):
     #     if self.ego.index >= 500 and self.ego.index <= 550:
