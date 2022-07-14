@@ -11,7 +11,7 @@ from controller.lon_controller import LonController
 from utils.serial_reader import SerialReader
 from utils.serial_writer import SerialWriter
 from utils.sig_int_handler import ActivateSignalInterruptHandler
-from utils.env_visualizer import Visualizer
+# from utils.env_visualizer import Visualizer
 
 from time import sleep
 
@@ -21,8 +21,8 @@ class Master(threading.Thread):
         self.args = args
         self.period = 1.0 / ui_rate
 
-        # self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
-        self.ser = serial.Serial("/dev/erp42", 115200) # Real World
+        self.ser = serial.Serial("/dev/ttyUSB1", 115200)  # Simulation
+        # self.ser = serial.Serial("/dev/erp42", 115200) # Real World
 
         rospy.init_node('master', anonymous=False)
 
@@ -49,8 +49,8 @@ class Master(threading.Thread):
         self.serial_writer = SerialWriter(self, rate=10)
         self.init_thread(self.serial_writer)
 ###################################################
-        self.visualizer = Visualizer(self, rate=1)
-        self.init_thread(self.visualizer)
+        # self.visualizer = Visualizer(self, rate=1)
+        # self.init_thread(self.visualizer)
 ######################################################
         while True:
             print('Localization : x : {0}, y : {1}, index : {2}, heading : {3}'\

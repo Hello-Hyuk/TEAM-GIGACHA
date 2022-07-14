@@ -8,8 +8,8 @@ class Input:
         rospy.init_node('Input', anonymous = False)
         self.pub = rospy.Publisher("/input", Perception, queue_size = 1)
         self.perception = Perception()
-        self.perception.objx = []####
-        self.perception.objy = []####
+        self.perception.objx = [3]####
+        self.perception.objy = [3]####
         self.perception.objr = []####
         
     def run(self):

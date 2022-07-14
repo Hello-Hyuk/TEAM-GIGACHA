@@ -21,15 +21,15 @@ class Planner(threading.Thread):
                 self.ego.point_x = self.perception.objx
                 self.ego.point_y = self.perception.objy
 
-                if  1:##처음상태:
-                    self.plan.state == "1st"
+                # if  1:##처음상태:
+                #     self.plan.state == "1st"
 
 
-                    ##맵을 다 땄다는 트리거==True
+                #     ##맵을 다 땄다는 트리거==True
 
 
-                elif 2:##맵을 다 땄다는 트리거==True:
-                    self.plan.state =="after_2nd"
+                # elif 2:##맵을 다 땄다는 트리거==True:
+                #     self.plan.state =="after_2nd"
                     
             except IndexError:
                 # pass
