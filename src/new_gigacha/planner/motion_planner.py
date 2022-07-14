@@ -46,11 +46,11 @@ class MotionPlanner(threading.Thread):
             #     self.plan.trajectory.y = []
 
             elif self.shared.plan.behavior_decision == "turn_right":
-                self.lane_weight = [10000, 10000, 0]
+                self.shared.selected_lane = 2
                 self.motion.select_trajectory()
 
             elif self.shared.plan.behavior_decision == "turn_left":
-                self.lane_weight = [10000, 0, 10000]
+                self.shared.selected_lane = 1
                 self.motion.select_trajectory()
 
             elif self.shared.plan.behavior_decision == "driving":
