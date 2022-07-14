@@ -23,8 +23,8 @@ class Master(threading.Thread):
         self.args = args
         self.period = 1.0 / ui_rate
 
-        # self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
-        self.ser = serial.Serial("/dev/erp42", 115200) # Real World
+        self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
+        # self.ser = serial.Serial("/dev/erp42", 115200) # Real World
 
         rospy.init_node('master', anonymous=False)
 
@@ -71,6 +71,7 @@ class Master(threading.Thread):
             # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
             print("tmp :" ,len(self.shared.perception.tmp_objx))
             print("real :" ,len(self.shared.perception.objx))
+            print("width : ", len(self.shared.perception.objw))
             # print("real :" , self.shared.perception.objx, self.shared.perception.objy)
             sleep(self.period)
 
@@ -85,7 +86,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='yonghyeon/Yonghyeon',
+        default='kcity_simul/final',
         help='kcity/map1, songdo/map2, yonghyeon'
     )
 

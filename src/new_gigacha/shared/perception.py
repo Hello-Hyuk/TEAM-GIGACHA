@@ -20,11 +20,13 @@ class Perception_():
       self.objh = []
       self.tmp_objx = []
       self.tmp_objy = []
+      self.tmp_objw = []
+      self.tmp_objh = []
       self.tred = False
       self.tyellow = False
       self.tleft = False
       self.tgreen = False
-      self.signname = "go"
+      self.signname = "static_obstacle"
       self.tmp_lidar_lock = threading.Lock()
       self.lidar_lock = threading.Lock()
 
@@ -54,8 +56,8 @@ class Perception_():
             tmp_objh.append(msg.markers[i].scale.y)
          self.tmp_objx = tmp_objx
          self.tmp_objy = tmp_objy
-         self.objw = tmp_objw
-         self.objh = tmp_objh
+         self.tmp_objw = tmp_objw
+         self.tmp_objh = tmp_objh
          self.tmp_lidar_lock.release()
       
    def camera_callback(self, msg):

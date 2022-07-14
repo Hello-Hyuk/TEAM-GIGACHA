@@ -188,14 +188,16 @@ class Mission():
             for i in range(size):
                 objx.append(self.perception.tmp_objx[i] * cos(theta) + self.perception.tmp_objy[i] * -sin(theta) + self.ego.x)
                 objy.append(self.perception.tmp_objx[i] * sin(theta) + self.perception.tmp_objy[i] * cos(theta) + self.ego.y)
-        self.perception.tmp_lidar_lock.release()
         
-        # self.perception.lidar_lock.acquire()   
+        self.perception.lidar_lock.acquire()   
         self.perception.objy = []
         self.perception.objx = []
         self.perception.objx = objx
         self.perception.objy = objy
-        # self.perception.lidar_lock.release()
+        self.perception.objw = self.perception.tmp_objw
+        self.perception.objh = self.perception.tmp_objh
+        self.perception.lidar_lock.release()
+        self.perception.tmp_lidar_lock.release()
         
 
 
