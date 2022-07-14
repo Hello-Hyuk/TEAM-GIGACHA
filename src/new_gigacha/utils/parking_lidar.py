@@ -15,10 +15,7 @@ from math import cos, sin, pi
 from shapely.geometry import Point, Polygon
 from std_msgs.msg import Int32, String
 
-global lidar_temp, lidar_cur_state
 global yaw, cur_x, cur_y
-lidar_temp = PointCloud2()
-lidar_cur_state = 'parking-base1'
 
 def parking(temp_points):
     parking_point_x_y = [[9.021042, 9.433509],[8.873212, 12.023061],[10.647854, 12.023063],[10.352018, 14.612615],[11.978832, 14.612617],[11.830912, 17.202281],[13.309809, 17.202283],[13.161889, 19.791835],[14.640786, 19.791837],[14.492865, 22.381390],[15.971761, 22.566400],[15.823840, 24.971055],[20.709098, 25.340970],[20.556188, 22.751418],[19.225208, 22.751414],[19.373130, 20.161751],[17.894234, 20.161748],[17.894239, 17.572196],[16.563259, 17.387185],[16.563263, 14.982641],[15.084455, 14.797630],[15.232287, 12.392975],[13.753477, 12.392972],[13.901309, 9.803420]]
@@ -65,7 +62,7 @@ def parking(temp_points):
     result_number = -1
 
     for i in range(0, 6):
-        if parking_result[i] < 5:
+        if parking_result[i] < 20:
             result_number = i + 1
             return result_number
 
@@ -79,28 +76,27 @@ def parking(temp_points):
 
 def pose_callback(msg):
     global yaw, cur_x, cur_y
-    
     cur_x = msg.pose.pose.position.x
     cur_y = msg.pose.pose.position.y
-    yaw = msg.pose.pose.position.z
+    yaw = msg.pose.pose.orientation.z
 
 def getMsg_parking(lidar_data):
-    # global yaw, cur_x, cur_y
+    global yaw, cur_x, cur_y
 
     gen = point_cloud2.read_points(lidar_data, skip_nans=True)
     cnt = 0
     points_list = []
 
     for p in gen:
-        if 0 < p[0] < 20:
-            if 0 < p[1] < 10:
+        if (0 < p[0] < 20) and (-10 < p[1] < 0) and (-0.95 < p[2]):
+
                 points_list.append([p[0] + 0.5, p[1], p[2], p[3]])
 
     test = PointCloud()
     get_in = ChannelFloat32()
     get_in.name = 'VLP_intensery'
     test.points = []
-    theta = (yaw) * pi / 180
+    theta = yaw * pi / 180
     for p in points_list:
         park = Point32()
         park.x = p[0] * cos(theta) + p[1] * -sin(theta) + cur_x

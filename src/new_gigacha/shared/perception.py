@@ -1,6 +1,7 @@
 import rospy
 from planner_and_control.msg import Perception
 from visualization_msgs.msg import MarkerArray, Marker
+from std_msgs.msg import Int32
 # from vision_msgs.msg import Detection2DArray
 
 class Perception_():
@@ -9,6 +10,7 @@ class Perception_():
 
       rospy.Subscriber("/input", Perception, self.input_callback)
       rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
+      rospy.Subscriber("/Parking_num", Int32, self.parking_callback)
       # rospy.Subscriber("/bbox1", Detection2DArray, self.camera_callback)
 
       self.signx = []
@@ -24,6 +26,7 @@ class Perception_():
       self.tleft = False
       self.tgreen = False
       self.signname = "parking"
+      self.parking_num = ""
 
    def input_callback(self, msg):
       self.signx = msg.signx
@@ -93,3 +96,6 @@ class Perception_():
                self.tyellow = False
                self.tleft = True
                self.tgreen = False
+
+   def parking_callback(self, msg):
+      self.parking_num = msg.data

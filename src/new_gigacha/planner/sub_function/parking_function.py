@@ -19,7 +19,7 @@ class Parking_Motion():
             self.parking_point = json.load(pkc)
 
     def make_parking_tra(self):
-        self.point = self.parking_point[self.parking.select_num]
+        self.point = self.parking_point[str(self.parking.select_num)]
         self.start_point = self.point["start"]
         self.end_point = self.point["end"]
         if len(self.parking.forward_path.x) == 0:
@@ -61,16 +61,14 @@ class Parking_Motion():
         # print('parking.index:{}'.format(self.parking.index))
 
     def findParkingPath(self):
-        global heading
         min_index = 0
         min_dis = 10000000
-        straight_path = Path()
 
         self.parking_x, self.parking_y = parking_call_back(self.start_point[0],self.start_point[1])
         self.parking_end_x, self.parking_end_y = parking_call_back(self.end_point[0],self.end_point[1])
 
         ######### 주차점과 가장 가까운 path 점 찾기 ########
-        for i in range(len(self.global_path.x)-13000):
+        for i in range(len(self.global_path.x)-8000):
             dx = self.parking_x - self.global_path.x[i]
             dy = self.parking_y - self.global_path.y[i]
             dis = sqrt(dx*dx + dy*dy)

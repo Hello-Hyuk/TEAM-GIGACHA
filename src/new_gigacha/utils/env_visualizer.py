@@ -87,7 +87,8 @@ class Visualizer(threading.Thread):
                 ppoint.z = 0
                 self.vis_pose.pose.pose.position.x = self.ego.x
                 self.vis_pose.pose.pose.position.y = self.ego.y
-                self.vis_pose.pose.pose.orientation = self.imu.orientation_q
+                self.vis_pose.pose.pose.orientation.z = self.ego.heading
+                # self.vis_pose.pose.pose.orientation = self.imu.orientation_q
                 # print(self.vis_pose.pose.pose.orientation)
                 self.vis_trajectory.header.stamp = rospy.Time.now()
                 if self.t - time() < 0.5 :
