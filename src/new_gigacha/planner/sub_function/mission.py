@@ -188,7 +188,7 @@ class Mission():
             for i in range(size):
                 objx.append(self.perception.tmp_objx[i] * cos(theta) + self.perception.tmp_objy[i] * -sin(theta) + self.ego.x)
                 objy.append(self.perception.tmp_objx[i] * sin(theta) + self.perception.tmp_objy[i] * cos(theta) + self.ego.y)
-        
+    
         self.perception.lidar_lock.acquire()   
         self.perception.objy = []
         self.perception.objx = []
@@ -200,9 +200,6 @@ class Mission():
         self.perception.tmp_lidar_lock.release()
         
 
-
-
-        
     def convert_lidar2(self):
         theta = (self.ego.heading) * pi / 180
         size = 0

@@ -184,10 +184,11 @@ class Visualizer(threading.Thread):
                     circle_marker.type = Marker.CUBE
                     circle_marker.action = Marker.ADD
                     circle_marker.pose.position.z = -0.1
-                    circle_marker.pose.orientation.x = 0.0
-                    circle_marker.pose.orientation.y = 0.0
-                    circle_marker.pose.orientation.z = 0.0
-                    circle_marker.pose.orientation.w = 1.0
+                    circle_marker.pose.orientation = self.imu.orientation_q
+                    # circle_marker.pose.orientation.x = 0.0
+                    # circle_marker.pose.orientation.y = 0.0
+                    # circle_marker.pose.orientation.z = 0.0
+                    # circle_marker.pose.orientation.w = 1.0
                     circle_marker.scale.z = 0.1
                     circle_marker.color.r = 0.2
                     circle_marker.color.g = 0.8

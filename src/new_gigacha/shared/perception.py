@@ -59,6 +59,12 @@ class Perception_():
          self.tmp_objw = tmp_objw
          self.tmp_objh = tmp_objh
          self.tmp_lidar_lock.release()
+      else:
+         self.tmp_objx = []
+         self.tmp_objy = []
+         self.tmp_objw = []
+         self.tmp_objh = []
+
       
    def camera_callback(self, msg):
       for i in range(len(msg.detections)):
