@@ -62,6 +62,7 @@ class LonController(threading.Thread):
                 # self.ego.input_speed = self.speed[0]
                 self.ego.input_speed = self.ego.target_speed
                 self.ego.input_brake = self.ego.target_brake
+                self.ego.input_gear = self.ego.target_gear
             except IndexError:
                 print("+++++++++++++++++")
 

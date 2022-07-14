@@ -78,7 +78,7 @@ def pose_callback(msg):
     global yaw, cur_x, cur_y
     cur_x = msg.pose.pose.position.x
     cur_y = msg.pose.pose.position.y
-    yaw = msg.pose.pose.orientation.z
+    yaw = msg.twist.twist.linear.x
 
 def getMsg_parking(lidar_data):
     global yaw, cur_x, cur_y
