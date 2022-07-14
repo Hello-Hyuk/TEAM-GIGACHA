@@ -1,7 +1,8 @@
+import threading
 import rospy
 from planner_and_control.msg import Perception
 from visualization_msgs.msg import MarkerArray, Marker
-# from vision_msgs.msg import Detection2DArray
+#from vision_msgs.msg import Detection2DArray
 
 class Perception_():
    def __init__(self):
@@ -9,7 +10,7 @@ class Perception_():
 
       rospy.Subscriber("/input", Perception, self.input_callback)
       rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
-      # rospy.Subscriber("/bbox1", Detection2DArray, self.camera_callback)
+      #rospy.Subscriber("/bbox1", Detection2DArray, self.camera_callback)
 
       self.signx = []
       self.signy = []
@@ -19,15 +20,15 @@ class Perception_():
       self.objh = []
       self.tmp_objx = []
       self.tmp_objy = []
-      self.raw_objx = []
-      self.raw_objy = []
-      self.raw_objw = []
-      self.raw_objh = []
+      self.tmp_objw = []
+      self.tmp_objh = []
       self.tred = False
       self.tyellow = False
       self.tleft = False
       self.tgreen = False
-      self.signname = "go"
+      self.signname = "static_obstacle"
+      self.tmp_lidar_lock = threading.Lock()
+      self.lidar_lock = threading.Lock()
 
    def input_callback(self, msg):
       self.signx = msg.signx
@@ -42,41 +43,28 @@ class Perception_():
       self.signname = msg.signname
 
    def lidar_callback(self, msg):
-      
-      if len(msg.markers) > 0:
-         if msg.markers[0].id == 0:
-            self.tmp_objx = []
-            self.tmp_objy = []
-            self.objw = []
-            self.objh = []
-            self.tmp_objx = self.raw_objx
-            self.tmp_objy = self.raw_objy
-            self.objw = self.raw_objw
-            self.objh = self.raw_objh
-            self.raw_objx = []
-            self.raw_objy = []
-            self.raw_objw = []
-            self.raw_objh = []
-            self.raw_objx.append(msg.markers[0].pose.position.x)
-            self.raw_objy.append(msg.markers[0].pose.position.y)
-            self.raw_objw.append(msg.markers[0].scale.x)
-            self.raw_objh.append(msg.markers[0].scale.y)
-         else:
-            self.raw_objx.append(msg.markers[0].pose.position.x)
-            self.raw_objy.append(msg.markers[0].pose.position.y)
-            self.raw_objw.append(msg.markers[0].scale.x)
-            self.raw_objh.append(msg.markers[0].scale.y)
+      if len(msg.markers) != 0:
+         self.tmp_lidar_lock.acquire()
+         tmp_objx = []
+         tmp_objy = []
+         tmp_objw = []
+         tmp_objh = []
+         for i in range(len(msg.markers)):
+            tmp_objx.append(msg.markers[i].pose.position.x)
+            tmp_objy.append(msg.markers[i].pose.position.y)
+            tmp_objw.append(msg.markers[i].scale.x)
+            tmp_objh.append(msg.markers[i].scale.y)
+         self.tmp_objx = tmp_objx
+         self.tmp_objy = tmp_objy
+         self.tmp_objw = tmp_objw
+         self.tmp_objh = tmp_objh
+         self.tmp_lidar_lock.release()
+      else:
+         self.tmp_objx = []
+         self.tmp_objy = []
+         self.tmp_objw = []
+         self.tmp_objh = []
 
-      # for i in range(len(msg.markers)):
-      #    tmp_objx.append(msg.markers[i].pose.position.x)
-      #    tmp_objy.append(msg.markers[i].pose.position.y)
-      #    tmp_objw.append(msg.markers[i].scale.x)
-      #    tmp_objh.append(msg.markers[i].scale.y)
-      
-      # self.tmp_objx = tmp_objx
-      # self.tmp_objy = tmp_objy
-      # self.objw = tmp_objw
-      # self.objh = tmp_objh
       
    def camera_callback(self, msg):
       for i in range(len(msg.detections)):

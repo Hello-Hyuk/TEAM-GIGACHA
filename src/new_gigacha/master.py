@@ -23,7 +23,7 @@ class Master(threading.Thread):
         self.args = args
         self.period = 1.0 / ui_rate
 
-        self.ser = serial.Serial("/dev/ttyUSB1", 115200)  # Simulation
+        self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
         # self.ser = serial.Serial("/dev/erp42", 115200) # Real World
 
         rospy.init_node('master', anonymous=False)

@@ -176,16 +176,39 @@ class Mission():
                 self.check = False
         else:
             self.plan.behavior_decision = "go"
-            
+
     def convert_lidar(self):
         theta = (self.ego.heading) * pi / 180
         size = 0
-
-        self.perception.objy = []
-        self.perception.objx = []
         objx = []
         objy = []
+        self.perception.tmp_lidar_lock.acquire()
+        size = len(self.perception.tmp_objx)
+        if(size != 0):
+            for i in range(size):
+                objx.append(self.perception.tmp_objx[i] * cos(theta) + self.perception.tmp_objy[i] * -sin(theta) + self.ego.x)
+                objy.append(self.perception.tmp_objx[i] * sin(theta) + self.perception.tmp_objy[i] * cos(theta) + self.ego.y)
+    
+        self.perception.lidar_lock.acquire()   
+        self.perception.objy = []
+        self.perception.objx = []
+        self.perception.objx = objx
+        self.perception.objy = objy
+        self.perception.objw = self.perception.tmp_objw
+        self.perception.objh = self.perception.tmp_objh
+        self.perception.lidar_lock.release()
+        self.perception.tmp_lidar_lock.release()
         
+
+    def convert_lidar2(self):
+        theta = (self.ego.heading) * pi / 180
+        size = 0
+        objx = []
+        objy = []
+        # self.perception.lidar_lock.acquire()   
+        self.perception.objy = []
+        self.perception.objx = []
+        self.perception.tmp_lidar_lock.acquire()
         if len(self.perception.tmp_objx) != 0:
             if (self.prev_objx == self.perception.tmp_objx[0]):
                 self.perception.tmp_objy = []
@@ -199,6 +222,11 @@ class Mission():
                     objx.append(self.perception.tmp_objx[i] * cos(theta) + self.perception.tmp_objy[i] * -sin(theta) + self.ego.x)
                     objy.append(self.perception.tmp_objx[i] * sin(theta) + self.perception.tmp_objy[i] * cos(theta) + self.ego.y)
                 self.prev_objx = self.perception.tmp_objx[0]
-            
+        self.perception.tmp_lidar_lock.release()
         self.perception.objx = objx
         self.perception.objy = objy
+        # print("tmp :" ,len(self.shared.perception.tmp_objx))
+        # print("real :" ,len(self.shared.perception.objx))
+        # self.perception.lidar_lock.release()
+     
+  
