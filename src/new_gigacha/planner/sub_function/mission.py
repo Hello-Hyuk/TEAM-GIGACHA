@@ -43,12 +43,15 @@ class Mission():
         if self.parking.on:
             if 0 <= self.parking.stop_index - self.parking.index <= 3:
                 self.plan.behavior_decision = "stop"
-                if self.parking.direction == 0:
-                    if self.now == 0:
-                        self.now = time()
-                    if time() - self.now > 3:
-                        self.plan.behavior_decision = "parkingBackwardOn"
-                        self.now = 0
+                self.ego.target_brake = 200
+            #     if self.parking.direction == 0:
+            #         if self.now == 0:
+            #             self.now = time()
+            #         if time() - self.now > 3:
+            #             self.plan.behavior_decision = "parkingBackwardOn"
+            #             self.now = 0
+            # if self.plan.behavior_decision == "parkingBackwardOn":
+            #     self.ego.target_gear = 2
                 # elif self.parking.direction == 2:
                 #     self.parking.on = False
                 #     self.plan.behavior_decision = 'driving'

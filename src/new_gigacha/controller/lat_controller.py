@@ -57,9 +57,8 @@ class LatController(threading.Thread):
             self.path = self.parking.forward_path
         else:
             self.path = self.parking.backward_path
-            self.ego.input_gear = 2
 
-        lookahead = 5
+        lookahead = 4
         target_index = lookahead + self.parking.index
 
         target_x, target_y = self.path.x[target_index], self.path.y[target_index]

@@ -50,8 +50,8 @@ class MotionPlanner(threading.Thread):
             elif self.shared.plan.behavior_decision == "stop":
                 # self.plan.trajectory.x = []
                 # self.plan.trajectory.y = []
-                self.input_gear = 1
-                self.input_speed = 0
+                pass
+
 
             elif self.shared.plan.behavior_decision == "turn_right":
                 self.lane_weight = [10000, 10000, 0]
