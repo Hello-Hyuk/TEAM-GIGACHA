@@ -13,15 +13,13 @@ class Parking_Motion():
         self.global_path = self.shared.global_path
         self.parking = self.shared.park
 
-        self.smooth_radius = 5
-
         with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/localizer/parking_KCity.json') as pkc:
             self.parking_point = json.load(pkc)
 
     def make_parking_tra(self):
         self.point = self.parking_point[self.parking.select_num]
-        self.start_point = self.point["start"]
-        self.end_point = self.point["end"]
+        start_point = self.point["start"]
+        end_point = self.point["end"]
         x = start_point[0]
         y = start_point[1]
         if len(self.parking.forward_path.x) == 0:
@@ -78,107 +76,67 @@ smooth_radius = 5
 # 여기서 parking_lot은 주차 구역 입구 정중앙을 뜻함.
 
 
-    def findParkingPath(self):
+    def findParkingPath(ego, path, start_point, end_point):
         global heading
         min_index = 0
         min_dis = 10000000
+        forward_path = Path()
+        backward_path = Path()
         straight_path = Path()
 
-        self.parking_x, self.parking_y = parking_call_back(self.start_point[0],self.start_point[1])
-        self.parking_end_x, self.parking_end_y = parking_call_back(self.end_point[0],self.end_point[1])
+        parking_x, parking_y = parking_call_back(start_point[0],start_point[1])
+        parking_end_x, parking_end_y = parking_call_back(end_point[0],end_point[1])
+
+
+        parking_lot = {
+            'x': parking_x,
+            'y': parking_y
+        }
 
         ######### 주차점과 가장 가까운 path 점 찾기 ########
-        for i in range(len(self.global_path.x)-13000):
-            dx = self.parking_x - path.x[i]
-            dy = self.parking_y - path.y[i]
+        for i in range(len(path.x)-13000):
+            dx = parking_lot['x'] - path.x[i]
+            dy = parking_lot['y'] - path.y[i]
             dis = sqrt(dx*dx + dy*dy)
             if dis < min_dis:
                 min_dis = dis
                 min_index = i
-        self.parking.mindex = min_index
+        print(f"min_inex : {min_index}")
+        heading = rad2deg(atan2(
+            (path.y[min_index]-path.y[min_index - 1]), (path.x[min_index]-path.x[min_index - 1])))
+        print(f"yaw : {heading}")
 
-        self.heading = rad2deg(atan2(
-            (self.global_path.y[self.parking.mindex]-self.global_path.y[self.parking.mindex - 1]), (self.global_path.x[self.parking.mindex]-self.global_path.x[self.parking.mindex - 1])))
-        
-        print(f"min_inex : {self.parking.mindex}")
-        print(f"yaw : {self.heading}")
-
-        ######### O2, O1 원점 찾기 ########직각주차##############################################
+        ######### O2, O1 원점 찾기 ########
         # O2_x, O2_y = find_O2(path, ego, min_index) # 직각주차
         # O1_x, O1_y, heading_O1_02, dis_O1_to_lot = find_O1(
         #     path, ego, min_index, parking_lot) # 직각주차
         
         ######### 전진 원호 생성 ########
-        # self.parking.forward_path = make_arc_path(
+        # forward_path = make_arc_path(
         #     O2_x, O2_y, heading - 90, heading, minimum_radius, forward_path, 1)  # 직각주차
 
         ######### 후진 원호 생성 ########
         # O2_back_arc_heading = heading - (90 - heading_O1_02) # 직각주차
-        # self.parking.backward_path = make_arc_path(
+        # backward_path = make_arc_path(
         #     O2_x, O2_y, heading, O2_back_arc_heading, minimum_radius, backward_path, -1) # 직각주차
-        # self.parking.backward_path = make_arc_path(
+        # backward_path = make_arc_path(
         #     O1_x, O1_y, O2_back_arc_heading+180, heading + 180, dis_O1_to_lot, backward_path, 1)  # 직각주차
-        ########################################################################################
 
         ########### smooth #############
-        O3_x, O3_y, theta_O3_to_lot, dis_mindex_to_start = self.find_O3()  
+        O3_x, O3_y, theta_O3_to_lot, dis_mindex_to_start = find_O3(
+            path, ego, min_index, parking_lot, heading)  
 
-        self.parking.forward_path = self.make_path(O3_x, O3_y, self.heading + 90, self.heading +
-                                    90-theta_O3_to_lot, -1)
-
-        self.parking.backward_path.x, self.parking.backward_path.y = list(reverse(self.parking.forward_path.x)), list(reverse(self.parking.forward_path.y))  
-
-        self.start_index = min_index - int(dis_mindex_to_start*10)
-        print('111',self.start_index)
+        forward_path = make_arc_path(O3_x, O3_y, heading + 90, heading +
+                                    90-theta_O3_to_lot, smooth_radius, forward_path, -1)
+        straight_path = make_straight_path(parking_x, parking_y,parking_end_x, parking_end_y)
+        backward_path.x, backward_path.y = forward_path.x.reverse(
+        ), forward_path.y.reverse()  
+        print('dis_mindex_to_start',dis_mindex_to_start)
+        min_index = min_index - int(dis_mindex_to_start*10)
+        print('111',min_index)
         print("Parking_path Created")
 
-        return self.forward_path, self.backward_path, self.start_index
-
-        def find_O3(self):
-
-            dis_mindex_to_lot = sqrt((self.parking_x - self.global_path.y[self.parking.mindex])**2 + (
-                self.parking_y - self.global_path.y[self.parking.mindex])**2)
-            dis_mindex_to_start = sqrt(2*dis_mindex_to_lot *
-                                    self.smooth_radius - dis_mindex_to_lot**2)
-            dis_mindex_to_ego = sqrt((self.global_path.x[self.parking.mindex]-self.global_path.x[self.ego.index])
-                                    ** 2 + (self.global_path.y[self.parking.mindex]-self.global_path.y[self.ego.index])**2)
-            dis_start_to_ego = dis_mindex_to_ego - dis_mindex_to_start
-            dis_O3 = sqrt(self.smooth_radius**2 + dis_start_to_ego**2)
-
-            theta_O3 = rad2deg(
-                atan2(self.smooth_radius/dis_start_to_ego, 1))
-            heading_to_O3 = self.heading - theta_O3
-
-            theta_O3_to_lot = rad2deg(
-                atan2(dis_mindex_to_start/(self.smooth_radius-dis_mindex_to_lot), 1))
-
-            O3_x = self.global_path.x[self.ego.index] + dis_O3*cos(radians(heading_to_O3))
-            O3_y = self.global_path.y[self.ego.index] + dis_O3*sin(radians(heading_to_O3))
-
-            return O3_x, O3_y, theta_O3_to_lot, dis_mindex_to_start        
-        
-        def make_path(self, x, y, start, end, direction):
-            start = int(round(start))
-            end = int(round(end))
-
-            for theta in range(start, end, direction):
-                self.forward_path.x.append(x+self.radius*cos(radians(theta)))
-                self.forward_path.y.append(y+self.radius*sin(radians(theta)))
-
-            self.make_straight_path()
-
-        def make_straight_path(self):
-            sx,sy,ex,ey = self.parking_x, self.parking_y, self.parking_end_x, self.parking_end_y
-
-            diff = ex- sx
-            diff = diff*10
-            for i in range(int(diff)):
-                value = sx + i*0.1
-                value_y=((ey-sy)/(ex-sx))(value-sx)+sy
-
-                self.forward_path.x.append(value)
-                self.forward_path.y.append(value_y)
-
+        return forward_path, backward_path, min_index
 
 
 def find_O2(path, ego, min_index):
@@ -215,7 +173,28 @@ def find_O1(path, ego, min_index, parking_lot):
     return O1_x, O1_y, theta_O1_to_O2, dis_O1_to_lot
 
 
+def find_O3(path, ego, min_index, parking_lot, heading):
 
+    dis_mindex_to_lot = sqrt((parking_lot['x'] - path.x[min_index])**2 + (
+        parking_lot['y'] - path.y[min_index])**2)
+    dis_mindex_to_start = sqrt(2*dis_mindex_to_lot *
+                               smooth_radius - dis_mindex_to_lot**2)
+    dis_mindex_to_ego = sqrt((path.x[min_index]-path.x[ego.index])
+                             ** 2 + (path.y[min_index]-path.y[ego.index])**2)
+    dis_start_to_ego = dis_mindex_to_ego - dis_mindex_to_start
+    dis_O3 = sqrt(smooth_radius**2 + dis_start_to_ego**2)
+
+    theta_O3 = rad2deg(
+        atan2(smooth_radius/dis_start_to_ego, 1))
+    heading_to_O3 = heading - theta_O3
+
+    theta_O3_to_lot = rad2deg(
+        atan2(dis_mindex_to_start/(smooth_radius-dis_mindex_to_lot), 1))
+
+    O3_x = path.x[ego.index] + dis_O3*cos(radians(heading_to_O3))
+    O3_y = path.y[ego.index] + dis_O3*sin(radians(heading_to_O3))
+
+    return O3_x, O3_y, theta_O3_to_lot, dis_mindex_to_start
 
 
 def make_arc_path(x, y, start, end, radius, path, direction):
