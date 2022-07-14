@@ -123,7 +123,7 @@ class Mission():
 
 
     def non_traffic_right(self):
-        if self.ego.index >= 1000 and self.ego.index <= 1050:
+        if self.ego.index >= 430 and self.ego.index <= 450:
             self.plan.behavior_decision = "stop"
             if self.time_checker == False:
                 self.time_checker = True
