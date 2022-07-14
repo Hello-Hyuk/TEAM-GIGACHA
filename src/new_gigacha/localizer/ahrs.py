@@ -26,9 +26,13 @@ class IMU():
         self.time = time.time()
         self.orientation_q = data.orientation
         roll, pitch, yaw = efq(self.orientation_q.x, self.orientation_q.y, self.orientation_q.z, self.orientation_q.w)
+        
+        self.linear_accel_x = data.linear_acceleration.x
+        self.linear_accel_y = data.linear_acceleration.y
+        self.angular_velocity_z = data.angular_velocity.z
 
         # self.heading = np.rad2deg(-1*yaw)%360 # real world
-        # self.battery = data.angular_velocity.x
+        # self.battery = data.linear_acceleration.z
         self.heading = np.rad2deg(yaw)%360 # simul
 
 
