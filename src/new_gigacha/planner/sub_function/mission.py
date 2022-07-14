@@ -19,6 +19,8 @@ class Mission():
         self.check = False
         self.prev_objx = 0
         self.now = 0
+        self.parking_time_checker = False
+        self.parking_create = False
 
     def update_parameter(self, eg, pc, pl):
         self.perception = pc
@@ -31,65 +33,48 @@ class Mission():
         self.plan.behavior_decision = "driving"
 
     def Parking(self):
-        if len(self.parking.forward_path.x) == 0:
-            self.plan.behavior_decision = "parking_trajectory_Create"
-        else:
-            if self.parking.on == False:
-                if (self.parking.mindex - 15 <= self.ego.index <= self.parking.mindex - 10):
-                    self.plan.behavior_decision = "parkingForwardOn"
+
+        if (915 <= self.ego.index <= 925):
+            if self.parking_time_checker == False:
+                self.parking_time_checker = True
+                self.cur_t = time()
+            else:
+                if time() - self.cur_t < 3:
+                    self.plan.behavior_decision = "stop"
+                    self.ego.target_brake = 200
+                    self.parking.select_num = self.perception.parking_num
                 else:
-                    self.plan.behavior_decision = 'driving'
+                    # self.plan.behavior_decision = "driving"
+                    self.ego.target_brake = 0
+                    self.parking_create = True
 
-        if self.parking.on:
-            if 0 <= self.parking.stop_index - self.parking.index <= 3:
-                self.plan.behavior_decision = "stop"
-                self.ego.target_brake = 200
-            #     if self.parking.direction == 0:
-            #         if self.now == 0:
-            #             self.now = time()
-            #         if time() - self.now > 3:
-            #             self.plan.behavior_decision = "parkingBackwardOn"
-            #             self.now = 0
-            # if self.plan.behavior_decision == "parkingBackwardOn":
-            #     self.ego.target_gear = 2
-                # elif self.parking.direction == 2:
-                #     self.parking.on = False
-                #     self.plan.behavior_decision = 'driving'
+        if self.parking_create:
+            if len(self.parking.forward_path.x) == 0:
+                self.plan.behavior_decision = "parking_trajectory_Create"
+            else:
+                if self.parking.on == False:
+                    if (self.parking.mindex - 15 <= self.ego.index <= self.parking.mindex - 10):
+                        self.plan.behavior_decision = "parkingForwardOn"
+                    else:
+                        self.plan.behavior_decision = 'driving'
 
-    # def park(self):
-    #     if self.ego.index >= 500 and self.ego.index <= 550:
-    #         self.ego.brake = 1
-    #         self.ego.target_speed = 0.0
-    #         self.plan.behavior_decision = "parking_ready"
-    #         time.sleep(5)
+            if self.parking.on:
+                if 0 <= self.parking.stop_index - self.parking.index <= 3:
+                    self.plan.behavior_decision = "stop"
+                    self.ego.target_brake = 200
+                #     if self.parking.direction == 0:
+                #         if self.now == 0:
+                #             self.now = time()
+                #         if time() - self.now > 3:
+                #             self.plan.behavior_decision = "parkingBackwardOn"
+                #             self.now = 0
+                # if self.plan.behavior_decision == "parkingBackwardOn":
+                #     self.ego.target_gear = 2
+                    # elif self.parking.direction == 2:
+                    #     self.parking.on = False
+                    #     self.plan.behavior_decision = 'driving'
 
-    #         self.ego.brake = -1
-    #         self.ego.target_speed = 5
-    #         self.plan.behavior_decision = "parking_start"
-
-    #         if self.ego.index >= 700 and self.ego.index <= 750:
-    #             self.ego.brake = 1
-    #             self.ego.target_speed = 0.0
-    #             self.ego.gear = 2
-    #             self.plan.behavior_decision = "parking_complete"
-    #             time.sleep(5)
-
-    #     if self.behavior.decision == "parking_complete":
-    #         self.ego.brake = -1
-    #         self.ego.target_speed = 5.0
-    #         self.plan.behavior_decision = "backward_driving"
-
-    #         if (self.ego.index >= 500 and self.ego.index <= 550) and self.behavior.decision == "backward driving":
-    #             self.ego.brake = 1
-    #             self.ego.target_speed = 0.0
-    #             self.ego.gear = 0
-    #             self.plan.behavior_decision = "go_back_to_driving"
-    #             time.sleep(5)
-
-    #             self.ego.brake = -1
-    #             self.ego.target_speed = 15.0
-    #             self.plan.behavior_decision = "driving"
-
+   
     def stop(self):
         self.sign_dis = sqrt(
             (self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
