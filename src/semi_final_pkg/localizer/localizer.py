@@ -20,22 +20,11 @@ class Localizer(threading.Thread):
         self.ego = parent.shared.ego
         self.global_path = parent.shared.global_path
 
-        self.read_global_path()  # only one time
-
         self.gps = GPS()
         self.imu = IMU()
         # self.odometry = Odometry(self.ego, self.gps, self.imu)
 
         self.offset = 0
-
-    def read_global_path(self):
-        with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
-            csv_reader = csv.reader(csv_file)
-            for line in csv_reader:
-                self.global_path.x.append(float(line[0]))
-                self.global_path.y.append(float(line[1]))
-                # self.global_path.k.append(float(line[2]))
-                # self.global_path.yaw.append(float(line[3]))
 
     def index_finder(self):
         min_dis = -1

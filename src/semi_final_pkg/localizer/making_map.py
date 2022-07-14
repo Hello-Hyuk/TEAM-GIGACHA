@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 import threading
+import rospy
+from time import sleep
+from math import hypot
 from local_pkg.msg import Displacement
 from localizer.gps import GPS
 
@@ -57,7 +60,7 @@ class MP(threading.Thread):
             self.diff_right = self.right - self.right_pulse
             self.right_pulse = self.right
 
-    def encoderCallback(self):
+    def encoderCallback(self,msg):
         self.left = self.serialTopulse()
         self.right = msg.data
 
@@ -68,7 +71,15 @@ class MP(threading.Thread):
     def map_maker(self):
         self.global_path.x.append(self.gps.x)
         self.global_path.y.append(self.gps.y)
+        self.global_path.steer_list.append(self.ego.steer)
 
     def run(self):
         while True:
-            
+            if not self.stop_thread:
+                if round(self.pulse) % 6 == 0:
+                    self.map_maker()
+
+                if len(self.global_path.x) >= 100 and hypot(self.gps.x, self.gps.y) <= 0.96:
+                    self.stop_thread = True
+            else:
+                sleep(self.period)
