@@ -1,7 +1,7 @@
 import rospy
 from planner_and_control.msg import Perception
 from visualization_msgs.msg import MarkerArray, Marker
-from vision_msgs.msg import Detection2DArray
+# from vision_msgs.msg import Detection2DArray
 
 class Perception_():
    def __init__(self):
@@ -9,7 +9,7 @@ class Perception_():
 
       rospy.Subscriber("/input", Perception, self.input_callback)
       rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
-      rospy.Subscriber("/bbox1", Detection2DArray, self.camera_callback)
+      # rospy.Subscriber("/bbox1", Detection2DArray, self.camera_callback)
 
       self.signx = []
       self.signy = []

@@ -101,7 +101,7 @@ class Mission():
             self.plan.behavior_decision = "turn_right"
             self.ego.target_brake = 0
         else:
-            if self.ego.index >= 1000 and self.ego.index <= 1050:
+            if self.ego.index >= 430 and self.ego.index <= 450:
                 self.plan.behavior_decision = "stop"
                 self.ego.target_brake = 200
             else:
@@ -114,7 +114,7 @@ class Mission():
             self.plan.behavior_decision = "turn_left"
             self.ego.target_brake = 0
         else:
-            if self.ego.index >= 2750 and self.ego.index <= 2800:
+            if self.ego.index >= 430 and self.ego.index <= 450:
                 self.plan.behavior_decision = "stop"
                 self.ego.target_brake = 200
             else:

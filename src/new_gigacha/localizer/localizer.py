@@ -41,8 +41,8 @@ class Localizer(threading.Thread):
         min_dis = -1
         min_idx = 0
         step_size = 100
-        save_idx = self.ego.index
-
+        # save_idx = self.ego.index                    # for not decreasing index
+        save_idx = 0
         for i in range(max(self.ego.index - step_size, 0), self.ego.index + step_size):
             try:
                 dis = hypot(
@@ -53,7 +53,6 @@ class Localizer(threading.Thread):
                 min_dis = dis
                 min_idx = i
                 save_idx = i
-
         self.ego.index = min_idx
 
     def heading_decision(self):
