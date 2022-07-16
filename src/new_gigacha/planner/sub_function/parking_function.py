@@ -190,7 +190,7 @@ class Parking_Motion():
             self.parking.forward_path.x.append(x+radius*cos(radians(theta)))
             self.parking.forward_path.y.append(y+radius*sin(radians(theta)))
 
-        # self.make_straight_path()
+        self.make_straight_path()
 
     def make_straight_path(self):
         sx,sy,ex,ey = self.parking_x, self.parking_y, self.parking_end_x, self.parking_end_y
