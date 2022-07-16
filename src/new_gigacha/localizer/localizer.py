@@ -34,7 +34,7 @@ class Localizer(threading.Thread):
             for line in csv_reader:
                 self.global_path.x.append(float(line[0]))
                 self.global_path.y.append(float(line[1]))
-                # self.global_path.k.append(float(line[2]))
+                self.global_path.k.append(float(line[2]))
                 # self.global_path.yaw.append(float(line[3]))
 
     def index_finder(self):

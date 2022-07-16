@@ -7,7 +7,8 @@ from localizer.localizer import Localizer
 from planner.mission_planner import MissionPlanner
 from planner.behavior_planner import BehaviorPlanner
 from planner.motion_planner import MotionPlanner
-from controller.lat_controller import LatController
+from controller.stanley import Stanley
+# from controller.lat_controller import LatController
 from controller.lon_controller import LonController
 from utils.serial_reader import SerialReader
 from utils.serial_writer import SerialWriter
@@ -23,8 +24,8 @@ class Master(threading.Thread):
         self.args = args
         self.period = 1.0 / ui_rate
 
-        # self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
-        self.ser = serial.Serial("/dev/erp42", 115200) # Real World
+        self.ser = serial.Serial("/dev/ttyUSB1", 115200)  # Simulation
+        # self.ser = serial.Serial("/dev/erp42", 115200) # Real World
 
         rospy.init_node('master', anonymous=False)
 
@@ -46,7 +47,7 @@ class Master(threading.Thread):
         self.motion_planner = MotionPlanner(self, rate=20)
         self.init_thread(self.motion_planner)
 
-        self.lat_controller = LatController(self, rate=20)
+        self.lat_controller = Stanley(self, rate=20)
         self.init_thread(self.lat_controller)
 
         self.lon_controller = LonController(self, rate=3)
@@ -62,15 +63,15 @@ class Master(threading.Thread):
         self.init_thread(self.visualizer)
 
         while True:
-            print('------------------')
-            print('Localization')
-            print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
-                .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
-            print('Mission_State : {}'.format(self.shared.plan.state))
-            print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
-            print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
-            print('Controller')
-            print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
+            # print('------------------')
+            # print('Localization')
+            # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
+            #     .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
+            # print('Mission_State : {}'.format(self.shared.plan.state))
+            # print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
+            # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
+            # print('Controller')
+            # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
             # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
             # print("tmp :" ,len(self.shared.perception.tmp_objx))
             # print("real :" ,len(self.shared.perception.objx))
@@ -88,7 +89,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='kcity_simul/left_lane',
+        default='kcity_simul/park1',
         help='kcity/map1, songdo/map2, yonghyeon/Yonghyeon, kcity_simul/left_lane, kcity_simul/right_lane'
     )
 
