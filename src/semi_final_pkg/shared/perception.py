@@ -17,7 +17,6 @@ class Perception_():
       self.objy = msg.objy
       self.objr = msg.objr
 
-   
 #    def lidar_callback(self, msg):
 #       self.tmp_objx = []
 #       self.tmp_objy = []
