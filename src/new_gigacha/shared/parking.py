@@ -10,4 +10,4 @@ class Parking():
         self.direction = 0
         self.index = 0
         self.stop_index = 0
-        self.select_num = "1"
+        self.select_num = 2
