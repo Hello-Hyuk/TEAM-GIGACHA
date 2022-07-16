@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import rospy
-import pymap3d
 from sensor_msgs.msg import PointCloud2
 from sensor_msgs.msg import PointField
 from sensor_msgs import point_cloud2

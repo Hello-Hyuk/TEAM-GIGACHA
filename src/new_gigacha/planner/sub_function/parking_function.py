@@ -261,6 +261,7 @@ class Parking_Motion():
         #     self.parking.forward_path.y.append(y+radius*sin(radians(theta)))
         #     print("second_y : ", y+radius*sin(radians(theta)))
 
+        self.make_straight_path()
         for theta in range(0, angle):
             self.parking.forward_path.x.append(x+radius*cos(radians(start - theta)))
             self.parking.forward_path.y.append(y+radius*sin(radians(start - theta)))
