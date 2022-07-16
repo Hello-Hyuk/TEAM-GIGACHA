@@ -2,6 +2,7 @@
 import threading
 from time import sleep
 from std_msgs.msg import String
+from math import pi, cos, sin
 
 class Planner(threading.Thread):
     def __init__(self, parent, rate):
@@ -18,9 +19,12 @@ class Planner(threading.Thread):
     def run(self):
         while True:
             try:
-                self.ego.point_x = self.perception.objx
-                self.ego.point_y = self.perception.objy
+                theta = (self.ego.heading) * pi / 180
 
+                self.ego.point_x = self.perception.objx[0] * cos(theta) + self.perception.objy[0] * -sin(theta) + self.ego.x
+                self.ego.point_y = self.perception.objx[0] * sin(theta) + self.perception.objy[0] * cos(theta) + self.ego.y
+                
+                                
                 # if  1:##처음상태:
                 #     self.plan.state == "1st"
 
