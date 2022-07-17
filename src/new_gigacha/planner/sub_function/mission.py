@@ -61,7 +61,7 @@ class Mission():
                         self.plan.behavior_decision = 'driving'
 
             if self.parking.on:
-                if 10 <= self.parking.stop_index - self.parking.index <= 13:
+                if 5 <= self.parking.stop_index - self.parking.index <= 8:
                     self.plan.behavior_decision = "stop"
                     self.ego.target_brake = 200
                     if self.parking.direction == 0:
@@ -71,13 +71,18 @@ class Mission():
                             self.plan.behavior_decision = "parkingBackwardOn"
                             self.ego.target_brake = 0
                             self.ego.target_gear = 2
-                            self.now = 0
 
-                if self.plan.behavior_decision == "parkingBackwardOn":
-                    self.ego.target_gear = 2
                     # elif self.parking.direction == 2:
                     #     self.parking.on = False
+                    #     self.ego.target_brake = 0
+                    #     self.ego.target_gear = 0
                     #     self.plan.behavior_decision = 'driving'
+
+                # if self.plan.behavior_decision == "parkingBackwardOn":
+                #     self.ego.target_gear = 2
+                #     # elif self.parking.direction == 2:
+                #     #     self.parking.on = False
+                #     #     self.plan.behavior_decision = 'driving'
 
    
     def stop(self):

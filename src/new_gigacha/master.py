@@ -49,7 +49,7 @@ class Master(threading.Thread):
         self.lat_controller = LatController(self, rate=20)
         self.init_thread(self.lat_controller)
 
-        self.lon_controller = LonController(self, rate=3)
+        self.lon_controller = LonController(self, rate=10)
         self.init_thread(self.lon_controller)
 
         self.serial_reader = SerialReader(self, rate=20)
