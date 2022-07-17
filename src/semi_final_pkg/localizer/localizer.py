@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 import time
-import csv
 import threading
-from math import atan2, sqrt
+import numpy as np
+from math import atan2
 from time import sleep
+from csv_to_curve import circumradius
 
 from localizer.ahrs import IMU
 from localizer.gps import GPS
@@ -27,22 +28,27 @@ class Localizer(threading.Thread):
 
     def add_curvature_yaw(self):
         for i in range(len(self.global_path.x)-1):
-            yaw = atan2(self.global_path.y[i+1]-self.global_path.y[i],\
-            self.global_path.x[i+1]-self.global_path.x[i])
-            self.global_path.yaw_list.append(yaw) # enu coordinate
+            yaw = atan2(self.global_path.y[i]-self.global_path.y[i-1],\
+            self.global_path.x[i]-self.global_path.x[i-1])
+            self.global_path.yaw_list.append((np.rad2deg(yaw)) % 360) # enu coordinate
 
-            # calculate curvature
-            center_point_x = (self.global_path.x[i-1] + self.global_path.x[i+1]) / 2
-            center_point_y = (self.global_path.y[i-1] + self.global_path.y[i+1]) / 2
-
-            w = sqrt((self.global_path.x[i+1] - self.global_path.x[i-1])**2\
-            + (self.global_path.y[i+1] - self.global_path.y[i-1])**2)
-            h = sqrt((self.global_path.x[i] - center_point_x)**2\
-            + (self.global_path.y[i] - center_point_y)**2)
-
-            radius = (h / 2) + (pow(w,2) / 8*h)
-
-            self.global_path.curvature.append(1 / radius)
+            if i == 0:
+                x_vals = [self.global_path.x[-1], self.global_path.x[0], self.global_path.x[1]]
+                y_vals = [self.global_path.y[-1], self.global_path.y[0], self.global_path.y[1]]
+                R = circumradius(x_vals, y_vals)
+                try:
+                    self.global_path.curvature.append(1/R)
+                except ZeroDivisionError:
+                    self.global_path.curvature.append(0)
+            else:
+                R = circumradius(x_list[i-1:i+2], y_list[i-1:i+2])
+                try:
+                    self.global_path.curvature.append(1/R)
+                except ZeroDivisionError:
+                    self.global_path.curvature.append(0)
+        
+        self.global_path.x.pop()
+        self.global_path.y.pop()
 
     def heading_decision(self):
         global time_sync
