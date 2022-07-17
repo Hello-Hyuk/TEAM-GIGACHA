@@ -44,7 +44,7 @@ class Parking_Motion():
     def make_parking_tra(self):
         # self.mapname = str(self.parking.select_num)
         self.parking.select_num = 3
-        self.mapname = 'parksssang'+ str(self.parking.select_num)
+        self.mapname = 'parkssang'+ str(self.parking.select_num)
         path1 = Path()
         path2 = Path()
         min_index = 0
