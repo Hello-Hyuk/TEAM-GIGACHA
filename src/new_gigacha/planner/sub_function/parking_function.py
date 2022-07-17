@@ -28,52 +28,52 @@ class Parking_Motion():
         with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/localizer/parking_KCity.json') as pkc:
             self.parking_point = json.load(pkc)
 
-    def make_parking_tra(self):
-        # self.point = self.parking_point[str(self.parking.select_num)]
-        self.parking.select_num = 2
-        if self.parking.select_num >= 2:
-            self.smooth_radius = 7
-        self.point = self.parking_point[str(self.parking.select_num)]
-        self.start_point = self.point["start"]
-        self.end_point = self.point["end"]
-        if len(self.parking.forward_path.x) == 0:
-            # self.parking.forward_path, self.parking.backward_path, self.parking.mindex = self.findParkingPath()
-            self.parking.forward_path, self.parking.backward_path, self.parking.mindex = self.findParkingPath2()
+    # def make_parking_tra(self):
+    #     # self.point = self.parking_point[str(self.parking.select_num)]
+    #     self.parking.select_num = 2
+    #     if self.parking.select_num >= 2:
+    #         self.smooth_radius = 7
+    #     self.point = self.parking_point[str(self.parking.select_num)]
+    #     self.start_point = self.point["start"]
+    #     self.end_point = self.point["end"]
+    #     if len(self.parking.forward_path.x) == 0:
+    #         # self.parking.forward_path, self.parking.backward_path, self.parking.mindex = self.findParkingPath()
+    #         self.parking.forward_path, self.parking.backward_path, self.parking.mindex = self.findParkingPath2()
 
 #########saved map import function########
-    # def make_parking_tra(self):
-    #     # self.mapname = 'park'+ str(self.parking.select_num)
-    #     self.parking.select_num = 1
-    #     if self.parking.select_num >
-    #     self.mapname = str(self.parking.select_num)
-    #     path1 = Path()
-    #     path2 = Path()
-    #     min_index = 0
-    #     min_dis = 10000000
+    def make_parking_tra(self):
+        # self.mapname = str(self.parking.select_num)
+        self.parking.select_num = 3
+        self.mapname = 'parksssang'+ str(self.parking.select_num)
+        path1 = Path()
+        path2 = Path()
+        min_index = 0
+        min_dis = 10000000
 
-    #     with open(f"maps/kcity_parking/{self.mapname}.csv", mode="r") as csv_file:
-    #         csv_reader = csv.reader(csv_file)
-    #         for line in csv_reader:
-    #             path1.x.append(float(line[0]))
-    #             path1.y.append(float(line[1]))
-    #             # self.global_path.k.append(float(line[2]))
-    #             # self.global_path.yaw.append(float(line[3]))
+        with open(f"maps/kcity_parking/{self.mapname}.csv", mode="r") as csv_file:
+            csv_reader = csv.reader(csv_file)
+            for line in csv_reader:
+                path1.x.append(float(line[0]))
+                path1.y.append(float(line[1]))
+                # self.global_path.k.append(float(line[2]))
+                # self.global_path.yaw.append(float(line[3]))
+        path1.x = path1.x[0:80]
+        path1.y = path1.y[0:80]
+        path2.x = list(reversed(path1.x))
+        path2.y = list(reversed(path1.y))
 
-    #     path2.x = list(reversed(path1.x))
-    #     path2.y = list(reversed(path1.y))
+        self.parking.forward_path = path1
+        self.parking.backward_path = path2
+        
+        for i in range(len(self.global_path.x)-8000):
+            dx = self.parking.forward_path.x[0] - self.global_path.x[i]
+            dy = self.parking.forward_path.y[0] - self.global_path.y[i]
+            dis = sqrt(dx*dx + dy*dy)
+            if dis < min_dis:
+                min_dis = dis
+                min_index = i
 
-    #     self.parking.forward_path = path1
-    #     self.parking.backward_path = path2
-
-    #     # for i in range(len(self.global_path.x)-8000):
-    #     #     dx = self.parking.forward_path.x[0] - self.global_path.x[i]
-    #     #     dy = self.parking.forward_path.y[0] - self.global_path.y[i]
-    #     #     dis = sqrt(dx*dx + dy*dy)
-    #     #     if dis < min_dis:
-    #     #         min_dis = dis
-    #     #         min_index = i
-
-    #     # self.parking.mindex = min_index
+        self.parking.mindex = min_index
 
     def park_index_finder(self,path):
         min_dis = -1

@@ -55,7 +55,7 @@ class LatController(threading.Thread):
     def parking_run(self):
         if self.parking.direction == 0:
             self.path = self.parking.forward_path
-            lookahead = 20
+            lookahead = 6
         else:
             self.path = self.parking.backward_path
             lookahead = 6
