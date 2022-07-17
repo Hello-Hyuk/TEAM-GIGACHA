@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import threading
+from math import hypot
 from time import sleep
 from std_msgs.msg import String
 from math import pi, cos, sin
@@ -9,31 +10,55 @@ class Planner(threading.Thread):
         super().__init__()
         self.period = 1.0 / rate
         self.shared = parent.shared
+        self.global_path = self.shared.global_path
 
         self.ego = self.shared.ego
         self.perception = self.shared.perception
-        self.plan = self.shared.plan
+        self.state = self.shared.state
 
-        self.state_remember = "1st"
+        #self.state = ""
+
+
+
 
     def run(self):
         while True:
             try:
+
                 theta = (self.ego.heading) * pi / 180
 
-                self.ego.point_x = self.perception.objx[0] * cos(theta) + self.perception.objy[0] * -sin(theta) + self.ego.x
-                self.ego.point_y = self.perception.objx[0] * sin(theta) + self.perception.objy[0] * cos(theta) + self.ego.y
-                
+
+
+                if self.state=="1st":
+
+                    self.ego.point_x = self.perception.objx[0] * cos(theta) + self.perception.objy[0] * -sin(theta) + self.ego.x
+                    self.ego.point_y = self.perception.objx[0] * sin(theta) + self.perception.objy[0] * cos(theta) + self.ego.y
+
+
+                elif self.state=="2nd":
+
+                    min_dis = -1
+                    min_idx = 0
+                    step_size = 100
+                    save_idx = 0
+
+                    for i in range(max(self.ego.index - step_size, 0), self.ego.index + step_size):
+                        try:
+                            dis = hypot(self.global_path.x[i] - self.ego.x, self.globa1_path.y[i] - self.ego.y)
+                        except IndexError:
+                            break
+                        if (min_dis > dis or min_dis == -1) and save_idx <= i:
+                            min_dis = dis
+                            min_idx = i
+                            save_idx = i
+
+                    self.ego.index = min_idx   
+
+                    
+                    self.ego.point_x=self.global_path.x[self.ego.index]
+                    self.ego.point_y=self.global_path.y[self.ego.index]                 
+                                        
                                 
-                # if  1:##처음상태:
-                #     self.plan.state == "1st"
-
-
-                #     ##맵을 다 땄다는 트리거==True
-
-
-                # elif 2:##맵을 다 땄다는 트리거==True:
-                #     self.plan.state =="after_2nd"
                     
             except IndexError:
                 # pass
