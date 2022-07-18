@@ -41,7 +41,7 @@ class Localizer(threading.Thread):
                 except ZeroDivisionError:
                     self.global_path.curvature.append(0)
             else:
-                R = circumradius(x_list[i-1:i+2], y_list[i-1:i+2])
+                R = circumradius(self.global_path.x[i-1:i+2], self.global_path.y[i-1:i+2])
                 try:
                     self.global_path.curvature.append(1/R)
                 except ZeroDivisionError:

@@ -72,7 +72,6 @@ class MP(threading.Thread):
     def map_maker(self):
         self.global_path.x.append(self.gps.x)
         self.global_path.y.append(self.gps.y)
-        self.global_path.steer_list.append(self.ego.steer)
 
     def run(self):
         while True:
