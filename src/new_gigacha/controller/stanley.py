@@ -1,6 +1,6 @@
 import threading
 from time import sleep
-from math import pi, degrees, radians
+from math import pi, degrees, radians, atan2
 import numpy as np
 
 class Stanley(threading.Thread):
@@ -14,7 +14,8 @@ class Stanley(threading.Thread):
         self.lattice_path = parent.shared.lattice_path
  
         self.WB = 1.04 # wheel base
-        self.k = 0.03
+        self.k = 0.35
+        self.ks = 3
 
         self.cx = self.shared.global_path.x
         self.cy = self.shared.global_path.y
@@ -38,12 +39,11 @@ class Stanley(threading.Thread):
         self.target_idx = np.argmin(d)
         # print(self.target_idx)
         # Project RMS error onto front axle vector
-        front_axle_vec = [-np.cos(radians(self.ego.heading) + np.pi / 2),
-                        -np.sin(radians(self.ego.heading) + np.pi / 2)]
-        self.error_front_axle = np.dot([dx[self.ego.index + 5], dy[self.ego.index + 5]], front_axle_vec)
+        front_axle_vec = [-np.cos(radians(self.ego.heading) + np.pi / 2), -np.sin(radians(self.ego.heading) + np.pi / 2)]
+        self.error_front_axle = np.dot([dx[self.ego.index], dy[self.ego.index]], front_axle_vec)
 
     def normalize_angle(self):
-        angle = self.cyaw[self.ego.index + 5] - (radians(self.ego.heading))
+        angle = self.cyaw[self.ego.index] - (radians(self.ego.heading))
 
 
         while angle > np.pi:
@@ -55,8 +55,11 @@ class Stanley(threading.Thread):
         # theta_e corrects the heading error
         # theta_d corrects the cross track error
         self.theta_e = angle
-        self.theta_d = np.arctan2(self.k * self.error_front_axle, self.ego.speed)
-
+        if self.ego.speed < 10:
+            self.theta_d = np.arctan2(self.k * self.error_front_axle, self.ego.speed + self.ks)
+        else:
+            self.theta_d = np.arctan2(self.k * self.error_front_axle, self.ego.speed)
+    
     def run(self):
         while True:
             

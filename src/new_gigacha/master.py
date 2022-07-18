@@ -8,6 +8,7 @@ from planner.mission_planner import MissionPlanner
 from planner.behavior_planner import BehaviorPlanner
 from planner.motion_planner import MotionPlanner
 from controller.stanley import Stanley
+from controller.ex import EX
 # from controller.lat_controller import LatController
 from controller.lon_controller import LonController
 from utils.serial_reader import SerialReader
@@ -89,7 +90,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='kcity_stanley/kcity_stanley',
+        default='kcity_simul/final',
         help='kcity/map1, songdo/map2, yonghyeon/Yonghyeon, kcity_simul/left_lane, kcity_simul/right_lane'
     )
 
