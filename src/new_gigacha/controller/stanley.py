@@ -14,14 +14,11 @@ class Stanley(threading.Thread):
         self.lattice_path = parent.shared.lattice_path
  
         self.WB = 1.04 # wheel base
-        self.k = -0.05
+        self.k = 0.03
 
         self.cx = self.shared.global_path.x
         self.cy = self.shared.global_path.y
         self.cyaw = self.shared.global_path.k
-
-        self.current_target_idx = 0
-        self.error_front_axle = 0
 
         self.target_idx = 0
         self.error_front_axle = 0
@@ -43,10 +40,11 @@ class Stanley(threading.Thread):
         # Project RMS error onto front axle vector
         front_axle_vec = [-np.cos(radians(self.ego.heading) + np.pi / 2),
                         -np.sin(radians(self.ego.heading) + np.pi / 2)]
-        self.error_front_axle = np.dot([dx[self.ego.index], dy[self.ego.index]], front_axle_vec)
+        self.error_front_axle = np.dot([dx[self.ego.index + 5], dy[self.ego.index + 5]], front_axle_vec)
 
     def normalize_angle(self):
-        angle = self.cyaw[self.ego.index] - (radians(self.ego.heading))
+        angle = self.cyaw[self.ego.index + 5] - (radians(self.ego.heading))
+
 
         while angle > np.pi:
             angle -= 2.0 * np.pi
@@ -67,9 +65,11 @@ class Stanley(threading.Thread):
             print("heading error : ", degrees(self.theta_e))
             print("cross track error : ", degrees(self.theta_d))
             
-            delta = self.theta_e + self.theta_d # Steering control
-            # print(degrees(delta))
+            delta = -(self.theta_e) + self.theta_d # Steering control
+            # print("steering : ", delta)
+            # print("degree :", degrees(delta))
             self.ego.input_steer = max(min(degrees(delta), 27.0), -27.0)
+            # print("steer : ", self.ego.input_steer)
             # self.ego.input_steer = delta
             sleep(self.period)
 

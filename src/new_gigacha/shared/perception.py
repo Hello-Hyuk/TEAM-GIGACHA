@@ -1,6 +1,6 @@
 import threading
 import rospy
-from planner_and_control.msg import Perception
+# from planner_and_control.msg import Perception
 from visualization_msgs.msg import MarkerArray, Marker
 #from vision_msgs.msg import Detection2DArray
 
@@ -8,7 +8,7 @@ class Perception_():
    def __init__(self):
       self.id_check = False
 
-      rospy.Subscriber("/input", Perception, self.input_callback)
+      # rospy.Subscriber("/input", Perception, self.input_callback)
       rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
       #rospy.Subscriber("/bbox1", Detection2DArray, self.camera_callback)
 
@@ -30,17 +30,17 @@ class Perception_():
       self.tmp_lidar_lock = threading.Lock()
       self.lidar_lock = threading.Lock()
 
-   def input_callback(self, msg):
-      self.signx = msg.signx
-      self.signy = msg.signy
-      self.objx = msg.objx
-      self.objy = msg.objy
-      self.objr = msg.objr
-      self.tred = msg.tred
-      self.tyellow = msg.tyellow
-      self.tleft = msg.tleft
-      self.tgreen = msg.tgreen
-      self.signname = msg.signname
+   # def input_callback(self, msg):
+   #    self.signx = msg.signx
+   #    self.signy = msg.signy
+   #    self.objx = msg.objx
+   #    self.objy = msg.objy
+   #    self.objr = msg.objr
+   #    self.tred = msg.tred
+   #    self.tyellow = msg.tyellow
+   #    self.tleft = msg.tleft
+   #    self.tgreen = msg.tgreen
+   #    self.signname = msg.signname
 
    def lidar_callback(self, msg):
       if len(msg.markers) != 0:
