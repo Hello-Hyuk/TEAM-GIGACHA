@@ -22,7 +22,7 @@ class Master(threading.Thread):
         self.args = args
         self.period = 1.0 / ui_rate
 
-        self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
+        self.ser = serial.Serial("/dev/ttyUSB1", 115200)  # Simulation
         # self.ser = serial.Serial("/dev/erp42", 115200) # Real World
 
         rospy.init_node('master', anonymous=False)
@@ -46,7 +46,7 @@ class Master(threading.Thread):
         self.init_thread(self.motion_planner)
 
         self.controller = Controller(self, rate=20)
-        self.init_thread(self.cotroller)
+        self.init_thread(self.controller)
 
         self.serial_reader = SerialReader(self, rate=20)
         self.init_thread(self.serial_reader)
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='kcity_simul/left_lane',
+        default='kcity_simul/final',
         help='kcity/map1, songdo/map2, yonghyeon/Yonghyeon, kcity_simul/left_lane, kcity_simul/right_lane'
     )
 
