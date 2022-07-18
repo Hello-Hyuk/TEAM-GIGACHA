@@ -84,7 +84,6 @@ class Mission():
                 #     #     self.parking.on = False
                 #     #     self.plan.behavior_decision = 'driving'
 
-   
     def stop(self):
         self.sign_dis = sqrt(
             (self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
