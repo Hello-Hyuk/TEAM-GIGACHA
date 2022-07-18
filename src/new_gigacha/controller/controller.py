@@ -18,11 +18,14 @@ class Controller(threading.Thread):
         while True:
             try:
                 self.ego.input_steer = self.lat_controller.run()
-                self.ego.input_speed, self.ego.input_brake = self.lon_controller.run()
+                self.ego.input_speed = self.lon_controller.run()
+                self.ego.input_brake = self.ego.target_brake
+                # self.ego.input_gear = self.ego.target_gear
                 
                 if self.ego.input_steer > 12:
                     self.ego.input_speed = 7
 
             except IndexError:
                 print("+++++++controller++++++")
+
             sleep(self.period)

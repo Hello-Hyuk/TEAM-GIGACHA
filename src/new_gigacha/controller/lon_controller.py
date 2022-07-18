@@ -4,6 +4,5 @@ class LonController():
 
     def run(self): 
         self.speed = self.ego.target_speed
-        self.brake = self.ego.target_brake
 
-        return self.speed, self.brake
+        return self.speed
