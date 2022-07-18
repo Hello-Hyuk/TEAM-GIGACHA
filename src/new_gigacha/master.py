@@ -7,8 +7,7 @@ from localizer.localizer import Localizer
 from planner.mission_planner import MissionPlanner
 from planner.behavior_planner import BehaviorPlanner
 from planner.motion_planner import MotionPlanner
-from controller.lat_controller import LatController
-from controller.lon_controller import LonController
+from controller.controller import Controller
 from utils.serial_reader import SerialReader
 from utils.serial_writer import SerialWriter
 from utils.sig_int_handler import ActivateSignalInterruptHandler
@@ -23,8 +22,8 @@ class Master(threading.Thread):
         self.args = args
         self.period = 1.0 / ui_rate
 
-        # self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
-        self.ser = serial.Serial("/dev/erp42", 115200) # Real World
+        self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
+        # self.ser = serial.Serial("/dev/erp42", 115200) # Real World
 
         rospy.init_node('master', anonymous=False)
 
@@ -46,11 +45,8 @@ class Master(threading.Thread):
         self.motion_planner = MotionPlanner(self, rate=20)
         self.init_thread(self.motion_planner)
 
-        self.lat_controller = LatController(self, rate=20)
-        self.init_thread(self.lat_controller)
-
-        self.lon_controller = LonController(self, rate=3)
-        self.init_thread(self.lon_controller)
+        self.controller = Controller(self, rate=20)
+        self.init_thread(self.cotroller)
 
         self.serial_reader = SerialReader(self, rate=20)
         self.init_thread(self.serial_reader)
