@@ -1,223 +1,100 @@
-"""
-
-Path tracking simulation with Stanley steering control and PID speed control.
-
-author: Atsushi Sakai (@Atsushi_twi)
-
-Ref:
-    - [Stanley: The robot that won the DARPA grand challenge](http://isl.ecst.csuchico.edu/DOCS/darpa2005/DARPA%202005%20Stanley.pdf)
-    - [Autonomous Automobile Path Tracking](https://www.ri.cmu.edu/pub_files/2009/2/Automatic_Steering_Methods_for_Autonomous_Automobile_Path_Tracking.pdf)
-
-"""
+import threading
+from time import sleep
+from math import pi, degrees, radians, atan2
 import numpy as np
-import matplotlib.pyplot as plt
-import sys
-import os
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) +
-                "/../../PathPlanning/CubicSpline/")
+class Stanley(threading.Thread):
+    def __init__(self, parent, rate):
+        super().__init__()
+        self.period = 1.0 / rate
+        self.shared = parent.shared
+        self.ego = parent.shared.ego
+        self.plan = parent.shared.plan
 
-try:
-    import cubic_spline_planner
-except:
-    raise
+        self.lattice_path = parent.shared.lattice_path
+ 
+        self.WB = 1.04 # wheel base
+        self.k = -0.05
 
+        self.cx = self.shared.global_path.x
+        self.cy = self.shared.global_path.y
 
-k = 0.5  # control gain
-Kp = 1.0  # speed proportional gain
-dt = 0.1  # [s] time difference
-L = 2.9  # [m] Wheel base of vehicle
-max_steer = np.radians(30.0)  # [rad] max steering angle
+        self.error_front_axle = 0
 
-show_animation = True
+        self.heading_term = 0
+        self.cte_term = 0
 
+    def make_curvature(name):
+        with open('/home/gigacha/TEAM-GIGACHA/src/semi_final_pkg/maps/kcity_simul/final.csv') as csv_file:
+            csv_reader = pd.read_csv(csv_file, delimiter = ',', names = ['x', 'y', 'yaw', 'curvature', 'distance'])
 
-class State(object):
-    """
-    Class representing the state of a vehicle.
+            x_list = csv_reader['x'].values.tolist()
+            y_list = csv_reader['y'].values.tolist()
+            yaw_list = []
+            curvature_list = []
 
-    :param x: (float) x-coordinate
-    :param y: (float) y-coordinate
-    :param yaw: (float) yaw angle
-    :param v: (float) speed
-    """
+            for i in range(len(x_list)-1):
+                yaw = atan2(y_list[i] - y_list[i-1], x_list[i] - x_list[i-1])
+                yaw_list.append((np.rad2deg(yaw)) % 360)
 
-    def __init__(self, x=0.0, y=0.0, yaw=0.0, v=0.0):
-        """Instantiate the object."""
-        super(State, self).__init__()
-        self.x = x
-        self.y = y
-        self.yaw = yaw
-        self.v = v
-
-    def update(self, acceleration, delta):
-        """
-        Update the state of the vehicle.
-
-        Stanley Control uses bicycle model.
-
-        :param acceleration: (float) Acceleration
-        :param delta: (float) Steering
-        """
-        delta = np.clip(delta, -max_steer, max_steer)
-
-        self.x += self.v * np.cos(self.yaw) * dt
-        self.y += self.v * np.sin(self.yaw) * dt
-        self.yaw += self.v / L * np.tan(delta) * dt
-        self.yaw = normalize_angle(self.yaw)
-        self.v += acceleration * dt
+                if i == 0:
+                    x_vals = [x_list[-1], x_list[0], x_list[1]]
+                    y_vals = [y_list[-1], y_list[0], y_list[1]]
+                    R = circumradius(x_vals, y_vals)
+                    try:
+                        curvature_list.append(1/R)
+                    except ZeroDivisionError:
+                        curvature_list.append(0)
+                else:
+                    R = circumradius(x_list[i-1:i+2], y_list[i-1:i+2])
+                    try:
+                        curvature_list.append(1/R)
+                    except ZeroDivisionError:
+                        curvature_list.append(0)
 
 
-def pid_control(target, current):
-    """
-    Proportional control for the speed.
+    def circumradius(xvals, yvals):
+        x1, x2, x3, y1, y2, y3 = xvals[0], xvals[1], xvals[2],\
+        yvals[0], yvals[1], yvals[2]
 
-    :param target: (float)
-    :param current: (float)
-    :return: (float)
-    """
-    return Kp * (target - current)
+        den = 2 * ((x2-x1) * (y3-y2)-(y2-y1) * (x3-x2))
+        num = ( (((x2-x1)**2) + ((y2-y1)**2)) * (((x3-x2)**2) + ((y3-y2)**2)) * (((x1-x3)**2) + ((y1-y3)**2)) )**0.5
 
+        if den == 0:
+            return 0
+        
+        r = abs(num/den)
 
-def stanley_control(state, cx, cy, cyaw, last_target_idx):
-    """
-    Stanley steering control.
+        return r
 
-    :param state: (State object)
-    :param cx: ([float])
-    :param cy: ([float])
-    :param cyaw: ([float])
-    :param last_target_idx: (int)
-    :return: (float, int)
-    """
-    current_target_idx, error_front_axle = calc_target_index(state, cx, cy)
+    def normalize_angle(self, angle):
+        while angle > np.pi:
+            angle -= 2.0 * np.pi
 
-    if last_target_idx >= current_target_idx:
-        current_target_idx = last_target_idx
-
-    # theta_e corrects the heading error
-    theta_e = normalize_angle(cyaw[current_target_idx] - state.yaw)
-    # theta_d corrects the cross track error
-    theta_d = np.arctan2(k * error_front_axle, state.v)
-    # Steering control
-    delta = theta_e + theta_d
-
-    return delta, current_target_idx
+        while angle < -np.pi:
+            angle += 2.0 * np.pi
 
 
-def normalize_angle(angle):
-    """
-    Normalize an angle to [-pi, pi].
+    def run(self):
+        while True:
+            self.make_curvature(final)
+            heading_error = self.curvature_list[self.ego.index] - (radians(self.ego.heading))
+            perp_vec = [-np.cos(radians(self.ego.heading) + np.pi / 2), -np.sin(radians(self.ego.heading) + np.pi / 2)]
+            cte = np.dot([dx[self.ego.index], dy[self.ego.index]], perp_vec)
+            self.normalize_angle(heading_error)
 
-    :param angle: (float)
-    :return: (float) Angle in radian in [-pi, pi]
-    """
-    while angle > np.pi:
-        angle -= 2.0 * np.pi
+            self.heading_term = angle
+            self.cte_term = np.atan2(self.k * cte, self.ego.speed)
 
-    while angle < -np.pi:
-        angle += 2.0 * np.pi
+            print("heading error : ", degrees(self.heading_term))
+            print("cross track error : ", degrees(self.cte_term))
+            
+            delta = self.heading_term + self.cte_term # Steering control
+            # print(degrees(delta))
+            self.ego.input_steer = max(min(degrees(delta), 27.0), -27.0)
+            # self.ego.input_steer = delta
 
-    return angle
-
-
-def calc_target_index(state, cx, cy):
-    """
-    Compute index in the trajectory list of the target.
-
-    :param state: (State object)
-    :param cx: [float]
-    :param cy: [float]
-    :return: (int, float)
-    """
-    # Calc front axle position
-    fx = state.x + L * np.cos(state.yaw)
-    fy = state.y + L * np.sin(state.yaw)
-
-    # Search nearest point index
-    dx = [fx - icx for icx in cx]
-    dy = [fy - icy for icy in cy]
-    d = np.hypot(dx, dy)
-    target_idx = np.argmin(d)
-
-    # Project RMS error onto front axle vector
-    front_axle_vec = [-np.cos(state.yaw + np.pi / 2),
-                      -np.sin(state.yaw + np.pi / 2)]
-    error_front_axle = np.dot([dx[target_idx], dy[target_idx]], front_axle_vec)
-
-    return target_idx, error_front_axle
+            sleep(self.period)
 
 
-def main():
-    """Plot an example of Stanley steering control on a cubic spline."""
-    #  target course
-    ax = [0.0, 100.0, 100.0, 50.0, 60.0]
-    ay = [0.0, 0.0, -30.0, -20.0, 0.0]
 
-    cx, cy, cyaw, ck, s = cubic_spline_planner.calc_spline_course(
-        ax, ay, ds=0.1)
-
-    target_speed = 30.0 / 3.6  # [m/s]
-
-    max_simulation_time = 100.0
-
-    # Initial state
-    state = State(x=-0.0, y=5.0, yaw=np.radians(20.0), v=0.0)
-
-    last_idx = len(cx) - 1
-    time = 0.0
-    x = [state.x]
-    y = [state.y]
-    yaw = [state.yaw]
-    v = [state.v]
-    t = [0.0]
-    target_idx, _ = calc_target_index(state, cx, cy)
-
-    while max_simulation_time >= time and last_idx > target_idx:
-        ai = pid_control(target_speed, state.v)
-        di, target_idx = stanley_control(state, cx, cy, cyaw, target_idx)
-        state.update(ai, di)
-
-        time += dt
-
-        x.append(state.x)
-        y.append(state.y)
-        yaw.append(state.yaw)
-        v.append(state.v)
-        t.append(time)
-
-        if show_animation:  # pragma: no cover
-            plt.cla()
-            # for stopping simulation with the esc key.
-            plt.gcf().canvas.mpl_connect('key_release_event',
-                    lambda event: [exit(0) if event.key == 'escape' else None])
-            plt.plot(cx, cy, ".r", label="course")
-            plt.plot(x, y, "-b", label="trajectory")
-            plt.plot(cx[target_idx], cy[target_idx], "xg", label="target")
-            plt.axis("equal")
-            plt.grid(True)
-            plt.title("Speed[km/h]:" + str(state.v * 3.6)[:4])
-            plt.pause(0.001)
-
-    # Test
-    assert last_idx >= target_idx, "Cannot reach goal"
-
-    if show_animation:  # pragma: no cover
-        plt.plot(cx, cy, ".r", label="course")
-        plt.plot(x, y, "-b", label="trajectory")
-        plt.legend()
-        plt.xlabel("x[m]")
-        plt.ylabel("y[m]")
-        plt.axis("equal")
-        plt.grid(True)
-
-        plt.subplots(1)
-        plt.plot(t, [iv * 3.6 for iv in v], "-r")
-        plt.xlabel("Time[s]")
-        plt.ylabel("Speed[km/h]")
-        plt.grid(True)
-        plt.show()
-
-
-if __name__ == '__main__':
-    main()
