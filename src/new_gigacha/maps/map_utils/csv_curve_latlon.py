@@ -76,8 +76,8 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 # cubic("left2", 2, 3, 4, 5, 6, 7, 8, 9, 10)
 # cubic("park3", 1, 2, 3, 4, 5, 6)
 
-# cubic("parksssang3", 1,2,3)
-cubic("parksssang32",3,4)
+# cubic("parksssang1", 1,2,3)
+cubic("parksssang12",3,4)
 
 # cubic("2",2,3,4,5,6,7)
 # cubic("3",7,8)
