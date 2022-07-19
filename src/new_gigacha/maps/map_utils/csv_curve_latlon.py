@@ -52,7 +52,7 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     colnames = ['lon', 'lat']
     # df = pd.read_csv(f'maps/Siheung/nodes/turn_right/turn_right_line.csv', names=colnames, header=None) # siheung
-    df = pd.read_csv(f'C:/Users/AHN DAE UENG/Desktop/TEAM-GIGACHA/src/new_gigacha/maps/inha_parking/gpp.csv', names=colnames, header=None)
+    df = pd.read_csv(f'/home/gigacha/TEAM-GIGACHA/src/new_gigacha/maps/inha_parking/4.csv', names=colnames, header=None)
     x = []
     y = []
 
@@ -75,4 +75,4 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     return(cx, cy, cyaw, ck, s)
 
-cubic('gpp', 1,2)
+cubic('4', 1,2,3,4)
