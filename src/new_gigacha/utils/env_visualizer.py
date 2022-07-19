@@ -11,6 +11,8 @@ from nav_msgs.msg import Odometry, Path
 from visualization_msgs.msg import MarkerArray, Marker
 from localizer.ahrs import IMU
 
+import numpy as np
+
 class Visualizer(threading.Thread):
     def __init__(self, parent, rate):
         super().__init__()
@@ -32,7 +34,8 @@ class Visualizer(threading.Thread):
         self.vis_trajectory_pub = rospy.Publisher("/vis_trajectory", PointCloud, queue_size=1)
         self.vis_pose_pub = rospy.Publisher("/vis_position", Odometry, queue_size=1)
         
-        self.vis_obj_pub = rospy.Publisher("/vis_obj", MarkerArray, queue_size=1)
+        self.vis_obj_pub1 = rospy.Publisher("/vis_obj1", MarkerArray, queue_size=1)
+        self.vis_obj_pub2 = rospy.Publisher("/vis_obj2", MarkerArray, queue_size=1)
 
         # self.vis_trajectory_pub_dr = rospy.Publisher("/vis_trajectory_dr", PointCloud, queue_size=1)
         # self.vis_pose_pub_dr = rospy.Publisher("/vis_position_dr", Odometry, queue_size=1)
@@ -172,23 +175,56 @@ class Visualizer(threading.Thread):
 
                 #############################object#########################################
                 
-                vis_obj = MarkerArray()
-                c_id = 0
+                vis_obj1 = MarkerArray()
+                c_id1 = 0
+                
             
                 for i in range(len(self.perception.objx)):
                     circle_marker = Marker()
                     circle_marker.header.frame_id = "map"
                     circle_marker.header.stamp = rospy.Time.now()
-                    circle_marker.ns = "CUBE"
-                    circle_marker.id = c_id
+                    circle_marker.ns = "circles"
+                    circle_marker.id = c_id1
+                    circle_marker.type = Marker.CYLINDER
+                    circle_marker.action = Marker.ADD
+                    circle_marker.pose.position.z = -0.1
+                    circle_marker.pose.orientation.x = 0.0
+                    circle_marker.pose.orientation.y = 0.0
+                    circle_marker.pose.orientation.z = 0.0
+                    circle_marker.pose.orientation.w = 1.0
+                    circle_marker.scale.z = 0.1
+                    circle_marker.color.r = 0.2
+                    circle_marker.color.g = 0.8
+                    circle_marker.color.b = 0.2
+                    circle_marker.color.a = 1.0
+                    circle_marker.lifetime = rospy.Duration(0.1)
+                    circle_marker.pose.position.x = self.perception.objx[i]
+                    circle_marker.pose.position.y = self.perception.objy[i]
+                    circle_marker.scale.x = self.perception.objw[i]
+                    circle_marker.scale.y = self.perception.objw[i]
+                    vis_obj1.markers.append(circle_marker)
+                    c_id1 = c_id1 + 1
+                    
+                vis_obj2 = MarkerArray()
+                c_id2 = 0
+
+                roll = self.imu.roll
+                pitch = self.imu.pitch
+                yaw = self.ego.heading
+                
+                for i in range(len(self.perception.objx)):
+                    circle_marker = Marker()
+                    circle_marker.header.frame_id = "map"
+                    circle_marker.header.stamp = rospy.Time.now()
+                    circle_marker.ns = "cubes"
+                    circle_marker.id = c_id2
                     circle_marker.type = Marker.CUBE
                     circle_marker.action = Marker.ADD
                     circle_marker.pose.position.z = -0.1
-                    circle_marker.pose.orientation = self.imu.orientation_q
-                    # circle_marker.pose.orientation.x = 0.0
-                    # circle_marker.pose.orientation.y = 0.0
-                    # circle_marker.pose.orientation.z = 0.0
-                    # circle_marker.pose.orientation.w = 1.0
+                    circle_marker.pose.orientation.x = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
+                    circle_marker.pose.orientation.y = np.cos(roll/2) * np.sin(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.cos(pitch/2) * np.sin(yaw/2)
+                    circle_marker.pose.orientation.z = np.cos(roll/2) * np.cos(pitch/2) * np.sin(yaw/2) - np.sin(roll/2) * np.sin(pitch/2) * np.cos(yaw/2)
+                    circle_marker.pose.orientation.w = np.cos(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
                     circle_marker.scale.z = 0.1
                     circle_marker.color.r = 0.2
                     circle_marker.color.g = 0.8
@@ -199,12 +235,13 @@ class Visualizer(threading.Thread):
                     circle_marker.pose.position.y = self.perception.objy[i]
                     circle_marker.scale.x = self.perception.objw[i]
                     circle_marker.scale.y = self.perception.objh[i]
-                    vis_obj.markers.append(circle_marker)
-                    c_id = c_id + 1
+                    vis_obj2.markers.append(circle_marker)
+                    c_id2 = c_id2 + 1
             
                     
                 # publish
-                self.vis_obj_pub.publish(vis_obj)
+                self.vis_obj_pub1.publish(vis_obj1)
+                self.vis_obj_pub2.publish(vis_obj2)
                 
                 self.vis_global_path.header.stamp = rospy.Time.now()
                 self.vis_global_path_pub.publish(self.vis_global_path)

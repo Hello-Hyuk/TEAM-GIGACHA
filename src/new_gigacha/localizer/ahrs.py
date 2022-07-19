@@ -12,6 +12,8 @@ class IMU():
         self.heading = 0.0
         self.battery = 0
         self.time = 0.0
+        self.roll = 0.0
+        self.pitch = 0.0
         
         rospy.Subscriber("/imu", Imu, self.imu_call_back)
         rospy.Subscriber("/simul_imu", Pose, self.imu_call_back)
@@ -22,6 +24,9 @@ class IMU():
         self.time = time.time()
         self.orientation_q = data.orientation
         roll, pitch, yaw = efq(self.orientation_q.x, self.orientation_q.y, self.orientation_q.z, self.orientation_q.w)
+        
+        self.roll = roll
+        self.pitch = pitch
 
         self.heading = np.rad2deg(-1*yaw)%360 # real world
         self.battery = data.angular_velocity.x
