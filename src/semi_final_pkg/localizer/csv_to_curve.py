@@ -3,7 +3,7 @@ import pandas as pd
 import csv
 import numpy as np
 from math import atan2
-from local_functions import circumradius
+from localizer.local_functions import circumradius
 
 def csv_to_curve(name):
     with open('/home/gigacha/TEAM-GIGACHA/src/semi_final_pkg/maps/kcity_simul/left_lane.csv') as csv_file:

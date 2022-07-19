@@ -28,16 +28,19 @@ from cubic_spline_planner import calc_spline_course
 # base_lon = 126.7237789
 # base_alt = 15.4
 
-# simul
-base_lat = 37.239235
-base_lon = 126.77315833333333
-base_alt = 15.4
+# # simul
+# base_lat = 37.239235
+# base_lon = 126.77315833333333
+# base_alt = 15.4
 
 # yonghyeon_navileguan
 # base_lat = 37.4508561
 # base_lon = 126.6492464
 # base_alt = 15.4
 
+base_lat = 37.45107175
+base_lon = 126.6494964
+base_alt = 15.4
 
 def get_xy(lat, lon, alt):  # 점들 사이의 새로운 점들을 설정
     e, n, u = pm.geodetic2enu(lat, lon, alt, base_lat, base_lon, base_alt)
@@ -49,7 +52,7 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     colnames = ['lon', 'lat']
     # df = pd.read_csv(f'maps/Siheung/nodes/turn_right/turn_right_line.csv', names=colnames, header=None) # siheung
-    df = pd.read_csv(f'turn_left.csv', names=colnames, header=None)
+    df = pd.read_csv(f'C:/Users/AHN DAE UENG/Desktop/TEAM-GIGACHA/src/new_gigacha/maps/inha_parking/gpp.csv', names=colnames, header=None)
     x = []
     y = []
 
@@ -72,8 +75,4 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     return(cx, cy, cyaw, ck, s)
 
-
-# cubic("left2", 2, 3, 4, 5, 6, 7, 8, 9, 10)
-cubic("left3", 10, 11)
-# cubic("2",2,3,4,5,6,7)
-# cubic("3",7,8)
+cubic('gpp', 1,2)

@@ -2,7 +2,6 @@
 import rospy
 import pymap3d
 import time
-import json
 from geometry_msgs.msg import Pose
 from sensor_msgs.msg import NavSatFix
 from ublox_msgs.msg import NavPVT
