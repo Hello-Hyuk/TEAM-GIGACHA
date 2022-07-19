@@ -47,11 +47,11 @@ class Motion():
                 self.shared.perception.lidar_lock.release()
         
         if (self.shared.selected_lane == 1 and self.isObstacle[1] != 1000):
-            if(self.isObstacle[1] < self.isObstacle[2]):
+            if(self.isObstacle[1] < self.isObstacle[2] or self.isObstacle[2] < 5): 
                 print("+++++++++++++\nobstacle in lane 1\n++++++++++++")
                 self.lane_weight = [1000, 1000, 0]
         elif (self.shared.selected_lane == 2 and self.isObstacle[2] != 1000):
-            if(self.isObstacle[1] > self.isObstacle[2]):
+            if(self.isObstacle[1] > self.isObstacle[2] or self.isObstacle[1] < 5):
                 print("+++++++++++++\nobstacle in lane 2\n++++++++++++")
                 self.lane_weight = [1000, 0, 1000]
         else:
