@@ -32,12 +32,12 @@ class Mission():
 
     def go(self):
         self.ego.gear = 0
-        self.ego.target_speed = 10.0
+        self.ego.target_speed = 7.0
         self.plan.behavior_decision = "driving"
 
     def Parking(self):
 
-        if (905 <= self.ego.index <= 915):
+        if (1 <= self.ego.index <= 21):
             if self.parking_time_checker == False:
                 self.parking_time_checker = True
                 self.cur_t = time()
@@ -64,16 +64,19 @@ class Mission():
                         self.plan.behavior_decision = 'driving'
                 else:
                     if 5 <= self.parking.stop_index - self.parking.index <= 8:
+                        print("do")
                         self.plan.behavior_decision = "stop"
-                        self.ego.target_brake = 200
+                        self.ego.target_estop = 1
                         if self.now == 0:
                             self.now = time()
                         else:
                             if time() - self.now > 3:
                                 if self.parking.direction == 0:
                                     self.plan.behavior_decision = "parkingBackwardOn"
+                                    self.ego.target_estop = 0
                                     self.ego.target_brake = 0
                                     self.ego.target_gear = 2
+                                    self.ego.target_speed = 10
                                     self.now = 0
                                     
                                 elif self.parking.direction == 2:
@@ -81,6 +84,7 @@ class Mission():
                                     self.ego.target_brake = 0
                                     self.ego.target_gear = 0
                                     self.plan.behavior_decision = 'driving'
+                                    self.plan.state = "go"
 
 
                 # if self.plan.behavior_decision == "parkingBackwardOn":
