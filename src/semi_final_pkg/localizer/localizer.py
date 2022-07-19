@@ -4,7 +4,7 @@ import threading
 import numpy as np
 from math import atan2
 from time import sleep
-from csv_to_curve import circumradius
+from local_functions import circumradius
 
 from localizer.ahrs import IMU
 from localizer.gps import GPS

@@ -27,7 +27,6 @@ class IMU():
         # self.battery = data.angular_velocity.x
         self.heading = np.rad2deg(yaw)%360 # simul
 
-
 if __name__ == '__main__':
     try:
         imu=IMU()
