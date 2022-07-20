@@ -24,19 +24,14 @@ struct Displacement_
   typedef Displacement_<ContainerAllocator> Type;
 
   Displacement_()
-    : left(0)
-    , right(0)  {
+    : right(0)  {
     }
   Displacement_(const ContainerAllocator& _alloc)
-    : left(0)
-    , right(0)  {
+    : right(0)  {
   (void)_alloc;
     }
 
 
-
-   typedef int32_t _left_type;
-  _left_type left;
 
    typedef int32_t _right_type;
   _right_type right;
@@ -70,8 +65,7 @@ return s;
 template<typename ContainerAllocator1, typename ContainerAllocator2>
 bool operator==(const ::local_pkg::Displacement_<ContainerAllocator1> & lhs, const ::local_pkg::Displacement_<ContainerAllocator2> & rhs)
 {
-  return lhs.left == rhs.left &&
-    lhs.right == rhs.right;
+  return lhs.right == rhs.right;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -128,12 +122,12 @@ struct MD5Sum< ::local_pkg::Displacement_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "febc810ab9cc360ca3f47fcee4f2ba71";
+    return "27e6ed38e0c67b7b02f5e993e0f9d6ef";
   }
 
   static const char* value(const ::local_pkg::Displacement_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xfebc810ab9cc360cULL;
-  static const uint64_t static_value2 = 0xa3f47fcee4f2ba71ULL;
+  static const uint64_t static_value1 = 0x27e6ed38e0c67b7bULL;
+  static const uint64_t static_value2 = 0x02f5e993e0f9d6efULL;
 };
 
 template<class ContainerAllocator>
@@ -152,8 +146,7 @@ struct Definition< ::local_pkg::Displacement_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "int32 left\n"
-"int32 right\n"
+    return "int32 right\n"
 ;
   }
 
@@ -172,7 +165,6 @@ namespace serialization
   {
     template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
     {
-      stream.next(m.left);
       stream.next(m.right);
     }
 
@@ -192,8 +184,6 @@ struct Printer< ::local_pkg::Displacement_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::local_pkg::Displacement_<ContainerAllocator>& v)
   {
-    s << indent << "left: ";
-    Printer<int32_t>::stream(s, indent + "  ", v.left);
     s << indent << "right: ";
     Printer<int32_t>::stream(s, indent + "  ", v.right);
   }

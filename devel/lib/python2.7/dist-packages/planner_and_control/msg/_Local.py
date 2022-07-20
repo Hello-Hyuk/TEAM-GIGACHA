@@ -9,14 +9,15 @@ import struct
 import geometry_msgs.msg
 
 class Local(genpy.Message):
-  _md5sum = "3634eb56b1476d5ac73863f45ec8bdb8"
+  _md5sum = "5482e65cb9b89e47309bd05fd67914ba"
   _type = "planner_and_control/Local"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float64 x
 float64 y
+float64 heading
 float64 dr_x
 float64 dr_y
-float64 heading
+float64 dr_vel
 geometry_msgs/Quaternion orientation
 ================================================================================
 MSG: geometry_msgs/Quaternion
@@ -27,8 +28,8 @@ float64 y
 float64 z
 float64 w
 """
-  __slots__ = ['x','y','dr_x','dr_y','heading','orientation']
-  _slot_types = ['float64','float64','float64','float64','float64','geometry_msgs/Quaternion']
+  __slots__ = ['x','y','heading','dr_x','dr_y','dr_vel','orientation']
+  _slot_types = ['float64','float64','float64','float64','float64','float64','geometry_msgs/Quaternion']
 
   def __init__(self, *args, **kwds):
     """
@@ -38,7 +39,7 @@ float64 w
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       x,y,dr_x,dr_y,heading,orientation
+       x,y,heading,dr_x,dr_y,dr_vel,orientation
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -51,20 +52,23 @@ float64 w
         self.x = 0.
       if self.y is None:
         self.y = 0.
+      if self.heading is None:
+        self.heading = 0.
       if self.dr_x is None:
         self.dr_x = 0.
       if self.dr_y is None:
         self.dr_y = 0.
-      if self.heading is None:
-        self.heading = 0.
+      if self.dr_vel is None:
+        self.dr_vel = 0.
       if self.orientation is None:
         self.orientation = geometry_msgs.msg.Quaternion()
     else:
       self.x = 0.
       self.y = 0.
+      self.heading = 0.
       self.dr_x = 0.
       self.dr_y = 0.
-      self.heading = 0.
+      self.dr_vel = 0.
       self.orientation = geometry_msgs.msg.Quaternion()
 
   def _get_types(self):
@@ -80,7 +84,7 @@ float64 w
     """
     try:
       _x = self
-      buff.write(_get_struct_9d().pack(_x.x, _x.y, _x.dr_x, _x.dr_y, _x.heading, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w))
+      buff.write(_get_struct_10d().pack(_x.x, _x.y, _x.heading, _x.dr_x, _x.dr_y, _x.dr_vel, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -97,8 +101,8 @@ float64 w
       end = 0
       _x = self
       start = end
-      end += 72
-      (_x.x, _x.y, _x.dr_x, _x.dr_y, _x.heading, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w,) = _get_struct_9d().unpack(str[start:end])
+      end += 80
+      (_x.x, _x.y, _x.heading, _x.dr_x, _x.dr_y, _x.dr_vel, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w,) = _get_struct_10d().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -112,7 +116,7 @@ float64 w
     """
     try:
       _x = self
-      buff.write(_get_struct_9d().pack(_x.x, _x.y, _x.dr_x, _x.dr_y, _x.heading, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w))
+      buff.write(_get_struct_10d().pack(_x.x, _x.y, _x.heading, _x.dr_x, _x.dr_y, _x.dr_vel, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -130,8 +134,8 @@ float64 w
       end = 0
       _x = self
       start = end
-      end += 72
-      (_x.x, _x.y, _x.dr_x, _x.dr_y, _x.heading, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w,) = _get_struct_9d().unpack(str[start:end])
+      end += 80
+      (_x.x, _x.y, _x.heading, _x.dr_x, _x.dr_y, _x.dr_vel, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w,) = _get_struct_10d().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -140,9 +144,9 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_9d = None
-def _get_struct_9d():
-    global _struct_9d
-    if _struct_9d is None:
-        _struct_9d = struct.Struct("<9d")
-    return _struct_9d
+_struct_10d = None
+def _get_struct_10d():
+    global _struct_10d
+    if _struct_10d is None:
+        _struct_10d = struct.Struct("<10d")
+    return _struct_10d

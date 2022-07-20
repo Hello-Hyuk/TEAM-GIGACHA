@@ -131,8 +131,16 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/gigacha/TEAM-GIGACHA/build/gtest/cmake_install.cmake")
+  include("/home/gigacha/TEAM-GIGACHA/build/velodyne/velodyne/cmake_install.cmake")
+  include("/home/gigacha/TEAM-GIGACHA/build/velodyne/velodyne_msgs/cmake_install.cmake")
   include("/home/gigacha/TEAM-GIGACHA/build/local_pkg/cmake_install.cmake")
   include("/home/gigacha/TEAM-GIGACHA/build/planner_and_control/cmake_install.cmake")
+  include("/home/gigacha/TEAM-GIGACHA/build/lidar3d_od/cmake_install.cmake")
+  include("/home/gigacha/TEAM-GIGACHA/build/narrow_road_drive/cmake_install.cmake")
+  include("/home/gigacha/TEAM-GIGACHA/build/velodyne/velodyne_driver/cmake_install.cmake")
+  include("/home/gigacha/TEAM-GIGACHA/build/velodyne/velodyne_laserscan/cmake_install.cmake")
+  include("/home/gigacha/TEAM-GIGACHA/build/velodyne/velodyne_pcl/cmake_install.cmake")
+  include("/home/gigacha/TEAM-GIGACHA/build/velodyne/velodyne_pointcloud/cmake_install.cmake")
 
 endif()
 

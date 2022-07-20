@@ -18,16 +18,9 @@ class Displacement {
   constructor(initObj={}) {
     if (initObj === null) {
       // initObj === null is a special case for deserialization where we don't initialize fields
-      this.left = null;
       this.right = null;
     }
     else {
-      if (initObj.hasOwnProperty('left')) {
-        this.left = initObj.left
-      }
-      else {
-        this.left = 0;
-      }
       if (initObj.hasOwnProperty('right')) {
         this.right = initObj.right
       }
@@ -39,8 +32,6 @@ class Displacement {
 
   static serialize(obj, buffer, bufferOffset) {
     // Serializes a message object of type Displacement
-    // Serialize message field [left]
-    bufferOffset = _serializer.int32(obj.left, buffer, bufferOffset);
     // Serialize message field [right]
     bufferOffset = _serializer.int32(obj.right, buffer, bufferOffset);
     return bufferOffset;
@@ -50,15 +41,13 @@ class Displacement {
     //deserializes a message object of type Displacement
     let len;
     let data = new Displacement(null);
-    // Deserialize message field [left]
-    data.left = _deserializer.int32(buffer, bufferOffset);
     // Deserialize message field [right]
     data.right = _deserializer.int32(buffer, bufferOffset);
     return data;
   }
 
   static getMessageSize(object) {
-    return 8;
+    return 4;
   }
 
   static datatype() {
@@ -68,13 +57,12 @@ class Displacement {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return 'febc810ab9cc360ca3f47fcee4f2ba71';
+    return '27e6ed38e0c67b7b02f5e993e0f9d6ef';
   }
 
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    int32 left
     int32 right
     `;
   }
@@ -85,13 +73,6 @@ class Displacement {
       msg = {};
     }
     const resolved = new Displacement(null);
-    if (msg.left !== undefined) {
-      resolved.left = msg.left;
-    }
-    else {
-      resolved.left = 0
-    }
-
     if (msg.right !== undefined) {
       resolved.right = msg.right;
     }

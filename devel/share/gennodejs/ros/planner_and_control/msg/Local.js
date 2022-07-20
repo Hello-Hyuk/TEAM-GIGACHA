@@ -21,9 +21,10 @@ class Local {
       // initObj === null is a special case for deserialization where we don't initialize fields
       this.x = null;
       this.y = null;
+      this.heading = null;
       this.dr_x = null;
       this.dr_y = null;
-      this.heading = null;
+      this.dr_vel = null;
       this.orientation = null;
     }
     else {
@@ -39,6 +40,12 @@ class Local {
       else {
         this.y = 0.0;
       }
+      if (initObj.hasOwnProperty('heading')) {
+        this.heading = initObj.heading
+      }
+      else {
+        this.heading = 0.0;
+      }
       if (initObj.hasOwnProperty('dr_x')) {
         this.dr_x = initObj.dr_x
       }
@@ -51,11 +58,11 @@ class Local {
       else {
         this.dr_y = 0.0;
       }
-      if (initObj.hasOwnProperty('heading')) {
-        this.heading = initObj.heading
+      if (initObj.hasOwnProperty('dr_vel')) {
+        this.dr_vel = initObj.dr_vel
       }
       else {
-        this.heading = 0.0;
+        this.dr_vel = 0.0;
       }
       if (initObj.hasOwnProperty('orientation')) {
         this.orientation = initObj.orientation
@@ -72,12 +79,14 @@ class Local {
     bufferOffset = _serializer.float64(obj.x, buffer, bufferOffset);
     // Serialize message field [y]
     bufferOffset = _serializer.float64(obj.y, buffer, bufferOffset);
+    // Serialize message field [heading]
+    bufferOffset = _serializer.float64(obj.heading, buffer, bufferOffset);
     // Serialize message field [dr_x]
     bufferOffset = _serializer.float64(obj.dr_x, buffer, bufferOffset);
     // Serialize message field [dr_y]
     bufferOffset = _serializer.float64(obj.dr_y, buffer, bufferOffset);
-    // Serialize message field [heading]
-    bufferOffset = _serializer.float64(obj.heading, buffer, bufferOffset);
+    // Serialize message field [dr_vel]
+    bufferOffset = _serializer.float64(obj.dr_vel, buffer, bufferOffset);
     // Serialize message field [orientation]
     bufferOffset = geometry_msgs.msg.Quaternion.serialize(obj.orientation, buffer, bufferOffset);
     return bufferOffset;
@@ -91,19 +100,21 @@ class Local {
     data.x = _deserializer.float64(buffer, bufferOffset);
     // Deserialize message field [y]
     data.y = _deserializer.float64(buffer, bufferOffset);
+    // Deserialize message field [heading]
+    data.heading = _deserializer.float64(buffer, bufferOffset);
     // Deserialize message field [dr_x]
     data.dr_x = _deserializer.float64(buffer, bufferOffset);
     // Deserialize message field [dr_y]
     data.dr_y = _deserializer.float64(buffer, bufferOffset);
-    // Deserialize message field [heading]
-    data.heading = _deserializer.float64(buffer, bufferOffset);
+    // Deserialize message field [dr_vel]
+    data.dr_vel = _deserializer.float64(buffer, bufferOffset);
     // Deserialize message field [orientation]
     data.orientation = geometry_msgs.msg.Quaternion.deserialize(buffer, bufferOffset);
     return data;
   }
 
   static getMessageSize(object) {
-    return 72;
+    return 80;
   }
 
   static datatype() {
@@ -113,7 +124,7 @@ class Local {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '3634eb56b1476d5ac73863f45ec8bdb8';
+    return '5482e65cb9b89e47309bd05fd67914ba';
   }
 
   static messageDefinition() {
@@ -121,9 +132,10 @@ class Local {
     return `
     float64 x
     float64 y
+    float64 heading
     float64 dr_x
     float64 dr_y
-    float64 heading
+    float64 dr_vel
     geometry_msgs/Quaternion orientation
     ================================================================================
     MSG: geometry_msgs/Quaternion
@@ -157,6 +169,13 @@ class Local {
       resolved.y = 0.0
     }
 
+    if (msg.heading !== undefined) {
+      resolved.heading = msg.heading;
+    }
+    else {
+      resolved.heading = 0.0
+    }
+
     if (msg.dr_x !== undefined) {
       resolved.dr_x = msg.dr_x;
     }
@@ -171,11 +190,11 @@ class Local {
       resolved.dr_y = 0.0
     }
 
-    if (msg.heading !== undefined) {
-      resolved.heading = msg.heading;
+    if (msg.dr_vel !== undefined) {
+      resolved.dr_vel = msg.dr_vel;
     }
     else {
-      resolved.heading = 0.0
+      resolved.dr_vel = 0.0
     }
 
     if (msg.orientation !== undefined) {

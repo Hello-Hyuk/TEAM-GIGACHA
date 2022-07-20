@@ -2,7 +2,6 @@ from ._CircleObstacle import *
 from ._Control_Info import *
 from ._Displacement import *
 from ._Ego import *
-from ._Encoder import *
 from ._Gngga import *
 from ._Local import *
 from ._Obstacles import *

@@ -16,24 +16,26 @@
 
 (defclass planner_and_control::Local
   :super ros::object
-  :slots (_x _y _dr_x _dr_y _heading _orientation ))
+  :slots (_x _y _heading _dr_x _dr_y _dr_vel _orientation ))
 
 (defmethod planner_and_control::Local
   (:init
    (&key
     ((:x __x) 0.0)
     ((:y __y) 0.0)
+    ((:heading __heading) 0.0)
     ((:dr_x __dr_x) 0.0)
     ((:dr_y __dr_y) 0.0)
-    ((:heading __heading) 0.0)
+    ((:dr_vel __dr_vel) 0.0)
     ((:orientation __orientation) (instance geometry_msgs::Quaternion :init))
     )
    (send-super :init)
    (setq _x (float __x))
    (setq _y (float __y))
+   (setq _heading (float __heading))
    (setq _dr_x (float __dr_x))
    (setq _dr_y (float __dr_y))
-   (setq _heading (float __heading))
+   (setq _dr_vel (float __dr_vel))
    (setq _orientation __orientation)
    self)
   (:x
@@ -42,15 +44,18 @@
   (:y
    (&optional __y)
    (if __y (setq _y __y)) _y)
+  (:heading
+   (&optional __heading)
+   (if __heading (setq _heading __heading)) _heading)
   (:dr_x
    (&optional __dr_x)
    (if __dr_x (setq _dr_x __dr_x)) _dr_x)
   (:dr_y
    (&optional __dr_y)
    (if __dr_y (setq _dr_y __dr_y)) _dr_y)
-  (:heading
-   (&optional __heading)
-   (if __heading (setq _heading __heading)) _heading)
+  (:dr_vel
+   (&optional __dr_vel)
+   (if __dr_vel (setq _dr_vel __dr_vel)) _dr_vel)
   (:orientation
    (&rest __orientation)
    (if (keywordp (car __orientation))
@@ -65,11 +70,13 @@
     8
     ;; float64 _y
     8
+    ;; float64 _heading
+    8
     ;; float64 _dr_x
     8
     ;; float64 _dr_y
     8
-    ;; float64 _heading
+    ;; float64 _dr_vel
     8
     ;; geometry_msgs/Quaternion _orientation
     (send _orientation :serialization-length)
@@ -82,12 +89,14 @@
        (sys::poke _x (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
      ;; float64 _y
        (sys::poke _y (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
+     ;; float64 _heading
+       (sys::poke _heading (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
      ;; float64 _dr_x
        (sys::poke _dr_x (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
      ;; float64 _dr_y
        (sys::poke _dr_y (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
-     ;; float64 _heading
-       (sys::poke _heading (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
+     ;; float64 _dr_vel
+       (sys::poke _dr_vel (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
      ;; geometry_msgs/Quaternion _orientation
        (send _orientation :serialize s)
      ;;
@@ -98,26 +107,29 @@
      (setq _x (sys::peek buf ptr- :double)) (incf ptr- 8)
    ;; float64 _y
      (setq _y (sys::peek buf ptr- :double)) (incf ptr- 8)
+   ;; float64 _heading
+     (setq _heading (sys::peek buf ptr- :double)) (incf ptr- 8)
    ;; float64 _dr_x
      (setq _dr_x (sys::peek buf ptr- :double)) (incf ptr- 8)
    ;; float64 _dr_y
      (setq _dr_y (sys::peek buf ptr- :double)) (incf ptr- 8)
-   ;; float64 _heading
-     (setq _heading (sys::peek buf ptr- :double)) (incf ptr- 8)
+   ;; float64 _dr_vel
+     (setq _dr_vel (sys::peek buf ptr- :double)) (incf ptr- 8)
    ;; geometry_msgs/Quaternion _orientation
      (send _orientation :deserialize buf ptr-) (incf ptr- (send _orientation :serialization-length))
    ;;
    self)
   )
 
-(setf (get planner_and_control::Local :md5sum-) "3634eb56b1476d5ac73863f45ec8bdb8")
+(setf (get planner_and_control::Local :md5sum-) "5482e65cb9b89e47309bd05fd67914ba")
 (setf (get planner_and_control::Local :datatype-) "planner_and_control/Local")
 (setf (get planner_and_control::Local :definition-)
       "float64 x
 float64 y
+float64 heading
 float64 dr_x
 float64 dr_y
-float64 heading
+float64 dr_vel
 geometry_msgs/Quaternion orientation
 ================================================================================
 MSG: geometry_msgs/Quaternion
@@ -132,6 +144,6 @@ float64 w
 
 
 
-(provide :planner_and_control/Local "3634eb56b1476d5ac73863f45ec8bdb8")
+(provide :planner_and_control/Local "5482e65cb9b89e47309bd05fd67914ba")
 
 

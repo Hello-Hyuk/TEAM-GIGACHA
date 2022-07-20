@@ -27,17 +27,19 @@ struct Local_
   Local_()
     : x(0.0)
     , y(0.0)
+    , heading(0.0)
     , dr_x(0.0)
     , dr_y(0.0)
-    , heading(0.0)
+    , dr_vel(0.0)
     , orientation()  {
     }
   Local_(const ContainerAllocator& _alloc)
     : x(0.0)
     , y(0.0)
+    , heading(0.0)
     , dr_x(0.0)
     , dr_y(0.0)
-    , heading(0.0)
+    , dr_vel(0.0)
     , orientation(_alloc)  {
   (void)_alloc;
     }
@@ -50,14 +52,17 @@ struct Local_
    typedef double _y_type;
   _y_type y;
 
+   typedef double _heading_type;
+  _heading_type heading;
+
    typedef double _dr_x_type;
   _dr_x_type dr_x;
 
    typedef double _dr_y_type;
   _dr_y_type dr_y;
 
-   typedef double _heading_type;
-  _heading_type heading;
+   typedef double _dr_vel_type;
+  _dr_vel_type dr_vel;
 
    typedef  ::geometry_msgs::Quaternion_<ContainerAllocator>  _orientation_type;
   _orientation_type orientation;
@@ -93,9 +98,10 @@ bool operator==(const ::planner_and_control::Local_<ContainerAllocator1> & lhs, 
 {
   return lhs.x == rhs.x &&
     lhs.y == rhs.y &&
+    lhs.heading == rhs.heading &&
     lhs.dr_x == rhs.dr_x &&
     lhs.dr_y == rhs.dr_y &&
-    lhs.heading == rhs.heading &&
+    lhs.dr_vel == rhs.dr_vel &&
     lhs.orientation == rhs.orientation;
 }
 
@@ -153,12 +159,12 @@ struct MD5Sum< ::planner_and_control::Local_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "3634eb56b1476d5ac73863f45ec8bdb8";
+    return "5482e65cb9b89e47309bd05fd67914ba";
   }
 
   static const char* value(const ::planner_and_control::Local_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x3634eb56b1476d5aULL;
-  static const uint64_t static_value2 = 0xc73863f45ec8bdb8ULL;
+  static const uint64_t static_value1 = 0x5482e65cb9b89e47ULL;
+  static const uint64_t static_value2 = 0x309bd05fd67914baULL;
 };
 
 template<class ContainerAllocator>
@@ -179,9 +185,10 @@ struct Definition< ::planner_and_control::Local_<ContainerAllocator> >
   {
     return "float64 x\n"
 "float64 y\n"
+"float64 heading\n"
 "float64 dr_x\n"
 "float64 dr_y\n"
-"float64 heading\n"
+"float64 dr_vel\n"
 "geometry_msgs/Quaternion orientation\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Quaternion\n"
@@ -211,9 +218,10 @@ namespace serialization
     {
       stream.next(m.x);
       stream.next(m.y);
+      stream.next(m.heading);
       stream.next(m.dr_x);
       stream.next(m.dr_y);
-      stream.next(m.heading);
+      stream.next(m.dr_vel);
       stream.next(m.orientation);
     }
 
@@ -237,12 +245,14 @@ struct Printer< ::planner_and_control::Local_<ContainerAllocator> >
     Printer<double>::stream(s, indent + "  ", v.x);
     s << indent << "y: ";
     Printer<double>::stream(s, indent + "  ", v.y);
+    s << indent << "heading: ";
+    Printer<double>::stream(s, indent + "  ", v.heading);
     s << indent << "dr_x: ";
     Printer<double>::stream(s, indent + "  ", v.dr_x);
     s << indent << "dr_y: ";
     Printer<double>::stream(s, indent + "  ", v.dr_y);
-    s << indent << "heading: ";
-    Printer<double>::stream(s, indent + "  ", v.heading);
+    s << indent << "dr_vel: ";
+    Printer<double>::stream(s, indent + "  ", v.dr_vel);
     s << indent << "orientation: ";
     s << std::endl;
     Printer< ::geometry_msgs::Quaternion_<ContainerAllocator> >::stream(s, indent + "  ", v.orientation);
