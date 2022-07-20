@@ -25,7 +25,7 @@ class Controller:
 
         self.ego = ControlEgo()
         self.trajectory = LocalPath()        ## add motion trajectory 
-        self.target_speed = 5.0
+        self.target_speed = 3.0
         
         self.lat_controller = PurePursuit(self.ego, self.trajectory)
         self.lon_controller = PI(self.ego)
@@ -61,7 +61,7 @@ class Controller:
             self.publish_control_info(1,0)
         else:
             self.publish_control_info(0,0)
-        self.target_speed = 20.0
+        self.target_speed = 3.0
         # print("Controller On..")
 
 

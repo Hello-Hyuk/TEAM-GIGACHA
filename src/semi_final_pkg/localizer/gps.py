@@ -4,12 +4,12 @@ import pymap3d
 import time
 from geometry_msgs.msg import Pose
 from sensor_msgs.msg import NavSatFix
-from ublox_msgs.msg import NavPVT
+#from ublox_msgs.msg import NavPVT
 
 class GPS():
     def __init__(self):
-        rospy.Subscriber("ublox_gps/fix", NavSatFix, self.gps_call_back)
-        rospy.Subscriber("ublox_gps/navpvt", NavPVT, self.navpvt_call_back)
+        #rospy.Subscriber("ublox_gps/fix", NavSatFix, self.gps_call_back)
+        #rospy.Subscriber("ublox_gps/navpvt", NavPVT, self.navpvt_call_back)
         rospy.Subscriber("/simul_gps", Pose, self.gps_call_back_simul)
         
         self.x = 0.0

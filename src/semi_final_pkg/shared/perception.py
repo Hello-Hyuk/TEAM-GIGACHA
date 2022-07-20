@@ -1,21 +1,25 @@
 import rospy
 from planner_and_control.msg import Perception
 from visualization_msgs.msg import MarkerArray, Marker
+from geometry_msgs.msg import Point
+
 
 class Perception_():
    def __init__(self):
       self.id_check = False
 
-      rospy.Subscriber("/input", Perception, self.input_callback)
+      #rospy.Subscriber("/input", Perception, self.input_callback)
+      rospy.Subscriber('target_point', Point, self.input_callback)
+      self.objx=0
+      self.objy=0
 
-      self.objx = []
-      self.objy = []
-      self.objr = []
+
+   
 
    def input_callback(self, msg):
-      self.objx = msg.objx
-      self.objy = msg.objy
-      self.objr = msg.objr
+      self.objx = msg.x
+      self.objy = msg.y
+      #self.objr = msg.objr
 
 #    def lidar_callback(self, msg):
 #       self.tmp_objx = []

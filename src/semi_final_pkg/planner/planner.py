@@ -16,7 +16,7 @@ class Planner(threading.Thread):
         self.perception = self.shared.perception
         self.state = self.shared.state
 
-        #self.state = ""
+        self.state = "1st"
 
 
 
@@ -31,8 +31,8 @@ class Planner(threading.Thread):
 
                 if self.state=="1st":
 
-                    self.ego.point_x = self.perception.objx[0] * cos(theta) + self.perception.objy[0] * -sin(theta) + self.ego.x
-                    self.ego.point_y = self.perception.objx[0] * sin(theta) + self.perception.objy[0] * cos(theta) + self.ego.y
+                    self.ego.point_x = self.perception.objx * cos(theta) + self.perception.objy * -sin(theta) + self.ego.x
+                    self.ego.point_y = self.perception.objx * sin(theta) + self.perception.objy * cos(theta) + self.ego.y
 
 
                 elif self.state=="2nd":

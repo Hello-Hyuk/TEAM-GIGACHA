@@ -13,7 +13,7 @@ class IMU():
         self.battery = 0
         self.time = 0.0
         
-        rospy.Subscriber("/imu", Imu, self.imu_call_back)
+        #rospy.Subscriber("/imu", Imu, self.imu_call_back)
         rospy.Subscriber("/simul_imu", Pose, self.imu_call_back)
 
         self.orientation_q = Quaternion()

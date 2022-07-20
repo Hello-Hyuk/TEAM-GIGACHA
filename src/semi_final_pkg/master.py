@@ -58,7 +58,7 @@ class Master(threading.Thread):
             print('Controller : Speed : {}, Steer : {}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
             # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
             # print("tmp :" ,len(self.shared.perception.tmp_objx))
-            # print("real :" , self.shared.perception.objx, self.shared.perception.objy)
+            print("real :" , self.shared.perception.objx, self.shared.perception.objy)
             sleep(self.period)
 
     def init_thread(self, module):
