@@ -1,5 +1,5 @@
 from math import sqrt
-from time import time
+from time import time, sleep
 from math import cos, sin, pi, sqrt
 
 
@@ -44,7 +44,7 @@ class Mission():
             self.plan.behavior_decision = "stop"
             self.ego.target_brake = 200 
             print("start")
-            self.time_sleep(3)
+            sleep(3)
             print("end")
             self.parking.select_num = self.perception.parking_num
             self.ego.target_brake = 0
@@ -58,19 +58,20 @@ class Mission():
             elif (5 <= self.parking.stop_index - self.parking.index <= 8):
                     self.ego.target_estop = 1
                     if self.parking.direction == 0:
-                        self.time_sleep(10)
+                        sleep(3)
                         self.plan.behavior_decision = "parkingBackwardOn"
-                        self.ego.target_gear = 2
                         self.ego.target_estop = 0
                         self.ego.target_brake = 0
+                        self.ego.target_gear = 2
                         self.ego.target_speed = 5
                     elif self.parking.direction == 2:
-                        self.time_sleep(3)
+                        sleep(3)
                         self.parking.on = False
-                        self.ego.target_gear = 0
                         self.ego.target_estop = 0
                         self.ego.target_brake = 0
-                        self.plan.state = "go"
+                        self.ego.target_gear = 0
+                        self.ego.target_speed = 5
+                        self.plan.behavior_decision = "driving"
 
     def Parking2(self):
         if (1 <= self.ego.index <= 21):

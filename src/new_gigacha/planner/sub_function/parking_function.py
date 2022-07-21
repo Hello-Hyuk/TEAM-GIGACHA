@@ -19,7 +19,7 @@ class Parking_Motion():
 #########saved map import function########
     def make_parking_tra(self):
         # self.mapname = str(self.parking.select_num)
-        self.parking.select_num = 4
+        self.parking.select_num = 1
         # self.mapname = 'parkssang'+ str(self.parking.select_num)
         path1 = Path()
         path2 = Path()
