@@ -4,7 +4,7 @@ import csv
 import threading
 import math
 from math import hypot, atan2
-from time import sleep
+from time import sleep, time
 from numpy import rad2deg
 from localizer.ahrs import IMU
 from localizer.gps import GPS
@@ -65,7 +65,7 @@ class Localizer(threading.Thread):
 
     def heading_decision(self):
         global time_sync
-        main_time = time.time()
+        main_time = time()
         time_sync = None
 
         if (main_time - self.gps.time) < 0.2 and (main_time - self.imu.time) < 0.2:
@@ -74,14 +74,18 @@ class Localizer(threading.Thread):
                 self.offset = self.gps.heading - self.imu.heading
                 self.ego.heading = self.imu.heading + self.offset
             else:
-                self.ego.heading = self.imu.heading + self.offset
+                if self.ego.input_gear == 2:
+                    self.ego.heading = (self.gps.heading + 180)%360
+                else:
+                    self.ego.heading = self.imu.heading + self.offset
         else:
             time_sync = "Unsync"
             self.ego.heading = self.imu.heading + self.offset
 
     def init_offset(self):
         heading = rad2deg(atan2((self.global_path.y[self.ego.index + 1] - self.global_path.y[self.ego.index])/(self.global_path.x[self.ego.index + 1] - self.global_path.x[self.ego.index]),1))
-        self.offset = self.imu.heading - heading
+        print('heading',heading)
+        self.offset = heading - self.imu.heading
         self.check = True
 
     def run(self):
@@ -91,9 +95,9 @@ class Localizer(threading.Thread):
             self.ego.y = self.gps.y
             self.index_finder()
 
-            if self.check == False:
-                if time()- self.now > 2:
-                    self.init_offset()
+            # if self.check == False:
+            #     if time()- self.now > 2:
+            #         self.init_offset()
                 
             # print("x : {0}, y : {1}, heading : {2}, switch : {3}, time sync : {4}, index : {5}"\
             # .format(self.ego.x, self.ego.y, self.ego.heading, self.gps.heading_switch, time_sync, self.ego.index))

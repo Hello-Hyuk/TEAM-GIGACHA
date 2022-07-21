@@ -31,8 +31,8 @@ class Mission():
         self.plan.behavior_decision = pl.plan.behavior_decision
 
     def go(self):
-        self.ego.gear = 0
-        self.ego.target_speed = 7.0
+        self.ego.input_gear = 0
+        self.ego.target_speed = 5.0
         self.plan.behavior_decision = "driving"
 
     def Parking(self):
@@ -44,7 +44,7 @@ class Mission():
             else:
                 if time() - self.cur_t < 3:
                     self.plan.behavior_decision = "stop"
-                    self.ego.target_brake = 33
+                    self.ego.target_brake = 100
                     self.parking.select_num = self.perception.parking_num
                 else:
                     self.plan.behavior_decision = "driving"
@@ -64,7 +64,6 @@ class Mission():
                         self.plan.behavior_decision = 'driving'
                 else:
                     if 5 <= self.parking.stop_index - self.parking.index <= 8:
-                        print("do")
                         self.plan.behavior_decision = "stop"
                         self.ego.target_estop = 1
                         if self.now == 0:
@@ -76,11 +75,12 @@ class Mission():
                                     self.ego.target_estop = 0
                                     self.ego.target_brake = 0
                                     self.ego.target_gear = 2
-                                    self.ego.target_speed = 10
+                                    self.ego.target_speed = 5
                                     self.now = 0
                                     
                                 elif self.parking.direction == 2:
                                     self.parking.on = False
+                                    self.ego.target_estop = 0
                                     self.ego.target_brake = 0
                                     self.ego.target_gear = 0
                                     self.plan.behavior_decision = 'driving'

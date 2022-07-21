@@ -31,9 +31,9 @@ class IMU():
         # self.linear_accel_y = data.linear_acceleration.y
         # self.angular_velocity_z = data.angular_velocity.z
 
-        # self.heading = np.rad2deg(-1*yaw)%360 # real world
-        # self.battery = data.linear_acceleration.z
-        self.heading = np.rad2deg(yaw)%360 # simul
+        self.heading = np.rad2deg(-1*yaw)%360 # real world
+        self.battery = data.linear_acceleration.z
+        # self.heading = np.rad2deg(yaw)%360 # simul
 
 
 if __name__ == '__main__':

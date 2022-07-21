@@ -64,15 +64,16 @@ class Master(threading.Thread):
         while True:
             print('Localization : x : {0}, y : {1}, index : {2}, heading : {3}'\
                 .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
-            print('Mission_State : {}'.format(self.shared.plan.state))
+            # print('Mission_State : {}'.format(self.shared.plan.state))
             print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
-            print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
-            print('target speed : ', self.shared.ego.target_speed, 'real_speed : ', self.shared.ego.speed)
-            print('target gear : ', self.shared.ego.target_gear, 'input_gear : ', self.shared.ego.input_gear)
+            # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
+            # print('target speed : ', self.shared.ego.target_speed, 'real_speed : ', self.shared.ego.speed)
+            # print('target gear : ', self.shared.ego.target_gear, 'input_gear : ', self.shared.ego.input_gear)
             print('Controller_Speed : {}, Steer : {}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
-            # print('park_mindex:{}'.format(self.shared.park.mindex))
-            # print('stop_index:{}'.format(self.shared.park.stop_index))
-            # print('parking.index:{}'.format(self.shared.park.index))
+            print('Real Speed : ', self.shared.ego.speed)
+            print('park_mindex:{}'.format(self.shared.park.mindex))
+            print('stop_index:{}'.format(self.shared.park.stop_index))
+            print('parking.index:{}'.format(self.shared.park.index))
             print("-------------------")
             sleep(self.period)
 
