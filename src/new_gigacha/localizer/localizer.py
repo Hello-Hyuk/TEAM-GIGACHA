@@ -21,6 +21,7 @@ class Localizer(threading.Thread):
 
         self.ego = parent.shared.ego
         self.global_path = parent.shared.global_path
+        self.parking = parent.shared.park
 
         self.read_global_path()  # only one time
 
@@ -67,20 +68,22 @@ class Localizer(threading.Thread):
         global time_sync
         main_time = time()
         time_sync = None
+        if self.parking.on == False:
 
-        if (main_time - self.gps.time) < 0.2 and (main_time - self.imu.time) < 0.2:
-            time_sync = "Sync"
-            if self.gps.heading_switch == True:
-                self.offset = self.gps.heading - self.imu.heading
-                self.ego.heading = self.imu.heading + self.offset
-            else:
-                if self.ego.input_gear == 2:
-                    self.ego.heading = (self.gps.heading + 180)%360
+            if (main_time - self.gps.time) < 0.2 and (main_time - self.imu.time) < 0.2:
+                time_sync = "Sync"
+                if self.gps.heading_switch == True:
+                    self.offset = self.gps.heading - self.imu.heading
+                    self.ego.heading = self.imu.heading + self.offset
                 else:
                     self.ego.heading = self.imu.heading + self.offset
+            else:
+                time_sync = "Unsync"
+                self.ego.heading = self.imu.heading + self.offset
+
         else:
-            time_sync = "Unsync"
             self.ego.heading = self.imu.heading + self.offset
+
 
     def init_offset(self):
         heading = rad2deg(atan2((self.global_path.y[self.ego.index + 1] - self.global_path.y[self.ego.index])/(self.global_path.x[self.ego.index + 1] - self.global_path.x[self.ego.index]),1))

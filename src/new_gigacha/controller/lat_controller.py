@@ -74,9 +74,9 @@ class LatController(threading.Thread):
 
         heading = self.ego.heading
         ###### Back Driving ######
-        # if self.ego.input_gear == 2:
-        #     heading += 180
-        #     heading %= 360
+        if self.ego.input_gear == 2:
+            heading += 180
+            heading %= 360
         ##########################
 
         alpha = heading - tmp
