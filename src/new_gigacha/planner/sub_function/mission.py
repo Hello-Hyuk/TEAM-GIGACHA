@@ -8,21 +8,18 @@ class Mission():
         self.shared = sh
         self.ego = eg
         self.plan = pl
-        self.mission_complete = False
+        
         self.timer = time()
         self.time_checker = False
+        
         self.obstacle_checker = False
         self.stop_checker = False
         self.check = False
         self.prev_objx = 0
 
-    def update_parameter(self, eg, pc, pl):
-        self.perception = pc
-        self.ego = eg
-        self.plan.behavior_decision = pl.plan.behavior_decision
-
     def go(self):
-        self.ego.gear = 0
+        self.ego.target_estop = 0x00
+        self.ego.target_gear = 0
         self.ego.target_speed = 10.0
         self.plan.behavior_decision = "driving"
         
@@ -76,8 +73,9 @@ class Mission():
 
     def static_obstacle(self):
         self.plan.behavior_decision = "static_obstacle_avoidance"
+        index = len(self.perception.objx)
+        
         if (len(self.perception.objx) > 0):
-            index = len(self.perception.objy)
             self.obs_dis = 15.5
             for i in range (0, index):
                 self.dis = sqrt((self.perception.objx[i] - self.ego.x)**2 + (self.perception.objy[i] - self.ego.y)**2)
@@ -86,6 +84,7 @@ class Mission():
                 self.ego.target_speed = 5.0
                 self.obstacle_checker = True
                 self.time_checker = False
+                
         elif self.obstacle_checker == True:
             if self.time_checker == False:
                 self.cur_t = time()
@@ -146,7 +145,7 @@ class Mission():
                  
 
 
-    def child_area(self, signx, signy):
+    def child_area(self):
         if (len(self.perception.signx)!= 0):
             self.sign_dis = sqrt((self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
             if self.sign_dis <= 15:

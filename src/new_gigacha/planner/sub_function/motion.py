@@ -10,7 +10,6 @@ class Motion():
         self.plan = pl
         self.ego = eg
 
-        # self.trajectory = self.plan.trajectory # to controller
         self.global_path = self.shared.global_path # from localizer
         self.cut_path = self.shared.cut_path # from global path (find_local_path)
         self.lattice_path = self.shared.lattice_path # from LPP []
@@ -24,7 +23,6 @@ class Motion():
 
     def select_trajectory(self):
         self.shared.selected_lane = self.lane_weight.index(min(self.lane_weight))
-        # self.trajectory = self.lattice_path[self.selected_lane]
 
     def weight_function_obstacle_avoidance(self):
         self.isObstacle = [1000, 1000, 1000]

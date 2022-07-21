@@ -60,8 +60,13 @@ class LonController(threading.Thread):
                 
                 # self.speed = self.velocity_based_curve(path, 30)
                 # self.ego.input_speed = self.speed[0]
+                
+                self.ego.input_estop = self.ego.target_estop
                 self.ego.input_speed = self.ego.target_speed
+                self.ego.input_gear = self.ego.target_gear
                 self.ego.input_brake = self.ego.target_brake
+                
+                
             except IndexError:
                 print("++++++++lon_controller+++++++++")
 
