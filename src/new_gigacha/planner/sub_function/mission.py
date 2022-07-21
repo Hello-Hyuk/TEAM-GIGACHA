@@ -44,7 +44,7 @@ class Mission():
             else:
                 if time() - self.cur_t < 3:
                     self.plan.behavior_decision = "stop"
-                    self.ego.target_brake = 200
+                    self.ego.target_brake = 33
                     self.parking.select_num = self.perception.parking_num
                 else:
                     self.plan.behavior_decision = "driving"
@@ -137,7 +137,7 @@ class Mission():
         else:
             if self.ego.index >= 1000 and self.ego.index <= 1050:
                 self.plan.behavior_decision = "stop"
-                self.ego.target_brake = 200
+                self.ego.target_brake = 33
             else:
                 self.plan.behavior_decision = "turn_right"
                 self.ego.target_brake = 0
@@ -149,7 +149,7 @@ class Mission():
         else:
             if self.ego.index >= 2750 and self.ego.index <= 2800:
                 self.plan.behavior_decision = "stop"
-                self.ego.target_brake = 200
+                self.ego.target_brake = 33
             else:
                 self.plan.behavior_decision = "turn_left"
                 self.ego.target_brake = 0
@@ -193,7 +193,7 @@ class Mission():
             if self.obs_dis <= 10:
                 if self.check == False:
                     self.plan.behavior_decision = "stop"
-                    self.ego.target_brake = 200
+                    self.ego.target_brake = 33
                     self.wait_time = time()
                     self.check = True
                 if self.plan.behavior_decision == "stop" and time() - self.wait_time > 5:
