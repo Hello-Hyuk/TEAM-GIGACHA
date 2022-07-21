@@ -45,6 +45,5 @@ class MissionPlanner(threading.Thread):
             else:
                 self.plan.state = "go"
 
-            # print(f"mission_planner : {self.state}")
 
             sleep(self.period)
