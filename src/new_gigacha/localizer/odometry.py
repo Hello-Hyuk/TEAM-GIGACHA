@@ -2,7 +2,7 @@
 import rospy
 from local_pkg.msg import Displacement
 import math
-
+import time
 
 class Odometry():
     def __init__(self, ego, gps):
@@ -98,6 +98,7 @@ class Odometry():
         self.right = msg.data
 
         self.filter()
+
         self.dead_reck()
 
 
