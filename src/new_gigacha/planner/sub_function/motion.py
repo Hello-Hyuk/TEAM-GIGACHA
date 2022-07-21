@@ -38,7 +38,7 @@ class Motion():
                         break
                     for k in range(len(self.shared.perception.objx)): # of obj
                         ob_point_distance = sqrt((self.lattice_path[i].x[j] - self.shared.perception.objx[k])**2 + (self.lattice_path[i].y[j] - self.shared.perception.objy[k])**2)
-                        if ob_point_distance < (self.shared.perception.objw[k]+1): #and self.Obstacle_in_section == 0:
+                        if ob_point_distance < (self.shared.perception.objw[k]/2+1): #and self.Obstacle_in_section == 0:
                             self.isObstacle[i] = j
                             path_check = False
                             break
@@ -47,7 +47,7 @@ class Motion():
                 self.shared.perception.lidar_lock.release()
         
         if (self.shared.selected_lane == 1 and self.isObstacle[1] != 1000):
-            if(self.isObstacle[1] < self.isObstacle[2]):
+            if(self.isObstacle[1] < self.isObstacle[2]): 
                 print("+++++++++++++\nobstacle in lane 1\n++++++++++++")
                 self.lane_weight = [1000, 1000, 0]
         elif (self.shared.selected_lane == 2 and self.isObstacle[2] != 1000):
@@ -137,7 +137,7 @@ class Motion():
             
             #if add_point_size > len(cut_path.x) - 2:
                 #add_point_size = len(cut_path.x)
-            add_point_size = 60
+            add_point_size = 80
 
             if add_point_size > len(self.cut_path.x) - 2:
                 add_point_size = len(self.cut_path.x)
