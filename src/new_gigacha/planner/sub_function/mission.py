@@ -57,7 +57,7 @@ class Mission():
                 time.sleep(5)
 
                 self.ego.brake = -1
-                self.ego.target_speed = 15.0
+                self.ego.target_speed = 10.0
                 self.plan.behavior_decision = "driving"
 
     def stop(self):
@@ -93,7 +93,7 @@ class Mission():
             if time() - self.cur_t < 5:
                 self.ego.target_speed = 5.0
             else:
-                self.ego.target_speed = 15.0
+                self.ego.target_speed = 10.0
 
 
     def turn_right(self):
@@ -101,7 +101,7 @@ class Mission():
             self.plan.behavior_decision = "turn_right"
             self.ego.target_brake = 0
         else:
-            if self.ego.index >= 430 and self.ego.index <= 450:
+            if self.ego.index >= 410 and self.ego.index <= 470:
                 self.plan.behavior_decision = "stop"
                 self.ego.target_brake = 200
             else:
@@ -114,7 +114,7 @@ class Mission():
             self.plan.behavior_decision = "turn_left"
             self.ego.target_brake = 0
         else:
-            if self.ego.index >= 430 and self.ego.index <= 450:
+            if self.ego.index >= 400 and self.ego.index <= 470:
                 self.plan.behavior_decision = "stop"
                 self.ego.target_brake = 200
             else:
@@ -152,7 +152,7 @@ class Mission():
             if self.sign_dis <= 15:
                 self.ego.target_speed = 7.0
             else:
-                self.ego.target_speed = 20.0
+                self.ego.target_speed = 10.0
             self.plan.behavior_decision = "child_area"
 
     def emergency_stop(self):
@@ -171,7 +171,7 @@ class Mission():
                     #self.sign_detected = 1
             elif self.obs_dis > 10: #and self.sign_detected == 0:
                 self.plan.behavior_decision = "go"
-                self.ego.target_speed = 20.0
+                self.ego.target_speed = 10.0
                 self.shared.selected_lane = 1
                 self.check = False
         else:
