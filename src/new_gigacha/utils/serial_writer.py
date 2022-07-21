@@ -27,7 +27,7 @@ class SerialWriter(threading.Thread):
                 0x53,
                 0x54,
                 0x58,
-                1, #always auto
+                0x01, #always auto
                 self.ego.input_estop,
                 self.ego.input_gear,
                 int(self.ego.input_speed * 10),
