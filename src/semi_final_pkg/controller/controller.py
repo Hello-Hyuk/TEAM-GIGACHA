@@ -1,0 +1,33 @@
+import threading
+from time import sleep
+from .lat_controller import LatController
+# from .lon_controller import LonController
+
+class Controller(threading.Thread):
+    def __init__(self, parent, rate):
+        super().__init__()
+        self.period = 1.0 / rate
+        self.shared = parent.shared
+        self.ego = parent.shared.ego
+        self.plan = parent.shared.plan
+
+
+        # self.lat_controller = LatController(self.ego, self.shared.global_path)
+        self.lat_controller = LatController(self.ego)
+        # self.lon_controller = LonController(self.ego)
+
+    def run(self):
+        while True:
+            try:
+                self.ego.input_steer = self.lat_controller.run()
+                self.ego.input_speed = 10
+                # self.ego.input_brake = self.ego.target_brake
+                # self.ego.input_gear = self.ego.target_gear
+                
+                if self.ego.input_steer > 5:
+                    self.ego.input_speed = 7
+
+            except IndexError:
+                print("+++++++controller++++++")
+
+            sleep(self.period)

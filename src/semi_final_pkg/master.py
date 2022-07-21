@@ -6,8 +6,7 @@ from shared.shared import Shared
 from localizer.localizer import Localizer
 from localizer.making_map import MP
 from planner.planner import Planner
-from controller.lat_controller import LatController
-from controller.lon_controller import LonController
+from controller.controller import Controller
 from utils.serial_reader import SerialReader
 from utils.serial_writer import SerialWriter
 from utils.sig_int_handler import ActivateSignalInterruptHandler
@@ -37,11 +36,8 @@ class Master(threading.Thread):
         self.planner = Planner(self, rate=20)
         self.init_thread(self.planner)
 
-        self.lat_controller = LatController(self, rate=20)
-        self.init_thread(self.lat_controller)
-
-        self.lon_controller = LonController(self, rate=3)
-        self.init_thread(self.lon_controller)
+        self.controller = Controller(self, rate=20)
+        self.init_thread(self.controller)
 
         self.serial_reader = SerialReader(self, rate=20)
         self.init_thread(self.serial_reader)

@@ -26,6 +26,8 @@ class path_maker:
         # visualize용 메세지
         self.target_point_vis = Marker()
 
+        #self.rate = rospy.Rate(5)
+
         rospy.spin()
 
 
@@ -88,6 +90,7 @@ class path_maker:
     def makePath(self, msg):
         # print(type(msg))
         # 각 장애물의 중앙점 따로 저장-> obstacles의 중앙점, 거리 값 같이 계산
+        
         for obs in msg.markers:
             tmp_obs_dis = self.calc_distance(obs.pose.position.x, obs.pose.position.y)
             self.obstacles.append([round(obs.pose.position.x, 2), round(obs.pose.position.y, 2), round(tmp_obs_dis, 2)])
@@ -112,6 +115,7 @@ class path_maker:
         self.pub.publish(self.target_point)
         self.obstacles.clear()
         self.target_point_vis.points.clear()
+        # self.rate.sleep()
         
 
 if __name__ == "__main__":
