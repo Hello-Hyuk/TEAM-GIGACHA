@@ -31,7 +31,7 @@ class Mission():
 
     def go(self):
         self.ego.input_gear = 0
-        self.ego.target_speed = 5.0
+        self.ego.target_speed = 6.0
         self.plan.behavior_decision = "driving"
         
     def time_sleep(self, time):
