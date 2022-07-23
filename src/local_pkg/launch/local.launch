@@ -2,7 +2,7 @@
 
 <launch>
 <!--=================================e2box_AHRS V5=========================-->
-  <!--<node pkg="local_pkg" type="ahrs_parser.py" name="ahrs_raw" respawn="true" output="screen"/>-->
+  <!--<node pkg="local_pkg" type="ahrs_parser.py" name="ahrs_raw" respawn="true"/>-->
 
 <!--=================================GNSS_Parsing=========================-->
   <arg name="node_name" value="ublox_gps"/>

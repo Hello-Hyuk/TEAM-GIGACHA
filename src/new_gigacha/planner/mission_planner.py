@@ -45,4 +45,5 @@ class MissionPlanner(threading.Thread):
             else:
                 self.plan.state = "go"
 
+
             sleep(self.period)

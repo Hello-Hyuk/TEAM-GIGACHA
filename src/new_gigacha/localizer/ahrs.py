@@ -15,6 +15,10 @@ class IMU():
         self.roll = 0.0
         self.pitch = 0.0
         
+        self.linear_accel_x = 0.0
+        self.linear_accel_y = 0.0
+        self.angular_velocity_z = 0.0
+        
         rospy.Subscriber("/imu", Imu, self.imu_call_back)
         rospy.Subscriber("/simul_imu", Pose, self.imu_call_back)
 
@@ -29,7 +33,7 @@ class IMU():
         self.pitch = pitch
 
         self.heading = np.rad2deg(-1*yaw)%360 # real world
-        self.battery = data.angular_velocity.x
+        self.battery = data.linear_acceleration.z
         # self.heading = np.rad2deg(yaw)%360 # simul
 
 

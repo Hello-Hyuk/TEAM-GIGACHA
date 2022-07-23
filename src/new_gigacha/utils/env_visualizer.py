@@ -23,7 +23,8 @@ class Visualizer(threading.Thread):
         self.imu = IMU()
 
         self.global_path = self.shared.global_path # from localizer
-        
+        self.parking = self.shared.park
+
         # Publisher
         self.vis_global_path_pub = rospy.Publisher("/vis_global_path", Path, queue_size=1) # using path
         self.vis_local_path_pub = rospy.Publisher("/vis_local_path", Path, queue_size=1) # using path
@@ -36,6 +37,8 @@ class Visualizer(threading.Thread):
         
         self.vis_obj_pub1 = rospy.Publisher("/vis_obj1", MarkerArray, queue_size=1)
         self.vis_obj_pub2 = rospy.Publisher("/vis_obj2", MarkerArray, queue_size=1)
+
+        self.vis_parking_path_pub = rospy.Publisher("/vis_parking_path", Path, queue_size=1)
 
         # self.vis_trajectory_pub_dr = rospy.Publisher("/vis_trajectory_dr", PointCloud, queue_size=1)
         # self.vis_pose_pub_dr = rospy.Publisher("/vis_position_dr", Odometry, queue_size=1)
@@ -57,6 +60,9 @@ class Visualizer(threading.Thread):
 
         self.vis_lattice_path_2 = Path()
         self.vis_lattice_path_2.header.frame_id = "map"
+
+        self.vis_parking_path = Path()
+        self.vis_parking_path.header.frame_id = "map"
 
         # self.vis_trajectory_dr = PointCloud()
         # self.vis_trajectory_dr.header.frame_id = "map"
@@ -85,6 +91,7 @@ class Visualizer(threading.Thread):
                 self.vis_pose.pose.pose.position.x = self.ego.x
                 self.vis_pose.pose.pose.position.y = self.ego.y
                 self.vis_pose.pose.pose.orientation = self.imu.orientation_q
+                self.vis_pose.twist.twist.linear.x = self.ego.heading
                 # print(self.vis_pose.pose.pose.orientation)
                 self.vis_trajectory.header.stamp = rospy.Time.now()
                 if self.t - time() < 0.5 :
@@ -235,10 +242,23 @@ class Visualizer(threading.Thread):
                     circle_marker.pose.position.y = self.perception.objy[i]
                     circle_marker.scale.x = self.perception.objw[i]
                     circle_marker.scale.y = self.perception.objh[i]
-                    vis_obj2.markers.append(circle_marker)
-                    c_id2 = c_id2 + 1
-            
-                    
+                    vis_obj.markers.append(circle_marker)
+                    c_id = c_id + 1
+
+                ######################## PARKING PATH ##########################
+                parking = Path()
+                for i in range(len(self.parking.forward_path.x)):
+                    read_pose=PoseStamped()
+                    read_pose.pose.position.x = self.parking.forward_path.x[i]
+                    read_pose.pose.position.y = self.parking.forward_path.y[i]
+                    read_pose.pose.position.z = 0
+                    read_pose.pose.orientation.x=0
+                    read_pose.pose.orientation.y=0
+                    read_pose.pose.orientation.z=0
+                    read_pose.pose.orientation.w=1
+                    parking.poses.append(read_pose)
+                self.vis_parking_path.poses = parking.poses
+
                 # publish
                 self.vis_obj_pub1.publish(vis_obj1)
                 self.vis_obj_pub2.publish(vis_obj2)
@@ -257,6 +277,9 @@ class Visualizer(threading.Thread):
 
                 self.vis_lattice_path_2.header.stamp = rospy.Time.now()
                 self.vis_lattice_path_2_pub.publish(self.vis_lattice_path_2)
+
+                self.vis_parking_path.header.stamp = rospy.Time.now()
+                self.vis_parking_path_pub.publish(self.vis_parking_path)
 
                 self.vis_trajectory_pub.publish(self.vis_trajectory)
 

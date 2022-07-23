@@ -3,12 +3,14 @@ import time
 import csv
 import threading
 import math
-from math import hypot
-from time import sleep
-
+from math import hypot, atan2
+from time import sleep, time
+from numpy import rad2deg
 from localizer.ahrs import IMU
 from localizer.gps import GPS
 from localizer.odometry import Odometry
+from localizer.dr_enc import DR_enc
+from localizer.dr_imu import DR_imu
 
 
 class Localizer(threading.Thread):
@@ -19,14 +21,20 @@ class Localizer(threading.Thread):
 
         self.ego = parent.shared.ego
         self.global_path = parent.shared.global_path
+        self.parking = parent.shared.park
 
         self.read_global_path()  # only one time
 
         self.gps = GPS()
         self.imu = IMU()
-        # self.odometry = Odometry(self.ego, self.gps, self.imu)
+        # self.odometry = Odometry(self.ego, self.gps)
+        # self.dr_enc = DR_enc(self.ego)
+        # self.dr_imu = DR_imu(self.imu)
 
         self.offset = 0
+
+        self.now = time()
+        self.check = False
 
     def read_global_path(self):
         with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
@@ -57,19 +65,30 @@ class Localizer(threading.Thread):
 
     def heading_decision(self):
         global time_sync
-        main_time = time.time()
+        main_time = time()
         time_sync = None
-        # print('gps duration: {},,,imu duration: {}'.format((main_time - self.gps.time),(main_time - self.imu.time)))
-        if (main_time - self.gps.time) < 0.2 and (main_time - self.imu.time) < 0.2:
-            time_sync = "Sync"
-            if self.gps.heading_switch == True:
-                self.offset = self.gps.heading - self.imu.heading
-                self.ego.heading = self.imu.heading + self.offset
+        if self.parking.on == False:
+
+            if (main_time - self.gps.time) < 0.2 and (main_time - self.imu.time) < 0.2:
+                time_sync = "Sync"
+                if self.gps.heading_switch == True:
+                    self.offset = self.gps.heading - self.imu.heading
+                    self.ego.heading = self.imu.heading + self.offset
+                else:
+                    self.ego.heading = self.imu.heading + self.offset
             else:
+                time_sync = "Unsync"
                 self.ego.heading = self.imu.heading + self.offset
+
         else:
-            time_sync = "Unsync"
             self.ego.heading = self.imu.heading + self.offset
+
+
+    def init_offset(self):
+        heading = rad2deg(atan2((self.global_path.y[self.ego.index + 1] - self.global_path.y[self.ego.index])/(self.global_path.x[self.ego.index + 1] - self.global_path.x[self.ego.index]),1))
+        print('heading',heading)
+        self.offset = heading - self.imu.heading
+        self.check = True
 
     def run(self):
         while True:
@@ -78,6 +97,10 @@ class Localizer(threading.Thread):
             self.ego.y = self.gps.y
             self.index_finder()
 
+            # if self.check == False:
+            #     if time()- self.now > 2:
+            #         self.init_offset()
+                
             # print("x : {0}, y : {1}, heading : {2}, switch : {3}, time sync : {4}, index : {5}"\
             # .format(self.ego.x, self.ego.y, self.ego.heading, self.gps.heading_switch, time_sync, self.ego.index))
 

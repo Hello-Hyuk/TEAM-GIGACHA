@@ -49,7 +49,7 @@ class Master(threading.Thread):
         self.lat_controller = LatController(self, rate=20)
         self.init_thread(self.lat_controller)
 
-        self.lon_controller = LonController(self, rate=3)
+        self.lon_controller = LonController(self, rate=10)
         self.init_thread(self.lon_controller)
 
         self.serial_reader = SerialReader(self, rate=20)
@@ -90,6 +90,7 @@ if __name__ == "__main__":
         '--map',
         default='kcity_simul/final',
         help='kcity/map1, songdo/map2, yonghyeon/Yonghyeon, kcity_simul/left_lane, kcity_simul/right_lane'
+        help='kcity/map1, songdo/map2, yonghyeon/Yonghyeon, kcity_simul/final, inha_parking/gpp'
     )
 
     ActivateSignalInterruptHandler()
