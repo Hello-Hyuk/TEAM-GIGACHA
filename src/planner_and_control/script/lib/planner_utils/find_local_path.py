@@ -16,7 +16,7 @@ def findLocalPath(path, ego):
         if dis < min_dis:
             min_dis = dis
             current_index = i
-
+    
     if current_index + 100 > len(path.x):
         last_local_index = len(path.x)
     else:

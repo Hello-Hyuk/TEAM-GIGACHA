@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
+from re import A
 import rospy
 from math import sqrt
 from time import time
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
+from lib.general_utils.mission import Mission
 from std_msgs.msg import String
 from planner_and_control.msg import Ego
 from planner_and_control.msg import Perception
@@ -11,21 +13,25 @@ from planner_and_control.msg import Sign
 class Behavior_Planner:
     def __init__(self):
         rospy.init_node('Behavior_Planner', anonymous = False)
-        rospy.Subscriber('/state', String, self.state_callback)
+
         rospy.Subscriber('/ego', Ego, self.ego_callback)
         rospy.Subscriber('/perception', Perception, self.perception_callback)
+        rospy.Subscriber('/state', String, self.state_callback)
+
         self.pub_behavior = rospy.Publisher('/behavior', String, queue_size = 1)
         self.pub_ego = rospy.Publisher('/behavior_ego', Ego, queue_size = 1)
-        self.ego = Ego()
-        self.state = String()
-        self.behavior = ""
-        self.sign_dis = 100
-        self.go_side_check = False
-        self.wait_time = time()
-        self.perception = Perception()
 
-    def state_callback(self, msg):
-        self.state = msg.data
+        self.ego = Ego()
+        self.perception = Perception()
+        self.state = String()
+
+        self.behavior = " "
+        self.sign_dis = 100
+        self.traffic_dis = 100
+        self.go_side_check = False
+        self.sign_detected = 0 # action just one time
+        self.mission = Mission(self.ego, self.perception)
+        self.state_remember = "go"
 
     def ego_callback(self, msg):
         self.ego = msg
@@ -33,37 +39,44 @@ class Behavior_Planner:
     def perception_callback(self, msg):
         self.perception = msg
 
-    # def sign_callback(self, msg):
-    #     self.sign_dis = sqrt((self.sign.x - self.ego.x)**2 + (self.sign.y - self.ego.y)**2)
+    def state_callback(self, msg):
+        self.state = msg.data
 
     def run(self):
-        
-        if self.state == "go":
-            self.behavior = "go"
+        self.mission.update_parameter(self.ego, self.perception)
+        if self.state_remember != self.state:
+            self.state_remember = self.state
+            self.mission.time_checker = False           
+
+        if self.state == "parking":
+            self.mission.parking()
             
-        if self.state == "obstacle detected":
-            self.behavior = "obstacle avoidance"
+        elif self.state == "static_obstacle_detected":
+            self.mission.static_obstacle()
+            
+        elif self.state == "stop_sign_detected":
+            self.mission.stop()
 
-        sign_x = 63.7384548403
-        sign_y = 111.167584983
-        self.sign_dis = sqrt((sign_x - self.ego.x)**2 + (sign_y - self.ego.y)**2)
+        elif self.state == "right_sign_detected":
+            self.mission.turn_right()
 
-        if self.state == "stop_sign detected":
-            if self.sign_dis <= 5:
-                if self.go_side_check == False:
-                    self.behavior = "stop"
-                    self.wait_time = time()
-                    self.go_side_check = True
-                if self.behavior == "stop" and time() - self.wait_time > 3:
-                    self.behavior = "go"
-                    
-            else:
-                self.behavior = "go_side"
-                self.go_side_check = False
-                    
-        print(f"behavior_planner : {self.behavior}")
-        self.pub_behavior.publish(self.behavior)
-        self.pub_ego.publish(self.ego)
+        elif self.state == "left_sign_detected":
+            self.mission.turn_left()
+            
+        elif self.state == "child_area":
+            self.mission.child_area(self.perception.signx, self.perception.signy)
+
+        elif self.state == "right_sign_area":
+            self.mission.non_traffic_right()
+
+        else:
+            self.mission.go()
+
+        print(f"behavior_planner : {self.mission.behavior_decision}")
+        print(f"speed : {self.mission.ego.target_speed}")
+
+        self.pub_behavior.publish(self.mission.behavior_decision)
+        self.pub_ego.publish(self.mission.ego)
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
@@ -71,4 +84,4 @@ if __name__ == "__main__":
     rate = rospy.Rate(20)
     while not rospy.is_shutdown():
         bp.run()
-        rate.sleep
+        rate.sleep()

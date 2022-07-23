@@ -58,12 +58,12 @@ add_message_files(
   Serial_Info.msg
   Control_Info.msg
   Ego.msg
-  Obj.msg
   Obstacles.msg
   CircleObstacle.msg
   SegmentObstacle.msg
   Sign.msg
   Perception.msg
+  Displacement.msg
 )
 
 ## Generate services in the 'srv' folder

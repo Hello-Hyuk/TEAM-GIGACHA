@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 from planner_and_control.msg import Local, Serial_Info, Perception, Ego
 from lib.planner_utils.index_finder import IndexFinder
@@ -13,13 +14,31 @@ class Ego_updater:
         rospy.Subscriber("/serial", Serial_Info, self.serial_callback) # serial
 
         self.ego = Ego()
+
+        self.ego.map_folder = input("folder name : ")
+
+        if self.ego.map_folder == "1":
+            self.ego.map_folder = "songdo_track/maps"
+            self.ego.map_file = "songdo_straight"
+        elif self.ego.map_folder == "2":
+            self.ego.map_folder = "kcity_simul"
+            self.ego.map_file = "ex"
+        elif self.ego.map_folder == "3":
+            self.ego.map_folder = "kcity_simul/turn_right"
+            self.ego.map_file = "turn_right"
+        elif self.ego.map_folder == "4":
+            self.ego.map_folder = "songdo_track/maps"
+            self.ego.map_file = "songdo_right"
+        elif self.ego.map_folder == "5":
+            self.ego.map_folder = "songdo_track/maps"
+            self.ego.map_file = "songdo_left"
+
         self.IF = IndexFinder(self.ego)
 
     def local_callback(self, msg):
         self.ego.x = msg.x
         self.ego.y = msg.y
         self.ego.heading = msg.heading
-        self.ego.index = self.IF.run()
 
     def behavior_callback(self, msg):
         self.ego.target_speed = msg.target_speed
@@ -32,17 +51,18 @@ class Ego_updater:
         self.ego.brake = msg.brake
         self.ego.gear = msg.gear
         self.ego.auto_manual = msg.auto_manual
+        # self.ego.emergency_stop = msg.emergency_stop
 
     def run(self):
+        self.ego.index = self.IF.run()
         self.ego_pub.publish(self.ego)
 
-        print("Ego updater is operating")
+        # print("Ego updater is operating")
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
     eg = Ego_updater()
-    rate = rospy.Rate(50)
+    rate = rospy.Rate(20)
     while not rospy.is_shutdown():
         eg.run()
-        rate.sleep
-        
+        rate.sleep()

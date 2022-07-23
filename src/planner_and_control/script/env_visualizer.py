@@ -2,15 +2,15 @@ import rospy
 
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 
-from sensor_msgs.msg import PointCloud
+from sensor_msgs.msg import PointCloud, Imu
 from geometry_msgs.msg import Point32
 from geometry_msgs.msg import PoseStamped
-from geometry_msgs.msg import Quaternion
+from geometry_msgs.msg import Pose
 from nav_msgs.msg import Odometry, Path
 from visualization_msgs.msg import MarkerArray, Marker
 from planner_and_control.msg import Local
 from planner_and_control.msg import Path as customPath
-from planner_and_control.msg import Obj
+from planner_and_control.msg import Perception
 from time import time
 
 class environmentVisualizer:
@@ -23,14 +23,18 @@ class environmentVisualizer:
         rospy.Subscriber('/pose', Local, self.pose_callback)
         rospy.Subscriber('/global_path', customPath, self.globalpath_callback)
         rospy.Subscriber('/trajectory', customPath, self.localpath_callback)
-        rospy.Subscriber('/obj', Obj, self.object_callback)
+        rospy.Subscriber('/perception', Perception, self.object_callback)
+        # rospy.Subscriber('/simul_imu', Pose, self.simul_imu_callback) # simul
         
         # Publisher
         self.vis_global_path_pub = rospy.Publisher("/vis_global_path", Path, queue_size=1) # using path
         self.vis_local_path_pub = rospy.Publisher("/vis_local_path", Path, queue_size=1) # using path
         
         self.vis_trajectory_pub = rospy.Publisher("/vis_trajectory", PointCloud, queue_size=1)
-        self.vis_pose_pub = rospy.Publisher("/vis_pose", Odometry, queue_size=1)
+        self.vis_pose_pub = rospy.Publisher("/vis_position", Odometry, queue_size=1)
+
+        self.vis_trajectory_pub_dr = rospy.Publisher("/vis_trajectory_dr", PointCloud, queue_size=1)
+        self.vis_pose_pub_dr = rospy.Publisher("/vis_position_dr", Odometry, queue_size=1)
         
         self.vis_obj_pub = rospy.Publisher("/vis_obj", MarkerArray, queue_size=1)        
 
@@ -46,9 +50,15 @@ class environmentVisualizer:
         
         self.vis_trajectory = PointCloud()
         self.vis_trajectory.header.frame_id = "map"
+
+        self.vis_trajectory_dr = PointCloud()
+        self.vis_trajectory_dr.header.frame_id = "map"
         
         self.vis_pose = Odometry()
         self.vis_pose.header.frame_id = "map"
+
+        self.vis_pose_dr = Odometry()
+        self.vis_pose_dr.header.frame_id = "map"
 
         # self.obsmap_pub = rospy.Publisher("/vis_map", PointCloud, queue_size=1)
         # self.obsmap = PointCloud()
@@ -70,6 +80,7 @@ class environmentVisualizer:
         # self.target.header.frame_id = "map"
 
         self.t = time()
+        self.d = time()
         
     def pose_callback(self, msg):
         ppoint = Point32()
@@ -78,44 +89,62 @@ class environmentVisualizer:
         ppoint.z = 0
         self.vis_pose.pose.pose.position.x = ppoint.x
         self.vis_pose.pose.pose.position.y = ppoint.y
-        # self.vis_trajectory.header.stamp = rospy.Time.now()
-        if self.t - time() < 1.0 :
+        self.vis_trajectory.header.stamp = rospy.Time.now()
+        self.vis_pose.pose.pose.orientation = msg.orientation
+        if self.t - time() < 0.5 :
             self.t = time()
             self.vis_trajectory.points.append(ppoint)
 
+
+        ppoint_dr = Point32()
+        ppoint_dr.x = msg.dr_x
+        ppoint_dr.y = msg.dr_y
+        ppoint_dr.z = 0
+        self.vis_pose_dr.pose.pose.position.x = ppoint_dr.x
+        self.vis_pose_dr.pose.pose.position.y = ppoint_dr.y
+        self.vis_trajectory_dr.header.stamp = rospy.Time.now()
+        self.vis_pose_dr.pose.pose.orientation = msg.orientation
+        if self.d - time() < 0.5 :
+            self.d = time()
+            self.vis_trajectory_dr.points.append(ppoint_dr)
+
+
         # car heading
-        # need to edit
+        # simul
+        # heading = PoseStamped()
+        # heading.pose.orientation = msg.heading
+        # self.vis_pose.pose.pose.orientation.w = heading.pose.orientation
 
-        heading = PoseStamped()
-        heading.pose.orientation = msg.heading
-        self.vis_pose.pose.pose.orientation.w = heading.pose.orientation
-
+        # 
         # heading = Quaternion()
         # heading.w = msg.heading
         # self.vis_pose.pose.pose.orientation.w = heading.w
+
+    # def simul_imu_callback(self, msg):
+    #     self.vis_pose.pose.pose.orientation = msg.orientation
         
     def globalpath_callback(self, msg):
-        # global_path = Path()
-        # for i in range(len(msg.x)):
-        #     read_pose=PoseStamped()
-        #     read_pose.pose.position.x = msg.x[i]
-        #     read_pose.pose.position.y = msg.y[i]
-        #     read_pose.pose.position.z = 0
-        #     read_pose.pose.orientation.x=0
-        #     read_pose.pose.orientation.y=0
-        #     read_pose.pose.orientation.z=0
-        #     read_pose.pose.orientation.w=1
-        #     global_path.poses.append(read_pose)
-        # self.vis_global_path.poses = global_path.poses
-        
-        global_path = PointCloud()
+        global_path = Path()
         for i in range(len(msg.x)):
-            gpoints = Point32()
-            gpoints.x = msg.x[i]
-            gpoints.y = msg.y[i]
-            gpoints.z = 0
-            global_path.points.append(gpoints)
-        self.vis_global_path.points = global_path.points
+            read_pose=PoseStamped()
+            read_pose.pose.position.x = msg.x[i]
+            read_pose.pose.position.y = msg.y[i]
+            read_pose.pose.position.z = 0
+            read_pose.pose.orientation.x=0
+            read_pose.pose.orientation.y=0
+            read_pose.pose.orientation.z=0
+            read_pose.pose.orientation.w=1
+            global_path.poses.append(read_pose)
+        self.vis_global_path.poses = global_path.poses
+        
+        # global_path = PointCloud()
+        # for i in range(len(msg.x)):
+        #     gpoints = Point32()
+        #     gpoints.x = msg.x[i]
+        #     gpoints.y = msg.y[i]
+        #     gpoints.z = 0
+        #     global_path.points.append(gpoints)
+        # self.vis_global_path.points = global_path.points
         
     def localpath_callback(self, msg):
         local_path = Path()
@@ -135,7 +164,7 @@ class environmentVisualizer:
         vis_obj = MarkerArray()
         c_id = 0
         
-        for i in range(len(msg.x)):
+        for i in range(len(msg.objx)):
             circle_marker = Marker()
             circle_marker.header.frame_id = "map"
             circle_marker.header.stamp = rospy.Time.now()
@@ -154,10 +183,10 @@ class environmentVisualizer:
             circle_marker.color.b = 0.2
             circle_marker.color.a = 1.0
             circle_marker.lifetime = rospy.Duration(0.1)
-            circle_marker.pose.position.x = msg.x[i]
-            circle_marker.pose.position.y = msg.y[i]
-            circle_marker.scale.x = 2.0 * msg.r[i]
-            circle_marker.scale.y = 2.0 * msg.r[i]
+            circle_marker.pose.position.x = msg.objx[i]
+            circle_marker.pose.position.y = msg.objy[i]
+            circle_marker.scale.x = 2.0 * msg.objr[i]
+            circle_marker.scale.y = 2.0 * msg.objr[i]
             vis_obj.markers.append(circle_marker)
             c_id = c_id + 1
         
@@ -173,10 +202,11 @@ class environmentVisualizer:
         self.vis_local_path_pub.publish(self.vis_local_path)
 
         self.vis_trajectory_pub.publish(self.vis_trajectory)
+        self.vis_trajectory_pub_dr.publish(self.vis_trajectory_dr)
 
         # self.vis_pose.header.stamp = rospy.Time.now()
         self.vis_pose_pub.publish(self.vis_pose)
-        
+        self.vis_pose_pub_dr.publish(self.vis_pose_dr)
         
         
         # self.obsmap.points = self.ego.obs_map.points

@@ -12,46 +12,48 @@ from sensor_msgs.msg import PointCloud
 class Mission_Planner:
     def __init__(self):
         rospy.init_node('Mission_Planner', anonymous = False)
-        self.pub = rospy.Publisher('/state', String, queue_size = 1)
-        rospy.Subscriber('/perception', Perception, self.perception_callback)
+        
         rospy.Subscriber('/ego', Ego, self.ego_callback)
+        rospy.Subscriber('/perception', Perception, self.perception_callback)
+
+        self.pub = rospy.Publisher('/state', String, queue_size = 1)
+
+        self.ego = Ego()
         self.perception = Perception()
         self.state = ''
-        self.obs_dis = 0
+        self.obs_dis = 100
         self.sign = ''
         self.sign_dis = 100
-        self.ego = Ego()
 
     def perception_callback(self, msg):
         self.perception = msg
-
-    def lidar_callback(self, msg):
-        self.obstacle = msg
-        self.obs_dis = sqrt(self.obstacle.x**2 + self.obstacle.y**2)
 
     def ego_callback(self, msg):
         self.ego = msg
 
     def run(self):
 
-        if self.obs_dis < 15 :
-            self.state = "obstacle detected"
+        if self.perception.signname == "turn_right_traffic_light":
+            self.state = "right_sign_detected"
 
-        sign_x = 63.7384548403
-        sign_y = 111.167584983
+        elif self.perception.signname == "static_obstacle":
+            self.state = "static_obstacle_detected"           
 
-        self.sign_dis = sqrt((sign_x - self.ego.x)**2 + (sign_y - self.ego.y)**2)
-        print(self.sign_dis)
+        elif self.perception.signname == "delivery":
+            self.state = "stop_sign_detected"
 
+        elif self.perception.signname == "child_area":
+            self.state = "child_area"
         
-        if self.sign_dis < 15:
-            self.sign = "stop_sign"
-            self.state = "stop_sign detected"
-            
+        elif self.perception.signname == "turn_left_traffic_light":
+            self.state = "left_sign_detected"
+
+        elif self.perception.signname == "non_traffic_right":
+            self.state ="right_sign_area"
+
         else:
             self.state = "go"
-
-        print(f"mission_planner : {self.state}")
+        # print(f"mission_planner : {self.state}")
         self.pub.publish(self.state)
 
 if __name__ == "__main__":
