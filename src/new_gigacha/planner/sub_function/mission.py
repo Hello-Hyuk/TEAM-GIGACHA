@@ -17,6 +17,8 @@ class Mission():
         self.check = False
         self.prev_objx = 0
 
+        self.traffic_checker = False
+
     def go(self):
         self.ego.target_estop = 0x00
         self.ego.target_gear = 0
@@ -109,16 +111,17 @@ class Mission():
 
     
     def turn_left(self):
-        if self.perception.tleft == 1:
-            self.plan.behavior_decision = "turn_left"
+        self.plan.behavior_decision = "turn_left"
+        if self.ego.index >= 400 and self.ego.index <= 470:
+            print("case1")
+            self.ego.target_speed = 0
+            self.ego.target_brake = 200
+            if self.perception.tleft == 1:
+                self.traffic_checker = True
+        if self.traffic_checker == True:
+            print("case2")
+            self.ego.target_speed = 10
             self.ego.target_brake = 0
-        else:
-            if self.ego.index >= 400 and self.ego.index <= 470:
-                self.plan.behavior_decision = "stop"
-                self.ego.target_brake = 200
-            else:
-                self.plan.behavior_decision = "turn_left"
-                self.ego.target_brake = 0
 
 
     def non_traffic_right(self):
