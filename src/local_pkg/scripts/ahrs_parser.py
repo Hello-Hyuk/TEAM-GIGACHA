@@ -37,7 +37,6 @@ class AHRS_Parsing:
         except IndexError:
             print("=============================")
 
-
         self.pub.publish(self.raw_data)
 
 if __name__ == "__main__":
