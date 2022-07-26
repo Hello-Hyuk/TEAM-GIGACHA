@@ -5,9 +5,9 @@ from sensor_msgs.msg import Imu
 
 class AHRS_Parsing:
     def __init__(self):
-        self.ser = serial.Serial('/dev/imu', baudrate = 115200)
-        print('AHRS_Parsing : Serial connecting to /dev/imu')
         rospy.init_node("ahrs_raw", anonymous=False)
+        print('AHRS_Parsing : Serial connecting to /dev/imu')
+        self.ser = serial.Serial('/dev/imu', baudrate = 115200)
 
         self.raw_data = Imu()
         self.raw_data.header.stamp = rospy.Time.now()
@@ -22,12 +22,20 @@ class AHRS_Parsing:
         except:
             UnicodeDecodeError
 
-        sdata = self.data.split(",")
-        self.raw_data.orientation.x = float(sdata[3])
-        self.raw_data.orientation.y = float(sdata[2])
-        self.raw_data.orientation.z = float(sdata[1])
-        self.raw_data.orientation.w = float(sdata[4])
-        self.raw_data.angular_velocity.x = float(sdata[5])
+        try:
+            sdata = self.data.split(",")
+            self.raw_data.orientation.x = float(sdata[3])
+            self.raw_data.orientation.y = float(sdata[2])
+            self.raw_data.orientation.z = float(sdata[1])
+            self.raw_data.orientation.w = float(sdata[4])
+            self.raw_data.angular_velocity.x = float(sdata[5])
+            self.raw_data.angular_velocity.y = float(sdata[6])
+            self.raw_data.angular_velocity.z = float(sdata[7])
+            self.raw_data.linear_acceleration.x = float(sdata[8])
+            self.raw_data.linear_acceleration.y = float(sdata[9])
+            self.raw_data.linear_acceleration.z = float(sdata[11])
+        except IndexError:
+            print("===========================")
 
         self.pub.publish(self.raw_data)
 
