@@ -36,5 +36,6 @@ class IMU():
 if __name__ == '__main__':
     try:
         imu=IMU()
+        rospy.spin()
     except rospy.ROSInterruptException:
         pass

@@ -3,75 +3,49 @@ import threading
 import rospy
 from time import sleep
 from math import hypot
-from local_pkg.msg import Displacement
-from localizer.gps import GPS
+from local_pkg.msg import Local
 
 class MP(threading.Thread):
     def __init__(self, parent, rate):
-        rospy.Subscriber('/encoder', Displacement, self.encoderCallback)
+        rospy.Subscriber('/local_msgs', Local, self.localCallback)
         self.period = 1.0 / rate
-        self.global_path = parent.shared.global_path
         self.shared = parent.shared
-
+        self.global_path = parent.shared.global_path
         self.ego = parent.shared.ego
-        self.gps = GPS()
 
-        self.right = 0  # pulse from sensor
-        self.left = 0  # pulse from serial
-
-        # for odometry
-        self.init = 0
-        self.flag_filter = True
-
-        self.left_pulse = 0
-        self.right_pulse = 0
-        self.pulse = 0
-        self.diff_left = 0
-        self.diff_right = 0
+        self.pulse = 0.0
 
         self.stop_thread = False
 
-    def serialTopulse(self):
-        if self.init == 0:
-            self.init = int(self.ego.encoder[0]) + int(self.ego.encoder[1])*256\
-                + int(self.ego.encoder[2])*256**2 + \
-                int(self.ego.encoder[3])*256**3
+    def localCallback(self, msg):
+        self.ego.x = msg.x
+        self.ego.y = msg.y
+        self.ego.heading = msg.heading
+        self.pulse = msg.distance
 
-        odometry_left = int(self.ego.encoder[0]) + int(self.ego.encoder[1])*256\
-            + int(self.ego.encoder[2])*256**2 + \
-            int(self.ego.encoder[3])*256**3 - self.init
+    def calculate_yaw_curvature(self):
+        for i in range(len(self.global_path.x)-1):
+            yaw = atan2(self.global_path.y[i] - self.global_path.y[i-1], self.global_path.x[i] - self.global_path.x[i-1])
+            self.global_path.yaw_list.append((np.rad2deg(yaw)) % 360)
 
-        return odometry_left
-
-    def filter(self):
-        if self.flag_filter:
-            self.left_pulse = self.left
-            self.right_pulse = self.right
-            self.flag_filter = False
-
-        if (abs(self.left - self.left_pulse) > 100):
-            self.left_pulse = self.left + self.diff_left
-        else:
-            self.diff_left = self.left - self.left_pulse
-            self.left_pulse = self.left
-
-        if (abs(self.right - self.right_pulse) > 100):
-            self.right_pulse = self.right + self.diff_right
-        else:
-            self.diff_right = self.right - self.right_pulse
-            self.right_pulse = self.right
-
-    def encoderCallback(self,msg):
-        self.left = self.serialTopulse()
-        self.right = msg.data
-
-        self.filter()
-
-        self.pulse = (self.right_pulse + self.left_pulse) / 2
+            if i == 0:
+                x_vals = [self.global_path.x[-1], self.global_path.x[0], self.global_path.x[1]]
+                y_vals = [self.global_path.y[-1], self.global_path.y[0], self.global_path.y[1]]
+                R = circumradius(x_vals, y_vals)
+                try:
+                    self.global_path.curvature.append(1/R)
+                except ZeroDivisionError:
+                    self.global_path.curvature.append(0)
+            else:
+                R = circumradius(self.global_path.x[i-1:i+2], self.global_path.y[i-1:i+2])
+                try:
+                    self.global_path.curvature.append(1/R)
+                except ZeroDivisionError:
+                    self.global_path.curvature.append(0)
 
     def map_maker(self):
-        self.global_path.x.append(self.gps.x)
-        self.global_path.y.append(self.gps.y)
+        self.global_path.x.append(self.ego.x)
+        self.global_path.y.append(self.ego.y)
 
     def run(self):
         while True:
@@ -79,8 +53,9 @@ class MP(threading.Thread):
                 if round(self.pulse) % 6 == 0:
                     self.map_maker()
 
-                if len(self.global_path.x) >= 100 and hypot(self.gps.x, self.gps.y) <= 0.96:
+                if len(self.global_path.x) >= 100 and hypot(self.ego.x, self.ego.y) <= 0.96:
                     self.stop_thread = True
+                    self.calculate_yaw_curvature()
                     self.shared.state = "2nd"
             else:
                 sleep(self.period)
