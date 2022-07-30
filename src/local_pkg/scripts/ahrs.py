@@ -12,7 +12,6 @@ class IMU():
         rospy.Subscriber("/imu", Imu, self.imu_call_back)
         rospy.Subscriber("/simul_imu", Pose, self.imu_call_back)
 
-
         self.roll = 0.0
         self.pitch = 0.0
         self.heading = 0.0
@@ -42,5 +41,6 @@ class IMU():
 if __name__ == '__main__':
     try:
         imu=IMU()
+        rospy.spin()
     except rospy.ROSInterruptException:
         pass

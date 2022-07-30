@@ -99,5 +99,6 @@ class DR():
 if __name__ == '__main__':
     try:
         odometry = Odometry()
+        rospy.spin()        
     except rospy.ROSInterruptException:
         pass
