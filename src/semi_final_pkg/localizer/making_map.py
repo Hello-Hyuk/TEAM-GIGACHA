@@ -8,6 +8,7 @@ from localizer.gps import GPS
 
 class MP(threading.Thread):
     def __init__(self, parent, rate):
+        super().__init__()
         rospy.Subscriber('/Displacement_right', Int64, self.encoderCallback)
         self.period = 1.0 / rate
         self.global_path = parent.shared.global_path
@@ -28,8 +29,10 @@ class MP(threading.Thread):
         self.pulse = 0
         self.diff_left = 0
         self.diff_right = 0
+        self.temp = 0
 
         self.stop_thread = False
+        self.right_switch = False
 
     def serialTopulse(self):
         if self.init == 0:
@@ -63,7 +66,11 @@ class MP(threading.Thread):
 
     def encoderCallback(self,msg):
         self.left = self.serialTopulse()
-        self.right = msg.data
+        if self.right_switch == False:
+            self.right_init = msg.data
+            self.right_switch = True
+
+        self.right = msg.data - self.right_init
 
         self.filter()
 
@@ -72,15 +79,18 @@ class MP(threading.Thread):
     def map_maker(self):
         self.global_path.x.append(self.gps.x)
         self.global_path.y.append(self.gps.y)
+        self.temp = self.pulse
+        print("self.global_path.x : {}".format(self.global_path.x))
 
     def run(self):
         while True:
             if not self.stop_thread:
-                if round(self.pulse) % 6 == 0:
+                if round(self.pulse) % 6 == 0 and self.pulse !=self.temp:
                     self.map_maker()
 
-                if len(self.global_path.x) >= 100 and hypot(self.gps.x, self.gps.y) <= 0.96:
+                if len(self.global_path.x) >= 50 and hypot(self.gps.x, self.gps.y) <= 0.96:
                     self.stop_thread = True
+                    print('mmmmmmmmmmmmmmmmmmmmmm')
                     self.shared.state = "2nd"
             else:
                 sleep(self.period)

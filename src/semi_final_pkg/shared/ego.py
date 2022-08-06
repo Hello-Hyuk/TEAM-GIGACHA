@@ -4,7 +4,7 @@ class Ego():
         self.x = 0
         self.y = 0
         self.heading = 0
-        self.index = 0
+        self.index = 5
 
         # Serial to Ego (reader)
         self.auto_manual = 0
@@ -17,14 +17,14 @@ class Ego():
         self.alive = 0
 
         # Planner to Controller
-        self.target_speed = 20
+        self.target_speed = 5
         self.target_gear = 0
         self.target_brake = 0
 
         # Controller to Serial (writer)
         self.input_estop = 0
         self.input_gear = 0
-        self.input_speed = 20
+        self.input_speed = 5
         self.input_steer = 0
         self.input_brake = 0
 

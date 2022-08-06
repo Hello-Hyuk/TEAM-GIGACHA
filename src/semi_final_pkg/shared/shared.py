@@ -1,7 +1,6 @@
 from .ego import Ego
 from .perception import Perception_
 from .path import Path
-from .plan import Plan
 
 class Shared:
     def __init__(self):
@@ -12,6 +11,5 @@ class Shared:
         self.perception = Perception_()
 
         # for planner
-        self.state = ''
+        self.state = "1st"
         self.global_path = Path()
-        self.plan = Plan()

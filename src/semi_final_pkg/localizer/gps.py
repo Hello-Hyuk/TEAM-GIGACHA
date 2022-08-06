@@ -34,6 +34,10 @@ class GPS():
             self.x, self.y, _ = pymap3d.geodetic2enu(data.latitude, data.longitude, self.alt, \
                                                 self.lat, self.lon, self.alt)
 
+    # def gps_call_back(self, data):
+    #     self.lat = data.latitude
+    #     self.lon = data.longitude
+
     def gps_call_back_simul(self, data):
         if self.init == False:
             self.lat = data.latitude

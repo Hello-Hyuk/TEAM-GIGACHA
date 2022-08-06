@@ -16,10 +16,6 @@ class Planner(threading.Thread):
         self.perception = self.shared.perception
         self.state = self.shared.state
 
-        #self.state = ""
-
-
-
 
     def run(self):
         while True:
@@ -27,24 +23,16 @@ class Planner(threading.Thread):
 
                 theta = (self.ego.heading) * pi / 180
 
-
-
-                if self.state=="1st":
-
-                    self.ego.point_x = self.perception.objx[0] * cos(theta) + self.perception.objy[0] * -sin(theta) + self.ego.x
-                    self.ego.point_y = self.perception.objx[0] * sin(theta) + self.perception.objy[0] * cos(theta) + self.ego.y
-
-
-                elif self.state=="2nd":
+                if self.state == "2nd":
 
                     min_dis = -1
                     min_idx = 0
                     step_size = 100
-                    save_idx = 0
+                    save_idx = self.ego.index
 
                     for i in range(max(self.ego.index - step_size, 0), self.ego.index + step_size):
                         try:
-                            dis = hypot(self.global_path.x[i] - self.ego.x, self.globa1_path.y[i] - self.ego.y)
+                            dis = hypot(self.global_path.x[i] - self.ego.x, self.global_path.y[i] - self.ego.y)
                         except IndexError:
                             break
                         if (min_dis > dis or min_dis == -1) and save_idx <= i:
@@ -53,13 +41,15 @@ class Planner(threading.Thread):
                             save_idx = i
 
                     self.ego.index = min_idx   
+                    print("index : ",self.ego.index)          
+                
+                else:
+                    self.ego.point_x = self.perception.objx
+                    self.ego.point_y = self.perception.objy
 
-                    
-                    self.ego.point_x=self.global_path.x[self.ego.index]
-                    self.ego.point_y=self.global_path.y[self.ego.index]                 
+   
                                         
-                                
-                    
+                            
             except IndexError:
                 # pass
                 print("+++++++++++++++++")

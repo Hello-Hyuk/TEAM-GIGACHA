@@ -5,14 +5,14 @@ import serial
 from shared.shared import Shared
 from localizer.localizer import Localizer
 from localizer.making_map import MP
-from localizer.map_creaing import MC
+# from localizer.map_creating import MC
 from planner.planner import Planner
 from controller.lat_controller import LatController
 from controller.lon_controller import LonController
 from utils.serial_reader import SerialReader
 from utils.serial_writer import SerialWriter
 from utils.sig_int_handler import ActivateSignalInterruptHandler
-# from utils.env_visualizer import Visualizer
+from utils.env_visualizer import Visualizer
 
 from time import sleep
 
@@ -22,8 +22,8 @@ class Master(threading.Thread):
         self.args = args
         self.period = 1.0 / ui_rate
 
-        self.ser = serial.Serial("/dev/ttyUSB1", 115200)  # Simulation
-        # self.ser = serial.Serial("/dev/erp42", 115200) # Real World
+        # self.ser = serial.Serial("/dev/ttyUSB1", 115200)  # Simulation
+        self.ser = serial.Serial("/dev/erp42", 115200) # Real World
 
         rospy.init_node('master', anonymous=False)
 
@@ -34,7 +34,10 @@ class Master(threading.Thread):
         self.init_thread(self.localizer)
 
         self.mp = MP(self, rate = 1)
-        self.mc = MC(self, rate = 50)
+        self.init_thread(self.mp)
+
+        # self.mc = MC(self, rate = 50)
+        # self.init_thread(self.mc)
 
         self.planner = Planner(self, rate=20)
         self.init_thread(self.planner)
@@ -51,8 +54,8 @@ class Master(threading.Thread):
         self.serial_writer = SerialWriter(self, rate=10)
         self.init_thread(self.serial_writer)
 ###################################################
-        # self.visualizer = Visualizer(self, rate=1)
-        # self.init_thread(self.visualizer)
+        self.visualizer = Visualizer(self, rate=1)
+        self.init_thread(self.visualizer)
 ######################################################
         while True:
             print('Localization : x : {0}, y : {1}, index : {2}, heading : {3}'\
@@ -60,7 +63,7 @@ class Master(threading.Thread):
             print('Controller : Speed : {}, Steer : {}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
             # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
             # print("tmp :" ,len(self.shared.perception.tmp_objx))
-            # print("real :" , self.shared.perception.objx, self.shared.perception.objy)
+            print("state :" ,(self.shared.state))
             sleep(self.period)
 
     def init_thread(self, module):
