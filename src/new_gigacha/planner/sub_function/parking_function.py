@@ -19,7 +19,7 @@ class Parking_Motion():
 #########saved map import function########
     def make_parking_tra(self):
         # self.mapname = str(self.parking.select_num)
-        self.parking.select_num = 2
+        self.parking.select_num = 4
         self.mapname = 'parkssang'+ str(self.parking.select_num)
         path1 = Path()
         path2 = Path()
@@ -59,7 +59,7 @@ class Parking_Motion():
             # for i in range(self.parking.mindex, self.parking.mindex - 25, -1):
                 path1.x.insert(0,self.global_path.x[i])
                 path1.y.insert(0,self.global_path.y[i])
-            path1.x, path1.y = path1.x[0:70], path1.y[0:70]
+            path1.x, path1.y = path1.x[0:80], path1.y[0:80]
 
         path2.x, path2.y = list(reversed(path1.x)), list(reversed(path1.y))
         self.parking.forward_path = path1
