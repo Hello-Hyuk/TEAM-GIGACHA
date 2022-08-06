@@ -3,12 +3,12 @@ import threading
 import rospy
 from time import sleep
 from math import hypot
-from local_pkg.msg import Displacement
+from std_msgs.msg import Int64
 from localizer.gps import GPS
 
 class MP(threading.Thread):
     def __init__(self, parent, rate):
-        rospy.Subscriber('/encoder', Displacement, self.encoderCallback)
+        rospy.Subscriber('/Displacement_right', Int64, self.encoderCallback)
         self.period = 1.0 / rate
         self.global_path = parent.shared.global_path
         self.shared = parent.shared
