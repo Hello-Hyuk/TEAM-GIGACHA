@@ -1,11 +1,14 @@
 from geometry_msgs.msg import Quaternion
 
+
 class Ego():
     def __init__(self):
         # Local to Ego
-        self.x = 0
-        self.y = 0
-        self.heading = 0
+        self.x = 0.0
+        self.y = 0.0
+        self.heading = 0.0
+        self.ego.roll = 0.0
+        self.ego.pitch = 0.0
         self.index = 0
         self.orientaion = Quaternion()
 

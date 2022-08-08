@@ -22,7 +22,7 @@ class Master(threading.Thread):
         self.period = 1.0 / ui_rate
 
         # self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
-        self.ser = serial.Serial("/dev/erp42", 115200) # Real World
+        self.ser = serial.Serial("/dev/erp42", 115200)  # Real World
 
         rospy.init_node('master', anonymous=False)
 
@@ -63,7 +63,7 @@ class Master(threading.Thread):
             # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
             # print("tmp :" ,len(self.shared.perception.tmp_objx))
             # print("real :" ,len(self.shared.perception.objx))
-            # print("real :" , self.shared.perception.objx, self.shared.perception.objy)            
+            # print("real :" , self.shared.perception.objx, self.shared.perception.objy)
             sleep(self.period)
 
     def init_thread(self, module):

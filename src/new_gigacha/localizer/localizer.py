@@ -31,6 +31,8 @@ class Localizer(threading.Thread):
         self.ego.orientaion = self.msg.orientation
         self.ego.dr_x = self.msg.dr_x
         self.ego.dr_y = self.msg.dr_y
+        self.ego.roll = self.msg.roll
+        self.ego.pitch = self.msg.pitch
 
     def read_global_path(self):
         with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
