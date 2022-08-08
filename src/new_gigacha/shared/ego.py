@@ -1,3 +1,5 @@
+from geometry_msgs.msg import Quaternion
+
 class Ego():
     def __init__(self):
         # Local to Ego
@@ -5,6 +7,7 @@ class Ego():
         self.y = 0
         self.heading = 0
         self.index = 0
+        self.orientaion = Quaternion()
 
         # Odometry
         self.dr_x = 0
