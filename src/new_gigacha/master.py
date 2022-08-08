@@ -9,8 +9,6 @@ from planner.behavior_planner import BehaviorPlanner
 from planner.motion_planner import MotionPlanner
 from controller.lat_controller import LatController
 from controller.lon_controller import LonController
-from utils.serial_reader import SerialReader
-from utils.serial_writer import SerialWriter
 from utils.sig_int_handler import ActivateSignalInterruptHandler
 from utils.env_visualizer import Visualizer
 
@@ -34,9 +32,6 @@ class Master(threading.Thread):
         self.localizer = Localizer(self, rate=10)
         self.init_thread(self.localizer)
 
-        # self.DR = DR(self, rate = 50)
-        # self.init_thread(self.DR)
-
         self.mission_planner = MissionPlanner(self, rate=10)
         self.init_thread(self.mission_planner)
 
@@ -51,12 +46,6 @@ class Master(threading.Thread):
 
         self.lon_controller = LonController(self, rate=10)
         self.init_thread(self.lon_controller)
-
-        self.serial_reader = SerialReader(self, rate=20)
-        self.init_thread(self.serial_reader)
-
-        self.serial_writer = SerialWriter(self, rate=10)
-        self.init_thread(self.serial_writer)
 
         self.visualizer = Visualizer(self, rate=10)
         self.init_thread(self.visualizer)

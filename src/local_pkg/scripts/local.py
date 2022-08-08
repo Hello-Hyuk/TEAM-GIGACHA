@@ -52,6 +52,8 @@ class Localization():
         
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
+        self.msg.roll = self.imu.roll
+        self.msg.pitch = self.imu.pitch
         self.msg.heading = self.heading
         self.msg.dr_x += self.dr.dis*math.cos(math.radians(self.heading))
         self.msg.dr_y += self.dr.dis*math.sin(math.radians(self.heading))

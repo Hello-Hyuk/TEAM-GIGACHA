@@ -7,15 +7,14 @@ import rospy
 from local_pkg.msg import Local
 from math import hypot, atan2
 from time import sleep, time
-from numpy import rad2deg[]
+from numpy import rad2deg
 
 
 class Localizer(threading.Thread):
     def __init__(self, parent, rate):
         super().__init__()
-        rospy.init_node('main', anonymous=False)
-
         rospy.Subscriber('/local_msgs', Local, self.local_callback)
+
         self.mapname = parent.args.map
         self.period = 1.0 / rate
 
