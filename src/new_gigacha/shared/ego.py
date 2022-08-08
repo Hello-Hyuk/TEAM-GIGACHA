@@ -10,7 +10,7 @@ class Ego():
         self.roll = 0.0
         self.pitch = 0.0
         self.index = 0
-        self.orientaion = Quaternion()
+        self.orientation = Quaternion()
 
         # Odometry
         self.dr_x = 0

@@ -10,6 +10,7 @@ from odometry import DR
 from local_functions import quaternion_from_euler
 from sig_int_handler import Activate_Signal_Interrupt_Handler
 
+
 class Localization():
     def __init__(self):
         rospy.init_node('Localization', anonymous = False)
@@ -50,14 +51,19 @@ class Localization():
     def main(self):
         self.heading_decision()
         
+        orientation = list(quaternion_from_euler(self.imu.roll, self.imu.pitch, self.heading))
+        
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
+        self.msg.dr_x += self.dr.dis*math.cos(math.radians(self.heading))
+        self.msg.dr_y += self.dr.dis*math.sin(math.radians(self.heading))
         self.msg.roll = self.imu.roll
         self.msg.pitch = self.imu.pitch
         self.msg.heading = self.heading
-        self.msg.dr_x += self.dr.dis*math.cos(math.radians(self.heading))
-        self.msg.dr_y += self.dr.dis*math.sin(math.radians(self.heading))
-        self.msg.orientation = quaternion_from_euler(self.imu.roll, self.imu.pitch, self.heading)
+        self.msg.orientation.x = orientation[0]
+        self.msg.orientation.y = orientation[1]
+        self.msg.orientation.z = orientation[2]
+        self.msg.orientation.w = orientation[3]
 
         self.pub.publish(self.msg)
 

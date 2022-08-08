@@ -6,7 +6,7 @@ from local_pkg.msg import Serial_Info
 class DR(): 
     def __init__(self): 
         rospy.Subscriber('/Displacement_right', Int64, self.encoderCallback) 
-        rospy.Subscriber('/Serial_Info', Serial_Info, self.serialTopulse) 
+        rospy.Subscriber('/serial', Serial_Info, self.serialTopulse) 
  
         self.right = 0  # pulse from sensor 
         self.left = 0  # pulse from serial 

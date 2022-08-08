@@ -25,7 +25,7 @@ class IMU():
          
         self.orientation_q = Quaternion() 
  
-    def imu_call_back(self, data): 
+    def imu_call_back(self, data):
         self.time = time.time() 
         self.orientation_q = data.orientation 
         roll, pitch, yaw = efq(self.orientation_q.x, self.orientation_q.y, self.orientation_q.z, self.orientation_q.w) 
@@ -33,9 +33,9 @@ class IMU():
         self.roll = roll 
         self.pitch = pitch 
  
-        self.heading = np.rad2deg(-1*yaw)%360 # real world 
-        self.battery = data.linear_acceleration.z 
-        # self.heading = np.rad2deg(yaw)%360 # simul 
+        # self.heading = np.rad2deg(-1*yaw)%360 # real world 
+        # self.battery = data.linear_acceleration.z 
+        self.heading = np.rad2deg(yaw)%360 # simul 
  
  
 if __name__ == '__main__': 

@@ -7,7 +7,6 @@ import rospy
 from local_pkg.msg import Local
 from math import hypot, atan2
 from time import sleep, time
-from numpy import rad2deg
 
 
 class Localizer(threading.Thread):
@@ -25,14 +24,14 @@ class Localizer(threading.Thread):
         self.read_global_path()  # only one time
 
     def local_callback(self, msg):
-        self.ego.x = self.msg.x
-        self.ego.y = self.msg.y
-        self.ego.heading = self.msg.heading
-        self.ego.orientaion = self.msg.orientation
-        self.ego.dr_x = self.msg.dr_x
-        self.ego.dr_y = self.msg.dr_y
-        self.ego.roll = self.msg.roll
-        self.ego.pitch = self.msg.pitch
+        self.ego.x = msg.x
+        self.ego.y = msg.y
+        self.ego.heading = msg.heading
+        self.ego.orientaion = msg.orientation
+        self.ego.dr_x = msg.dr_x
+        self.ego.dr_y = msg.dr_y
+        self.ego.roll = msg.roll
+        self.ego.pitch = msg.pitch
 
     def read_global_path(self):
         with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
