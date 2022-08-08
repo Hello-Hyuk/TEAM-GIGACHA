@@ -101,14 +101,13 @@ class path_maker:
         # 점 정렬 & 4개 점 filtering
         self.obstacles_right.sort(key = lambda x : x[2])
         self.obstacles_left.sort(key = lambda x : x[2])
-        self.obstacles = self.obstacles_right[0:2]+self.obstacles_left[0:2]
-
+        
         if len(self.obstacles) > 4:
             self.obstacles = self.obstacles_right[0:2]+self.obstacles_left[0:2]    # 가장 거리가 짧은 4개의 점만 추출
 
-        if len(self.obstacles) == 0:
+        if len(self.obstacles_left) == 0:
             pass
-        elif len(self.obstacles) == 1:
+        elif len(self.obstacles_left) == 1:
             self.singleCOM(self.obstacles)
         else:
             self.makeCOM(self.obstacles)
