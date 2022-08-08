@@ -56,8 +56,6 @@ class Mission():
             self.plan.behavior_decision = "parking_trajectory_Create"
 
         if (self.parking_create and self.parking_switch == False):
-            print(self.parking.stop_index)
-            print(self.parking.index)
             if (self.parking_forward_start == False and len(self.parking.forward_path.x) > 0):
                 self.plan.behavior_decision = "parkingForwardOn"
                 self.parking_forward_start = True
@@ -72,7 +70,6 @@ class Mission():
                         self.ego.target_speed = 5
                     elif self.parking.direction == 2:
                         sleep(3)
-                        print('1111111111')
                         self.parking.on = False
                         self.ego.target_gear = 0
                         self.ego.target_estop = 0
