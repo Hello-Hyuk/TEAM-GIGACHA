@@ -9,6 +9,7 @@ from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Pose
 from nav_msgs.msg import Odometry, Path
 from visualization_msgs.msg import MarkerArray, Marker
+from local_pkg.msg import Control_Info
 
 import numpy as np
 
@@ -48,6 +49,9 @@ class Visualizer(threading.Thread):
 
         self.vis_parking_path_pub = rospy.Publisher(
             "/vis_parking_path", Path, queue_size=1)
+
+        self.serial_pub = rospy.Publisher(
+            "/controller", Control_Info, queue_size=1)
 
         # self.vis_trajectory_pub_dr = rospy.Publisher("/vis_trajectory_dr", PointCloud, queue_size=1)
         # self.vis_pose_pub_dr = rospy.Publisher("/vis_position_dr", Odometry, queue_size=1)
@@ -270,6 +274,14 @@ class Visualizer(threading.Thread):
                     parking.poses.append(read_pose)
                 self.vis_parking_path.poses = parking.poses
 
+                ######################## SERIAL ################################
+                serial = Control_Info()
+                serial.emergency_stop = self.ego.input_estop
+                serial.gear = self.ego.input_gear
+                serial.speed = self.ego.input_speed
+                serial.steer = self.ego.input_steer
+                serial.brake = self.ego.input_brake
+
                 # publish
                 self.vis_obj_pub1.publish(vis_obj1)
                 self.vis_obj_pub2.publish(vis_obj2)
@@ -293,6 +305,8 @@ class Visualizer(threading.Thread):
                 self.vis_parking_path_pub.publish(self.vis_parking_path)
 
                 self.vis_trajectory_pub.publish(self.vis_trajectory)
+
+                self.serial_pub.publish(serial)
 
                 # self.vis_trajectory_pub_dr.publish(self.vis_trajectory_dr)
 

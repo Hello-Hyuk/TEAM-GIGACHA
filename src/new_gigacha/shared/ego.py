@@ -7,8 +7,8 @@ class Ego():
         self.x = 0.0
         self.y = 0.0
         self.heading = 0.0
-        self.ego.roll = 0.0
-        self.ego.pitch = 0.0
+        self.roll = 0.0
+        self.pitch = 0.0
         self.index = 0
         self.orientaion = Quaternion()
 
