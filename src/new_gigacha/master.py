@@ -24,7 +24,7 @@ class Master(threading.Thread):
         self.period = 1.0 / ui_rate
 
         # self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
-        self.ser = serial.Serial("/dev/erp42", 115200) # Real World
+        self.ser = serial.Serial("/dev/erp42", 115200)  # Real World
 
         rospy.init_node('master', anonymous=False)
 
@@ -33,9 +33,6 @@ class Master(threading.Thread):
 
         self.localizer = Localizer(self, rate=10)
         self.init_thread(self.localizer)
-
-        # self.DR = DR(self, rate = 50)
-        # self.init_thread(self.DR)
 
         self.mission_planner = MissionPlanner(self, rate=10)
         self.init_thread(self.mission_planner)
@@ -51,12 +48,6 @@ class Master(threading.Thread):
 
         self.lon_controller = LonController(self, rate=10)
         self.init_thread(self.lon_controller)
-
-        self.serial_reader = SerialReader(self, rate=20)
-        self.init_thread(self.serial_reader)
-
-        self.serial_writer = SerialWriter(self, rate=10)
-        self.init_thread(self.serial_writer)
 
         self.visualizer = Visualizer(self, rate=10)
         self.init_thread(self.visualizer)
@@ -74,7 +65,7 @@ class Master(threading.Thread):
             # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
             # print("tmp :" ,len(self.shared.perception.tmp_objx))
             # print("real :" ,len(self.shared.perception.objx))
-            # print("real :" , self.shared.perception.objx, self.shared.perception.objy)            
+            # print("real :" , self.shared.perception.objx, self.shared.perception.objy)
             sleep(self.period)
 
     def init_thread(self, module):
