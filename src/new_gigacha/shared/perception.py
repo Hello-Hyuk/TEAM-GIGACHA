@@ -3,7 +3,7 @@ import rospy
 # from planner_and_control.msg import Perception
 from visualization_msgs.msg import MarkerArray, Marker
 from std_msgs.msg import Int32
-# from vision_msgs.msg import Detection2DArray
+from vision_msgs.msg import Detection2DArray
 
 class Perception_():
    def __init__(self):
@@ -32,7 +32,7 @@ class Perception_():
       self.tgreen = False
       self.tmp_lidar_lock = threading.Lock()
       self.lidar_lock = threading.Lock()
-      self.signname = ""
+      self.signname = "parking"
       self.parking_num = ""
 
    # def input_callback(self, msg):

@@ -8,9 +8,9 @@ from time import sleep, time
 from numpy import rad2deg
 from localizer.ahrs import IMU
 from localizer.gps import GPS
-from localizer.odometry import Odometry
-from localizer.dr_enc import DR_enc
-from localizer.dr_imu import DR_imu
+# from localizer.odometry import Odometry
+# from localizer.dr_enc import DR_enc
+# from localizer.dr_imu import DR_imu
 
 
 class Localizer(threading.Thread):

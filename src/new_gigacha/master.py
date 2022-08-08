@@ -23,8 +23,8 @@ class Master(threading.Thread):
         self.args = args
         self.period = 1.0 / ui_rate
 
-        # self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
-        self.ser = serial.Serial("/dev/erp42", 115200) # Real World
+        self.ser = serial.Serial("/dev/ttyUSB0", 115200)  # Simulation
+        # self.ser = serial.Serial("/dev/erp42", 115200) # Real World
 
         rospy.init_node('master', anonymous=False)
 
@@ -62,19 +62,22 @@ class Master(threading.Thread):
         self.init_thread(self.visualizer)
 
         while True:
-            # print('------------------')
-            # print('Localization')
-            # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
-            #     .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
+            print('------------------')
+            print('Localization')
+            print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
+                .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
             # print('Mission_State : {}'.format(self.shared.plan.state))
-            # print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
+            print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
             # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
             # print('Controller')
-            # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
+            print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
             # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
             # print("tmp :" ,len(self.shared.perception.tmp_objx))
             # print("real :" ,len(self.shared.perception.objx))
             # print("real :" , self.shared.perception.objx, self.shared.perception.objy)            
+            # print('self.park.mindex',self.shared.park.mindex)
+            print('self.park.index',self.shared.park.index)
+            print('self.direction', self.shared.park.direction)
             sleep(self.period)
 
     def init_thread(self, module):
