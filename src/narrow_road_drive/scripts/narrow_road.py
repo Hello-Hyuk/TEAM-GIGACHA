@@ -21,6 +21,8 @@ class path_maker:
         self.left_obs = []
         self.right_obs = []
         self.obstacles = []
+        self.obstacles_right=[]
+        self.obstacles_left=[]
         self.nearest_obstacles = []
         self.target_point = Point()
         # visualize용 메세지
@@ -90,13 +92,19 @@ class path_maker:
         # 각 장애물의 중앙점 따로 저장-> obstacles의 중앙점, 거리 값 같이 계산
         for obs in msg.markers:
             tmp_obs_dis = self.calc_distance(obs.pose.position.x, obs.pose.position.y)
-            self.obstacles.append([round(obs.pose.position.x, 2), round(obs.pose.position.y, 2), round(tmp_obs_dis, 2)])
+            if obs.pose.position.y>=0:
+                self.obstacles_right.append([round(obs.pose.position.x, 2), round(obs.pose.position.y, 2), round(tmp_obs_dis, 2)])
+            else:
+                self.obstacles_left.append([round(obs.pose.position.x, 2), round(obs.pose.position.y, 2), round(tmp_obs_dis, 2)])
+            
         
         # 점 정렬 & 4개 점 filtering
-        self.obstacles.sort(key = lambda x : x[2])
-        if len(self.obstacles) > 4:
-            self.obstacles = self.obstacles[0:4]    # 가장 거리가 짧은 4개의 점만 추출
+        self.obstacles_right.sort(key = lambda x : x[2])
+        self.obstacles_left.sort(key = lambda x : x[2])
+        self.obstacles = self.obstacles_right[0:2]+self.obstacles_left[0:2]
 
+        if len(self.obstacles) > 4:
+            self.obstacles = self.obstacles_right[0:2]+self.obstacles_left[0:2]    # 가장 거리가 짧은 4개의 점만 추출
 
         if len(self.obstacles) == 0:
             pass
