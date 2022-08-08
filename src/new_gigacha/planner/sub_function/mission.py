@@ -82,7 +82,7 @@ class Mission():
                         self.plan.behavior_decision = "driving"
     
     def Parking(self):
-        if ((self.parking_create == False) and (920 <= self.ego.index <= 930)):
+        if ((self.parking_create == False) and (910 <= self.ego.index <= 930)):
             self.plan.behavior_decision = "stop"
             self.ego.target_brake = 200 
             print("start")
@@ -97,7 +97,7 @@ class Mission():
             if (self.parking_forward_start == False) and (self.parking.mindex - 15 <= self.ego.index <= self.parking.mindex - 10):
                 self.plan.behavior_decision = "parkingForwardOn"
                 self.parking_forward_start = True
-            elif (5 <= self.parking.stop_index - self.parking.index <= 8):
+            elif (15 <= self.parking.stop_index - self.parking.index <= 18):
                     self.ego.target_estop = 1
                     if self.parking.direction == 0:
                         sleep(3)
