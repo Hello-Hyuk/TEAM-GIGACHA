@@ -21,9 +21,9 @@ class Planner(threading.Thread):
         while True:
             try:
 
-                theta = (self.ego.heading) * pi / 180
+                #theta = (self.ego.heading) * pi / 180
 
-                if self.state == "2nd":
+                if self.shared.state == "2nd":
 
                     min_dis = -1
                     min_idx = 0
