@@ -86,7 +86,7 @@ class Motion():
             world_current_point = np.array([[self.ego.x], [self.ego.y], [1]])
             local_current_point = det_t.dot(world_current_point)
 
-            lane_off_set = [3.5, 0, -3.5]
+            lane_off_set = [3.5, 0, -3.5, -5]
             local_lattice_points = []
             for i in range(len(lane_off_set)):
                 local_lattice_points.append([local_end_point[0][0], local_end_point[1][0] + lane_off_set[i], 1])
@@ -160,10 +160,10 @@ class Motion():
                         lattice[lane_num].y.append(tmp_y)
 
         if len(self.lattice_path) == 0:
-            for i in range(3):
+            for i in range(4):
                 self.lattice_path.append(lattice[i])
         else:
-            for i in range(3):
+            for i in range(4):
                 self.lattice_path[i] = lattice[i]
 
     

@@ -25,7 +25,7 @@ class MissionPlanner(threading.Thread):
                 self.plan.state = "static_obstacle_detected"           
 
             elif self.shared.perception.signname == "delivery":
-                self.plan.state = "stop_sign_detected"
+                self.plan.state = "delivery"
 
             elif self.shared.perception.signname == "child_area":
                 self.plan.state = "child_area"
