@@ -58,6 +58,9 @@ class BehaviorPlanner(threading.Thread):
                 elif self.plan.state == "emergency_stop":
                     self.mission.emergency_stop()
 
+                elif self.plan.state == "delivery":
+                    self.mission.delivery()
+
                 else:
                     self.mission.go()
 

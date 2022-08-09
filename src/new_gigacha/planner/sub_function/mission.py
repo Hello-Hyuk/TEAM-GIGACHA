@@ -299,3 +299,15 @@ class Mission():
         self.perception.tmp_lidar_lock.release()
         self.perception.objx = objx
         self.perception.objy = objy
+
+    def pickup(self):
+        self.perception.behvior_decision = "pickup"
+        if self.distance< 0.5:
+            sleep(5)
+            self.delivery_second()
+        
+    def delivery(self):
+        self.perception.behvior_decision = "delivery"
+
+
+

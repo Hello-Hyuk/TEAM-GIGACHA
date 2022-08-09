@@ -34,18 +34,7 @@ class Perception_():
       self.lidar_lock = threading.Lock()
       self.signname = ""
       self.parking_num = ""
-
-   # def input_callback(self, msg):
-   #    self.signx = msg.signx
-   #    self.signy = msg.signy
-   #    self.objx = msg.objx
-   #    self.objy = msg.objy
-   #    self.objr = msg.objr
-   #    self.tred = msg.tred
-   #    self.tyellow = msg.tyellow
-   #    self.tleft = msg.tleft
-   #    self.tgreen = msg.tgreen
-   #    self.signname = msg.signname
+      self.target = ""
 
    # def input_callback(self, msg):
    #    self.signx = msg.signx
@@ -83,20 +72,23 @@ class Perception_():
          self.tmp_objh = []
 
       
-   # def sign_callback(self, msg):
-   #    for i in range(len(msg.detections)):
-   #       if msg.detections[i].results[0].id == 0:
-   #          self.signname = "turn_left_traffic_light"   #A1
-   #       elif msg.detections[i].results[0].id == 1:
-   #          self.signname = "turn_right_traffic_light" #A2
-   #       elif msg.detections[i].results[0].id == 2:
-   #          self.signname = "static_obstacle" #A3
-   #       elif msg.detections[i].results[0].id == 3:
-   #          self.signname = "AEB" #B1
-   #       elif msg.detections[i].results[0].id == 4:
-   #          self.signname = "non_traffic_right" #B2
-   #       elif msg.detections[i].results[0].id == 5:
-   #          self.signname = "parking"  #B3
+   def sign_callback(self, msg):
+      for i in range(len(msg.detections)):
+         if msg.detections[i].results[0].id == 0:
+            self.signname = "turn_left_traffic_light"   #A1
+            self.target = "B1"
+         elif msg.detections[i].results[0].id == 1:
+            self.signname = "turn_right_traffic_light" #A2
+            self.target = "B2"
+         elif msg.detections[i].results[0].id == 2:
+            self.signname = "static_obstacle" #A3
+            self.target = "B3"
+         elif msg.detections[i].results[0].id == 3:
+            self.signname = "AEB" #B1
+         elif msg.detections[i].results[0].id == 4:
+            self.signname = "non_traffic_right" #B2
+         elif msg.detections[i].results[0].id == 5:
+            self.signname = "parking"  #B3
 
    def traffic_callback(self, msg):
       for i in range(len(msg.detections)):
