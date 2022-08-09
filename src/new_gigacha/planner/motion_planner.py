@@ -69,7 +69,17 @@ class MotionPlanner(threading.Thread):
             elif self.shared.plan.behavior_decision == "parkingBackwardOn":
                 self.park_motion.parking_drive(2)
 
+            elif self.shared.plan.behavior_decision == "pickup":
+                self.shared.selected_lane = 3
             
+            elif self.shared.plan.behavior_decision == "pickup_end":
+                self.shared.selected_lane = 2
+
+            elif self.shared.plan.behavior_decision == "delivery":
+                self.shared.selected_lane = 3
+
+            elif self.shared.plan.behavior_decision == "delivery_end":
+                self.shared.selected_lane = 2
 
             # print(self.trajectory.x)
             sleep(self.period)

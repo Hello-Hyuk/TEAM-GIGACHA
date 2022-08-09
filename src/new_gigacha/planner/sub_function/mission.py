@@ -25,6 +25,8 @@ class Mission():
         self.parking_path_maker = False
         self.parking_forward_start = False
 
+        self.selected = 0
+
     def update_parameter(self, eg, pc, pl):
         self.perception = pc
         self.ego = eg
@@ -301,13 +303,36 @@ class Mission():
         self.perception.objy = objy
 
     def pickup(self):
-        self.perception.behvior_decision = "pickup"
-        if self.distance< 0.5:
+        # sign_dis = sqrt(
+        #         (self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
+        #input
+        sign_dis = sqrt(
+                (self.perception.obj_x[0] - self.ego.x)**2 + (self.perception.obj_y[0] - self.ego.y)**2)
+
+        if sign_dis < 2:
+            self.perception.behvior_decision = "pickup"
+        if sign_dis < 0.5:
             sleep(5)
-            self.delivery_second()
+            self.perception.behvior_decision = "pickup_end"
+        #calculating sign 
+        self.sort_sign()
         
     def delivery(self):
         self.perception.behvior_decision = "delivery"
+        sign_dis = sqrt(
+                (self.perception.objx[self.selected] - self.ego.x)**2 + (self.perception.objy[self.selected] - self.ego.y)**2)
+        if(sign_dis < 0.5):
+            sleep(5)
+        self.perception.behvior_decision = "delivery_end"
+
+    def sort_sign(self):
+        
+        while(1):
+            sorted_dict = sorted(self.perception.B_signs.items(), key = lambda item: item[1])
+
+        self.selected = 2
+        self.delivery()
+        
 
 
 

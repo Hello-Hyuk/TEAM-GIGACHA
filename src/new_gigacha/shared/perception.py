@@ -2,14 +2,15 @@ import threading
 import rospy
 # from planner_and_control.msg import Perception
 from visualization_msgs.msg import MarkerArray, Marker
-from std_msgs.msg import Int32
+from std_msgs.msg import Int32, Int64
 from vision_msgs.msg import Detection2DArray
+from vision_msgs.msg import Perception
 
 class Perception_():
    def __init__(self):
       self.id_check = False
 
-      # rospy.Subscriber("/input", Perception, self.input_callback)
+      rospy.Subscriber("/input", Perception, self.input_callback)
       rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
       # rospy.Subscriber("/sign", Detection2DArray, self.sign_callback)
       rospy.Subscriber("/traffic", Detection2DArray, self.traffic_callback)
@@ -32,21 +33,33 @@ class Perception_():
       self.tgreen = False
       self.tmp_lidar_lock = threading.Lock()
       self.lidar_lock = threading.Lock()
-      self.signname = ""
+      self.signname = "delivery"
       self.parking_num = ""
       self.target = ""
 
-   # def input_callback(self, msg):
-   #    self.signx = msg.signx
-   #    self.signy = msg.signy
-   #    self.objx = msg.objx
-   #    self.objy = msg.objy
-   #    self.objr = msg.objr
-   #    self.tred = msg.tred
-   #    self.tyellow = msg.tyellow
-   #    self.tleft = msg.tleft
-   #    self.tgreen = msg.tgreen
-   #    self.signname = msg.signname
+
+      #for input_callback
+      self.B_signs = {"B1": 0, "B2": 0, "B3":0}
+      self.B_x = {"B1":0, "B2":0, "B3":0}
+      self.B_y = {"B1":0, "B2":0, "B3":0}
+
+   def input_callback(self, msg):
+      #first
+      if msg.A_target == 0:
+         self.target = "B1"
+      elif msg.A_target == 0:
+         self.target = "B1"
+      elif msg.A_target == 0:
+         self.target = "B1"
+      self.signx = msg.A_objx
+      self.signy = msg.A_objy
+      #second
+      count = 0
+      for i in self.B_signs.keys():
+         self.B_signs[i] = msg.B_bbox_size[count]
+         self.B_x[i] = msg.B_target_x[count]
+         self.B_y[i] = msg.B_target_y[count]
+         count = count+1
 
    def lidar_callback(self, msg):
       if len(msg.markers) != 0:
@@ -75,13 +88,13 @@ class Perception_():
    def sign_callback(self, msg):
       for i in range(len(msg.detections)):
          if msg.detections[i].results[0].id == 0:
-            self.signname = "turn_left_traffic_light"   #A1
+            self.signname = "delivery"   #A1
             self.target = "B1"
          elif msg.detections[i].results[0].id == 1:
-            self.signname = "turn_right_traffic_light" #A2
+            self.signname = "delivery" #A2
             self.target = "B2"
          elif msg.detections[i].results[0].id == 2:
-            self.signname = "static_obstacle" #A3
+            self.signname = "delivery" #A3
             self.target = "B3"
          elif msg.detections[i].results[0].id == 3:
             self.signname = "AEB" #B1
