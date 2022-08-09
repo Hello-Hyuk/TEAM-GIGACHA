@@ -1,17 +1,9 @@
-float64[] objx
-float64[] objy
-float64[] objr
+int64 A_target
+float64 A_objx
+float64 A_objy
+
+int64[] bbox_size
+float64[] B_target_x
+float64[] B_target_y
 
 string signname
-float64[] signx
-float64[] signy
-
-float64[] rightx
-float64[] righty
-
-bool tred
-bool tyellow
-bool tleft
-bool tgreen
-
-bool stop

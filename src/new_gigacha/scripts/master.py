@@ -14,7 +14,6 @@ from utils.env_visualizer import Visualizer
 
 from time import sleep
 
-
 class Master(threading.Thread):
     def __init__(self, args, ui_rate):
         super().__init__()
