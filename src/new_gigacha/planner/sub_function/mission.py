@@ -309,8 +309,7 @@ class Mission():
         #         (self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
         #input
         sign_dis = sqrt(
-                (self.perception.obj_x[0] - self.ego.x)**2 + (self.perception.obj_y[0] - self.ego.y)**2)
-
+                (self.perception.signx - self.ego.x)**2 + (self.perception.signy - self.ego.y)**2)
         if sign_dis < 2:
             self.perception.behvior_decision = "pickup"
         if sign_dis < 0.5:
@@ -336,11 +335,11 @@ class Mission():
                 sort_result += i
             self.vote[sort_result] += 1
             count += 1
-        seq = max(self.vote.values())
+        seq = max(self.vote, key=self.vote.get)
         seq_list = list(seq)
         for i in range(len(seq_list)):
             if seq_list[i] == self.perception.target:
-                self.selected = (i+1) / 2
+                self.selected = int(i/2)
         self.delivery()
         
 

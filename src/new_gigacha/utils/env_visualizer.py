@@ -36,6 +36,8 @@ class Visualizer(threading.Thread):
             "/vis_lattice_path_1", Path, queue_size=1)
         self.vis_lattice_path_2_pub = rospy.Publisher(
             "/vis_lattice_path_2", Path, queue_size=1)
+        self.vis_lattice_path_3_pub = rospy.Publisher(
+            "/vis_lattice_path_3", Path, queue_size=1)
 
         self.vis_trajectory_pub = rospy.Publisher(
             "/vis_trajectory", PointCloud, queue_size=1)
@@ -73,6 +75,9 @@ class Visualizer(threading.Thread):
 
         self.vis_lattice_path_2 = Path()
         self.vis_lattice_path_2.header.frame_id = "map"
+
+        self.vis_lattice_path_3 = Path()
+        self.vis_lattice_path_3.header.frame_id = "map"
 
         self.vis_parking_path = Path()
         self.vis_parking_path.header.frame_id = "map"
@@ -172,6 +177,8 @@ class Visualizer(threading.Thread):
                 lattice_path_0 = Path()
                 lattice_path_1 = Path()
                 lattice_path_2 = Path()
+                lattice_path_3 = Path()
+
                 for i in range(len(self.lattice_path)):
                     for j in range(len(self.lattice_path[0].x)):
                         read_pose = PoseStamped()
@@ -188,9 +195,13 @@ class Visualizer(threading.Thread):
                             lattice_path_1.poses.append(read_pose)
                         elif i == 2:
                             lattice_path_2.poses.append(read_pose)
+                        elif i == 3:
+                            lattice_path_3.poses.append(read_pose)
                 self.vis_lattice_path_0.poses = lattice_path_0.poses
                 self.vis_lattice_path_1.poses = lattice_path_1.poses
                 self.vis_lattice_path_2.poses = lattice_path_2.poses
+                self.vis_lattice_path_3.poses = lattice_path_3.poses
+
 
                 #############################object#########################################
 
@@ -300,6 +311,9 @@ class Visualizer(threading.Thread):
 
                 self.vis_lattice_path_2.header.stamp = rospy.Time.now()
                 self.vis_lattice_path_2_pub.publish(self.vis_lattice_path_2)
+
+                self.vis_lattice_path_3.header.stamp = rospy.Time.now()
+                self.vis_lattice_path_3_pub.publish(self.vis_lattice_path_3)
 
                 self.vis_parking_path.header.stamp = rospy.Time.now()
                 self.vis_parking_path_pub.publish(self.vis_parking_path)
