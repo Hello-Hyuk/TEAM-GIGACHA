@@ -35,7 +35,7 @@ class Perception_():
       self.lidar_lock = threading.Lock()
       self.signname = "delivery"
       self.parking_num = ""
-      self.target = ""
+      self.target = 0
 
 
       #for input_callback
@@ -46,11 +46,11 @@ class Perception_():
    def input_callback(self, msg):
       #first
       if msg.A_target == 0:
-         self.target = "B1"
-      elif msg.A_target == 0:
-         self.target = "B1"
-      elif msg.A_target == 0:
-         self.target = "B1"
+         self.target = 1
+      elif msg.A_target == 1:
+         self.target = 2
+      elif msg.A_target == 2:
+         self.target = 3
       self.signx = msg.A_objx
       self.signy = msg.A_objy
       #second

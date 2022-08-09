@@ -26,6 +26,8 @@ class Mission():
         self.parking_forward_start = False
 
         self.selected = 0
+        self.vote = {"B1B2B3":0, "B1B3B2":0, "B2B1B3":0, "B2B3B1":0, "B3B1B2":0, "B3B1B2":0}
+        
 
     def update_parameter(self, eg, pc, pl):
         self.perception = pc
@@ -325,12 +327,20 @@ class Mission():
             sleep(5)
         self.perception.behvior_decision = "delivery_end"
 
-    def sort_sign(self):
-        
-        while(1):
+    def sort_sign(self): 
+        count = 0  
+        while(count < 150):
             sorted_dict = sorted(self.perception.B_signs.items(), key = lambda item: item[1])
-
-        self.selected = 2
+            sort_result = ""
+            for i in sorted_dict.keys():
+                sort_result += i
+            self.vote[sort_result] += 1
+            count += 1
+        seq = max(self.vote.values())
+        seq_list = list(seq)
+        for i in range(len(seq_list)):
+            if seq_list[i] == self.perception.target:
+                self.selected = (i+1) / 2
         self.delivery()
         
 
