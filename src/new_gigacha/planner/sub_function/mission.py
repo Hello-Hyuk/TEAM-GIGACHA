@@ -44,7 +44,7 @@ class Mission():
             pass
     
     def Parking2(self):
-        if ((self.parking_create == False) and (920 <= self.ego.index <= 930)):
+        if ((self.parking_create == False) and (190 <= self.ego.index <= 210)):
             self.plan.behavior_decision = "stop"
             self.ego.target_brake = 200 
             print("start")

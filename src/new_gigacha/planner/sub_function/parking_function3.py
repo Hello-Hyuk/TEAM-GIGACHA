@@ -27,7 +27,7 @@ class Parking_Motion():
 #########saved map import function########
     def make_parking_tra(self):
         # self.point = self.parking_point[str(self.parking.select_num)]
-        self.point = self.parking_point[str(1)]
+        self.point = self.parking_point[str(7)]
         self.start_point = self.point["start"]
         self.end_point = self.point["end"]
         if len(self.parking.forward_path.x) == 0:
@@ -42,7 +42,7 @@ class Parking_Motion():
         self.parking_end_x, self.parking_end_y = self.parking_call_back(self.end_point[0],self.end_point[1])
 
         ######### 주차점과 가장 가까운 path 점 찾기 ########
-        for i in range(len(self.global_path.x)-8000):
+        for i in range(len(self.global_path.x)):
             dx = self.parking_x - self.global_path.x[i]
             dy = self.parking_y - self.global_path.y[i]
             dis = sqrt(dx*dx + dy*dy)
@@ -54,9 +54,9 @@ class Parking_Motion():
 
         self.heading = rad2deg(atan2(
             (self.global_path.y[self.parking.mindex]-self.global_path.y[self.parking.mindex - 1]), (self.global_path.x[self.parking.mindex]-self.global_path.x[self.parking.mindex - 1])))
-        
-        print(f"min_inex : {self.parking.mindex}")
-        print(f"yaw : {self.heading}")
+        self.heading %= 360
+
+        print(f"self.heading : {self.heading}")
 
         O3_x, O3_y, theta_O3_to_lot = self.find_O3()
 
@@ -67,9 +67,6 @@ class Parking_Motion():
 
         self.parking.backward_path.x, self.parking.backward_path.y = list(reversed(self.parking.forward_path.x)), list(reversed(self.parking.forward_path.y))  
 
-        print('self.start_index: ',self.start_index)
-        print("Parking_path Created")
-
         return self.parking.forward_path, self.parking.backward_path
     
     def parking_call_back(self,x1,y1):
@@ -79,12 +76,12 @@ class Parking_Motion():
 
     def find_O3(self):
 
-        dis_mindex_to_lot = sqrt((self.parking_x - self.global_path.y[self.parking.mindex])**2 + (
+        dis_mindex_to_lot = sqrt((self.parking_x - self.global_path.x[self.parking.mindex])**2 + (
             self.parking_y - self.global_path.y[self.parking.mindex])**2)
-
+        print('dis_mindex_to_lot',dis_mindex_to_lot)
         dis_mindex_to_start = sqrt(2*dis_mindex_to_lot *
                                 self.smooth_radius - dis_mindex_to_lot**2)
-
+        print('dis_mindex_to_start',dis_mindex_to_start)
         dis_mindex_to_ego = sqrt((self.global_path.x[self.parking.mindex]-self.global_path.x[self.ego.index])
                                 ** 2 + (self.global_path.y[self.parking.mindex]-self.global_path.y[self.ego.index])**2)
 
@@ -95,6 +92,8 @@ class Parking_Motion():
         theta_O3 = rad2deg(
             atan2(self.smooth_radius/dis_start_to_ego, 1))
 
+        print('theta_O3',theta_O3)
+
         heading_to_O3 = self.heading - theta_O3
 
         theta_O3_to_lot = rad2deg(
@@ -103,7 +102,7 @@ class Parking_Motion():
         O3_x = self.global_path.x[self.ego.index] + dis_O3*cos(radians(heading_to_O3))
         O3_y = self.global_path.y[self.ego.index] + dis_O3*sin(radians(heading_to_O3))
 
-        return O3_x, O3_y, theta_O3_to_lot       
+        return O3_x, O3_y, theta_O3_to_lot      
     
     def make_path(self, x, y, start, end, radius, direction):
         start = int(round(start))
@@ -123,7 +122,8 @@ class Parking_Motion():
         sx,sy,ex,ey = self.parking_x, self.parking_y, self.parking_end_x, self.parking_end_y
         print('sx,sy,ex,ey',sx,sy,ex,ey)
         diff = ex- sx
-        diff = diff*10 - 20
+        # diff = diff*10 - 10
+        diff *= 10
         incline = (ey-sy)/(ex-sx)
         cnt=0
         for i in range(int(diff)):
