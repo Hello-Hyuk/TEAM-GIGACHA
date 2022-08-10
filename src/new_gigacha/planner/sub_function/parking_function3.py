@@ -27,7 +27,7 @@ class Parking_Motion():
 #########saved map import function########
     def make_parking_tra(self):
         # self.point = self.parking_point[str(self.parking.select_num)]
-        self.point = self.parking_point[str(7)]
+        self.point = self.parking_point[str(6)]
         self.start_point = self.point["start"]
         self.end_point = self.point["end"]
         if len(self.parking.forward_path.x) == 0:
