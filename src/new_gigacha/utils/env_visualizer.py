@@ -40,6 +40,8 @@ class Visualizer(threading.Thread):
 
         self.vis_parking_path_pub = rospy.Publisher("/vis_parking_path", Path, queue_size=1)
 
+        self.vis_o3_pub = rospy.Publisher("/vis_o3", PointCloud, queue_size=1)
+
         # self.vis_trajectory_pub_dr = rospy.Publisher("/vis_trajectory_dr", PointCloud, queue_size=1)
         # self.vis_pose_pub_dr = rospy.Publisher("/vis_position_dr", Odometry, queue_size=1)
 
@@ -51,6 +53,9 @@ class Visualizer(threading.Thread):
         
         self.vis_trajectory = PointCloud()
         self.vis_trajectory.header.frame_id = "map"
+
+        self.vis_o3 = PointCloud()
+        self.vis_o3.header.frame_id = "map"
 
         self.vis_lattice_path_0 = Path()
         self.vis_lattice_path_0.header.frame_id = "map"
@@ -84,6 +89,16 @@ class Visualizer(threading.Thread):
                 self.local_path = self.lattice_path[self.shared.selected_lane]
                 ######################### POSE ##############################
                 
+                o3point = Point32()
+                o3point.x = self.parking.o3x
+                o3point.y = self.parking.o3y
+                o3point.z = 0
+
+                self.vis_o3.header.stamp = rospy.Time.now()
+                if self.t - time() < 0.5 :
+                    self.t = time()
+                    self.vis_o3.points.append(o3point)
+
                 ppoint = Point32()
                 ppoint.x = self.ego.x
                 ppoint.y = self.ego.y
@@ -262,6 +277,8 @@ class Visualizer(threading.Thread):
                 # publish
                 self.vis_obj_pub1.publish(vis_obj1)
                 self.vis_obj_pub2.publish(vis_obj2)
+
+                self.vis_o3_pub.publish(self.vis_o3)
                 
                 self.vis_global_path.header.stamp = rospy.Time.now()
                 self.vis_global_path_pub.publish(self.vis_global_path)

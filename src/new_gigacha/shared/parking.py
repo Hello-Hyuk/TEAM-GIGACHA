@@ -11,3 +11,5 @@ class Parking():
         self.index = 0
         self.stop_index = 0
         self.select_num = 2
+        self.o3x = 0
+        self.o3y = 0
