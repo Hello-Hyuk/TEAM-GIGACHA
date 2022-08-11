@@ -38,10 +38,6 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/local_pkg/msg" TYPE FILE FILES "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Displacement.msg")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/local_pkg/cmake" TYPE FILE FILES "/home/gigacha/TEAM-GIGACHA/build/local_pkg/catkin_generated/installspace/local_pkg-msg-paths.cmake")
 endif()
 

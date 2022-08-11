@@ -1,6 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/local_pkg_generate_messages_eus"
-  "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Displacement.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/manifest.l"
 )
 

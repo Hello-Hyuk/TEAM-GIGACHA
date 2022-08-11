@@ -5,6 +5,7 @@ from math import sqrt
 import rospy
 from geometry_msgs.msg import Point
 from visualization_msgs.msg import MarkerArray, Marker
+import itertools as it
 
 class path_maker:
     def __init__(self):
@@ -81,40 +82,81 @@ class path_maker:
     def makeCOM(self, points):
         x_sum = 0
         y_sum = 0
+        tmp1=0
+        tmp2=0
+
         for point in points:
-            x_sum = x_sum + point[0]
-            y_sum = y_sum + point[1]
+
+            if point[1]<0:
+                tmp1=tmp1+1
+                if tmp1>=3:
+                    pass
+
+                else:
+                    x_sum = x_sum + point[0]
+                    y_sum = y_sum + point[1]
+
+
+            elif point[1]>0:
+                tmp2=tmp2+1
+                if tmp2>=3:
+                    pass
+
+                else:
+                    x_sum = x_sum + point[0]
+                    y_sum = y_sum + point[1]    
+
         self.target_point.x = x_sum / len(points)
         self.target_point.y = y_sum / len(points)
+
 
     def makePath(self, msg):
         # print(type(msg))
         # 각 장애물의 중앙점 따로 저장-> obstacles의 중앙점, 거리 값 같이 계산
+        
         for obs in msg.markers:
             tmp_obs_dis = self.calc_distance(obs.pose.position.x, obs.pose.position.y)
-            if obs.pose.position.y>=0:
-                self.obstacles_right.append([round(obs.pose.position.x, 2), round(obs.pose.position.y, 2), round(tmp_obs_dis, 2)])
-            else:
-                self.obstacles_left.append([round(obs.pose.position.x, 2), round(obs.pose.position.y, 2), round(tmp_obs_dis, 2)])
-            
+            self.obstacles.append([round(obs.pose.position.x, 2), round(obs.pose.position.y, 2), round(tmp_obs_dis, 2)])
         
         # 점 정렬 & 4개 점 filtering
-        self.obstacles_right.sort(key = lambda x : x[2])
-        self.obstacles_left.sort(key = lambda x : x[2])
-        
+        self.obstacles.sort(key = lambda x : x[2])
         if len(self.obstacles) > 4:
-            self.obstacles = self.obstacles_right[0:2]+self.obstacles_left[0:2]    # 가장 거리가 짧은 4개의 점만 추출
+            self.obstacles = self.obstacles[0:4]    # 가장 거리가 짧은 4개의 점만 추출
 
-        if len(self.obstacles_left) == 0:
+
+        if len(self.obstacles) == 0:
             pass
-        elif len(self.obstacles_left) == 1:
+        elif len(self.obstacles) == 1:
             self.singleCOM(self.obstacles)
         else:
+
             self.makeCOM(self.obstacles)
+        print("self.obstacles",self.obstacles)
+   
+
+    # def makePath(self, msg):
+    #     # print(type(msg))
+    #     # 각 장애물의 중앙점 따로 저장-> obstacles의 중앙점, 거리 값 같이 계산
         
+    #     for obs in msg.markers:
+    #         tmp_obs_dis = self.calc_distance(obs.pose.position.x, obs.pose.position.y)
+    #         self.obstacles.append([round(obs.pose.position.x, 2), round(obs.pose.position.y, 2), round(tmp_obs_dis, 2)])
+        
+    #     # 점 정렬 & 4개 점 filtering
+    #     self.obstacles.sort(key = lambda x : x[2])
+    #     if len(self.obstacles) > 4:
+    #         self.obstacles = self.obstacles[0:4]    # 가장 거리가 짧은 4개의 점만 추출
+
+
+    #     if len(self.obstacles) == 0:
+    #         pass
+    #     elif len(self.obstacles) == 1:
+    #         self.singleCOM(self.obstacles)
+    #     else:
+    #         self.makeCOM(self.obstacles)
+    #     print("self.obstacles",self.obstacles)    
 
         self.makeVisual(self.target_point)
-
         self.vis_pub.publish(self.target_point_vis)
         self.pub.publish(self.target_point)
         self.obstacles.clear()
