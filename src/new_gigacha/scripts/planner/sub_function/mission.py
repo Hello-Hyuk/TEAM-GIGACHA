@@ -255,7 +255,7 @@ class Mission():
                 self.check = False
         else:
             self.plan.behavior_decision = "go"
-asdf
+
     def convert_lidar(self):
         theta = (self.ego.heading) * pi / 180
         size = 0
