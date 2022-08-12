@@ -9,10 +9,10 @@ from sensor_msgs.msg import Imu
 from localizer.gps import GPS
 
 
-class MP(threading.Thread):
+class MC(threading.Thread):
     def __init__(self, parent, rate):
-        rospy.Subscriber('/Displacement_right', Int64, self.encoderCallback)
-        rospy.Subscriber('/imu', Imu, self.map_csv("global"))
+        super().__init__()
+        self.map_switch = False
         self.period = 1.0 / rate
         self.global_path = parent.shared.global_path
         self.shared = parent.shared
@@ -34,11 +34,17 @@ class MP(threading.Thread):
         self.diff_right = 0
 
         self.stop_thread = False
-
-        self.map_switch = False
+        self.right_switch = False
+        self.temp = 0
 
         self.latitude = []
         self.longitude = []
+
+        self.prev_lat = 0
+        self.prev_lon = 0
+
+        rospy.Subscriber('/Displacement_right', Int64, self.encoderCallback)
+        rospy.Subscriber('/imu', Imu, self.map_csv)
 
     def serialTopulse(self):
         if self.init == 0:
@@ -72,28 +78,39 @@ class MP(threading.Thread):
 
     def encoderCallback(self,msg):
         self.left = self.serialTopulse()
-        self.right = msg.data
+        if self.right_switch == False:
+            self.right_init = msg.data
+            self.right_switch = True
+
+        self.right = msg.data - self.right_init
 
         self.filter()
 
         self.pulse = (self.right_pulse + self.left_pulse) / 2
 
     def map_maker(self):
-        self.latitude.append(self.gps.lat)
-        self.longitude.append(self.gps.lon)
+        self.temp = self.pulse
 
-    def map_csv(self, name):
+        if self.gps.lat != self.prev_lat and self.gps.lon != self.prev_lon:
+            self.latitude.append(self.gps.lat)
+            self.longitude.append(self.gps.lon)
+
+        self.prev_lat = self.gps.lat
+        self.prev_lon = self.gps.lon
+
+    def map_csv(self, msg):
+        print('subscripve--------------------------------')
         if self.map_switch == False:
             save_data = list(zip(self.longitude, self.latitude))
 
             save_df = pd.DataFrame(save_data)
-            save_df.to_csv("%s.csv" %name, index = False, header = False)
+            save_df.to_csv("parking_1lane.csv", index = False, header = False)
             self.map_switch = True    
 
     def run(self):
         while True:
             if not self.stop_thread:
-                if round(self.pulse) % 6 == 0:
+                if round(self.pulse) % 6 == 0 and self.pulse !=self.temp:
                     self.map_maker()
             else:
                 sleep(self.period)

@@ -4,8 +4,8 @@ import argparse
 import serial
 from shared.shared import Shared
 from localizer.localizer import Localizer
-from localizer.making_map import MP
-# from localizer.map_creating import MC
+# from localizer.making_map import MP
+from localizer.map_creating import MC
 from planner.planner import Planner
 from controller.lat_controller import LatController
 from controller.lon_controller import LonController
@@ -33,11 +33,11 @@ class Master(threading.Thread):
         self.localizer = Localizer(self, rate=10)
         self.init_thread(self.localizer)
 
-        self.mp = MP(self, rate = 1)
-        self.init_thread(self.mp)
+        # self.mp = MP(self, rate = 1)
+        # self.init_thread(self.mp)
 
-        # self.mc = MC(self, rate = 50)
-        # self.init_thread(self.mc)
+        self.mc = MC(self, rate = 50)
+        self.init_thread(self.mc)
 
         self.planner = Planner(self, rate=20)
         self.init_thread(self.planner)
