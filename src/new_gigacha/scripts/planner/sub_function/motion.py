@@ -150,7 +150,7 @@ class Motion():
                     tmp_translation = [self.cut_path.x[i], self.cut_path.y[i]]
                     tmp_t = np.array([[cos(tmp_theta), -sin(tmp_theta), tmp_translation[0]], [sin(tmp_theta), cos(tmp_theta), tmp_translation[1]], [0,0,1]])
 
-                    for lane_num in range(3):
+                    for lane_num in range(4):
                         local_result = np.array([[0], [lane_off_set[lane_num]], [1]])
                         global_result = tmp_t.dot(local_result)
 

@@ -170,35 +170,49 @@ class Mission():
                 self.ego.target_speed = 10.0
 
     def turn_right(self):
-        if self.perception.tgreen == 1:
-            self.plan.behavior_decision = "turn_right"
-            self.ego.target_brake = 0
-        else:
-            if self.ego.index >= 410 and self.ego.index <= 470:
-                self.plan.behavior_decision = "stop"
-                self.ego.target_brake = 33
-            else:
-                self.plan.behavior_decision = "turn_right"
-                self.ego.target_brake = 0
-
-    def turn_left(self):
-        self.plan.behavior_decision = "turn_left"
-        if self.ego.index >= 400 and self.ego.index <= 470:
-            print("case1")
-            self.ego.target_speed = 0
-            self.ego.target_brake = 200
-            if self.perception.tleft == 1:
-                self.traffic_checker = True
-        if self.traffic_checker == True:
-            print("case2")
+        if self.perception.tgreen == True:
+            self.plan.behavior_decision = "driving"
             self.ego.target_speed = 10
             self.ego.target_brake = 0
         else:
-            if self.ego.index >= 2750 and self.ego.index <= 2800:
+            # if self.ego.index >= 410 and self.ego.index <= 470: # kcity
+            if self.ego.index >= 640 and self.ego.index <= 660: # Siheung
                 self.plan.behavior_decision = "stop"
-                self.ego.target_brake = 33
+                self.ego.target_speed = 0
+                self.ego.target_brake = 200
             else:
-                self.plan.behavior_decision = "turn_left"
+                self.plan.behavior_decision = "driving"
+                self.ego.target_speed = 10
+                self.ego.target_brake = 0
+
+    def turn_left(self):
+        if self.perception.tleft == 1:
+            self.plan.behavior_decision = "driving"
+            self.ego.target_brake = 0
+        else:
+            if self.ego.index >= 640 and self.ego.index <= 660: # Siheung
+                self.plan.behavior_decision = "stop"
+                self.ego.target_brake = 200
+            else:
+                self.plan.behavior_decision = "driving"
+                self.ego.target_brake = 0
+        # self.plan.behavior_decision = "turn_left"
+        # if self.ego.index >= 400 and self.ego.index <= 470:
+        #     print("case1")
+        #     self.ego.target_speed = 0
+        #     self.ego.target_brake = 200
+        #     if self.perception.tleft == 1:
+        #         self.traffic_checker = True
+        # if self.traffic_checker == True:
+        #     print("case2")
+        #     self.ego.target_speed = 10
+        #     self.ego.target_brake = 0
+        # else:
+        #     if self.ego.index >= 2750 and self.ego.index <= 2800:
+        #         self.plan.behavior_decision = "stop"
+        #         self.ego.target_brake = 33
+        #     else:
+        #         self.plan.behavior_decision = "turn_left"
                 self.ego.target_brake = 0
 
     def non_traffic_right(self):
@@ -315,8 +329,9 @@ class Mission():
         if sign_dis < 0.5:
             sleep(5)
             self.perception.behvior_decision = "pickup_end"
+            self.sort_sign()
         #calculating sign 
-        self.sort_sign()
+        
         
     def delivery(self):
         self.perception.behvior_decision = "delivery"
@@ -327,20 +342,21 @@ class Mission():
         self.perception.behvior_decision = "delivery_end"
 
     def sort_sign(self): 
-        count = 0  
-        while(count < 150):
-            sorted_dict = sorted(self.perception.B_signs.items(), key = lambda item: item[1])
-            sort_result = ""
-            for i in sorted_dict.keys():
-                sort_result += i
-            self.vote[sort_result] += 1
-            count += 1
-        seq = max(self.vote, key=self.vote.get)
-        seq_list = list(seq)
-        for i in range(len(seq_list)):
-            if seq_list[i] == self.perception.target:
-                self.selected = int(i/2)
-        self.delivery()
+        # count = 0  
+        # while(count < 150):
+        #     sorted_dict = sorted(self.perception.B_signs.items(), key = lambda item: item[1])
+        #     sort_result = ""
+        #     for i in sorted_dict.keys():
+        #         sort_result += i
+        #     self.vote[sort_result] += 1
+        #     count += 1
+        # seq = max(self.vote, key=self.vote.get)
+        # seq_list = list(seq)
+        # for i in range(len(seq_list)):
+        #     if seq_list[i] == self.perception.target:
+        #         self.selected = int(i/2)
+        # self.delivery()
+        pass
         
 
 
