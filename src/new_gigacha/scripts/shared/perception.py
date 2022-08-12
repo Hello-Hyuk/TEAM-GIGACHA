@@ -33,7 +33,7 @@ class Perception_():
       self.tgreen = False
       self.tmp_lidar_lock = threading.Lock()
       self.lidar_lock = threading.Lock()
-      self.signname = "driving"
+      self.signname = "static_obstacle"
       self.parking_num = ""
       self.target = 0
 
@@ -86,7 +86,6 @@ class Perception_():
 
       
    def sign_callback(self, msg):
-      print("msg.detection[i].results[0].id")
       for i in range(len(msg.detections)):
          if msg.detections[i].results[0].id == 0:
             self.signname = "delivery"   #A1
@@ -105,32 +104,32 @@ class Perception_():
             self.signname = "parking"  #B3
 
    def traffic_callback(self, msg):
-      print("===========================================")
-      if msg.detection[i].results[0].id == 0 or msg.detection[i].results[0].id == 1:
-         self.tred = True
-         self.tyellow = False
-         self.tleft = False
-         self.tgreen = False
-      elif msg.detection[i].results[0].id == 2 or msg.detection[i].results[0].id == 3:
-         self.tred = False
-         self.tyellow = True
-         self.tleft = False
-         self.tgreen = False
-      elif msg.detection[i].results[0].id == 4 or msg.detection[i].results[0].id == 5:
-         self.tred = False
-         self.tyellow = False
-         self.tleft = False
-         self.tgreen = True
-      elif msg.detection[i].results[0].id == 6:
-         self.tred = True
-         self.tyellow = False
-         self.tleft = True
-         self.tgreen = False
-      elif msg.detection[i].results[0].id == 7:
-         self.tred = False
-         self.tyellow = False
-         self.tleft = True
-         self.tgreen = True
+      for i in range(len(msg.detections)):
+         if msg.detections[i].results[0].id == 0 or msg.detections[i].results[0].id == 1:
+            self.tred = True
+            self.tyellow = False
+            self.tleft = False
+            self.tgreen = False
+         elif msg.detections[i].results[0].id == 2 or msg.detections[i].results[0].id == 3:
+            self.tred = False
+            self.tyellow = True
+            self.tleft = False
+            self.tgreen = False
+         elif msg.detections[i].results[0].id == 4 or msg.detections[i].results[0].id == 5:
+            self.tred = False
+            self.tyellow = False
+            self.tleft = False
+            self.tgreen = True
+         elif msg.detections[i].results[0].id == 6:
+            self.tred = True
+            self.tyellow = False
+            self.tleft = True
+            self.tgreen = False
+         elif msg.detections[i].results[0].id == 7:
+            self.tred = False
+            self.tyellow = False
+            self.tleft = True
+            self.tgreen = True
 
    def parking_callback(self, msg):
       self.parking_num = msg.data

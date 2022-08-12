@@ -176,7 +176,7 @@ class Mission():
             self.ego.target_brake = 0
         else:
             # if self.ego.index >= 410 and self.ego.index <= 470: # kcity
-            if self.ego.index >= 640 and self.ego.index <= 660: # Siheung
+            if self.ego.index >= 625 and self.ego.index <= 645: # Siheung
                 self.plan.behavior_decision = "stop"
                 self.ego.target_speed = 0
                 self.ego.target_brake = 200
@@ -186,33 +186,18 @@ class Mission():
                 self.ego.target_brake = 0
 
     def turn_left(self):
-        if self.perception.tleft == 1:
+        if self.perception.tleft == True:
             self.plan.behavior_decision = "driving"
+            self.ego.target_speed = 10
             self.ego.target_brake = 0
         else:
-            if self.ego.index >= 640 and self.ego.index <= 660: # Siheung
+            if self.ego.index >= 3425 and self.ego.index <= 3455: # Siheung
                 self.plan.behavior_decision = "stop"
+                self.ego.target_speed = 0
                 self.ego.target_brake = 200
             else:
                 self.plan.behavior_decision = "driving"
-                self.ego.target_brake = 0
-        # self.plan.behavior_decision = "turn_left"
-        # if self.ego.index >= 400 and self.ego.index <= 470:
-        #     print("case1")
-        #     self.ego.target_speed = 0
-        #     self.ego.target_brake = 200
-        #     if self.perception.tleft == 1:
-        #         self.traffic_checker = True
-        # if self.traffic_checker == True:
-        #     print("case2")
-        #     self.ego.target_speed = 10
-        #     self.ego.target_brake = 0
-        # else:
-        #     if self.ego.index >= 2750 and self.ego.index <= 2800:
-        #         self.plan.behavior_decision = "stop"
-        #         self.ego.target_brake = 33
-        #     else:
-        #         self.plan.behavior_decision = "turn_left"
+                self.ego.target_speed = 10
                 self.ego.target_brake = 0
 
     def non_traffic_right(self):

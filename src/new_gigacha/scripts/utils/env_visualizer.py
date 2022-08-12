@@ -268,8 +268,8 @@ class Visualizer(threading.Thread):
                     circle_marker.pose.position.y = self.perception.objy[i]
                     circle_marker.scale.x = self.perception.objw[i]
                     circle_marker.scale.y = self.perception.objh[i]
-                    vis_obj.markers.append(circle_marker)
-                    c_id = c_id + 1
+                    vis_obj2.markers.append(circle_marker)
+                    c_id2 = c_id2 + 1
 
                 ######################## PARKING PATH ##########################
                 parking = Path()

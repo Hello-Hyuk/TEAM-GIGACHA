@@ -17,8 +17,8 @@ class MissionPlanner(threading.Thread):
             # if self.shared.perception.signname == "turn_right_traffic_light":
             #     self.plan.state = "right_sign_detected"
 
-            # elif self.shared.perception.signname == "static_obstacle":
-            #     self.plan.state = "static_obstacle_detected"           
+            if self.shared.perception.signname == "static_obstacle":
+                self.plan.state = "static_obstacle_detected"           
 
             # elif self.shared.perception.signname == "delivery":
             #     self.plan.state = "delivery"
@@ -41,10 +41,13 @@ class MissionPlanner(threading.Thread):
             # else:
             #     self.plan.state = "go"
 
-            if self.ego.index < 700:
-                self.plan.state = "right_sign_detected"
+            # if 2400 < self.ego.index < 3200:
+            #     self.plan.state = "static_obstacle_detected"
 
-            else:
-                self.plan.state = "left_sign_detected"
+            # elif self.ego.index < 700:
+            #     self.plan.state = "right_sign_detected"
+
+            # elif self.ego.index >= 700:
+            #     self.plan.state = "left_sign_detected"
 
             sleep(self.period)
