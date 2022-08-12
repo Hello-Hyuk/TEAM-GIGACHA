@@ -104,13 +104,13 @@ class MC(threading.Thread):
             save_data = list(zip(self.longitude, self.latitude))
 
             save_df = pd.DataFrame(save_data)
-            save_df.to_csv("parking_1lane.csv", index = False, header = False)
+            save_df.to_csv("gpp2.csv", index = False, header = False)
             self.map_switch = True    
 
     def run(self):
         while True:
             if not self.stop_thread:
-                if round(self.pulse) % 6 == 0 and self.pulse !=self.temp:
+                if round(self.pulse) % 6 == 0 and self.pulse != self.temp:
                     self.map_maker()
             else:
                 sleep(self.period)

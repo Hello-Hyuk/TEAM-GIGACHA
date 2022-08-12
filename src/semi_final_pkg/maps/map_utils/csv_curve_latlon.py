@@ -24,14 +24,14 @@ from cubic_spline_planner import calc_spline_course
 # base_alt = 15.4
 
 # Siheung
-# base_lat = 37.36458356
-# base_lon = 126.7237789
-# base_alt = 15.4
+base_lat = 37.36458356
+base_lon = 126.7237789
+base_alt = 15.4
 
 # simul
-base_lat = 37.239235
-base_lon = 126.77315833333333
-base_alt = 15.4
+# base_lat = 37.239235
+# base_lon = 126.77315833333333
+# base_alt = 15.4
 
 # yonghyeon_navileguan
 # base_lat = 37.4508561
@@ -44,12 +44,31 @@ def get_xy(lat, lon, alt):  # 점들 사이의 새로운 점들을 설정
     print("hello")
     return e, n
 
+def enu(name, num):
+    colnames = ['lon', 'lat']
+    df = pd.read_csv(f'gpp2.csv', names=colnames, header=None)
+    x = []
+    y = []
+
+    for i in range(num):  # i=1,2,3,...
+        latitude = df.loc[i, 'lat'].tolist()
+        longitude = df.loc[i, 'lon'].tolist()  # 0 행 부터라서 index 1씩 빼줌
+        output = get_xy(latitude, longitude, 0.5)
+        x.append(output[0])
+        y.append(output[1])
+    save_data = list(zip(x, y))
+    save_df = pd.DataFrame(save_data)
+    save_df.to_csv('%s.csv' % name, index=False, header=False)
+    print(f"Map saved to maps/{name}.csv")
+    plt.scatter(x, y)
+    plt.show()
+
 
 def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     colnames = ['lon', 'lat']
     # df = pd.read_csv(f'maps/Siheung/nodes/turn_right/turn_right_line.csv', names=colnames, header=None) # siheung
-    df = pd.read_csv(f'turn_left.csv', names=colnames, header=None)
+    df = pd.read_csv(f'points.csv', names=colnames, header=None)
     x = []
     y = []
 
@@ -73,7 +92,19 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
     return(cx, cy, cyaw, ck, s)
 
 
+
+
+
+
 # cubic("left2", 2, 3, 4, 5, 6, 7, 8, 9, 10)
-cubic("left3", 10, 11)
+# cubic("str1", 1, 2)
+# cubic("str2", 3, 4)
+# cubic("str3", 5, 6)
+# cubic("parksssang1", 1,2,3)
+# cubic("kcitySTR",1,2)
+# enu('curve1', 842)
+# enu('curve2', 449)
+enu('curve3', 282)
+
 # cubic("2",2,3,4,5,6,7)
 # cubic("3",7,8)
