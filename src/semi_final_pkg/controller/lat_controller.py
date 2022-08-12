@@ -1,17 +1,12 @@
-import threading
-import pymap3d
-from time import sleep
-from math import cos, sin, degrees, atan2, radians, pi, hypot
+from math import hypot, cos, sin, degrees, atan2, radians, pi
 
-class LatController(threading.Thread):
-    def __init__(self, parent, rate):
-        super().__init__()
-        self.period = 1.0 / rate
-        self.shared = parent.shared
-        self.ego = parent.shared.ego
-
-        self.global_path = parent.shared.global_path
+class LatController():
+    def __init__(self, eg, sh):
  
+        self.ego = eg
+        self.shared = sh
+
+        self.global_path = self.shared.global_path
         self.WB = 1.04 # wheel base
         self.k = 0.15 #1.5
         self.lookahead_default = 4 #look-ahead default
@@ -26,8 +21,6 @@ class LatController(threading.Thread):
                     target_index = lookahead*10 + self.ego.index
                     
                     target_x, target_y = self.path.x[target_index], self.path.y[target_index]
-                    print("target_x : ", target_x)
-                    print("target_y : ", target_y)
 
                     tmp = degrees(atan2(target_y - self.ego.y, target_x - self.ego.x)) % 360
                     
@@ -49,6 +42,6 @@ class LatController(threading.Thread):
                     self.ego.input_steer = max(min(degrees(angle), 27.0), -27.0)
 
             except ZeroDivisionError:
-                print("+++++++++++++++++")
+                print("+++++++++lat_control++++++++")
 
             sleep(self.period)
