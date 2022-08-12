@@ -16,19 +16,17 @@ class Planner(threading.Thread):
         self.perception = self.shared.perception
         self.state = self.shared.state
 
-
     def run(self):
         while True:
             try:
-
                 #theta = (self.ego.heading) * pi / 180
-
                 if self.shared.state == "2nd":
 
                     min_dis = -1
                     min_idx = 0
                     step_size = 100
                     save_idx = self.ego.index
+                    # save_idx = 0
 
                     for i in range(max(self.ego.index - step_size, 0), self.ego.index + step_size):
                         try:
@@ -46,12 +44,9 @@ class Planner(threading.Thread):
                 else:
                     self.ego.point_x = self.perception.objx
                     self.ego.point_y = self.perception.objy
-
-   
                                         
                             
             except IndexError:
-                # pass
-                print("+++++++++++++++++")
+                print("+++++++++Planner++++++++")
             
             sleep(self.period)

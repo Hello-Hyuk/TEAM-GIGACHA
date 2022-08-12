@@ -24,20 +24,20 @@ class GPS():
         self.lon = 0.0
         self.alt = 0.0
     ## MP
-    # def gps_call_back(self, data):
-    #     if self.init == False:
-    #         self.lat = data.latitude
-    #         self.lon = data.longitude
-    #         self.alt = 15.4
-    #         self.init = True
-    #     else:
-    #         self.x, self.y, _ = pymap3d.geodetic2enu(data.latitude, data.longitude, self.alt, \
-    #                                             self.lat, self.lon, self.alt)
+    def gps_call_back(self, data):
+        if self.init == False:
+            self.lat = data.latitude
+            self.lon = data.longitude
+            self.alt = 15.4
+            self.init = True
+        else:
+            self.x, self.y, _ = pymap3d.geodetic2enu(data.latitude, data.longitude, self.alt, \
+                                                self.lat, self.lon, self.alt)
 
     ## MC
-    def gps_call_back(self, data):
-        self.lat = data.latitude
-        self.lon = data.longitude
+    # def gps_call_back(self, data):
+    #     self.lat = data.latitude
+    #     self.lon = data.longitude
 
     def gps_call_back_simul(self, data):
         if self.init == False:

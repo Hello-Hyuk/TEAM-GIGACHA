@@ -27,21 +27,21 @@ class LatController():
                     alpha = self.ego.heading - tmp
                     angle = atan2(2.0 * self.WB * sin(radians(alpha)) / lookahead, 1.0)
 
-                    if degrees(angle) < 0.5 and degrees(angle) > -0.5:
+                    if degrees(angle) < 1 and degrees(angle) > -1:
                         angle = 0
 
-                    self.ego.input_steer = max(min(degrees(angle), 27.0), -27.0)
+                    return max(min(degrees(angle), 27.0), -27.0)
                 else:
                     target_x, target_y = self.ego.point_x, self.ego.point_y
-                    
                     tmp = degrees(atan2(target_y, target_x)) % 360
                     distance = hypot(target_x, target_y)
                     alpha = -tmp
                     angle = atan2(2.0 * self.WB * sin(radians(alpha)) / distance, 1.0)
 
-                    self.ego.input_steer = max(min(degrees(angle), 27.0), -27.0)
+                    if degrees(angle) < 1 and degrees(angle) > -1:
+                        angle = 0
+
+                    return max(min(degrees(angle), 27.0), -27.0)
 
             except ZeroDivisionError:
                 print("+++++++++lat_control++++++++")
-
-            sleep(self.period)

@@ -31,20 +31,25 @@ class MP(threading.Thread):
         self.diff_right = 0
         self.temp = 0
 
+        self.odometry_left = 0
+
         self.stop_thread = False
         self.right_switch = False
 
     def serialTopulse(self):
-        if self.init == 0:
-            self.init = int(self.ego.encoder[0]) + int(self.ego.encoder[1])*256\
+        # print('self.ego.encoder',self.ego.encoder)
+        try:
+            if self.init == 0:
+                self.init = int(self.ego.encoder[0]) + int(self.ego.encoder[1])*256\
+                    + int(self.ego.encoder[2])*256**2 + \
+                    int(self.ego.encoder[3])*256**3
+
+            self.left = int(self.ego.encoder[0]) + int(self.ego.encoder[1])*256\
                 + int(self.ego.encoder[2])*256**2 + \
-                int(self.ego.encoder[3])*256**3
+                int(self.ego.encoder[3])*256**3 - self.init
+        except IndexError:
+            print("---------------error or check serial-------------------")
 
-        odometry_left = int(self.ego.encoder[0]) + int(self.ego.encoder[1])*256\
-            + int(self.ego.encoder[2])*256**2 + \
-            int(self.ego.encoder[3])*256**3 - self.init
-
-        return odometry_left
 
     def filter(self):
         if self.flag_filter:
@@ -65,7 +70,7 @@ class MP(threading.Thread):
             self.right_pulse = self.right
 
     def encoderCallback(self,msg):
-        self.left = self.serialTopulse()
+        self.serialTopulse()
         if self.right_switch == False:
             self.right_init = msg.data
             self.right_switch = True
@@ -80,7 +85,13 @@ class MP(threading.Thread):
         self.global_path.x.append(self.gps.x)
         self.global_path.y.append(self.gps.y)
         self.temp = self.pulse
-        print("self.global_path.x : {}".format(self.global_path.x))
+        # print("self.global_path.x : {}".format(self.global_path.x))
+
+    def map_routine(self):
+        for i in range(3):
+            self.global_path.x.extend(self.global_path.x)
+            self.global_path.y.extend(self.global_path.y)
+
 
     def run(self):
         while True:
@@ -88,8 +99,9 @@ class MP(threading.Thread):
                 if round(self.pulse) % 6 == 0 and self.pulse !=self.temp:
                     self.map_maker()
 
-                if len(self.global_path.x) >= 50 and hypot(self.gps.x, self.gps.y) <= 0.96:
+                if len(self.global_path.x) >= 50 and hypot(self.gps.x, self.gps.y) <= 1.0:
                     self.stop_thread = True
+                    self.map_routine()
                     print('mmmmmmmmmmmmmmmmmmmmmm')
                     self.shared.state = "2nd"
             else:

@@ -70,6 +70,7 @@ class Localizer(threading.Thread):
         while True:
             if self.shared.state == "2nd" and self.switch:
                 self.add_curvature_yaw()
+                # print('self.global_path.curvature: {}'.format(self.global_path.curvature))
                 self.switch = False
 
             self.heading_decision()

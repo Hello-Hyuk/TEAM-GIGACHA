@@ -4,11 +4,12 @@ import argparse
 import serial
 from shared.shared import Shared
 from localizer.localizer import Localizer
-# from localizer.making_map import MP
-from localizer.map_creating import MC
+from localizer.making_map import MP
+# from localizer.map_creating import MC
 from planner.planner import Planner
-from controller.lat_controller import LatController
-from controller.lon_controller import LonController
+# from controller.lat_controller import LatController
+# from controller.lon_controller import LonController
+from controller.controller import Controller
 from utils.serial_reader import SerialReader
 from utils.serial_writer import SerialWriter
 from utils.sig_int_handler import ActivateSignalInterruptHandler
@@ -33,21 +34,18 @@ class Master(threading.Thread):
         self.localizer = Localizer(self, rate=10)
         self.init_thread(self.localizer)
 
-        # self.mp = MP(self, rate = 1)
-        # self.init_thread(self.mp)
+        self.mp = MP(self, rate = 1)
+        self.init_thread(self.mp)
 
-        self.mc = MC(self, rate = 50)
-        self.init_thread(self.mc)
+        # self.mc = MC(self, rate = 50)
+        # self.init_thread(self.mc)
 
         self.planner = Planner(self, rate=20)
         self.init_thread(self.planner)
 
-        self.lat_controller = LatController(self, rate=20)
-        self.init_thread(self.lat_controller)
-
-        self.lon_controller = LonController(self, rate=3)
-        self.init_thread(self.lon_controller)
-
+        self.controller = Controller(self, rate=3)
+        self.init_thread(self.controller)
+        
         self.serial_reader = SerialReader(self, rate=20)
         self.init_thread(self.serial_reader)
 
@@ -63,6 +61,7 @@ class Master(threading.Thread):
             print('Controller : Speed : {}, Steer : {}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
             # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
             # print("tmp :" ,len(self.shared.perception.tmp_objx))
+            print("target_x : ", self.shared.perception.objx, "target_y : ", self.shared.perception.objy)
             print("state :" ,(self.shared.state))
             sleep(self.period)
 

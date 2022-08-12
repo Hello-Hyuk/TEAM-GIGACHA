@@ -7,10 +7,10 @@ class Perception_():
    def __init__(self):
       self.id_check = False
 
-      #rospy.Subscriber("/target_point_vis", Marker, self.lidar_callback)
+      rospy.Subscriber("/target_point_vis", Marker, self.lidar_callback)
 
       self.objx = 1
-      self.objy = 2
+      self.objy = 0
       self.objr = 0
 
    # def lidar_callback(self, msg):
@@ -46,6 +46,6 @@ class Perception_():
    #    self.objw = tmp_objw
    #    self.objh = tmp_objh
       
-   # def lidar_callback(self, msg):
-   #    self.objx = msg.points[0].x
-   #    self.objy = msg.points[0].y
+   def lidar_callback(self, msg):
+      self.objx = msg.points[0].x
+      self.objy = msg.points[0].y
