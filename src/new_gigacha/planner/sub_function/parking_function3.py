@@ -14,20 +14,27 @@ class Parking_Motion():
         self.parking = self.shared.park
 
         #simul kcity
-        self.base_lat = 37.239231667
-        self.base_lon = 126.773156667
+        # self.base_lat = 37.239231667
+        # self.base_lon = 126.773156667
+        # self.base_alt = 15.4
+
+        #siheung
+        self.base_lat = 37.36458356
+        self.base_lon = 126.7237789
         self.base_alt = 15.4
 
         self.smooth_radius = 5
         self.mapname = ''
         self.cnt = False
-        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/localizer/parking_KCity2.json') as pkc:
+        # with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/localizer/parking_KCity2.json') as pkc:
+        #     self.parking_point = json.load(pkc)
+        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/localizer/parking_siheung.json') as pkc:
             self.parking_point = json.load(pkc)
-        
-#########saved map import function########
+
+
     def make_parking_tra(self):
         # self.point = self.parking_point[str(self.parking.select_num)]
-        self.point = self.parking_point[str(6)]
+        self.point = self.parking_point[str(4)]
         self.start_point = self.point["start"]
         self.end_point = self.point["end"]
         if len(self.parking.forward_path.x) == 0:
