@@ -52,6 +52,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
+  Local.msg
+  Serial_Info.msg
+  Control_Info.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -74,6 +77,7 @@ generate_messages(
   std_msgs
   geometry_msgs
   new_gigacha
+  planner_and_control
 )
 
 ################################################

@@ -1,7 +1,7 @@
 import numpy as np
 from math import cos,sin,atan2
 from shared.path import Path
-from planner_and_control.msg import Path as CustomPath
+#from planner_and_control.msg import Path as CustomPath
 def path_maker(cut_path, ego, lattice_path):
 
     lattice = []

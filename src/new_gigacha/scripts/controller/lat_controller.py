@@ -25,15 +25,16 @@ class LatController(threading.Thread):
                     self.parking_run()
                 else:
                     self.ego.target_gear = 0
-                    # self.path = self.lattice_path[self.shared.selected_lane]
-                    self.path = self.shared.global_path
+                    self.path = self.lattice_path[self.shared.selected_lane]
+                    # print(len(self.lattice_path), "\n", self.shared.selected_lane)
+                    # self.path = self.shared.global_path
                     lookahead = min(self.k * self.ego.speed +
                                     self.lookahead_default, 6)
-                    # target_index = len(self.path.x) - 1
+                    target_index = len(self.path.x) - 1
                     # print(len(self.path.x))
 
                     # lookahead = min(self.k * self.ego.speed + self.lookahead_default, 7)
-                    target_index = self.ego.index + int(lookahead * 10)
+                    # target_index = self.ego.index + int(lookahead * 10)
 
                     target_x, target_y = self.path.x[target_index], self.path.y[target_index]
                     tmp = degrees(atan2(target_y - self.ego.y,

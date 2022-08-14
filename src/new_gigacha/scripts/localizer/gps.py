@@ -24,7 +24,7 @@ class GPS():
         with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/localizer/base.json') as base:
             base_data = json.load(base)
 
-        self.base = base_data["Siheung"] # KCity, Songdo, Songdo_track, Siheung, KCity2, Yonghyeon_parking
+        self.base = base_data["KCity"] # KCity, Songdo, Songdo_track, Siheung, KCity2, Yonghyeon_parking
         self.lat = self.base['lat']
         self.lon = self.base['lon']
         self.alt = self.base['alt']

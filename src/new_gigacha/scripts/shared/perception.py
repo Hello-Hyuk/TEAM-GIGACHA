@@ -1,20 +1,19 @@
 import threading
 import rospy
-# from planner_and_control.msg import Perception
+from planner_and_control.msg import Perception
 from visualization_msgs.msg import MarkerArray, Marker
 from std_msgs.msg import Int32, Int64
-from vision_msgs.msg import Detection2DArray
-# from planner_and_control.msg import Perception
+# from vision_msgs.msg import Detection2DArray
 
 class Perception_():
    def __init__(self):
       self.id_check = False
 
-      # rospy.Subscriber("/input", Perception, self.input_callback)
+      rospy.Subscriber("/input", Perception, self.input_callback)
       rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
-      rospy.Subscriber("/sign", Detection2DArray, self.sign_callback)
-      rospy.Subscriber("/traffic", Detection2DArray, self.traffic_callback)
-      rospy.Subscriber("/Parking_num", Int32, self.parking_callback)
+      # rospy.Subscriber("/sign", Detection2DArray, self.sign_callback)
+      # rospy.Subscriber("/traffic", Detection2DArray, self.traffic_callback)
+      # rospy.Subscriber("/Parking_num", Int32, self.parking_callback)
       # rospy.Subscriber("/bbox1", Detection2DArray, self.camera_callback)
 
       self.signx = 0
@@ -33,15 +32,19 @@ class Perception_():
       self.tgreen = False
       self.tmp_lidar_lock = threading.Lock()
       self.lidar_lock = threading.Lock()
-      self.signname = "static_obstacle"
+      self.signname = "delivery"
       self.parking_num = ""
       self.target = 0
 
 
       #for input_callback
       self.B_signs = {"B1": 0, "B2": 0, "B3":0}
-      self.B_x = {"B1":0, "B2":0, "B3":0}
-      self.B_y = {"B1":0, "B2":0, "B3":0}
+      self.B_x = [0,0,0]
+      self.B_y = [0,0,0]
+      self.first_sign = 0
+      self.second_sign = 0
+      self.third_sign = 0 
+
 
    def input_callback(self, msg):
       #first
@@ -54,12 +57,16 @@ class Perception_():
       self.signx = msg.A_objx
       self.signy = msg.A_objy
       #second
-      count = 0
-      for i in self.B_signs.keys():
-         self.B_signs[i] = msg.B_bbox_size[count]
-         self.B_x[i] = msg.B_target_x[count]
-         self.B_y[i] = msg.B_target_y[count]
-         count = count+1
+      if(len(msg.B_target_x) == 3):
+         for i in range(3):
+            self.B_x[i] = msg.B_target_x[i]
+            self.B_y[i] = msg.B_target_y[i]
+      
+      self.first_sign = msg.bbox_size[0]
+      self.second_sign = msg.bbox_size[1]
+      self.third_sign = msg.bbox_size[2]
+   
+      
 
    def lidar_callback(self, msg):
       if len(msg.markers) != 0:
@@ -86,7 +93,13 @@ class Perception_():
 
       
    def sign_callback(self, msg):
+
       for i in range(len(msg.detections)):
+         if len(msg.detections) == 3 and  2 < msg.detections[i].results[0].id < 6:
+            self.first_sign = msg.detections[0].results[0].id
+            self.second_sign = msg.detections[1].results[0].id
+            self.third_sign = msg.detections[2].results[0].id
+
          if msg.detections[i].results[0].id == 0:
             self.signname = "delivery"   #A1
             self.target = "B1"
@@ -101,35 +114,36 @@ class Perception_():
          elif msg.detections[i].results[0].id == 4:
             self.signname = "non_traffic_right" #B2
          elif msg.detections[i].results[0].id == 5:
-            self.signname = "parking"  #B3
+            self.signname = "parking"  #B3*
 
    def traffic_callback(self, msg):
       for i in range(len(msg.detections)):
-         if msg.detections[i].results[0].id == 0 or msg.detections[i].results[0].id == 1:
-            self.tred = True
-            self.tyellow = False
-            self.tleft = False
-            self.tgreen = False
-         elif msg.detections[i].results[0].id == 2 or msg.detections[i].results[0].id == 3:
-            self.tred = False
-            self.tyellow = True
-            self.tleft = False
-            self.tgreen = False
-         elif msg.detections[i].results[0].id == 4 or msg.detections[i].results[0].id == 5:
-            self.tred = False
-            self.tyellow = False
-            self.tleft = False
-            self.tgreen = True
-         elif msg.detections[i].results[0].id == 6:
-            self.tred = True
-            self.tyellow = False
-            self.tleft = True
-            self.tgreen = False
-         elif msg.detections[i].results[0].id == 7:
-            self.tred = False
-            self.tyellow = False
-            self.tleft = True
-            self.tgreen = True
+         if msg.detections[i].results[0].id < 6:
+            if msg.detections[i].results[0].id == 0:
+               self.signname = "turn_left_traffic_light"
+            elif msg.detections[i].results[0].id == 1:
+               self.signname = "static_obstacle"
+         else:
+            if msg.detection[i].results[0].id == 6:
+               self.tred = True
+               self.tyellow = False
+               self.tleft = False
+               self.tgreen = False
+            elif msg.detection[i].results[0].id == 7:
+               self.tred = False
+               self.tyellow = True
+               self.tleft = False
+               self.tgreen = False
+            elif msg.detection[i].results[0].id == 8:
+               self.tred = False
+               self.tyellow = False
+               self.tleft = False
+               self.tgreen = True
+            elif msg.detection[i].results[0].id == 9:
+               self.tred = False
+               self.tyellow = False
+               self.tleft = True
+               self.tgreen = False
 
    def parking_callback(self, msg):
       self.parking_num = msg.data

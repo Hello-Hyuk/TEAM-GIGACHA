@@ -68,6 +68,7 @@
   <depend>actionlib_msgs</depend>
   <depend>vision_msgs</depend>
   <depend>visualization_msgs</depend>
+  <depend>planner_and_control</depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
