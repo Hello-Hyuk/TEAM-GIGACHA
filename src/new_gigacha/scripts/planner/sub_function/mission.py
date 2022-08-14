@@ -26,7 +26,12 @@ class Mission():
         self.parking_forward_start = False
 
         self.selected = 0
-        self.vote = {"B1B2B3":0, "B1B3B2":0, "B2B1B3":0, "B2B3B1":0, "B3B1B2":0, "B3B1B2":0}
+        self.vote = {"123":0, "132":0, "213":0, "231":0, "312":0, "321":0}
+
+        self.pickup_checker = False
+        self.delivery_checker = False
+        
+
         
 
     def update_parameter(self, eg, pc, pl):
@@ -170,34 +175,35 @@ class Mission():
                 self.ego.target_speed = 10.0
 
     def turn_right(self):
-        if self.perception.tgreen == True:
-            self.plan.behavior_decision = "driving"
-            self.ego.target_speed = 10
+        if self.perception.tgreen == 1:
+            self.plan.behavior_decision = "turn_right"
             self.ego.target_brake = 0
         else:
-            # if self.ego.index >= 410 and self.ego.index <= 470: # kcity
-            if self.ego.index >= 625 and self.ego.index <= 645: # Siheung
+            if self.ego.index >= 410 and self.ego.index <= 470:
                 self.plan.behavior_decision = "stop"
-                self.ego.target_speed = 0
-                self.ego.target_brake = 200
+                self.ego.target_brake = 33
             else:
-                self.plan.behavior_decision = "driving"
-                self.ego.target_speed = 10
+                self.plan.behavior_decision = "turn_right"
                 self.ego.target_brake = 0
 
     def turn_left(self):
-        if self.perception.tleft == True:
-            self.plan.behavior_decision = "driving"
+        self.plan.behavior_decision = "turn_left"
+        if self.ego.index >= 400 and self.ego.index <= 470:
+            print("case1")
+            self.ego.target_speed = 0
+            self.ego.target_brake = 200
+            if self.perception.tleft == 1:
+                self.traffic_checker = True
+        if self.traffic_checker == True:
+            print("case2")
             self.ego.target_speed = 10
             self.ego.target_brake = 0
         else:
-            if self.ego.index >= 3425 and self.ego.index <= 3455: # Siheung
+            if self.ego.index >= 2750 and self.ego.index <= 2800:
                 self.plan.behavior_decision = "stop"
-                self.ego.target_speed = 0
-                self.ego.target_brake = 200
+                self.ego.target_brake = 33
             else:
-                self.plan.behavior_decision = "driving"
-                self.ego.target_speed = 10
+                self.plan.behavior_decision = "turn_left"
                 self.ego.target_brake = 0
 
     def non_traffic_right(self):
@@ -304,45 +310,55 @@ class Mission():
         self.perception.objy = objy
 
     def pickup(self):
+        self.plan.behavior_decision = "delivery_mode"
+        # print(self.perception.first_sign, self.perception.second_sign,self.perception.third_sign )
         # sign_dis = sqrt(
         #         (self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
         #input
-        sign_dis = sqrt(
-                (self.perception.signx - self.ego.x)**2 + (self.perception.signy - self.ego.y)**2)
-        if sign_dis < 2:
-            self.perception.behvior_decision = "pickup"
-        if sign_dis < 0.5:
+        sign_dis = 0.0
+        sign_dis = sqrt((self.perception.signx - self.ego.x)**2 + (self.perception.signy - self.ego.y)**2)
+        print("pickup : " , sign_dis)
+        if 0 < sign_dis < 1.3 and self.pickup_checker == False:
+            self.pickup_checker = True
+            self.plan.behavior_decision = "stop"
+            self.ego.target_brake = 200 
             sleep(5)
-            self.perception.behvior_decision = "pickup_end"
-            self.sort_sign()
-        #calculating sign 
-        
+            self.ego.target_brake = 0
+            self.plan.behavior_decision = "pickup_end"
+            self.voting()
+        elif 0 < sign_dis < 10:
+            self.plan.behavior_decision = "pickup"
+        if (self.pickup_checker == True):
+            self.delivery()
         
     def delivery(self):
-        self.perception.behvior_decision = "delivery"
+        self.plan.behavior_decision = "delivery"
         sign_dis = sqrt(
-                (self.perception.objx[self.selected] - self.ego.x)**2 + (self.perception.objy[self.selected] - self.ego.y)**2)
-        if(sign_dis < 0.5):
-            sleep(5)
-        self.perception.behvior_decision = "delivery_end"
+                (self.perception.B_x[self.selected] - self.ego.x)**2 + (self.perception.B_y[self.selected] - self.ego.y)**2)
+        print("delivery : ", sign_dis)
+        if(0 < sign_dis < 1.2 and self.delivery_checker == False):
+            self.delivery_checker = True
+            self.plan.behavior_decision = "stop"
+            self.ego.target_brake = 200 
+            sleep(5) 
+            self.ego.target_brake = 0
+        self.plan.behavior_decision = "delivery_end"
 
-    def sort_sign(self): 
-        # count = 0  
-        # while(count < 150):
-        #     sorted_dict = sorted(self.perception.B_signs.items(), key = lambda item: item[1])
-        #     sort_result = ""
-        #     for i in sorted_dict.keys():
-        #         sort_result += i
-        #     self.vote[sort_result] += 1
-        #     count += 1
-        # seq = max(self.vote, key=self.vote.get)
-        # seq_list = list(seq)
-        # for i in range(len(seq_list)):
-        #     if seq_list[i] == self.perception.target:
-        #         self.selected = int(i/2)
-        # self.delivery()
-        pass
-        
+    def voting(self): 
+       
+        count = 0  
+        while(count < 2):
+            sort_result = ""
+            sort_result += str(self.perception.first_sign) + str(self.perception.second_sign) + str(self.perception.third_sign)
+            if (sort_result in self.vote.keys()):
+                self.vote[sort_result] += 1
+                count += 1
+        seq = max(self.vote, key=self.vote.get)
+        seq_list = list(seq)
+        for i in range(len(seq_list)):
+            if int(seq_list[i]) == self.perception.target:
+                self.selected = int(i/2)
+        print(self.selected)
 
 
 

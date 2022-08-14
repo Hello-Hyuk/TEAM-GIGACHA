@@ -10,14 +10,15 @@ import rospy
 class Serial_IO:
     def __init__(self):
         # Serial Connect
-        # self.ser = serial.Serial("/dev/ttyUSB1", 115200) # Simulation
-        self.ser = serial.Serial("/dev/erp42", 115200) # Real World
+        self.ser = serial.Serial("/dev/ttyUSB1", 115200) # Simulation
+        # self.ser = serial.Serial("/dev/erp42", 115200) # Real World
         print("Serial_IO: Serial connecting to /dev/erp42...")
 
         # ROS Publish
         rospy.init_node("Serial_IO", anonymous=False)
         self.serial_pub = rospy.Publisher("/serial", Serial_Info, queue_size=1)
         print("Serial_IO: Initializing ROS node...")
+        #print("test")
 
 
         # Messages/Data

@@ -20,7 +20,7 @@ class Master(threading.Thread):
         self.args = args
         self.period = 1.0 / ui_rate
 
-        # self.ser = serial.Serial("/dev/ttyUSB1", 115200)  # Simulation
+        self.ser = serial.Serial("/dev/ttyUSB1", 115200)  # Simulation
         # self.ser = serial.Serial("/dev/erp42", 115200)  # Real World
 
         rospy.init_node('master', anonymous=False)
@@ -52,18 +52,18 @@ class Master(threading.Thread):
         while True:
             # print('------------------')
             # print('Localization')
-            print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
-                .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
-            print('Mission_State : {}'.format(self.shared.plan.state))
+            # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
+            #     .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
+            # print('Mission_State : {}'.format(self.shared.plan.state))
             print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
-            # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
+            print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
             # print('Controller')
-            print('Speed : {}, brake : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_brake))
-            print('green : ', self.shared.perception.tgreen)
+            print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
             # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
             # print("tmp :" ,len(self.shared.perception.tmp_objx))
             # print("real :" ,len(self.shared.perception.objx))
             # print("real :" , self.shared.perception.objx, self.shared.perception.objy)
+            # print("hello")
             sleep(self.period)
 
     def init_thread(self, module):
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     argparser.add_argument(
         '--map',
         default='kcity_simul/final',
-        help='kcity/map1, songdo/map2, yonghyeon/Yonghyeon, kcity_simul/left_lane, kcity_simul/right_lane, kcity_simul/final, inha_parking/gpp, Siheung/final'
+        help='kcity/map1, songdo/map2, yonghyeon/Yonghyeon, kcity_simul/left_lane, kcity_simul/right_lane, kcity_simul/final, inha_parking/gpp'
     )
 
     ActivateSignalInterruptHandler()
