@@ -79,35 +79,94 @@ class path_maker:
         pass
 
 
+
+#method1
+    # def makeCOM(self, points):
+    #     x_sum = 0
+    #     y_sum = 0
+    #     tmp1=0
+    #     tmp2=0
+
+    #     for point in points:
+
+    #         if point[1]<0:
+    #             tmp1=tmp1+1
+    #             if tmp1>=3:
+    #                 pass
+
+    #             else:
+    #                 x_sum = x_sum + point[0]
+    #                 y_sum = y_sum + point[1]
+
+
+    #         elif point[1]>0:
+    #             tmp2=tmp2+1
+    #             if tmp2>=3:
+    #                 pass
+
+    #             else:
+    #                 x_sum = x_sum + point[0]
+    #                 y_sum = y_sum + point[1]    
+
+    #     self.target_point.x = x_sum / len(points)
+    #     self.target_point.y = y_sum / len(points)
+
+
+# method2
     def makeCOM(self, points):
         x_sum = 0
         y_sum = 0
         tmp1=0
         tmp2=0
+        point_L=0
+        point_R=0
+
+
 
         for point in points:
 
             if point[1]<0:
+                point_L=point
+                point_R=0
+
+            if point[1]>0:
+                point_R=point
+                point_L=0
+    
+            if point[1]<0:
                 tmp1=tmp1+1
                 if tmp1>=3:
-                    pass
+                    x_sum = x_sum + point_L[0]+3*point_R[0]
+                    y_sum = y_sum + point_L[1]+3*point_R[0]
+
+
+                    
 
                 else:
-                    x_sum = x_sum + point[0]
-                    y_sum = y_sum + point[1]
+                    x_sum = x_sum + point_L[0]+point_R[0]
+                    y_sum = y_sum + point_L[0]+point_R[0]
 
 
             elif point[1]>0:
                 tmp2=tmp2+1
                 if tmp2>=3:
-                    pass
+                    x_sum = x_sum + 3*point_L[0]+point_R[0]
+                    y_sum = y_sum + 3*point_L[1]+point_R[0]
+
 
                 else:
-                    x_sum = x_sum + point[0]
-                    y_sum = y_sum + point[1]    
+                    x_sum = x_sum + point_L[0]+point_R[0]
+                    y_sum = y_sum + point_L[0]+point_R[0]
+
+
+
+
+
 
         self.target_point.x = x_sum / len(points)
         self.target_point.y = y_sum / len(points)
+
+
 
 
     def makePath(self, msg):

@@ -141,7 +141,6 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/gigacha/TEAM-GIGACHA/build/velodyne-master/velodyne_laserscan/cmake_install.cmake")
   include("/home/gigacha/TEAM-GIGACHA/build/velodyne-master/velodyne_pcl/cmake_install.cmake")
   include("/home/gigacha/TEAM-GIGACHA/build/velodyne_pointcloud/cmake_install.cmake")
-  include("/home/gigacha/TEAM-GIGACHA/build/vision_msgs/cmake_install.cmake")
 
 endif()
 
