@@ -32,54 +32,56 @@ class MotionPlanner(threading.Thread):
 
     def run(self):
         while True:
-            # print(len(self.global_path.x))
-            # from global path (50indexes)
-            findLocalPath(self.global_path, self.ego, self.cut_path)
-            self.motion.path_maker()  # lattice_path
+            try:
+                # print(len(self.global_path.x))
+                # from global path (50indexes)
+                findLocalPath(self.global_path, self.ego, self.cut_path)
+                self.motion.path_maker()  # lattice_path
 
-            if self.shared.plan.behavior_decision == "static_obstacle_avoidance":
-                self.motion.weight_function_obstacle_avoidance()
-                self.motion.select_trajectory()
+                if self.shared.plan.behavior_decision == "static_obstacle_avoidance":
+                    self.motion.weight_function_obstacle_avoidance()
+                    self.motion.select_trajectory()
 
-            elif self.shared.plan.behavior_decision == "go_side":
-                self.motion.select_trajectory()
+                elif self.shared.plan.behavior_decision == "go_side":
+                    self.motion.select_trajectory()
 
-            elif self.shared.plan.behavior_decision == "stop":
-                # self.plan.trajectory.x = []
-                # self.plan.trajectory.y = []
-                pass
+                elif self.shared.plan.behavior_decision == "stop":
+                    # self.plan.trajectory.x = []
+                    # self.plan.trajectory.y = []
+                    pass
 
+                elif self.shared.plan.behavior_decision == "turn_right":
+                    self.shared.selected_lane = 2
 
-            elif self.shared.plan.behavior_decision == "turn_right":
-                self.shared.selected_lane = 2
+                elif self.shared.plan.behavior_decision == "turn_left":
+                    self.shared.selected_lane = 0
 
-            elif self.shared.plan.behavior_decision == "turn_left":
-                self.shared.selected_lane = 0
+                elif self.shared.plan.behavior_decision == "driving":
+                    self.motion.select_trajectory()
 
-            elif self.shared.plan.behavior_decision == "driving":
-                self.motion.select_trajectory()
+                # parking
+                elif self.shared.plan.behavior_decision == "parking_trajectory_Create":
+                    self.park_motion.make_parking_tra()
 
-            # parking
-            elif self.shared.plan.behavior_decision == "parking_trajectory_Create":
-                self.park_motion.make_parking_tra()
+                elif self.shared.plan.behavior_decision == "parkingForwardOn":
+                    self.park_motion.parking_drive(0)
 
-            elif self.shared.plan.behavior_decision == "parkingForwardOn":
-                self.park_motion.parking_drive(0)
+                elif self.shared.plan.behavior_decision == "parkingBackwardOn":
+                    self.park_motion.parking_drive(2)
 
-            elif self.shared.plan.behavior_decision == "parkingBackwardOn":
-                self.park_motion.parking_drive(2)
+                elif self.shared.plan.behavior_decision == "pickup":
+                    self.shared.selected_lane = 3
+                
+                elif self.shared.plan.behavior_decision == "pickup_end":
+                    self.shared.selected_lane = 2
 
-            elif self.shared.plan.behavior_decision == "pickup":
-                self.shared.selected_lane = 3
-            
-            elif self.shared.plan.behavior_decision == "pickup_end":
-                self.shared.selected_lane = 2
+                elif self.shared.plan.behavior_decision == "delivery":
+                    self.shared.selected_lane = 3
 
-            elif self.shared.plan.behavior_decision == "delivery":
-                self.shared.selected_lane = 3
+                elif self.shared.plan.behavior_decision == "delivery_end":
+                    self.shared.selected_lane = 2
 
-            elif self.shared.plan.behavior_decision == "delivery_end":
-                self.shared.selected_lane = 2
+            except IndexError:
+                print("++++++++mission_controller+++++++++")
 
-            # print(self.trajectory.x)
             sleep(self.period)

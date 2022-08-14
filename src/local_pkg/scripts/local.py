@@ -7,7 +7,7 @@ from local_pkg.msg import Local
 from gps import GPS
 from ahrs import IMU
 from odometry import DR
-from local_functions import quaternion_from_euler
+from local_funcxtions import quaternion_from_euler
 from sig_int_handler import Activate_Signal_Interrupt_Handler
 
 

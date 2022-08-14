@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from sig_int_handler import Activate_Signal_Interrupt_Handler
 import serial
-from planner_and_control.msg import Serial_Info
-from planner_and_control.msg import Control_Info
+from local_pkg.msg import Serial_Info
+from local_pkg.msg import Control_Info
 import threading
 import struct
 import rospy
@@ -10,8 +10,8 @@ import rospy
 class Serial_IO:
     def __init__(self):
         # Serial Connect
-        self.ser = serial.Serial("/dev/ttyUSB1", 115200) # Simulation
-        # self.ser = serial.Serial("/dev/erp42", 115200) # Real World
+        # self.ser = serial.Serial("/dev/ttyUSB1", 115200) # Simulation
+        self.ser = serial.Serial("/dev/erp42", 115200) # Real World
         print("Serial_IO: Serial connecting to /dev/erp42...")
 
         # ROS Publish

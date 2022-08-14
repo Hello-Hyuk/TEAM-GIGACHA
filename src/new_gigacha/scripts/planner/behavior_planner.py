@@ -66,6 +66,6 @@ class BehaviorPlanner(threading.Thread):
 
             except IndexError:
                 # pass
-                print("+++++++++++++++++")
+                print("++++++++behavior_controller+++++++++")
 
             sleep(self.period)

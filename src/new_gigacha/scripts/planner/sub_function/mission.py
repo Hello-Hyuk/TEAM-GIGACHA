@@ -176,35 +176,53 @@ class Mission():
 
     def turn_right(self):
         if self.perception.tgreen == 1:
-            self.plan.behavior_decision = "turn_right"
+            self.plan.behavior_decision = "driving"
             self.ego.target_brake = 0
+            self.ego.target_speed = 10
         else:
-            if self.ego.index >= 410 and self.ego.index <= 470:
+            # if self.ego.index >= 410 and self.ego.index <= 470:
+            if self.ego.index >= 640 and self.ego.index <= 660: # Siheung
                 self.plan.behavior_decision = "stop"
-                self.ego.target_brake = 33
+                self.ego.target_brake = 50
+                self.ego.target_speed = 0
             else:
-                self.plan.behavior_decision = "turn_right"
+                self.plan.behavior_decision = "driving"
                 self.ego.target_brake = 0
+                self.ego.target_speed = 10
 
     def turn_left(self):
-        self.plan.behavior_decision = "turn_left"
-        if self.ego.index >= 400 and self.ego.index <= 470:
-            print("case1")
-            self.ego.target_speed = 0
-            self.ego.target_brake = 200
-            if self.perception.tleft == 1:
-                self.traffic_checker = True
-        if self.traffic_checker == True:
-            print("case2")
-            self.ego.target_speed = 10
+        if self.perception.tleft == 1:
+            self.plan.behavior_decision = "driving"
             self.ego.target_brake = 0
+            self.ego.target_speed = 10
         else:
-            if self.ego.index >= 2750 and self.ego.index <= 2800:
+            # if self.ego.index >= 410 and self.ego.index <= 470:
+            if self.ego.index >= 3425 and self.ego.index <= 3455: # Siheung
                 self.plan.behavior_decision = "stop"
-                self.ego.target_brake = 33
+                self.ego.target_brake = 50
+                self.ego.target_speed = 0
             else:
-                self.plan.behavior_decision = "turn_left"
+                self.plan.behavior_decision = "driving"
                 self.ego.target_brake = 0
+                self.ego.target_speed = 10
+        # self.plan.behavior_decision = "turn_left"
+        # if self.ego.index >= 400 and self.ego.index <= 470:
+        #     print("case1")
+        #     self.ego.target_speed = 0
+        #     self.ego.target_brake = 200
+        #     if self.perception.tleft == 1:
+        #         self.traffic_checker = True
+        # if self.traffic_checker == True:
+        #     print("case2")
+        #     self.ego.target_speed = 10
+        #     self.ego.target_brake = 0
+        # else:
+        #     if self.ego.index >= 2750 and self.ego.index <= 2800:
+        #         self.plan.behavior_decision = "stop"
+        #         self.ego.target_brake = 33
+        #     else:
+        #         self.plan.behavior_decision = "turn_left"
+        #         self.ego.target_brake = 0
 
     def non_traffic_right(self):
         if self.ego.index >= 430 and self.ego.index <= 450:
