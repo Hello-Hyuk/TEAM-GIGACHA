@@ -59,7 +59,7 @@ class Master(threading.Thread):
             print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
             # print('Controller')
             print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
-            print(self.shared.perception.signname)
+            # print(self.shared.perception.signname)
             # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
             # print("tmp :" ,len(self.shared.perception.tmp_objx))
             # print("real :" ,len(self.shared.perception.objx))

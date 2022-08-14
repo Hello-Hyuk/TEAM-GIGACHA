@@ -2,6 +2,7 @@
 import serial
 import rospy
 from sensor_msgs.msg import Imu
+from sig_int_handler import Activate_Signal_Interrupt_Handler
 
 class AHRS_Parsing:
     def __init__(self):
