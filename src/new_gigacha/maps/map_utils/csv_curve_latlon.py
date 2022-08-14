@@ -68,7 +68,7 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     colnames = ['lon', 'lat']
     # df = pd.read_csv(f'maps/Siheung/nodes/turn_right/turn_right_line.csv', names=colnames, header=None) # siheung
-    df = pd.read_csv(f'kcityStraight.csv', names=colnames, header=None)
+    df = pd.read_csv(f'parking_real.csv', names=colnames, header=None)
     x = []
     y = []
 
@@ -97,9 +97,9 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 # cubic("left2", 2, 3, 4, 5, 6, 7, 8, 9, 10)
 # cubic("park3", 1, 2, 3, 4, 5, 6)
 
-# cubic("parksssang1", 1,2,3)
+cubic("parking_sigmd", 1,2)
 # cubic("kcitySTR",1,2)
-enu('parking_1lane_siheung', 6)
+# enu('parking_1lane_siheung', 6)
 
 # cubic("2",2,3,4,5,6,7)
 # cubic("3",7,8)

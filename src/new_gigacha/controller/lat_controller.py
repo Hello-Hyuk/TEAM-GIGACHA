@@ -88,7 +88,7 @@ class LatController(threading.Thread):
             angle = -1.5*angle
         ##########################
 
-        if degrees(angle) < 0.5 and degrees(angle) > -0.5:
+        if degrees(angle) < 3.5 and degrees(angle) > -3.5:
             angle = 0
 
         self.ego.input_steer = max(min(degrees(angle), 27.0), -27.0)

@@ -44,7 +44,9 @@ class Mission():
             pass
     
     def Parking2(self):
-        if ((self.parking_create == False) and (25 <= self.ego.index <= 45)):
+        print("1 : ", self.parking.stop_index)
+        print("2 : ", self.parking.index)
+        if ((self.parking_create == False) and (20 <= self.ego.index <= 40)):
             self.plan.behavior_decision = "stop"
             self.ego.target_speed = 0
             self.ego.target_brake = 50
@@ -66,7 +68,7 @@ class Mission():
                     self.ego.target_gear = 2
                     self.ego.target_speed = 5
                     self.ego.target_brake = 0
-            elif (15 <= int(self.parking.stop_index - self.parking.index) <= 25) and (self.parking.direction == 0):
+            elif (15 <= int(self.parking.stop_index - self.parking.index) <= 25) and (self.parking.direction == 2):
                     self.ego.target_speed = 0
                     self.ego.target_brake = 50
                     sleep(3)

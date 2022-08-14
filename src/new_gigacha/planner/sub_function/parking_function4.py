@@ -24,7 +24,7 @@ class Parking_Motion():
         self.base_lon = 126.7237789
         self.base_alt = 15.4
 
-        self.smooth_radius = 4
+        self.smooth_radius = 11
         self.mapname = ''
         self.cnt = False
         # with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/localizer/parking_KCity2.json') as pkc:
@@ -35,7 +35,7 @@ class Parking_Motion():
 
     def make_parking_tra(self):
         # self.point = self.parking_point[str(self.parking.select_num)]
-        self.point = self.parking_point[str(4)]
+        self.point = self.parking_point[str(1)]
         self.start_point = self.point["start"]
         self.end_point = self.point["end"]
         if len(self.parking.forward_path.x) == 0:
@@ -102,7 +102,7 @@ class Parking_Motion():
 
         print('theta_O3',theta_O3)
 
-        heading_to_O3 = self.heading - theta_O3
+        heading_to_O3 = self.heading + theta_O3
 
         theta_O3_to_lot = rad2deg(
             atan2(dis_mindex_to_start/(self.smooth_radius-dis_mindex_to_lot), 1))
@@ -139,8 +139,8 @@ class Parking_Motion():
         
         cx, cy, _, _, _ = calc_spline_course(x, y ,ds = 0.1)
          
-        self.parking.forward_path.x.extend(x)
-        self.parking.forward_path.y.extend(y)
+        self.parking.forward_path.x.extend(cx)
+        self.parking.forward_path.y.extend(cy)
 
     def park_index_finder(self,path):
         min_dis = -1
@@ -175,3 +175,4 @@ class Parking_Motion():
 
         self.parking.index = self.park_index_finder(path)
         self.parking.stop_index = len(path.x)
+        # print(self.parking.stop_index)
