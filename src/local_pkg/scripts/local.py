@@ -7,7 +7,7 @@ from local_pkg.msg import Local
 from gps import GPS
 from ahrs import IMU
 from odometry import DR
-from local_funcxtions import quaternion_from_euler
+from local_functions import quaternion_from_euler
 from sig_int_handler import Activate_Signal_Interrupt_Handler
 
 
@@ -20,9 +20,6 @@ class Localization():
         self.gps = GPS()
         self.imu = IMU()
         self.dr = DR()
-
-        self.msg.dr_x = self.gps.x
-        self.msg.dr_y = self.gps.y
 
         self.offset = 0
         self.heading = 0.0
@@ -55,6 +52,8 @@ class Localization():
         
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
+        self.msg.dr_x = self.gps.x
+        self.msg.dr_y = self.gps.y
         self.msg.dr_x += self.dr.dis*math.cos(math.radians(self.heading))
         self.msg.dr_y += self.dr.dis*math.sin(math.radians(self.heading))
         self.msg.roll = self.imu.roll
@@ -66,6 +65,8 @@ class Localization():
         self.msg.orientation.w = orientation[3]
 
         self.pub.publish(self.msg)
+
+        rospy.loginfo(self.msg)
 
 if __name__=='__main__':
     Activate_Signal_Interrupt_Handler()
