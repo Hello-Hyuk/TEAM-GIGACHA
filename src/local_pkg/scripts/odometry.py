@@ -26,8 +26,6 @@ class DR():
  
         self.dis_left = 0 
         self.dis_right = 0 
-        self.right_switch = False
-        self.right_init = 0
  
         self.a = 0 
         self.b = 0 
@@ -35,11 +33,7 @@ class DR():
         self.d = 0 
  
     def encoderCallback(self, msg): 
-        if self.right_switch == False :
-            self.right_init = msg.data
-            self.right_switch = True
-
-        self.right = msg.data - self.right_init
+        self.right = msg.data 
  
     def filter(self): 
         if self.flag_filter: 
