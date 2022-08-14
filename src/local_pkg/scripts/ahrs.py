@@ -6,6 +6,7 @@ from geometry_msgs.msg import Pose
 from local_functions import euler_from_quaternion as efq 
 from sensor_msgs.msg import Imu 
 from geometry_msgs.msg import Quaternion 
+from sig_int_handler import Activate_Signal_Interrupt_Handler
  
 class IMU(): 
     def __init__(self): 

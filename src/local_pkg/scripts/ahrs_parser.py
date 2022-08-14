@@ -41,6 +41,7 @@ class AHRS_Parsing:
         self.pub.publish(self.raw_data)
 
 if __name__ == "__main__":
+    Activate_Signal_Interrupt_Handler()
     imu = AHRS_Parsing()
     try:
         while not rospy.is_shutdown():

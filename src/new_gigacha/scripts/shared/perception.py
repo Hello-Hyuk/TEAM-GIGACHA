@@ -95,8 +95,8 @@ class Perception_():
       # for i in range(len(msg.detections)):
       #    if len(msg.detections) == 3 and  2 < msg.detections[i].results[0].id < 6:
       #       self.first_sign = msg.detections[0].results[0].id
-      #       self.second_sign = msg.detections[1].results[0].id
       #       self.third_sign = msg.detections[2].results[0].id
+      #       self.second_sign = msg.detections[1].results[0].id
 
       if len(msg.detections) > 0:
          if msg.detections[0].results[0].id == 3:

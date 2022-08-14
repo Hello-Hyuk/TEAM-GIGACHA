@@ -30,7 +30,7 @@ class LatController(threading.Thread):
                     # self.path = self.shared.global_path
                     lookahead = min(self.k * self.ego.speed +
                                     self.lookahead_default, 6)
-                    target_index = len(self.path.x) - 26
+                    target_index = len(self.path.x) - 10
                     # print(target_index)
 
                     # lookahead = min(self.k * self.ego.speed + self.lookahead_default, 7)
