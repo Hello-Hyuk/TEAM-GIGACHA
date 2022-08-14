@@ -15,41 +15,41 @@ class MissionPlanner(threading.Thread):
     def run(self):
         while True:
             try:
-                # if self.shared.perception.signname == "turn_right_traffic_light":
-                #     self.plan.state = "right_sign_detected"
-
-                # elif self.shared.perception.signname == "static_obstacle":
-                #     self.plan.state = "static_obstacle_detected"           
-
-                # elif self.shared.perception.signname == "delivery":
-                #     self.plan.state = "delivery"
-
-                # elif self.shared.perception.signname == "child_area":
-                #     self.plan.state = "child_area"
-                
-                # elif self.shared.perception.signname == "turn_left_traffic_light":
-                #     self.plan.state = "left_sign_detected"
-
-                # elif self.shared.perception.signname == "non_traffic_right":
-                #     self.plan.state ="right_sign_area"
-
-                # elif self.perception.signname == "AEB":
-                #     self.plan.state = "emergency_stop"
-                
-                # elif self.perception.signname == "parking":
-                #     self.plan.state = "parking"
-
-                # else:
-                #     self.plan.state = "go"
-
-                if 2400 < self.ego.index < 3200:
-                    self.plan.state = "static_obstacle_detected"
-
-                elif self.ego.index < 700:
+                if self.shared.perception.signname == "turn_right_traffic_light":
                     self.plan.state = "right_sign_detected"
 
-                elif self.ego.index >= 700:
+                elif self.shared.perception.signname == "static_obstacle":
+                    self.plan.state = "static_obstacle_detected"           
+
+                elif self.shared.perception.signname == "delivery":
+                    self.plan.state = "delivery"
+
+                elif self.shared.perception.signname == "child_area":
+                    self.plan.state = "child_area"
+                
+                elif self.shared.perception.signname == "turn_left_traffic_light":
                     self.plan.state = "left_sign_detected"
+
+                elif self.shared.perception.signname == "non_traffic_right":
+                    self.plan.state ="right_sign_area"
+
+                elif self.perception.signname == "AEB":
+                    self.plan.state = "emergency_stop"
+                
+                elif self.perception.signname == "parking":
+                    self.plan.state = "parking"
+
+                else:
+                    self.plan.state = "go"
+
+                # if 2400 < self.ego.index < 3200:
+                #     self.plan.state = "static_obstacle_detected"
+
+                # elif self.ego.index < 700:
+                #     self.plan.state = "right_sign_detected"
+
+                # elif self.ego.index >= 700:
+                #     self.plan.state = "left_sign_detected"
 
             except IndexError:
                 print("++++++++mission_controller+++++++++")
