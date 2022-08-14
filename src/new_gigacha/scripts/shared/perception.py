@@ -1,6 +1,6 @@
 import threading
 import rospy
-from planner_and_control.msg import Perception
+from new_gigacha.msg import Perception
 from visualization_msgs.msg import MarkerArray, Marker
 from std_msgs.msg import Int32, Int64
 # from vision_msgs.msg import Detection2DArray

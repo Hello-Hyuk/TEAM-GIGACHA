@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
 import serial
-from planner_and_control.msg import Serial_Info
-from planner_and_control.msg import Control_Info
+from local_pkg.msg import Serial_Info
+from local_pkg.msg import Control_Info
 import threading
 import struct
 import rospy
