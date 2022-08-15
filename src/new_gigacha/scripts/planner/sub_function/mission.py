@@ -26,7 +26,7 @@ class Mission():
         self.parking_forward_start = False
 
         self.selected = 0
-        self.vote = {"123":0, "132":0, "213":0, "231":0, "312":0, "321":0}
+        self.vote = {"345":0, "354":0, "435":0, "453":0, "534":0, "543":0}
 
         self.pickup_checker = False
         self.delivery_checker = False
@@ -333,6 +333,7 @@ class Mission():
         # sign_dis = sqrt(
         #         (self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
         #input
+
         sign_dis = 0.0
         sign_dis = sqrt((self.perception.signx - self.ego.x)**2 + (self.perception.signy - self.ego.y)**2)
         print("pickup : " , sign_dis)
@@ -363,19 +364,19 @@ class Mission():
         self.plan.behavior_decision = "delivery_end"
 
     def voting(self): 
-       
         count = 0  
-        while(count < 2):
+        while(count < 100):
             sort_result = ""
             sort_result += str(self.perception.first_sign) + str(self.perception.second_sign) + str(self.perception.third_sign)
             if (sort_result in self.vote.keys()):
                 self.vote[sort_result] += 1
                 count += 1
+        print(self.vote)
         seq = max(self.vote, key=self.vote.get)
         seq_list = list(seq)
         for i in range(len(seq_list)):
             if int(seq_list[i]) == self.perception.target:
-                self.selected = int(i/2)
+                self.selected = i
         print(self.selected)
 
 

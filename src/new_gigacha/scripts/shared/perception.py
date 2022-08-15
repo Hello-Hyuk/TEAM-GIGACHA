@@ -10,10 +10,10 @@ class Perception_():
       self.id_check = False
 
       # rospy.Subscriber("/input", Perception, self.input_callback)
-      rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
+      # rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
       rospy.Subscriber("/sign", Detection2DArray, self.sign_callback)
-      rospy.Subscriber("/traffic", Detection2DArray, self.traffic_callback)
-      rospy.Subscriber("/Parking_num", Int32, self.parking_callback)
+      # rospy.Subscriber("/traffic", Detection2DArray, self.traffic_callback)
+      # rospy.Subscriber("/Parking_num", Int32, self.parking_callback)
       # rospy.Subscriber("/bbox1", Detection2DArray, self.camera_callback)
 
       self.signx = 0
@@ -32,9 +32,9 @@ class Perception_():
       self.tgreen = False
       self.tmp_lidar_lock = threading.Lock()
       self.lidar_lock = threading.Lock()
-      self.signname = "go"
+      self.signname = "delivery"
       self.parking_num = ""
-      self.target = 0
+      self.target = 3
 
 
       #for input_callback
@@ -93,27 +93,28 @@ class Perception_():
       
    def sign_callback(self, msg):
 
-      # for i in range(len(msg.detections)):
-      #    if len(msg.detections) == 3 and  2 < msg.detections[i].results[0].id < 6:
-      #       self.first_sign = msg.detections[0].results[0].id
-      #       self.second_sign = msg.detections[1].results[0].id
-      #       self.third_sign = msg.detections[2].results[0].id
+      for i in range(len(msg.detections)):
+         if len(msg.detections) == 3 and  2 < msg.detections[i].results[0].id < 6:
+            self.first_sign = msg.detections[0].results[0].id
+            self.second_sign = msg.detections[1].results[0].id
+            self.third_sign = msg.detections[2].results[0].id
+            # print(self.first_sign, " ", self.second_sign, " ", self.third_sign)
+         # if msg.detections[i].results[0].id == 0:
+         #    self.signname = "static_obstacle_detected"   #A1
+         #    # self.target = "B1"
+         # elif msg.detections[i].results[0].id == 1:
+         #    self.signname = "turn_left_traffic_light" #A2
+         #    # self.target = "B2"
+         # elif msg.detections[i].results[0].id == 2:
+         #    self.signname = "turn_right_traffic_light" #A3
+         #       # self.target = "B3"
 
-      if msg.detections[i].results[0].id == 0:
-         self.signname = "static_obstacle_detected"   #A1
-         # self.target = "B1"
-      elif msg.detections[i].results[0].id == 1:
-         self.signname = "turn_left_traffic_light" #A2
-         # self.target = "B2"
-      elif msg.detections[i].results[0].id == 2:
-         self.signname = "turn_right_traffic_light" #A3
-            # self.target = "B3"
-         # elif msg.detections[i].results[0].id == 3:
-         #    self.signname = "AEB" #B1
-         # elif msg.detections[i].results[0].id == 4:
-         #    self.signname = "non_traffic_right" #B2
-         # elif msg.detections[i].results[0].id == 5:
-         #     self.signname = "parking"  #B3*
+      # if(len(msg.detections) == 3):
+      #    self.first_sign = msg.detections[i].results[0].id
+      #    elif msg.detections[i].results[0].id == 4:
+      #       self.signname = "non_traffic_right" #B2
+      #    elif msg.detections[i].results[0].id == 5:
+      #          self.signname = "parking"  #B3*
 
    def traffic_callback(self, msg):
       for i in range(len(msg.detections)):
