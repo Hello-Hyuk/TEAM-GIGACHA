@@ -49,7 +49,7 @@ class Visualizer(threading.Thread):
         self.vis_pose.header.frame_id = "map"
 
         # self.vis_pose_dr = Odometry()
-        # self.vis_pose_dr.header.frame_id = "map"
+        # self.vis_pose_dr.header.frame_id = "map"``
 
         self.t = time()
         # self.d = time()

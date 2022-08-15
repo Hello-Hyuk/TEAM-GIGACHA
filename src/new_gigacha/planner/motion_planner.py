@@ -2,8 +2,8 @@
 from re import A
 import threading
 from time import sleep
-from .sub_function.motion import Motion
-from .sub_function.find_local_path import findLocalPath
+from sub_function.motion import Motion
+from sub_function.find_local_path import findLocalPath
 #from .sub_function.LPP import path_maker  # LPP 구현 하기
 
 class MotionPlanner(threading.Thread):

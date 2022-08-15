@@ -52,7 +52,7 @@ class Master(threading.Thread):
         self.serial_writer = SerialWriter(self, rate=10)
         self.init_thread(self.serial_writer)
 ###################################################
-        self.visualizer = Visualizer(self, rate=1)
+        self.visualizer = Visualizer(self, rate=10)
         self.init_thread(self.visualizer)
 ######################################################
         while True:

@@ -5,7 +5,7 @@ class LonController():
 
     def run(self): 
         if self.shared.state == "2nd":
-            self.speed = 10
+            self.speed = 8
         else:
             self.speed = 5
 

@@ -99,7 +99,7 @@ class MP(threading.Thread):
                 if round(self.pulse) % 6 == 0 and self.pulse !=self.temp:
                     self.map_maker()
 
-                if len(self.global_path.x) >= 50 and hypot(self.gps.x, self.gps.y) <= 1.0:
+                if len(self.global_path.x) >= 50 and hypot(self.gps.x, self.gps.y) <= 1.2:
                     self.stop_thread = True
                     self.map_routine()
                     print('mmmmmmmmmmmmmmmmmmmmmm')
