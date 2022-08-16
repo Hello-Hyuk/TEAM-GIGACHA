@@ -30,8 +30,8 @@ class LatController(threading.Thread):
                     # self.path = self.shared.global_path
                     lookahead = min(self.k * self.ego.speed +
                                     self.lookahead_default, 6)
-                    target_index = len(self.path.x) - 1
-                    # print(len(self.path.x))
+                    target_index = len(self.path.x) - 30
+                    # print(target_indexs
 
                     # lookahead = min(self.k * self.ego.speed + self.lookahead_default, 7)
                     # target_index = self.ego.index + int(lookahead * 10)
@@ -46,7 +46,7 @@ class LatController(threading.Thread):
 
                     alpha = self.ego.heading - tmp
                     angle = atan2(2.0 * self.WB *
-                                  sin(radians(alpha)) / lookahead, 1.0)
+                                    sin(radians(alpha)) / lookahead, 1.0)
                     # angle = -1.5*angle
 
                     if degrees(angle) < 0.5 and degrees(angle) > -0.5:

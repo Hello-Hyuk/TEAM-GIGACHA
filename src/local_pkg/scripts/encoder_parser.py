@@ -19,7 +19,7 @@ class Encoder_Parsing():
         res = self.ser.readline()
         while True:
             try:
-                print(int(res))
+                rospy.loginfo(int(res))
                 break
             except:
                 res = self.ser.readline()

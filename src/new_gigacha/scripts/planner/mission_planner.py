@@ -48,7 +48,7 @@ class MissionPlanner(threading.Thread):
                 elif self.ego.index < 700:
                     self.plan.state = "right_sign_detected"
 
-                elif self.ego.index >= 700:
+                elif self.ego.index >= 3200:
                     self.plan.state = "left_sign_detected"
 
             except IndexError:

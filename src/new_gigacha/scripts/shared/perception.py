@@ -92,21 +92,22 @@ class Perception_():
 
       
    def sign_callback(self, msg):
-
       # for i in range(len(msg.detections)):
       #    if len(msg.detections) == 3 and  2 < msg.detections[i].results[0].id < 6:
       #       self.first_sign = msg.detections[0].results[0].id
-      #       self.second_sign = msg.detections[1].results[0].id
       #       self.third_sign = msg.detections[2].results[0].id
+      #       self.second_sign = msg.detections[1].results[0].id
 
-      if msg.detections[i].results[0].id == 0:
-         self.signname = "static_obstacle_detected"   #A1
-         # self.target = "B1"
-      elif msg.detections[i].results[0].id == 1:
-         self.signname = "turn_left_traffic_light" #A2
-         # self.target = "B2"
-      elif msg.detections[i].results[0].id == 2:
-         self.signname = "turn_right_traffic_light" #A3
+      if len(msg.detections) > 0:
+         if msg.detections[0].results[0].id == 3:
+            self.signname = "static_obstacle"   #A1
+            # self.target = "B1"
+         elif msg.detections[0].results[0].id == 1:
+            self.signname = "turn_right_traffic_light" #A2
+            # self.target = "B2"
+         elif msg.detections[0].results[0].id == 2:
+            self.signname = "turn_left_traffic_light" #A3
+
             # self.target = "B3"
          # elif msg.detections[i].results[0].id == 3:
          #    self.signname = "AEB" #B1
@@ -116,33 +117,39 @@ class Perception_():
          #     self.signname = "parking"  #B3*
 
    def traffic_callback(self, msg):
-      for i in range(len(msg.detections)):
-         if msg.detections[i].results[0].id < 6:
-            if msg.detections[i].results[0].id == 0:
-               self.signname = "turn_left_traffic_light"
-            elif msg.detections[i].results[0].id == 1:
-               self.signname = "static_obstacle"
-         else:
-            if msg.detection[i].results[0].id == 6:
-               self.tred = True
-               self.tyellow = False
-               self.tleft = False
-               self.tgreen = False
-            elif msg.detection[i].results[0].id == 7:
-               self.tred = False
-               self.tyellow = True
-               self.tleft = False
-               self.tgreen = False
-            elif msg.detection[i].results[0].id == 8:
-               self.tred = False
-               self.tyellow = False
-               self.tleft = False
-               self.tgreen = True
-            elif msg.detection[i].results[0].id == 9:
-               self.tred = False
-               self.tyellow = False
-               self.tleft = True
-               self.tgreen = False
+      # for i in range(len(msg.detections)):
+      #    if msg.detections[i].results[0].id < 6:
+      #       if msg.detections[i].results[0].id == 0:
+      #          self.signname = "turn_left_traffic_light"
+      #       elif msg.detections[i].results[0].id == 1:
+      #          self.signname = "static_obstacle"
+      #    else:
+      if len(msg.detections) > 0:
+         if msg.detections[0].results[0].id == 0 or msg.detections[0].results[0].id == 1:
+            self.tred = True
+            self.tyellow = False
+            self.tleft = False
+            self.tgreen = False
+         elif msg.detections[0].results[0].id == 2 or msg.detections[0].results[0].id == 3:
+            self.tred = False
+            self.tyellow = True
+            self.tleft = False
+            self.tgreen = False
+         elif msg.detections[0].results[0].id == 4 or msg.detections[0].results[0].id == 5:
+            self.tred = False
+            self.tyellow = False
+            self.tleft = False
+            self.tgreen = True
+         elif msg.detections[0].results[0].id == 6:
+            self.tred = True
+            self.tyellow = False
+            self.tleft = True
+            self.tgreen = False
+         elif msg.detections[0].results[0].id == 7:
+            self.tred = False
+            self.tyellow = False
+            self.tleft = True
+            self.tgreen = True
 
    def parking_callback(self, msg):
       self.parking_num = msg.data

@@ -160,10 +160,13 @@ class Mission():
                 self.dis = sqrt(
                     (self.perception.objx[i] - self.ego.x)**2 + (self.perception.objy[i] - self.ego.y)**2)
                 self.obs_dis = min(self.obs_dis, self.dis)
+                print(len(self.perception.objx), " ", self.obs_dis)
+
             if self.obs_dis <= 15:
                 self.ego.target_speed = 5.0
                 self.obstacle_checker = True
                 self.time_checker = False
+            
                 
         elif self.obstacle_checker == True:
             if self.time_checker == False:
@@ -181,7 +184,7 @@ class Mission():
             self.ego.target_speed = 10
         else:
             # if self.ego.index >= 410 and self.ego.index <= 470:
-            if self.ego.index >= 640 and self.ego.index <= 660: # Siheung
+            if self.ego.index >= 600 and self.ego.index <= 650: # Siheung
                 self.plan.behavior_decision = "stop"
                 self.ego.target_brake = 50
                 self.ego.target_speed = 0
@@ -191,13 +194,13 @@ class Mission():
                 self.ego.target_speed = 10
 
     def turn_left(self):
-        if self.perception.tleft == 1:
+        if self.perception.tleft == 1 :
             self.plan.behavior_decision = "driving"
             self.ego.target_brake = 0
             self.ego.target_speed = 10
         else:
             # if self.ego.index >= 410 and self.ego.index <= 470:
-            if self.ego.index >= 3425 and self.ego.index <= 3455: # Siheung
+            if self.ego.index >= 3400 and self.ego.index <= 3475: # Siheung
                 self.plan.behavior_decision = "stop"
                 self.ego.target_brake = 50
                 self.ego.target_speed = 0
