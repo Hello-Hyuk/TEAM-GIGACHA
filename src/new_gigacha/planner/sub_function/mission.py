@@ -78,7 +78,7 @@ class Mission():
                     self.parking_switch = True
     
     def Parking_Parallel(self):
-        if ((self.parking_create == False) and (20 <= self.ego.index <= 40)):
+        if ((self.parking_create == False) and (30 <= self.ego.index <= 40)):
             self.plan.behavior_decision = "stop"
             self.ego.target_speed = 0
             self.ego.target_brake = 50

@@ -40,6 +40,8 @@ class Visualizer(threading.Thread):
 
         self.vis_parking_path_pub = rospy.Publisher("/vis_parking_path", Path, queue_size=1)
 
+        self.vis_o1_pub = rospy.Publisher("/vis_o1", PointCloud, queue_size=1)
+        self.vis_o2_pub = rospy.Publisher("/vis_o2", PointCloud, queue_size=1)
         self.vis_o3_pub = rospy.Publisher("/vis_o3", PointCloud, queue_size=1)
 
         # self.vis_trajectory_pub_dr = rospy.Publisher("/vis_trajectory_dr", PointCloud, queue_size=1)
@@ -53,6 +55,12 @@ class Visualizer(threading.Thread):
         
         self.vis_trajectory = PointCloud()
         self.vis_trajectory.header.frame_id = "map"
+
+        self.vis_o1 = PointCloud()
+        self.vis_o1.header.frame_id = "map"
+
+        self.vis_o2 = PointCloud()
+        self.vis_o2.header.frame_id = "map"
 
         self.vis_o3 = PointCloud()
         self.vis_o3.header.frame_id = "map"
@@ -83,228 +91,252 @@ class Visualizer(threading.Thread):
 
     def run(self):
         while True:
-            try:
-                self.cut_path = self.shared.cut_path # from global path (find_local_path)
-                self.lattice_path = self.shared.lattice_path # from LPP []
-                self.local_path = self.lattice_path[self.shared.selected_lane]
-                ######################### POSE ##############################
-                
-                o3point = Point32()
-                o3point.x = self.parking.o3x
-                o3point.y = self.parking.o3y
-                o3point.z = 0
+        # try:
+            self.cut_path = self.shared.cut_path # from global path (find_local_path)
+            self.lattice_path = self.shared.lattice_path # from LPP []
+            self.local_path = self.lattice_path[self.shared.selected_lane]
+            ######################### POSE ##############################
+            o1point = Point32()
+            o1point.x = self.parking.o1x
+            o1point.y = self.parking.o1y
+            o1point.z = 0
+            self.vis_o1.header.stamp = rospy.Time.now()
+            if self.t - time() < 0.5 :
+                self.t = time()
+                self.vis_o1.points.append(o1point)
 
-                self.vis_o3.header.stamp = rospy.Time.now()
-                if self.t - time() < 0.5 :
-                    self.t = time()
-                    self.vis_o3.points.append(o3point)
+            o2point = Point32()
+            o2point.x = self.parking.o2x
+            o2point.y = self.parking.o2y
+            o2point.z = 0
+            self.vis_o2.header.stamp = rospy.Time.now()
+            if self.t - time() < 0.5 :
+                self.t = time()
+                self.vis_o2.points.append(o2point)
 
-                ppoint = Point32()
-                ppoint.x = self.ego.x
-                ppoint.y = self.ego.y
-                ppoint.z = 0
-                self.vis_pose.pose.pose.position.x = self.ego.x
-                self.vis_pose.pose.pose.position.y = self.ego.y
-                self.vis_pose.pose.pose.orientation = self.imu.orientation_q
-                self.vis_pose.twist.twist.linear.x = self.ego.heading
-                # print(self.vis_pose.pose.pose.orientation)
-                self.vis_trajectory.header.stamp = rospy.Time.now()
-                if self.t - time() < 0.5 :
-                    self.t = time()
-                    self.vis_trajectory.points.append(ppoint)
+            o3point = Point32()
+            o3point.x = self.parking.o3x
+            o3point.y = self.parking.o3y
+            o3point.z = 0
+            self.vis_o3.header.stamp = rospy.Time.now()
+            if self.t - time() < 0.5 :
+                self.t = time()
+                self.vis_o3.points.append(o3point)
 
-                # dead reckoning
-                # ppoint_dr = Point32()
-                # ppoint_dr.x = self.ego.dr_x
-                # ppoint_dr.y = self.ego.dr_y
-                # ppoint_dr.z = 0
-                # self.vis_pose_dr.pose.pose.position.x = ppoint_dr.x
-                # self.vis_pose_dr.pose.pose.position.y = ppoint_dr.y
-                # self.vis_trajectory_dr.header.stamp = rospy.Time.now()
-                # self.vis_pose_dr.pose.pose.orientation = self.ego.orientation
-                # if self.d - time() < 0.5 :
-                #     self.d = time()
-                #     self.vis_trajectory_dr.points.append(ppoint_dr)
-
-
-                # car heading
-                # simul
-                # heading = PoseStamped()
-                # heading.pose.orientation = self.ego.heading
-                # self.vis_pose.pose.pose.orientation.w = heading.pose.orientation
-
-                # 
-                # heading = Quaternion()
-                # heading.w = self.ego.heading
-                # self.vis_pose.pose.pose.orientation.w = heading.w
-                
-                ############################# GLOBAL PATH ########################################
-                gp = Path()
-                for i in range(len(self.global_path.x)):
-                    read_pose=PoseStamped()
-                    read_pose.pose.position.x = self.global_path.x[i]
-                    read_pose.pose.position.y = self.global_path.y[i]
-                    read_pose.pose.position.z = 0
-                    read_pose.pose.orientation.x=0
-                    read_pose.pose.orientation.y=0
-                    read_pose.pose.orientation.z=0
-                    read_pose.pose.orientation.w=1
-                    gp.poses.append(read_pose)
-                self.vis_global_path.poses = gp.poses
-                # print(self.vis_global_path.poses[0].pose.position.x)
-                # print(self.vis_global_path.poses[0].pose.position.y)
-                
-                #################################### LOCAL PATH ################################################
-                
-                local_path = Path()
-                for i in range(len(self.local_path.x)):
-                    read_pose=PoseStamped()
-                    read_pose.pose.position.x = self.local_path.x[i]
-                    read_pose.pose.position.y = self.local_path.y[i]
-                    read_pose.pose.position.z = 0
-                    read_pose.pose.orientation.x=0
-                    read_pose.pose.orientation.y=0
-                    read_pose.pose.orientation.z=0
-                    read_pose.pose.orientation.w=1
-                    local_path.poses.append(read_pose)  
-                self.vis_local_path.poses = local_path.poses
-
-                #################################### LATTICE PATHS ################################################
-
-                lattice_path_0 = Path()
-                lattice_path_1 = Path()
-                lattice_path_2 = Path()
-                for i in range(len(self.lattice_path)):
-                    for j in range(len(self.lattice_path[0].x)):
-                        read_pose=PoseStamped()
-                        read_pose.pose.position.x = self.lattice_path[i].x[j]
-                        read_pose.pose.position.y = self.lattice_path[i].y[j]
-                        read_pose.pose.position.z = 0
-                        read_pose.pose.orientation.x=0
-                        read_pose.pose.orientation.y=0
-                        read_pose.pose.orientation.z=0
-                        read_pose.pose.orientation.w=1
-                        if i == 0:
-                            lattice_path_0.poses.append(read_pose)
-                        elif i == 1:
-                            lattice_path_1.poses.append(read_pose)
-                        elif i == 2:
-                            lattice_path_2.poses.append(read_pose)
-                self.vis_lattice_path_0.poses = lattice_path_0.poses
-                self.vis_lattice_path_1.poses = lattice_path_1.poses
-                self.vis_lattice_path_2.poses = lattice_path_2.poses
-
-
-                #############################object#########################################
-                
-                vis_obj1 = MarkerArray()
-                c_id1 = 0
-                
             
-                for i in range(len(self.perception.objx)):
-                    circle_marker = Marker()
-                    circle_marker.header.frame_id = "map"
-                    circle_marker.header.stamp = rospy.Time.now()
-                    circle_marker.ns = "circles"
-                    circle_marker.id = c_id1
-                    circle_marker.type = Marker.CYLINDER
-                    circle_marker.action = Marker.ADD
-                    circle_marker.pose.position.z = -0.1
-                    circle_marker.pose.orientation.x = 0.0
-                    circle_marker.pose.orientation.y = 0.0
-                    circle_marker.pose.orientation.z = 0.0
-                    circle_marker.pose.orientation.w = 1.0
-                    circle_marker.scale.z = 0.1
-                    circle_marker.color.r = 0.2
-                    circle_marker.color.g = 0.8
-                    circle_marker.color.b = 0.2
-                    circle_marker.color.a = 1.0
-                    circle_marker.lifetime = rospy.Duration(0.1)
-                    circle_marker.pose.position.x = self.perception.objx[i]
-                    circle_marker.pose.position.y = self.perception.objy[i]
-                    circle_marker.scale.x = (self.perception.objw[i]+1)
-                    circle_marker.scale.y = (self.perception.objw[i]+1)
-                    vis_obj1.markers.append(circle_marker)
-                    c_id1 = c_id1 + 1
-                    
-                vis_obj2 = MarkerArray()
-                c_id2 = 0
+            # self.vis_o3.header.stamp = rospy.Time.now()
+            # if self.t - time() < 0.5 :
+            #     self.t = time()
+            #     self.vis_o3.points.append(o3point)
 
-                roll = self.imu.roll
-                pitch = self.imu.pitch
-                yaw = self.ego.heading
-                
-                for i in range(len(self.perception.objx)):
-                    circle_marker = Marker()
-                    circle_marker.header.frame_id = "map"
-                    circle_marker.header.stamp = rospy.Time.now()
-                    circle_marker.ns = "cubes"
-                    circle_marker.id = c_id2
-                    circle_marker.type = Marker.CUBE
-                    circle_marker.action = Marker.ADD
-                    circle_marker.pose.position.z = -0.1
-                    circle_marker.pose.orientation.x = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
-                    circle_marker.pose.orientation.y = np.cos(roll/2) * np.sin(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.cos(pitch/2) * np.sin(yaw/2)
-                    circle_marker.pose.orientation.z = np.cos(roll/2) * np.cos(pitch/2) * np.sin(yaw/2) - np.sin(roll/2) * np.sin(pitch/2) * np.cos(yaw/2)
-                    circle_marker.pose.orientation.w = np.cos(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
-                    circle_marker.scale.z = 0.1
-                    circle_marker.color.r = 0.2
-                    circle_marker.color.g = 0.8
-                    circle_marker.color.b = 0.2
-                    circle_marker.color.a = 1.0
-                    circle_marker.lifetime = rospy.Duration(0.1)
-                    circle_marker.pose.position.x = self.perception.objx[i]
-                    circle_marker.pose.position.y = self.perception.objy[i]
-                    circle_marker.scale.x = self.perception.objw[i]
-                    circle_marker.scale.y = self.perception.objh[i]
-                    vis_obj.markers.append(circle_marker)
-                    c_id = c_id + 1
+            ppoint = Point32()
+            ppoint.x = self.ego.x
+            ppoint.y = self.ego.y
+            ppoint.z = 0
+            self.vis_pose.pose.pose.position.x = self.ego.x
+            self.vis_pose.pose.pose.position.y = self.ego.y
+            self.vis_pose.pose.pose.orientation = self.imu.orientation_q
+            self.vis_pose.twist.twist.linear.x = self.ego.heading
+            # print(self.vis_pose.pose.pose.orientation)
+            self.vis_trajectory.header.stamp = rospy.Time.now()
+            if self.t - time() < 0.5 :
+                self.t = time()
+                self.vis_trajectory.points.append(ppoint)
 
-                ######################## PARKING PATH ##########################
-                parking = Path()
-                for i in range(len(self.parking.forward_path.x)):
+            # dead reckoning
+            # ppoint_dr = Point32()
+            # ppoint_dr.x = self.ego.dr_x
+            # ppoint_dr.y = self.ego.dr_y
+            # ppoint_dr.z = 0
+            # self.vis_pose_dr.pose.pose.position.x = ppoint_dr.x
+            # self.vis_pose_dr.pose.pose.position.y = ppoint_dr.y
+            # self.vis_trajectory_dr.header.stamp = rospy.Time.now()
+            # self.vis_pose_dr.pose.pose.orientation = self.ego.orientation
+            # if self.d - time() < 0.5 :
+            #     self.d = time()
+            #     self.vis_trajectory_dr.points.append(ppoint_dr)
+
+
+            # car heading
+            # simul
+            # heading = PoseStamped()
+            # heading.pose.orientation = self.ego.heading
+            # self.vis_pose.pose.pose.orientation.w = heading.pose.orientation
+
+            # 
+            # heading = Quaternion()
+            # heading.w = self.ego.heading
+            # self.vis_pose.pose.pose.orientation.w = heading.w
+            
+            ############################# GLOBAL PATH ########################################
+            gp = Path()
+            for i in range(len(self.global_path.x)):
+                read_pose=PoseStamped()
+                read_pose.pose.position.x = self.global_path.x[i]
+                read_pose.pose.position.y = self.global_path.y[i]
+                read_pose.pose.position.z = 0
+                read_pose.pose.orientation.x=0
+                read_pose.pose.orientation.y=0
+                read_pose.pose.orientation.z=0
+                read_pose.pose.orientation.w=1
+                gp.poses.append(read_pose)
+            self.vis_global_path.poses = gp.poses
+            # print(self.vis_global_path.poses[0].pose.position.x)
+            # print(self.vis_global_path.poses[0].pose.position.y)
+            
+            #################################### LOCAL PATH ################################################
+            
+            local_path = Path()
+            for i in range(len(self.local_path.x)):
+                read_pose=PoseStamped()
+                read_pose.pose.position.x = self.local_path.x[i]
+                read_pose.pose.position.y = self.local_path.y[i]
+                read_pose.pose.position.z = 0
+                read_pose.pose.orientation.x=0
+                read_pose.pose.orientation.y=0
+                read_pose.pose.orientation.z=0
+                read_pose.pose.orientation.w=1
+                local_path.poses.append(read_pose)  
+            self.vis_local_path.poses = local_path.poses
+
+            #################################### LATTICE PATHS ################################################
+
+            lattice_path_0 = Path()
+            lattice_path_1 = Path()
+            lattice_path_2 = Path()
+            for i in range(len(self.lattice_path)):
+                for j in range(len(self.lattice_path[0].x)):
                     read_pose=PoseStamped()
-                    read_pose.pose.position.x = self.parking.forward_path.x[i]
-                    read_pose.pose.position.y = self.parking.forward_path.y[i]
+                    read_pose.pose.position.x = self.lattice_path[i].x[j]
+                    read_pose.pose.position.y = self.lattice_path[i].y[j]
                     read_pose.pose.position.z = 0
                     read_pose.pose.orientation.x=0
                     read_pose.pose.orientation.y=0
                     read_pose.pose.orientation.z=0
                     read_pose.pose.orientation.w=1
-                    parking.poses.append(read_pose)
-                self.vis_parking_path.poses = parking.poses
+                    if i == 0:
+                        lattice_path_0.poses.append(read_pose)
+                    elif i == 1:
+                        lattice_path_1.poses.append(read_pose)
+                    elif i == 2:
+                        lattice_path_2.poses.append(read_pose)
+            self.vis_lattice_path_0.poses = lattice_path_0.poses
+            self.vis_lattice_path_1.poses = lattice_path_1.poses
+            self.vis_lattice_path_2.poses = lattice_path_2.poses
 
-                # publish
-                self.vis_obj_pub1.publish(vis_obj1)
-                self.vis_obj_pub2.publish(vis_obj2)
 
-                self.vis_o3_pub.publish(self.vis_o3)
+            #############################object#########################################
+            
+            vis_obj1 = MarkerArray()
+            c_id1 = 0
+            
+        
+            for i in range(len(self.perception.objx)):
+                circle_marker = Marker()
+                circle_marker.header.frame_id = "map"
+                circle_marker.header.stamp = rospy.Time.now()
+                circle_marker.ns = "circles"
+                circle_marker.id = c_id1
+                circle_marker.type = Marker.CYLINDER
+                circle_marker.action = Marker.ADD
+                circle_marker.pose.position.z = -0.1
+                circle_marker.pose.orientation.x = 0.0
+                circle_marker.pose.orientation.y = 0.0
+                circle_marker.pose.orientation.z = 0.0
+                circle_marker.pose.orientation.w = 1.0
+                circle_marker.scale.z = 0.1
+                circle_marker.color.r = 0.2
+                circle_marker.color.g = 0.8
+                circle_marker.color.b = 0.2
+                circle_marker.color.a = 1.0
+                circle_marker.lifetime = rospy.Duration(0.1)
+                circle_marker.pose.position.x = self.perception.objx[i]
+                circle_marker.pose.position.y = self.perception.objy[i]
+                circle_marker.scale.x = (self.perception.objw[i]+1)
+                circle_marker.scale.y = (self.perception.objw[i]+1)
+                vis_obj1.markers.append(circle_marker)
+                c_id1 = c_id1 + 1
                 
-                self.vis_global_path.header.stamp = rospy.Time.now()
-                self.vis_global_path_pub.publish(self.vis_global_path)
-                
-                self.vis_local_path.header.stamp = rospy.Time.now()
-                self.vis_local_path_pub.publish(self.vis_local_path)
+            vis_obj2 = MarkerArray()
+            c_id2 = 0
 
-                self.vis_lattice_path_0.header.stamp = rospy.Time.now()
-                self.vis_lattice_path_0_pub.publish(self.vis_lattice_path_0)
+            roll = self.imu.roll
+            pitch = self.imu.pitch
+            yaw = self.ego.heading
+            
+            for i in range(len(self.perception.objx)):
+                circle_marker = Marker()
+                circle_marker.header.frame_id = "map"
+                circle_marker.header.stamp = rospy.Time.now()
+                circle_marker.ns = "cubes"
+                circle_marker.id = c_id2
+                circle_marker.type = Marker.CUBE
+                circle_marker.action = Marker.ADD
+                circle_marker.pose.position.z = -0.1
+                circle_marker.pose.orientation.x = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
+                circle_marker.pose.orientation.y = np.cos(roll/2) * np.sin(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.cos(pitch/2) * np.sin(yaw/2)
+                circle_marker.pose.orientation.z = np.cos(roll/2) * np.cos(pitch/2) * np.sin(yaw/2) - np.sin(roll/2) * np.sin(pitch/2) * np.cos(yaw/2)
+                circle_marker.pose.orientation.w = np.cos(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
+                circle_marker.scale.z = 0.1
+                circle_marker.color.r = 0.2
+                circle_marker.color.g = 0.8
+                circle_marker.color.b = 0.2
+                circle_marker.color.a = 1.0
+                circle_marker.lifetime = rospy.Duration(0.1)
+                circle_marker.pose.position.x = self.perception.objx[i]
+                circle_marker.pose.position.y = self.perception.objy[i]
+                circle_marker.scale.x = self.perception.objw[i]
+                circle_marker.scale.y = self.perception.objh[i]
+                vis_obj2.markers.append(circle_marker)
+                c_id2 = c_id2 + 1
 
-                self.vis_lattice_path_1.header.stamp = rospy.Time.now()
-                self.vis_lattice_path_1_pub.publish(self.vis_lattice_path_1)
+            ######################## PARKING PATH ##########################
+            parking = Path()
+            for i in range(len(self.parking.forward_path.x)):
+                read_pose=PoseStamped()
+                read_pose.pose.position.x = self.parking.forward_path.x[i]
+                read_pose.pose.position.y = self.parking.forward_path.y[i]
+                read_pose.pose.position.z = 0
+                read_pose.pose.orientation.x=0
+                read_pose.pose.orientation.y=0
+                read_pose.pose.orientation.z=0
+                read_pose.pose.orientation.w=1
+                parking.poses.append(read_pose)
+            self.vis_parking_path.poses = parking.poses
 
-                self.vis_lattice_path_2.header.stamp = rospy.Time.now()
-                self.vis_lattice_path_2_pub.publish(self.vis_lattice_path_2)
+            # publish
+            self.vis_obj_pub1.publish(vis_obj1)
+            self.vis_obj_pub2.publish(vis_obj2)
 
-                self.vis_parking_path.header.stamp = rospy.Time.now()
-                self.vis_parking_path_pub.publish(self.vis_parking_path)
+            self.vis_o1_pub.publish(self.vis_o1)
+            self.vis_o2_pub.publish(self.vis_o2)
+            self.vis_o3_pub.publish(self.vis_o3)
+            
+            self.vis_global_path.header.stamp = rospy.Time.now()
+            self.vis_global_path_pub.publish(self.vis_global_path)
+            
+            self.vis_local_path.header.stamp = rospy.Time.now()
+            self.vis_local_path_pub.publish(self.vis_local_path)
 
-                self.vis_trajectory_pub.publish(self.vis_trajectory)
+            self.vis_lattice_path_0.header.stamp = rospy.Time.now()
+            self.vis_lattice_path_0_pub.publish(self.vis_lattice_path_0)
 
-                # self.vis_trajectory_pub_dr.publish(self.vis_trajectory_dr)
+            self.vis_lattice_path_1.header.stamp = rospy.Time.now()
+            self.vis_lattice_path_1_pub.publish(self.vis_lattice_path_1)
 
-                # self.vis_pose.header.stamp = rospy.Time.now()
-                self.vis_pose_pub.publish(self.vis_pose)
-                # self.vis_pose_pub_dr.publish(self.vis_pose_dr)
-            except IndexError:
-                print("++++++++env_visualizer+++++++++")
+            self.vis_lattice_path_2.header.stamp = rospy.Time.now()
+            self.vis_lattice_path_2_pub.publish(self.vis_lattice_path_2)
+
+            self.vis_parking_path.header.stamp = rospy.Time.now()
+            self.vis_parking_path_pub.publish(self.vis_parking_path)
+
+            self.vis_trajectory_pub.publish(self.vis_trajectory)
+
+            # self.vis_trajectory_pub_dr.publish(self.vis_trajectory_dr)
+
+            # self.vis_pose.header.stamp = rospy.Time.now()
+            self.vis_pose_pub.publish(self.vis_pose)
+            # self.vis_pose_pub_dr.publish(self.vis_pose_dr)
+            # except IndexError:
+            #     print("++++++++env_visualizer+++++++++")
             sleep(self.period)

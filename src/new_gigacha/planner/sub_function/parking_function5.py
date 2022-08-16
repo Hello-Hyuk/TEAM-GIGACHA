@@ -15,17 +15,17 @@ class Parking_Motion():
         self.parking = self.shared.park
 
         #simul kcity
-        # self.base_lat = 37.239231667
-        # self.base_lon = 126.773156667
-        # self.base_alt = 15.4
-
-        #siheung
-        self.base_lat = 37.36458356
-        self.base_lon = 126.7237789
+        self.base_lat = 37.239231667
+        self.base_lon = 126.773156667
         self.base_alt = 15.4
 
+        #siheung
+        # self.base_lat = 37.36458356
+        # self.base_lon = 126.7237789
+        # self.base_alt = 15.4
+
         self.radius = 2.3
-        self.o1_x = 0
+        self.o1_x = 0.1
 
         self.mapname = ''
         self.cnt = False
@@ -33,7 +33,7 @@ class Parking_Motion():
             self.parking_point = json.load(pkc)
 
     def make_parking_tra(self):
-        self.point = self.parking_point[str(1)]
+        self.point = self.parking_point[str(5)]
         # self.point = self.parking_point[str(self.parking.select_num)]
         self.start_point = self.point["start"]
         self.end_point = self.point["end"]
@@ -87,18 +87,20 @@ class Parking_Motion():
     def find_O1(self):
 
         dis_P1_O1 = hypot(self.radius, self.o1_x)
-        heading_P1_O1 = rad2deg(atan2(self.o1_x,self.radius))%360
-        
-        heading_O1 = (self.heading + 90 - heading_P1_O1)%360
+        heading_P1_O1 = rad2deg(atan2(self.o1_x, self.radius))
+        print('heading_P1_O1',heading_P1_O1)
+        heading_O1 = (self.heading + 90 - heading_P1_O1)
+        print('heading_O1',heading_O1)
         self.parking.o1x = self.parking_x + dis_P1_O1*cos(heading_O1)
         self.parking.o1y = self.parking_y + dis_P1_O1*sin(heading_O1)
 
     def find_O2(self):
         def func(a,b,c):
+            print("1 : ", (-b+sqrt(b**2-4*a*c))/2*a)
+            print("2 : ", (-b-sqrt(b**2-4*a*c))/2*a)
             return max((-b+sqrt(b**2-4*a*c))/2*a, (-b-sqrt(b**2-4*a*c))/2*a)
 
         O2_radius = func(1,2*self.radius,-self.parking_width**2)
-
 
         self.parking.o2x = self.parking_end_x + self.o1_x*cos(self.heading)
         self.parking.o2y = self.parking_end_y + self.o1_x*sin(self.heading)
@@ -120,7 +122,7 @@ class Parking_Motion():
 
     def make_straight_path(self):
         sx = self.parking_x + self.o1_x*cos(self.heading)
-        sy = self.parking_y + self.o1_y*sin(self.heading)
+        sy = self.parking_y + self.o1_x*sin(self.heading)
         ex,ey = self.parking_x, self.parking_y
         
         x = []
@@ -131,6 +133,7 @@ class Parking_Motion():
         y.append(sy)
         y.append(ey)
         
+        print(x, y)
         cx, cy, _, _, _ = calc_spline_course(x, y ,ds = 0.1)
          
         self.parking.backward_path.x.extend(cx)
