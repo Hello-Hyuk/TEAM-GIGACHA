@@ -1,8 +1,10 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "local_pkg: 1 messages, 0 services")
+message(WARNING "Invoking generate_messages() without having added any message or service file before.
+You should either add add_message_files() and/or add_service_files() calls or remove the invocation of generate_messages().")
+message(STATUS "local_pkg: 0 messages, 0 services")
 
-set(MSG_I_FLAGS "-Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg;-Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg;-Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg")
+set(MSG_I_FLAGS "-Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg")
 
 # Find all generators
 find_package(gencpp REQUIRED)
@@ -17,23 +19,12 @@ add_custom_target(local_pkg_generate_messages ALL)
 
 
 
-get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Displacement.msg" NAME_WE)
-add_custom_target(_local_pkg_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "local_pkg" "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Displacement.msg" ""
-)
-
 #
 #  langs = gencpp;geneus;genlisp;gennodejs;genpy
 #
 
 ### Section generating for lang: gencpp
 ### Generating Messages
-_generate_msg_cpp(local_pkg
-  "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Displacement.msg"
-  "${MSG_I_FLAGS}"
-  ""
-  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/local_pkg
-)
 
 ### Generating Services
 
@@ -49,8 +40,6 @@ add_custom_target(local_pkg_generate_messages_cpp
 add_dependencies(local_pkg_generate_messages local_pkg_generate_messages_cpp)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Displacement.msg" NAME_WE)
-add_dependencies(local_pkg_generate_messages_cpp _local_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
 add_custom_target(local_pkg_gencpp)
@@ -61,12 +50,6 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS local_pkg_generate_messages_cpp)
 
 ### Section generating for lang: geneus
 ### Generating Messages
-_generate_msg_eus(local_pkg
-  "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Displacement.msg"
-  "${MSG_I_FLAGS}"
-  ""
-  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/local_pkg
-)
 
 ### Generating Services
 
@@ -82,8 +65,6 @@ add_custom_target(local_pkg_generate_messages_eus
 add_dependencies(local_pkg_generate_messages local_pkg_generate_messages_eus)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Displacement.msg" NAME_WE)
-add_dependencies(local_pkg_generate_messages_eus _local_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
 add_custom_target(local_pkg_geneus)
@@ -94,12 +75,6 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS local_pkg_generate_messages_eus)
 
 ### Section generating for lang: genlisp
 ### Generating Messages
-_generate_msg_lisp(local_pkg
-  "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Displacement.msg"
-  "${MSG_I_FLAGS}"
-  ""
-  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/local_pkg
-)
 
 ### Generating Services
 
@@ -115,8 +90,6 @@ add_custom_target(local_pkg_generate_messages_lisp
 add_dependencies(local_pkg_generate_messages local_pkg_generate_messages_lisp)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Displacement.msg" NAME_WE)
-add_dependencies(local_pkg_generate_messages_lisp _local_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
 add_custom_target(local_pkg_genlisp)
@@ -127,12 +100,6 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS local_pkg_generate_messages_lisp)
 
 ### Section generating for lang: gennodejs
 ### Generating Messages
-_generate_msg_nodejs(local_pkg
-  "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Displacement.msg"
-  "${MSG_I_FLAGS}"
-  ""
-  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/local_pkg
-)
 
 ### Generating Services
 
@@ -148,8 +115,6 @@ add_custom_target(local_pkg_generate_messages_nodejs
 add_dependencies(local_pkg_generate_messages local_pkg_generate_messages_nodejs)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Displacement.msg" NAME_WE)
-add_dependencies(local_pkg_generate_messages_nodejs _local_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
 add_custom_target(local_pkg_gennodejs)
@@ -160,12 +125,6 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS local_pkg_generate_messages_nodejs)
 
 ### Section generating for lang: genpy
 ### Generating Messages
-_generate_msg_py(local_pkg
-  "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Displacement.msg"
-  "${MSG_I_FLAGS}"
-  ""
-  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/local_pkg
-)
 
 ### Generating Services
 
@@ -181,8 +140,6 @@ add_custom_target(local_pkg_generate_messages_py
 add_dependencies(local_pkg_generate_messages local_pkg_generate_messages_py)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Displacement.msg" NAME_WE)
-add_dependencies(local_pkg_generate_messages_py _local_pkg_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
 add_custom_target(local_pkg_genpy)

@@ -1,5 +1,5 @@
 import rospy
-from planner_and_control.msg import Perception
+#from planner_and_control.msg import Perception
 from geometry_msgs.msg import Point
 from visualization_msgs.msg import MarkerArray, Marker
 
@@ -46,6 +46,12 @@ class Perception_():
    #    self.objw = tmp_objw
    #    self.objh = tmp_objh
       
+<<<<<<< semi_final
    def lidar_callback(self, msg):
       self.objx = msg.points[0].x
       self.objy = msg.points[0].y
+=======
+   # def lidar_callback(self, msg):
+   #    self.objx = msg.points[0].x
+   #    self.objy = msg.points[0].y
+>>>>>>> test2

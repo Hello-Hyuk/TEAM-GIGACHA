@@ -4,14 +4,14 @@ import pymap3d
 import time
 import json
 from geometry_msgs.msg import Pose
-# from localizer.local_functions import LPF
-from sensor_msgs.msg import NavSatFix
-from ublox_msgs.msg import NavPVT
+from localizer.local_functions import LPF
+#from sensor_msgs.msg import NavSatFix
+#from ublox_msgs.msg import NavPVT
 
 class GPS():
     def __init__(self):
-        rospy.Subscriber("ublox_gps/fix", NavSatFix, self.gps_call_back)
-        rospy.Subscriber("ublox_gps/navpvt", NavPVT, self.navpvt_call_back)
+        #rospy.Subscriber("ublox_gps/fix", NavSatFix, self.gps_call_back)
+        #rospy.Subscriber("ublox_gps/navpvt", NavPVT, self.navpvt_call_back)
         rospy.Subscriber("/simul_gps", Pose, self.gps_call_back_simul)
         
         self.x = 0.0
@@ -29,9 +29,9 @@ class GPS():
         self.lon = self.base['lon']
         self.alt = self.base['alt']
 
-    def gps_call_back(self, data):
-        self.x, self.y, _ = pymap3d.geodetic2enu(data.latitude, data.longitude, self.alt, \
-                                            self.lat, self.lon, self.alt)
+    # def gps_call_back(self, data):
+    #     self.x, self.y, _ = pymap3d.geodetic2enu(data.latitude, data.longitude, self.alt, \
+    #                                         self.lat, self.lon, self.alt)
 
     def gps_call_back_simul(self, data):
         self.x, self.y, _ = pymap3d.geodetic2enu(data.position.x, data.position.y, self.alt, \
@@ -39,18 +39,18 @@ class GPS():
         self.time = time.time()
 
 
-    def navpvt_call_back(self, data):
-        self.time = time.time()
-        gps_heading = (450-(data.heading * 10**(-5)))%360
-        headAcc = data.headAcc
-        # lpf = LPF()
+    # def navpvt_call_back(self, data):
+    #     self.time = time.time()
+    #     gps_heading = (450-(data.heading * 10**(-5)))%360
+    #     headAcc = data.headAcc
+    #     # lpf = LPF()
 
-        if headAcc < 600000:
-            self.heading_switch = True
-            self.heading = gps_heading
-        else:
-            self.heading_switch = False
-            self.heading = 0.0
+    #     if headAcc < 600000:
+    #         self.heading_switch = True
+    #         self.heading = gps_heading
+    #     else:
+    #         self.heading_switch = False
+    #         self.heading = 0.0
 
 if __name__ == '__main__':
     try:

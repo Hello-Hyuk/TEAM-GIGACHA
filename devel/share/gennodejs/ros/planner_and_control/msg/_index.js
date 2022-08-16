@@ -1,54 +1,54 @@
 
 "use strict";
 
-let Perception = require('./Perception.js');
-let CircleObstacle = require('./CircleObstacle.js');
-let Ego = require('./Ego.js');
 let Local = require('./Local.js');
-let SegmentObstacle = require('./SegmentObstacle.js');
-let Serial_Info = require('./Serial_Info.js');
-let Path = require('./Path.js');
 let Displacement = require('./Displacement.js');
-let Obstacles = require('./Obstacles.js');
-let Control_Info = require('./Control_Info.js');
-let Gngga = require('./Gngga.js');
-let Sign = require('./Sign.js');
 let Perception = require('./Perception.js');
-let CircleObstacle = require('./CircleObstacle.js');
-let Ego = require('./Ego.js');
-let Local = require('./Local.js');
-let SegmentObstacle = require('./SegmentObstacle.js');
-let Serial_Info = require('./Serial_Info.js');
-let Path = require('./Path.js');
-let Displacement = require('./Displacement.js');
-let Obstacles = require('./Obstacles.js');
-let Control_Info = require('./Control_Info.js');
 let Gngga = require('./Gngga.js');
+let SegmentObstacle = require('./SegmentObstacle.js');
+let Path = require('./Path.js');
+let Serial_Info = require('./Serial_Info.js');
+let Control_Info = require('./Control_Info.js');
+let CircleObstacle = require('./CircleObstacle.js');
 let Sign = require('./Sign.js');
+let Ego = require('./Ego.js');
+let Obstacles = require('./Obstacles.js');
+let Local = require('./Local.js');
+let Displacement = require('./Displacement.js');
+let Perception = require('./Perception.js');
+let Gngga = require('./Gngga.js');
+let SegmentObstacle = require('./SegmentObstacle.js');
+let Path = require('./Path.js');
+let Serial_Info = require('./Serial_Info.js');
+let Control_Info = require('./Control_Info.js');
+let CircleObstacle = require('./CircleObstacle.js');
+let Sign = require('./Sign.js');
+let Ego = require('./Ego.js');
+let Obstacles = require('./Obstacles.js');
 
 module.exports = {
-  Perception: Perception,
-  CircleObstacle: CircleObstacle,
-  Ego: Ego,
   Local: Local,
-  SegmentObstacle: SegmentObstacle,
-  Serial_Info: Serial_Info,
-  Path: Path,
   Displacement: Displacement,
-  Obstacles: Obstacles,
-  Control_Info: Control_Info,
-  Gngga: Gngga,
-  Sign: Sign,
   Perception: Perception,
-  CircleObstacle: CircleObstacle,
-  Ego: Ego,
-  Local: Local,
-  SegmentObstacle: SegmentObstacle,
-  Serial_Info: Serial_Info,
-  Path: Path,
-  Displacement: Displacement,
-  Obstacles: Obstacles,
-  Control_Info: Control_Info,
   Gngga: Gngga,
+  SegmentObstacle: SegmentObstacle,
+  Path: Path,
+  Serial_Info: Serial_Info,
+  Control_Info: Control_Info,
+  CircleObstacle: CircleObstacle,
   Sign: Sign,
+  Ego: Ego,
+  Obstacles: Obstacles,
+  Local: Local,
+  Displacement: Displacement,
+  Perception: Perception,
+  Gngga: Gngga,
+  SegmentObstacle: SegmentObstacle,
+  Path: Path,
+  Serial_Info: Serial_Info,
+  Control_Info: Control_Info,
+  CircleObstacle: CircleObstacle,
+  Sign: Sign,
+  Ego: Ego,
+  Obstacles: Obstacles,
 };

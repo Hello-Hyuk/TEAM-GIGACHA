@@ -53,22 +53,14 @@ CMAKE_BINARY_DIR = /home/gigacha/TEAM-GIGACHA/build
 # Include the progress variables for this target.
 include local_pkg/CMakeFiles/local_pkg_generate_messages_py.dir/progress.make
 
-local_pkg/CMakeFiles/local_pkg_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/local_pkg/msg/_Displacement.py
 local_pkg/CMakeFiles/local_pkg_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/local_pkg/msg/__init__.py
 
 
-/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/local_pkg/msg/_Displacement.py: /opt/ros/melodic/lib/genpy/genmsg_py.py
-/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/local_pkg/msg/_Displacement.py: /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Displacement.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Python from MSG local_pkg/Displacement"
-	cd /home/gigacha/TEAM-GIGACHA/build/local_pkg && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Displacement.msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -p local_pkg -o /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/local_pkg/msg
-
 /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/local_pkg/msg/__init__.py: /opt/ros/melodic/lib/genpy/genmsg_py.py
-/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/local_pkg/msg/__init__.py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/local_pkg/msg/_Displacement.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Python msg __init__.py for local_pkg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Python msg __init__.py for local_pkg"
 	cd /home/gigacha/TEAM-GIGACHA/build/local_pkg && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/local_pkg/msg --initpy
 
 local_pkg_generate_messages_py: local_pkg/CMakeFiles/local_pkg_generate_messages_py
-local_pkg_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/local_pkg/msg/_Displacement.py
 local_pkg_generate_messages_py: /home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/local_pkg/msg/__init__.py
 local_pkg_generate_messages_py: local_pkg/CMakeFiles/local_pkg_generate_messages_py.dir/build.make
 
