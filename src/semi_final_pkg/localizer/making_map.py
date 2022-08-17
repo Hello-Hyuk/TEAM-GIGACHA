@@ -4,7 +4,6 @@ import rospy
 from time import sleep
 from math import hypot
 from std_msgs.msg import Int64
-from localizer.gps import GPS
 
 class MP(threading.Thread):
     def __init__(self, parent, rate):
@@ -15,7 +14,6 @@ class MP(threading.Thread):
         self.shared = parent.shared
 
         self.ego = parent.shared.ego
-        self.gps = GPS()
 
         self.right = 0  # pulse from sensor
         self.left = 0  # pulse from serial
@@ -82,8 +80,8 @@ class MP(threading.Thread):
         self.pulse = (self.right_pulse + self.left_pulse) / 2
 
     def map_maker(self):
-        self.global_path.x.append(self.gps.x)
-        self.global_path.y.append(self.gps.y)
+        self.global_path.x.append(self.ego.x)
+        self.global_path.y.append(self.ego.y)
         self.temp = self.pulse
         # print("self.global_path.x : {}".format(self.global_path.x))
 
@@ -92,14 +90,13 @@ class MP(threading.Thread):
             self.global_path.x.extend(self.global_path.x)
             self.global_path.y.extend(self.global_path.y)
 
-
     def run(self):
         while True:
             if not self.stop_thread:
                 if round(self.pulse) % 6 == 0 and self.pulse !=self.temp:
                     self.map_maker()
 
-                if len(self.global_path.x) >= 50 and hypot(self.gps.x, self.gps.y) <= 1.2:
+                if len(self.global_path.x) >= 50 and hypot(self.ego.x, self.ego.y) <= 1.2:
                     self.stop_thread = True
                     self.map_routine()
                     print('mmmmmmmmmmmmmmmmmmmmmm')

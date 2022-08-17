@@ -118,19 +118,19 @@ class path_maker:
         y_sum = 0
         tmp1=0
         tmp2=0
-        point_L=0
-        point_R=0
+        point_L=[]
+        point_R=[]
 
 
 
         for point in points:
 
             if point[1]<0:
-                point_L=point
+                point_L = point
                 point_R=0
 
             if point[1]>0:
-                point_R=point
+                point_R = point
                 point_L=0
     
             if point[1]<0:
@@ -188,7 +188,6 @@ class path_maker:
         elif len(self.obstacles) == 1:
             self.singleCOM(self.obstacles)
         else:
-
             self.makeCOM(self.obstacles)
         print("self.obstacles",self.obstacles)
    

@@ -10,7 +10,7 @@ from geometry_msgs.msg import Quaternion
 class IMU(): 
     def __init__(self): 
         rospy.Subscriber("/imu", Imu, self.imu_call_back) 
-        rospy.Subscriber("/simul_imu", Pose, self.imu_call_back) 
+        rospy.Subscriber("/simul_imu", Pose, self.imu_call_back_simul) 
 
         self.roll = 0.0 
         self.pitch = 0.0 
@@ -33,9 +33,18 @@ class IMU():
         self.roll = roll 
         self.pitch = pitch 
  
-        # self.heading = np.rad2deg(-1*yaw)%360 # real world 
-        # self.battery = data.linear_acceleration.z 
-        self.heading = np.rad2deg(yaw)%360 # simul 
+        self.heading = np.rad2deg(-1*yaw)%360
+        self.battery = data.linear_acceleration.z 
+
+    def imu_call_back_simul(self, data):
+        self.time = time.time() 
+        self.orientation_q = data.orientation 
+        roll, pitch, yaw = efq(self.orientation_q.x, self.orientation_q.y, self.orientation_q.z, self.orientation_q.w) 
+         
+        self.roll = roll 
+        self.pitch = pitch 
+
+        self.heading = np.rad2deg(yaw)%360
  
  
 if __name__ == '__main__': 

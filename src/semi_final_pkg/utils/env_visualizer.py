@@ -3,13 +3,12 @@ import struct
 import rospy
 from time import sleep, time
 
-from sensor_msgs.msg import PointCloud, Imu
+from sensor_msgs.msg import PointCloud
 from geometry_msgs.msg import Point32
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Pose
 from nav_msgs.msg import Odometry, Path
 from visualization_msgs.msg import MarkerArray, Marker
-from localizer.ahrs import IMU
 
 class Visualizer(threading.Thread):
     def __init__(self, parent, rate):
@@ -18,7 +17,6 @@ class Visualizer(threading.Thread):
         self.perception = parent.shared.perception
         self.shared = parent.shared
         self.ego = parent.shared.ego
-        self.imu = IMU()
 
         self.global_path = self.shared.global_path # from localizer
         
@@ -65,7 +63,7 @@ class Visualizer(threading.Thread):
                 ppoint.z = 0
                 self.vis_pose.pose.pose.position.x = self.ego.x
                 self.vis_pose.pose.pose.position.y = self.ego.y
-                self.vis_pose.pose.pose.orientation = self.imu.orientation_q
+                self.vis_pose.pose.pose.orientation = self.ego.orientation
                 # print(self.vis_pose.pose.pose.orientation)
                 self.vis_trajectory.header.stamp = rospy.Time.now()
                 if self.t - time() < 0.5 :

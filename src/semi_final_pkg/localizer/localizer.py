@@ -1,80 +1,66 @@
 #!/usr/bin/env python3
 import time
+import csv
 import threading
-import numpy as np
-from math import atan2
-from time import sleep
-from .local_functions import circumradius
-
-from localizer.ahrs import IMU
-from localizer.gps import GPS
+import math
+import rospy
+from local_pkg.msg import Local
+from math import hypot, atan2
+from time import sleep, time
 
 
 class Localizer(threading.Thread):
     def __init__(self, parent, rate):
         super().__init__()
+        rospy.Subscriber('/local_msgs', Local, self.local_callback)
+
         self.mapname = parent.args.map
         self.period = 1.0 / rate
 
         self.ego = parent.shared.ego
-        self.shared = parent.shared
         self.global_path = parent.shared.global_path
 
-        self.gps = GPS()
-        self.imu = IMU()
+        # self.read_global_path()  # only one time
 
-        self.offset = 0
-        self.switch = True
+    def local_callback(self, msg):
+        self.ego.x = msg.x
+        self.ego.y = msg.y
+        self.ego.heading = msg.heading
+        self.ego.orientaion = msg.orientation
+        self.ego.dr_x = msg.dr_x
+        self.ego.dr_y = msg.dr_y
+        self.ego.roll = msg.roll
+        self.ego.pitch = msg.pitch
 
-    def add_curvature_yaw(self):
-        for i in range(len(self.global_path.x)-1):
-            yaw = atan2(self.global_path.y[i]-self.global_path.y[i-1],\
-            self.global_path.x[i]-self.global_path.x[i-1])
-            self.global_path.yaw_list.append((np.rad2deg(yaw)) % 360) # enu coordinate
+    # def read_global_path(self):
+    #     with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
+    #         csv_reader = csv.reader(csv_file)
+    #         for line in csv_reader:
+    #             self.global_path.x.append(float(line[0]))
+    #             self.global_path.y.append(float(line[1]))
+    #             # self.global_path.k.append(float(line[2]))
+    #             # self.global_path.yaw.append(float(line[3]))
 
-            if i == 0:
-                x_vals = [self.global_path.x[-1], self.global_path.x[0], self.global_path.x[1]]
-                y_vals = [self.global_path.y[-1], self.global_path.y[0], self.global_path.y[1]]
-                R = circumradius(x_vals, y_vals)
-                try:
-                    self.global_path.curvature.append(1/R)
-                except ZeroDivisionError:
-                    self.global_path.curvature.append(0)
-            else:
-                R = circumradius(self.global_path.x[i-1:i+2], self.global_path.y[i-1:i+2])
-                try:
-                    self.global_path.curvature.append(1/R)
-                except ZeroDivisionError:
-                    self.global_path.curvature.append(0)
-        
-        self.global_path.x.pop()
-        self.global_path.y.pop()
-
-    def heading_decision(self):
-        global time_sync
-        main_time = time.time()
-        time_sync = None
-
-        if (main_time - self.gps.time) < 0.2 and (main_time - self.imu.time) < 0.2:
-            time_sync = "Sync"
-            if self.gps.heading_switch == True:
-                self.offset = self.gps.heading - self.imu.heading
-                self.ego.heading = self.imu.heading + self.offset
-            else:
-                self.ego.heading = self.imu.heading + self.offset
-        else:
-            time_sync = "Unsync"
-            self.ego.heading = self.imu.heading + self.offset
+    def index_finder(self):
+        min_dis = -1
+        min_idx = 0
+        step_size = 100
+        # save_idx = self.ego.index                    # for not decreasing index
+        save_idx = 0
+        for i in range(max(self.ego.index - step_size, 0), self.ego.index + step_size):
+            try:
+                dis = hypot(
+                    self.global_path.x[i] - self.ego.x, self.global_path.y[i] - self.ego.y)
+            except IndexError:
+                break
+            if (min_dis > dis or min_dis == -1) and save_idx <= i:
+                min_dis = dis
+                min_idx = i
+                save_idx = i
+        self.ego.index = min_idx
 
     def run(self):
         while True:
-            if self.shared.state == "2nd" and self.switch:
-                self.add_curvature_yaw()
-                # print('self.global_path.curvature: {}'.format(self.global_path.curvature))
-                self.switch = False
-
-            self.heading_decision()
-            self.ego.x = self.gps.x
-            self.ego.y = self.gps.y
+            self.index_finder()
 
             sleep(self.period)

@@ -23,12 +23,12 @@ class GPS():
         with open('/home/gigacha/TEAM-GIGACHA/src/local_pkg/scripts/base.json') as base: 
             base_data = json.load(base) 
  
-        self.base = base_data["KCity"] # KCity, Songdo, Songdo_track, Siheung, KCity2, Yonghyeon_parking 
+        self.base = base_data["KCity"] # KCity, Siheung, KCity_semi,
         self.lat = self.base['lat'] 
         self.lon = self.base['lon'] 
         self.alt = self.base['alt'] 
  
-    def gps_call_back(self, data): 
+    def gps_call_back(self, data):
         self.x, self.y, _ = pymap3d.geodetic2enu(data.latitude, data.longitude, self.alt,\
             self.lat, self.lon, self.alt) 
  

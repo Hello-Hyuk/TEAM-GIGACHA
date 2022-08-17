@@ -45,13 +45,7 @@ class Perception_():
    #    self.tmp_objy = tmp_objy
    #    self.objw = tmp_objw
    #    self.objh = tmp_objh
-      
-<<<<<<< semi_final
+
    def lidar_callback(self, msg):
       self.objx = msg.points[0].x
       self.objy = msg.points[0].y
-=======
-   # def lidar_callback(self, msg):
-   #    self.objx = msg.points[0].x
-   #    self.objy = msg.points[0].y
->>>>>>> test2
