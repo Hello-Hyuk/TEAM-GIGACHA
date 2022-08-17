@@ -4,8 +4,6 @@ from shared.path import Path
 from math import cos, degrees, radians, sin, atan2, sqrt, hypot
 from numpy import rad2deg
 import csv
-
-
 class Parking_Motion():
     def __init__(self, sh, pl, eg):
         self.shared = sh
@@ -17,19 +15,19 @@ class Parking_Motion():
 
         self.mapname = ''
         self.cnt = False
-
+        
 #########saved map import function########
     def make_parking_tra(self):
         # self.mapname = str(self.parking.select_num)
-        self.parking.select_num = 2
-        self.mapname = 'parkssang' + str(self.parking.select_num)
+        self.parking.select_num = 4
+        self.mapname = 'parkssang'+ str(self.parking.select_num)
         path1 = Path()
         path2 = Path()
         min_index = 0
         min_dis = 10000000
 
-        with open(f"maps/kcity_parking/{self.mapname}.csv", mode="r") as csv_file:
-            # with open(f"maps/inha_parking/{str(self.parking.select_num)}.csv", mode="r") as csv_file:
+        with open(f"maps/kcity_parking/lastYear_2/{self.mapname}.csv", mode="r") as csv_file:
+        # with open(f"maps/inha_parking/{str(self.parking.select_num)}.csv", mode="r") as csv_file:
             csv_reader = csv.reader(csv_file)
             for line in csv_reader:
                 path1.x.append(float(line[0]))
@@ -49,24 +47,27 @@ class Parking_Motion():
         self.parking.mindex = min_index - 20
         # self.parking.mindex = min_index
 
+
         if self.parking.select_num == 1:
             for i in range(self.parking.mindex, self.parking.mindex - 15, -1):
-                # for i in range(self.parking.mindex, self.parking.mindex - 5, -1):
-                path1.x.insert(0, self.global_path.x[i])
-                path1.y.insert(0, self.global_path.y[i])
+            # for i in range(self.parking.mindex, self.parking.mindex - 5, -1):
+                path1.x.insert(0,self.global_path.x[i])
+                path1.y.insert(0,self.global_path.y[i])
             path1.x, path1.y = path1.x[0:70], path1.y[0:70]
         else:
             for i in range(self.parking.mindex, self.parking.mindex - 20, -1):
-                # for i in range(self.parking.mindex, self.parking.mindex - 25, -1):
-                path1.x.insert(0, self.global_path.x[i])
-                path1.y.insert(0, self.global_path.y[i])
-            path1.x, path1.y = path1.x[0:70], path1.y[0:70]
+            # for i in range(self.parking.mindex, self.parking.mindex - 25, -1):
+                path1.x.insert(0,self.global_path.x[i])
+                path1.y.insert(0,self.global_path.y[i])
+            path1.x, path1.y = path1.x[0:80], path1.y[0:80]
 
         path2.x, path2.y = list(reversed(path1.x)), list(reversed(path1.y))
         self.parking.forward_path = path1
         self.parking.backward_path = path2
+        
 
-    def park_index_finder(self, path):
+
+    def park_index_finder(self,path):
         min_dis = -1
         min_idx = 0
         step_size = 10

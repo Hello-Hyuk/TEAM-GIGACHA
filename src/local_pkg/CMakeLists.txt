@@ -53,7 +53,6 @@ add_message_files(
    FILES
    Local.msg
    Serial_Info.msg
-   Control_Info.msg
 )
 
 ## Generate services in the 'srv' folder
