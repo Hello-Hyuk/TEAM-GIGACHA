@@ -50,7 +50,8 @@ class Master(threading.Thread):
         self.init_thread(self.visualizer)
 
         while True:
-            # print('------------------')
+            print("---------------------")
+            self.checker_all()
             # print('Localization')
             print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
                 .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
@@ -71,6 +72,18 @@ class Master(threading.Thread):
         module.daemon = True
         module.start()
 
+    def checker_all(self):
+        self.thread_checker(self.localizer)
+        self.thread_checker(self.mission_planner)    
+        self.thread_checker(self.behavior_planner)
+        self.thread_checker(self.motion_planner)
+        self.thread_checker(self.lat_controller)
+        self.thread_checker(self.lon_controller)
+        self.thread_checker(self.visualizer)
+
+    def thread_checker(self, module):
+        if not module.is_alive():
+            print(type(module).__name__, "is dead..")
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser(

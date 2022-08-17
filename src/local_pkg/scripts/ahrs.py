@@ -33,9 +33,9 @@ class IMU():
         self.roll = roll 
         self.pitch = pitch 
  
-        self.heading = np.rad2deg(-1*yaw)%360 # real world 
-        self.battery = data.linear_acceleration.z 
-        # self.heading = np.rad2deg(yaw)%360 # simul 
+        # self.heading = np.rad2deg(-1*yaw)%360 # real world 
+        # self.battery = data.linear_acceleration.z 
+        self.heading = np.rad2deg(yaw)%360 # simul 
  
  
 if __name__ == '__main__': 

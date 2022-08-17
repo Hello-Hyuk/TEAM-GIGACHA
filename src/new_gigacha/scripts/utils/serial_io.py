@@ -18,8 +18,6 @@ class Serial_IO:
         rospy.init_node("Serial_IO", anonymous=False)
         self.serial_pub = rospy.Publisher("/serial", Serial_Info, queue_size=1)
         print("Serial_IO: Initializing ROS node...")
-
-
         # Messages/Data
         self.serial_msg = Serial_Info()  # Message o publish
         self.alive = 0

@@ -30,20 +30,11 @@ class Mission():
 
         self.pickup_checker = False
         self.delivery_checker = False
-        
-
-        
-
-    def update_parameter(self, eg, pc, pl):
-        self.perception = pc
-        self.ego = eg
-        self.plan.behavior_decision = pl.plan.behavior_decision
-        self.traffic_checker = False
 
     def go(self):
         self.ego.target_estop = 0x00
         self.ego.target_gear = 0
-        self.ego.target_speed = 10.0
+        self.ego.target_speed = 15.0
         self.plan.behavior_decision = "driving"
         
     def time_sleep(self, time):
