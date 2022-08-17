@@ -18,20 +18,20 @@ class Parking_Motion():
         # self.base_lat = 37.239231667
         # self.base_lon = 126.773156667
         # self.base_alt = 15.4
+        # with open('/parking_JSON/parking_KCity2.json') as pkc:
+        #     self.parking_point = json.load(pkc)
+        # self.direction = -1
 
         #siheung
         self.base_lat = 37.36458356
         self.base_lon = 126.7237789
         self.base_alt = 15.4
+        with open('/parking_JSON/parking_siheung.json') as pkc:
+            self.parking_point = json.load(pkc)
+        self.direction = 1
 
         self.smooth_radius = 11
-        self.mapname = ''
         self.cnt = False
-        # with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/localizer/parking_KCity2.json') as pkc:
-        #     self.parking_point = json.load(pkc)
-        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/localizer/parking_siheung.json') as pkc:
-            self.parking_point = json.load(pkc)
-
 
     def make_parking_tra(self):
         self.point = self.parking_point[str(self.parking.select_num)]
@@ -39,8 +39,7 @@ class Parking_Motion():
         self.start_point = self.point["start"]
         self.end_point = self.point["end"]
         if len(self.parking.forward_path.x) == 0:
-            self.parking.forward_path, self.parking.backward_path = self.findParkingPath()
-
+            self.findParkingPath()
 
     def findParkingPath(self):
         min_index = 0
@@ -61,21 +60,15 @@ class Parking_Motion():
         self.parking.mindex = min_index
 
         self.heading = rad2deg(atan2(
-            (self.global_path.y[self.parking.mindex]-self.global_path.y[self.parking.mindex - 1]), (self.global_path.x[self.parking.mindex]-self.global_path.x[self.parking.mindex - 1])))
-        self.heading %= 360
+            (self.global_path.y[self.parking.mindex]-self.global_path.y[self.parking.mindex - 1]), (self.global_path.x[self.parking.mindex]-self.global_path.x[self.parking.mindex - 1])))%360
 
         print(f"self.heading : {self.heading}")
 
-        O3_x, O3_y, theta_O3_to_lot = self.find_O3()
-
-        self.parking.o3x = O3_x
-        self.parking.o3y = O3_y
- 
-        self.make_path(O3_x, O3_y, self.heading - 90, self.heading - 90 + theta_O3_to_lot, self.smooth_radius, 1)
+        theta_O3_to_lot = self.find_O3()
+        self.make_path(self.parking.o3x, self.parking.o3y, self.heading - self.direction*90, self.heading - self.direction*90 + self.direction*theta_O3_to_lot, self.smooth_radius, self.direction*1)
 
         self.parking.backward_path.x, self.parking.backward_path.y = list(reversed(self.parking.forward_path.x)), list(reversed(self.parking.forward_path.y))  
 
-        return self.parking.forward_path, self.parking.backward_path
     
     def parking_call_back(self,x1,y1):
         x, y, _ = pymap3d.geodetic2enu(x1, y1, self.base_alt,
@@ -86,10 +79,8 @@ class Parking_Motion():
 
         dis_mindex_to_lot = sqrt((self.parking_x - self.global_path.x[self.parking.mindex])**2 + (
             self.parking_y - self.global_path.y[self.parking.mindex])**2)
-        print('dis_mindex_to_lot',dis_mindex_to_lot)
         dis_mindex_to_start = sqrt(2*dis_mindex_to_lot *
                                 self.smooth_radius - dis_mindex_to_lot**2)
-        print('dis_mindex_to_start',dis_mindex_to_start)
         dis_mindex_to_ego = sqrt((self.global_path.x[self.parking.mindex]-self.global_path.x[self.ego.index])
                                 ** 2 + (self.global_path.y[self.parking.mindex]-self.global_path.y[self.ego.index])**2)
 
@@ -98,19 +89,18 @@ class Parking_Motion():
         dis_O3 = sqrt(self.smooth_radius**2 + dis_start_to_ego**2)
 
         theta_O3 = rad2deg(
-            atan2(self.smooth_radius/dis_start_to_ego, 1))
+            atan2(self.smooth_radius/dis_start_to_ego, 1))%360
 
-        print('theta_O3',theta_O3)
 
-        heading_to_O3 = self.heading + theta_O3
+        heading_to_O3 = self.heading + self.direction*theta_O3
 
         theta_O3_to_lot = rad2deg(
             atan2(dis_mindex_to_start/(self.smooth_radius-dis_mindex_to_lot), 1))
 
-        O3_x = self.global_path.x[self.ego.index] + dis_O3*cos(radians(heading_to_O3))
-        O3_y = self.global_path.y[self.ego.index] + dis_O3*sin(radians(heading_to_O3))
+        self.parking.o3x = self.global_path.x[self.ego.index] + dis_O3*cos(radians(heading_to_O3))
+        self.parking.o3y = self.global_path.y[self.ego.index] + dis_O3*sin(radians(heading_to_O3))
 
-        return O3_x, O3_y, theta_O3_to_lot      
+        return  theta_O3_to_lot      
     
     def make_path(self, x, y, start, end, radius, direction):
         start = int(round(start))

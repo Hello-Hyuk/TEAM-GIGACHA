@@ -1,7 +1,8 @@
 import threading
+import numpy as np
+from local_pkg.msg import Control_Info
 from time import sleep
 from math import hypot, cos, sin, degrees, atan2, radians, pi,sqrt
-import numpy as np
 
 class LonController(threading.Thread):
     def __init__(self, parent, rate):
@@ -15,6 +16,8 @@ class LonController(threading.Thread):
 
         self.car_max_speed = 10
         self.road_friction = 0.15
+
+        self.serial_pub = rospy.Publisher("controller", Control_Info, queue_size=1)
 
     def curve_based_velocity(self, path, point_num):
 
@@ -70,6 +73,17 @@ class LonController(threading.Thread):
                     self.ego.input_estop = 0x00
                 elif self.ego.target_estop == 1:
                     self.ego.input_estop = 0x01
+
+                ######################## SERIAL ################################
+                serial = Control_Info()
+                serial.emergency_stop = self.ego.input_estop
+                serial.gear = self.ego.input_gear
+                serial.speed = self.ego.input_speed
+                serial.steer = self.ego.input_steer
+                serial.brake = self.ego.input_brake
+
+                self.serial_pub.publish(serial)
+
             except IndexError:
                 print("++++++++lon_controller+++++++++")
 

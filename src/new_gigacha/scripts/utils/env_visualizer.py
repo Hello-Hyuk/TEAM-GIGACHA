@@ -285,14 +285,6 @@ class Visualizer(threading.Thread):
                     parking.poses.append(read_pose)
                 self.vis_parking_path.poses = parking.poses
 
-                ######################## SERIAL ################################
-                serial = Control_Info()
-                serial.emergency_stop = self.ego.input_estop
-                serial.gear = self.ego.input_gear
-                serial.speed = self.ego.input_speed
-                serial.steer = self.ego.input_steer
-                serial.brake = self.ego.input_brake
-
                 # publish
                 self.vis_obj_pub1.publish(vis_obj1)
                 self.vis_obj_pub2.publish(vis_obj2)
