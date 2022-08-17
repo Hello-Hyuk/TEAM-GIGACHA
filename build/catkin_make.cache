@@ -1,2 +1,0 @@
-local_pkg:planner_and_control:ublox_f9p/rtcm_msgs:ublox_f9p/ublox:ublox_f9p/ublox_gps:ublox_f9p/ublox_msgs:ublox_f9p/ublox_serialization:velodyne/velodyne:velodyne/velodyne_driver:velodyne/velodyne_laserscan:velodyne/velodyne_msgs:velodyne/velodyne_pcl:velodyne/velodyne_pointcloud:vision_msgs
--DCATKIN_DEVEL_PREFIX=/home/gigacha/TEAM-GIGACHA/devel -DCMAKE_INSTALL_PREFIX=/home/gigacha/TEAM-GIGACHA/install -G Unix Makefiles
