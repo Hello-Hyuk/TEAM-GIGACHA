@@ -1,8 +1,0 @@
-prefix=/home/gigacha/TEAM-GIGACHA/install
-
-Name: new_gigacha
-Description: Description of new_gigacha
-Version: 0.0.0
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib 
-Requires: 

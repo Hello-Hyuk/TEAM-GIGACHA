@@ -1,2 +1,0 @@
-local_pkg:new_gigacha:ublox_f9p/rtcm_msgs:ublox_f9p/ublox:ublox_f9p/ublox_gps:ublox_f9p/ublox_msgs:ublox_f9p/ublox_serialization:vision_msgs
--DCATKIN_DEVEL_PREFIX=/home/gigacha/TEAM-GIGACHA/devel -DCMAKE_INSTALL_PREFIX=/home/gigacha/TEAM-GIGACHA/install -G Unix Makefiles
