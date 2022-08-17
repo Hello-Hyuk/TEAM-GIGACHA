@@ -207,8 +207,8 @@ class Visualizer(threading.Thread):
             for i in range(len(self.lattice_path)):
                 for j in range(len(self.lattice_path[0].x)):
                     read_pose=PoseStamped()
-                    read_pose.pose.position.x = self.lattice_path[i].x[j]
-                    read_pose.pose.position.y = self.lattice_path[i].y[j]
+                    # read_pose.pose.position.x = self.lattice_path[i].x[j]
+                    # read_pose.pose.position.y = self.lattice_path[i].y[j]
                     read_pose.pose.position.z = 0
                     read_pose.pose.orientation.x=0
                     read_pose.pose.orientation.y=0

@@ -70,14 +70,16 @@ class Master(threading.Thread):
             print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
             # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
             # print('Controller')
-            print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
+            # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
+            print('input gear : ', self.shared.ego.input_gear)
             # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
             # print("tmp :" ,len(self.shared.perception.tmp_objx))
             # print("real :" ,len(self.shared.perception.objx))
             # print("real :" , self.shared.perception.objx, self.shared.perception.objy)            
             # print('self.park.mindex',self.shared.park.mindex)
-            print('self.park.index',self.shared.park.index)
-            print('self.direction', self.shared.park.direction)
+            if self.shared.park.on:
+                print('self.park.index',self.shared.park.index)
+                print('self.direction', self.shared.park.direction)
             sleep(self.period)
 
     def init_thread(self, module):

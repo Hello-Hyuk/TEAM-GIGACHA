@@ -64,7 +64,7 @@ class LatController(threading.Thread):
             lookahead = 5
         else:
             self.path = self.parking.backward_path
-            lookahead = 10
+            lookahead = 7
 
         target_index = lookahead + self.parking.index
 
