@@ -24,7 +24,6 @@ class LatController(threading.Thread):
                 if self.parking.on:
                     self.parking_run()
                 else:
-                    self.ego.target_gear = 0
                     self.path = self.lattice_path[self.shared.selected_lane]
                     # print(len(self.lattice_path), "\n", self.shared.selected_lane)
                     # self.path = self.shared.global_path

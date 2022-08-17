@@ -52,9 +52,6 @@ class Visualizer(threading.Thread):
         self.vis_parking_path_pub = rospy.Publisher(
             "/vis_parking_path", Path, queue_size=1)
 
-        self.serial_pub = rospy.Publisher(
-            "/controller", Control_Info, queue_size=1)
-
         # self.vis_trajectory_pub_dr = rospy.Publisher("/vis_trajectory_dr", PointCloud, queue_size=1)
         # self.vis_pose_pub_dr = rospy.Publisher("/vis_position_dr", Odometry, queue_size=1)
 
@@ -311,8 +308,6 @@ class Visualizer(threading.Thread):
                 self.vis_parking_path_pub.publish(self.vis_parking_path)
 
                 self.vis_trajectory_pub.publish(self.vis_trajectory)
-
-                self.serial_pub.publish(serial)
 
                 # self.vis_trajectory_pub_dr.publish(self.vis_trajectory_dr)
 
