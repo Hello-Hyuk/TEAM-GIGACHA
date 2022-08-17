@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<launch>
-<!--=================================e2box_AHRS V5=========================-->
- <node pkg="local_pkg" type="ahrs_parser.py" name="ahrs_raw" respawn="true" output="screen"/>
-
-<!--=================================Encoder Pulse Parsing=========================-->
- <node pkg="local_pkg" type="encoder_parser.py" name="Encoder" respawn="true"/>
-</launch>
