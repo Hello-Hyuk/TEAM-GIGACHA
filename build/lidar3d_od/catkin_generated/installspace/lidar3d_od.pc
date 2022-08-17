@@ -1,8 +1,0 @@
-prefix=/home/gigacha/TEAM-GIGACHA/install
-
-Name: lidar3d_od
-Description: Description of lidar3d_od
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
