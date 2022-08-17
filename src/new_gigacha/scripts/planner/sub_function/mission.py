@@ -95,7 +95,7 @@ class Mission():
                 self.ego.target_brake = 50
                 sleep(3)
                 self.plan.behavior_decision = "parkingBackwardOn"
-                self.ego.input_gear = 2
+                self.ego.target_gear = 2
                 self.ego.target_speed = 5
                 self.ego.target_brake = 0
                 self.parking_backward_start = True
@@ -104,13 +104,13 @@ class Mission():
                     self.ego.target_brake = 50
                     sleep(3)
                     self.plan.behavior_decision = "parkingForwardOn"
-                    self.ego.input_gear = 0
+                    self.ego.target_gear = 0
                     self.ego.target_speed = 5
                     self.ego.target_brake = 0
             elif (15 <= int(self.parking.stop_index - self.parking.index) <= 25) and (self.parking.direction == 0):
                     self.plan.behavior_decision = "driving"
                     self.parking.on = False
-                    self.ego.input_gear = 0
+                    self.ego.target_gear = 0
                     self.ego.target_speed = 5
                     self.ego.target_brake = 0
                     self.parking_switch = True
@@ -318,7 +318,7 @@ class Mission():
         self.plan.behavior_decision = "delivery_mode"
         sign_dis = 0.0
         sign_dis = sqrt((self.perception.signx - self.ego.x)**2 + (self.perception.signy - self.ego.y)**2)
-        print("pickup : " , sign_dis)
+        # print("pickup : " , sign_dis)
         if 0 < sign_dis < 1.3 and self.pickup_checker == False:
             self.pickup_checker = True
             self.plan.behavior_decision = "stop"

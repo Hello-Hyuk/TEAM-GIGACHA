@@ -34,7 +34,6 @@ class LatController(threading.Thread):
 
                     # lookahead = min(self.k * self.ego.speed + self.lookahead_default, 7)
                     target_index = int(lookahead * 10)
-                    print(target_index)
 
                     target_x, target_y = self.path.x[target_index], self.path.y[target_index]
                     tmp = degrees(atan2(target_y - self.ego.y,
@@ -61,10 +60,10 @@ class LatController(threading.Thread):
     def parking_run(self):
         if self.parking.direction == 0:
             self.path = self.parking.forward_path
-            lookahead = 6
+            lookahead = 5
         else:
             self.path = self.parking.backward_path
-            lookahead = 6
+            lookahead = 7
 
         target_index = lookahead + self.parking.index
 
@@ -88,7 +87,7 @@ class LatController(threading.Thread):
             angle = -1.5*angle
         ##########################
 
-        if degrees(angle) < 0.5 and degrees(angle) > -0.5:
+        if degrees(angle) < 3.5 and degrees(angle) > -3.5:
             angle = 0
 
         self.ego.input_steer = max(min(degrees(angle), 27.0), -27.0)

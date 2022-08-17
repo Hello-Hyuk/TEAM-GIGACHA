@@ -33,7 +33,7 @@ class Parking_Motion():
 
         self.mapname = ''
         self.cnt = False
-        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/localizer/parking_KCity_parallel.json') as pkc:
+        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/localizer/parking_KCity_parallel.json') as pkc:
             self.parking_point = json.load(pkc)
 
     def make_parking_tra(self):
@@ -62,7 +62,7 @@ class Parking_Motion():
         self.make_path(self.parking.o2x, self.parking.o2y, self.heading + 90, self.heading + 180 - heading_O2_O1 , O2_radius, 1)
         self.make_path(self.parking.o1x, self.parking.o1y, self.heading - heading_O2_O1  , self.heading - 90, self.radius, -1)
 
-        self.make_curve_path()
+        # self.make_curve_path()
 
         self.make_straight_path()        
 
@@ -122,8 +122,8 @@ class Parking_Motion():
         #     self.parking.forward_path.y.append(self.global_path.y[self.start_index -30 +i])
 
         for theta in range(start, end, direction):
-            self.tmp_backward_path.x.append(x+radius*cos(radians(theta)))
-            self.tmp_backward_path.y.append(y+radius*sin(radians(theta)))
+            self.parking.backward_path.x.append(x+radius*cos(radians(theta)))
+            self.parking.backward_path.y.append(y+radius*sin(radians(theta)))
 
     def make_curve_path(self):
         cx, cy, _, _, _ = calc_spline_course(self.tmp_backward_path.x, self.tmp_backward_path.y ,ds = 0.1)
