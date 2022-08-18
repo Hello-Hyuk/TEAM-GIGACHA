@@ -40,7 +40,7 @@ class Master(threading.Thread):
         self.lat_controller = LatController(self, rate=20)
         self.init_thread(self.lat_controller)
 
-        self.lon_controller = LonController(self, rate=10)
+        self.lon_controller = LonController(self, rate=20)
         self.init_thread(self.lon_controller)
 
         self.visualizer = Visualizer(self, rate=10)
@@ -50,18 +50,20 @@ class Master(threading.Thread):
             print("---------------------")
             self.checker_all()
             # print('Localization')
-            print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
-                .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
-            print('Mission_State : {}'.format(self.shared.plan.state))
-            print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
-            print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
+            # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
+            #     .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
+            # print('Mission_State : {}'.format(self.shared.plan.state))
+            # print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
+            # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
             # print('Controller')
-            print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
+            # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
+            # print('Speed : {},'.format(self.shared.ego.speed))
             # print(self.shared.perception.signname)
             # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
             # print("tmp :" ,len(self.shared.perception.tmp_objx))
             # print("real :" ,len(self.shared.perception.objx))
             # print("real :" , self.shared.perception.objx, self.shared.perception.objy)
+            print('self.shared.park.index : ',self.shared.park.index)
             # print("hello")
             sleep(self.period)
 

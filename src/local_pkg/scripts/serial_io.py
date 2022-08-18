@@ -35,7 +35,7 @@ class Serial_IO:
         th_serialRead.start()
 
         # Main Loop
-        rate = rospy.Rate(20)
+        rate = rospy.Rate(10)
         while not rospy.is_shutdown():
             self.serialWrite()
             rate.sleep()

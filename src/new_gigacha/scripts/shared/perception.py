@@ -32,7 +32,7 @@ class Perception_():
       self.tgreen = False
       self.tmp_lidar_lock = threading.Lock()
       self.lidar_lock = threading.Lock()
-      self.signname = "parking"
+      self.signname = "go"
       self.parking_num = ""
       self.target = 3
 

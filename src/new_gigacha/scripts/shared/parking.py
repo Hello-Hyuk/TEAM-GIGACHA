@@ -17,3 +17,5 @@ class Parking():
         self.o2y = 0
         self.o3x = 0
         self.o3y = 0
+        self.inflection_point = 0
+        self.inflection_on = False

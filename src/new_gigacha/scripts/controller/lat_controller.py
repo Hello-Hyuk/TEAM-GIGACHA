@@ -27,9 +27,9 @@ class LatController(threading.Thread):
                     self.path = self.lattice_path[self.shared.selected_lane]
                     # print(len(self.lattice_path), "\n", self.shared.selected_lane)
                     # self.path = self.shared.global_path
-                    lookahead = min(self.k * self.ego.speed +
-                                    self.lookahead_default, 6)
-                    # target_index = len(self.path.x) - 30
+                    # lookahead = min(self.k * self.ego.speed +
+                                    # self.lookahead_default, 6)
+                    target_index = len(self.path.x) - 30
 
                     # lookahead = min(self.k * self.ego.speed + self.lookahead_default, 7)
                     target_index = int(lookahead * 10)
@@ -64,8 +64,10 @@ class LatController(threading.Thread):
         else:
             self.path = self.parking.backward_path
             lookahead = 5
-
-        target_index = lookahead + self.parking.index
+        if not self.parking.inflection_on:
+            target_index = lookahead + self.parking.index
+        else:
+            target_index = len(self.parking.backward_path.x) - 1
 
         target_x, target_y = self.path.x[target_index], self.path.y[target_index]
         tmp = degrees(atan2(target_y - self.ego.y,
@@ -84,7 +86,7 @@ class LatController(threading.Thread):
 
         ###### Back Driving ######
         if self.ego.input_gear == 2:
-            angle = -2.5*angle
+            angle = -1.5*angle
         ##########################
 
         if degrees(angle) < 3.5 and degrees(angle) > -3.5:

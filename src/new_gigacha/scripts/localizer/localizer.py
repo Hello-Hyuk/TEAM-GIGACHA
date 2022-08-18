@@ -27,6 +27,7 @@ class Localizer(threading.Thread):
         self.ego.x = msg.x
         self.ego.y = msg.y
         self.ego.heading = msg.heading
+        self.ego.speed = msg.speed
         self.ego.orientaion = msg.orientation
         self.ego.dr_x = msg.dr_x
         self.ego.dr_y = msg.dr_y

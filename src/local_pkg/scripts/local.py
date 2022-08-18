@@ -21,6 +21,9 @@ class Localization():
         self.imu = IMU()
         self.dr = DR()
 
+        self.msg.dr_x = self.gps.x
+        self.msg.dr_y = self.gps.y
+
         self.offset = 0
         self.heading = 0.0
 
@@ -52,8 +55,7 @@ class Localization():
         
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
-        self.msg.dr_x = self.gps.x
-        self.msg.dr_y = self.gps.y
+        self.msg.speed = self.dr.speed
         self.msg.dr_x += self.dr.dis*math.cos(math.radians(self.heading))
         self.msg.dr_y += self.dr.dis*math.sin(math.radians(self.heading))
         self.msg.roll = self.imu.roll
