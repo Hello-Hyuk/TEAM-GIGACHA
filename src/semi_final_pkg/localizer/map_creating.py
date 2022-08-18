@@ -6,8 +6,7 @@ from time import sleep
 from math import hypot
 from std_msgs.msg import Int64
 from sensor_msgs.msg import Imu
-from localizer.gps import GPS
-
+from local_pkg.msg import Serial_Info
 
 class MC(threading.Thread):
     def __init__(self, parent, rate):
@@ -18,7 +17,6 @@ class MC(threading.Thread):
         self.shared = parent.shared
 
         self.ego = parent.shared.ego
-        self.gps = GPS()
 
         self.right = 0  # pulse from sensor
         self.left = 0  # pulse from serial
@@ -37,26 +35,27 @@ class MC(threading.Thread):
         self.right_switch = False
         self.temp = 0
 
-        self.latitude = []
-        self.longitude = []
+        self.x = []
+        self.y = []
 
-        self.prev_lat = 0
-        self.prev_lon = 0
+        self.prev_x = 0
+        self.prev_y = 0
 
         rospy.Subscriber('/Displacement_right', Int64, self.encoderCallback)
         rospy.Subscriber('/imu', Imu, self.map_csv)
+        rospy.Subscriber('/serial', Serial_Info, self.serialTopulse)
 
-    def serialTopulse(self):
-        if self.init == 0:
-            self.init = int(self.ego.encoder[0]) + int(self.ego.encoder[1])*256\
-                + int(self.ego.encoder[2])*256**2 + \
-                int(self.ego.encoder[3])*256**3
+    def serialTopulse(self, data):  
+        if self.init == 0: 
+            self.init = int(data.encoder[0]) + int(data.encoder[1])*256 \
+                 + int(data.encoder[2])*256**2 + \
+                    int(data.encoder[3])*256**3 
+ 
+        self.left = int(data.encoder[0]) + int(data.encoder[1])*256 \
+             + int(data.encoder[2])*256**2 + \
+                int(data.encoder[3])*256**3 - self.init 
 
-        odometry_left = int(self.ego.encoder[0]) + int(self.ego.encoder[1])*256\
-            + int(self.ego.encoder[2])*256**2 + \
-            int(self.ego.encoder[3])*256**3 - self.init
-
-        return odometry_left
+        self.filter()
 
     def filter(self):
         if self.flag_filter:
@@ -77,34 +76,33 @@ class MC(threading.Thread):
             self.right_pulse = self.right
 
     def encoderCallback(self,msg):
-        self.left = self.serialTopulse()
         if self.right_switch == False:
             self.right_init = msg.data
             self.right_switch = True
 
         self.right = msg.data - self.right_init
 
-        self.filter()
+        # print(self.right)
 
         self.pulse = (self.right_pulse + self.left_pulse) / 2
 
     def map_maker(self):
         self.temp = self.pulse
 
-        if self.gps.lat != self.prev_lat and self.gps.lon != self.prev_lon:
-            self.latitude.append(self.gps.lat)
-            self.longitude.append(self.gps.lon)
+        if self.ego.x != self.prev_x and self.ego.y != self.prev_y:
+            self.x.append(self.ego.x)
+            self.y.append(self.ego.y)
 
-        self.prev_lat = self.gps.lat
-        self.prev_lon = self.gps.lon
+        self.prev_x = self.ego.x
+        self.prev_y = self.ego.y
 
     def map_csv(self, msg):
         print('subscripve--------------------------------')
         if self.map_switch == False:
-            save_data = list(zip(self.longitude, self.latitude))
+            save_data = list(zip(self.x, self.y))
 
             save_df = pd.DataFrame(save_data)
-            save_df.to_csv("gpp2.csv", index = False, header = False)
+            save_df.to_csv("parking_parallel.csv", index = False, header = False)
             self.map_switch = True    
 
     def run(self):

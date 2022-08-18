@@ -51,6 +51,7 @@ class LatController(threading.Thread):
 
                     self.ego.input_steer = max(
                         min(degrees(angle), 27.0), -27.0)
+                    # self.ego.input_steer = -27.0
             except IndexError:
                 print("++++++++lat_controller+++++++++")
 
@@ -62,7 +63,7 @@ class LatController(threading.Thread):
             lookahead = 5
         else:
             self.path = self.parking.backward_path
-            lookahead = 7
+            lookahead = 5
 
         target_index = lookahead + self.parking.index
 
@@ -83,7 +84,7 @@ class LatController(threading.Thread):
 
         ###### Back Driving ######
         if self.ego.input_gear == 2:
-            angle = -1.5*angle
+            angle = -2.5*angle
         ##########################
 
         if degrees(angle) < 3.5 and degrees(angle) > -3.5:

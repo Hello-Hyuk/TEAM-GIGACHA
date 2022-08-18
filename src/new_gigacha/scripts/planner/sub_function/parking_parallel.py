@@ -19,25 +19,28 @@ class Parking_Motion():
         self.tmp_backward_path = Path()
 
         #simul kcity
-        self.base_lat = 37.239231667
-        self.base_lon = 126.773156667
-        self.base_alt = 15.4
-
-        #siheung
-        # self.base_lat = 37.36458356
-        # self.base_lon = 126.7237789
+        # self.base_lat = 37.239231667
+        # self.base_lon = 126.773156667
         # self.base_alt = 15.4
+        # with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_KCity_parallel.json') as pkc:
+        #     self.parking_point = json.load(pkc)
 
-        self.radius = 2.7
+        # siheung
+        self.base_lat = 37.36458356
+        self.base_lon = 126.7237789
+        self.base_alt = 15.4
+        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_Siheung_parallel.json') as pkc:
+            self.parking_point = json.load(pkc)
+
+        self.radius = 2
+        # minimun_radius == 1.95
         self.o1_x = 0.5
         self.mapname = ''
         self.cnt = False
         
-        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_KCity_parallel.json') as pkc:
-            self.parking_point = json.load(pkc)
 
     def make_parking_tra(self):
-        self.point = self.parking_point[str(5)]
+        self.point = self.parking_point[str(1)]
         # self.point = self.parking_point[str(self.parking.select_num)]
         self.start_point = self.point["start"]
         self.end_point = self.point["end"]
@@ -59,12 +62,12 @@ class Parking_Motion():
  
         heading_O2_O1 = rad2deg(atan2(self.radius, self.parking_width))
 
-        self.make_path(self.parking.o2x, self.parking.o2y, self.heading + 90, self.heading + 180 - heading_O2_O1 , O2_radius, 1)
-        self.make_path(self.parking.o1x, self.parking.o1y, self.heading - heading_O2_O1  , self.heading - 90, self.radius, -1)
+        self.make_path(self.parking.o2x, self.parking.o2y, self.heading + 90, self.heading + 180 - heading_O2_O1 , O2_radius, 2)
+        self.make_path(self.parking.o1x, self.parking.o1y, self.heading - heading_O2_O1  , self.heading - 90, self.radius, -2)
 
         # self.make_curve_path()
 
-        self.make_straight_path()        
+        # self.make_straight_path()        
 
         print(len(self.parking.backward_path.x))
         print(hypot((self.parking.backward_path.x[120] - self.parking.backward_path.x[119]), (self.parking.backward_path.y[120] - self.parking.backward_path.y[119])))

@@ -3,8 +3,8 @@ import rospy
 import argparse
 from shared.shared import Shared
 from localizer.localizer import Localizer
-from localizer.making_map import MP
-# from localizer.map_creating import MC
+# from localizer.making_map import MP
+from localizer.map_creating import MC
 from planner.planner import Planner
 from controller.controller import Controller
 from utils.sig_int_handler import ActivateSignalInterruptHandler
@@ -26,11 +26,11 @@ class Master(threading.Thread):
         self.localizer = Localizer(self, rate=10)
         self.init_thread(self.localizer)
 
-        self.mp = MP(self, rate = 1)
-        self.init_thread(self.mp)
+        # self.mp = MP(self, rate = 1)
+        # self.init_thread(self.mp)
 
-        # self.mc = MC(self, rate = 50)
-        # self.init_thread(self.mc)
+        self.mc = MC(self, rate = 50)
+        self.init_thread(self.mc)
 
         self.planner = Planner(self, rate=20)
         self.init_thread(self.planner)
@@ -58,7 +58,7 @@ class Master(threading.Thread):
 
     def checker_all(self):
         self.thread_checker(self.localizer)    
-        self.thread_checker(self.mp)
+        self.thread_checker(self.mc)
         self.thread_checker(self.planner)
         self.thread_checker(self.controller)
         self.thread_checker(self.visualizer)

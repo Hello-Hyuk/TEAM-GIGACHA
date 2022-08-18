@@ -1,29 +1,33 @@
-import rospy
 import serial
-from local_pkg.msg import Displacement
+import rospy
+import signal
+import sys
+from std_msgs.msg import Int64
 
-class Encoder_Parsing: # 1 rev per 100 pulse (when it goes straight)
+def signal_handler(sig, frame):
+    print("Shut Down")
+    sys.exit(0)
+
+class Encoder_Parsing():
     def __init__(self):
-        rospy.init_node('Encoder', anonymous = False)
-        self.pub = rospy.Publisher('/encoder', Displacement, queue_size=1)
+        rospy.init_node('Displacement_right', anonymous = False)
+        self.pub = rospy.Publisher('/Displacement_right', Int64, queue_size = 1)
         self.ser = serial.Serial(port = '/dev/encoder', baudrate = 115200)
-        self.encoder = Displacement()
+        signal.signal(signal.SIGINT, signal_handler)
 
-        self.right_data = 0
-
-    def read_encoder(self):
+    def main(self):
         res = self.ser.readline()
-        try:
-            data = res.decode('ascii')
-            self.right_data = int(data)
-            self.pub.publish(self.right_data)
-        except:
-            UnicodeDecodeError
+        while True:
+            try:
+                rospy.loginfo(int(res))
+                break
+            except:
+                res = self.ser.readline()
 
-if __name__ == '__main__':
+        self.pub.publish(int(res))
+
+if __name__ == "__main__":
     enc = Encoder_Parsing()
-    rate = rospy.Rate(20)
 
     while not rospy.is_shutdown():
-        enc.read_encoder()
-        rate.sleep()
+        enc.main()

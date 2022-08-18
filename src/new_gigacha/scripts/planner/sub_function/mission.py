@@ -36,7 +36,7 @@ class Mission():
     def go(self):
         self.ego.target_estop = 0x00
         self.ego.target_gear = 0
-        self.ego.target_speed = 20.0
+        self.ego.target_speed = 5.0
         self.plan.behavior_decision = "driving"
         
     def time_sleep(self, time):
@@ -65,7 +65,7 @@ class Mission():
                     sleep(3)
                     self.plan.behavior_decision = "parkingBackwardOn"
                     self.ego.target_gear = 2
-                    self.ego.target_speed = 5
+                    self.ego.target_speed = 2
                     self.ego.target_brake = 0
             elif (15 <= int(self.parking.stop_index - self.parking.index) <= 25) and (self.parking.direction == 2):
                     self.ego.target_speed = 0
@@ -79,7 +79,7 @@ class Mission():
                     self.parking_switch = True
     
     def Parking_Parallel(self):
-        if ((self.parking_create == False) and (120 <= self.ego.index <= 140)):
+        if ((self.parking_create == False) and (80 <= self.ego.index <= 100)):
             self.plan.behavior_decision = "stop"
             self.ego.target_speed = 0
             self.ego.target_brake = 50
@@ -90,7 +90,7 @@ class Mission():
             self.parking_create = True
             self.plan.behavior_decision = "parking_trajectory_Create"
         if (self.parking_create and self.parking_switch == False):
-            if (self.parking_backward_start == False and len(self.parking.forward_path.x) > 0) and (self.parking.mindex + 20 <= self.ego.index <= self.parking.mindex + 40):
+            if (self.parking_backward_start == False and len(self.parking.forward_path.x) > 0) and (self.parking.mindex + 5 <= self.ego.index <= self.parking.mindex + 25):
                 self.ego.target_speed = 0
                 self.ego.target_brake = 50
                 sleep(3)
