@@ -2,6 +2,7 @@
 import time
 import rospy
 import math
+import argparse
 from numpy import rad2deg
 from local_pkg.msg import Local
 from gps import GPS
@@ -12,20 +13,20 @@ from sig_int_handler import Activate_Signal_Interrupt_Handler
 
 
 class Localization():
-    def __init__(self):
+    def __init__(self, base):
         rospy.init_node('Localization', anonymous = False)
         self.pub = rospy.Publisher('/local_msgs', Local, queue_size = 1)
         self.msg = Local()
+        self.base = base
 
-        self.gps = GPS()
+        self.gps = GPS(self.base)
         self.imu = IMU()
         self.dr = DR()
 
-        self.msg.dr_x = self.gps.x
-        self.msg.dr_y = self.gps.y
-
         self.offset = 0
         self.heading = 0.0
+
+        self.dr_init = False
 
     def heading_decision(self):
         global time_sync
@@ -56,8 +57,16 @@ class Localization():
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
         self.msg.speed = self.dr.speed
-        self.msg.dr_x += self.dr.dis*math.cos(math.radians(self.heading))
-        self.msg.dr_y += self.dr.dis*math.sin(math.radians(self.heading))
+
+        if self.gps.heading_switch:
+            if not self.dr_init:
+                self.msg.dr_x = self.gps.x
+                self.msg.dr_y = self.gps.y
+                self.dr_init = True
+            
+            self.msg.dr_x += self.dr.dis*math.cos(math.radians(self.heading))
+            self.msg.dr_y += self.dr.dis*math.sin(math.radians(self.heading))
+            
         self.msg.roll = self.imu.roll
         self.msg.pitch = self.imu.pitch
         self.msg.heading = self.heading
@@ -72,7 +81,21 @@ class Localization():
 
 if __name__=='__main__':
     Activate_Signal_Interrupt_Handler()
-    loc = Localization()
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--base', '-b', nargs='*', help='base_names', default=[], dest='base_names')
+    basename_input = parser.parse_args().base_names
+
+    if len(basename_input) == 0:
+        base_name = "KCity"
+
+    elif len(basename_input) == 1:
+        base_name = basename_input[0]
+
+    else:
+        raise Exception('Invalid Arguments')
+
+    loc = Localization(base_name)
     rate = rospy.Rate(50)
 
     while not rospy.is_shutdown():
