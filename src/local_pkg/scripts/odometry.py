@@ -1,4 +1,3 @@
-#!/usr/bin/env python3 
 import rospy 
 from std_msgs.msg import Int64 
 from local_pkg.msg import Serial_Info 

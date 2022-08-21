@@ -4,6 +4,7 @@ import rospy
 from time import sleep
 from math import hypot
 from std_msgs.msg import Int64
+from .cubic_spline_planner import calc_spline_course
 
 class MP(threading.Thread):
     def __init__(self, parent, rate):
@@ -83,9 +84,21 @@ class MP(threading.Thread):
         self.global_path.x.append(self.ego.x)
         self.global_path.y.append(self.ego.y)
         self.temp = self.pulse
-        # print("self.global_path.x : {}".format(self.global_path.x))
 
     def map_routine(self):
+        x = []
+        y = []
+        x.append(self.global_path.x[-1])
+        x.append(self.global_path.x[0])
+
+        y.append(self.global_path.y[-1])
+        y.append(self.global_path.y[0])
+
+        cx, cy, _, _, _ = calc_spline_course(x, y, ds=0.1)
+
+        self.global_path.x.extend(cx)
+        self.global_path.y.extend(cy)
+        
         for i in range(3):
             self.global_path.x.extend(self.global_path.x)
             self.global_path.y.extend(self.global_path.y)
@@ -99,7 +112,7 @@ class MP(threading.Thread):
                 if len(self.global_path.x) >= 50 and hypot(self.ego.x, self.ego.y) <= 1.2:
                     self.stop_thread = True
                     self.map_routine()
-                    print('mmmmmmmmmmmmmmmmmmmmmm')
+                    print('====================2ND START====================')
                     self.shared.state = "2nd"
             else:
                 sleep(self.period)

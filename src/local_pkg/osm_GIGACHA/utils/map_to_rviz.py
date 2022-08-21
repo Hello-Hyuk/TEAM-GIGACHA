@@ -11,7 +11,7 @@ from nav_msgs.msg import Path
 from geometry_msgs.msg import PoseStamped
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--file', '-f', nargs='*', help='file_names', default='/home/gigacha/TEAM-GIGACHA/src/local_pkg/GIGACHA_Mapdata/osm_GIGACHA/output_osm/A2_LINK_output_rviz.osm', dest='file_names')
+parser.add_argument('--file', '-f', nargs='*', help='file_names', default='/home/gigacha/TEAM-GIGACHA/src/local_pkg/osm_GIGACHA/output_osm/A2_LINK_output_rviz.osm', dest='file_names')
 filename_input = parser.parse_args().file_names
 
 with open('/home/gigacha/TEAM-GIGACHA/src/local_pkg/scripts/base.json')as base:
@@ -22,11 +22,11 @@ lat = base['lat']
 lon = base['lon']
 alt = base['alt']
 
-# with open('../json_files/semi_final/semi_map.json') as map_data:
-#     global_path_data = json.load(map_data)
-
-with open('map.json') as map_data:
+with open('../json_files/semi_final/semi_map.json') as map_data: ## SEMI FINAL PATH
     global_path_data = json.load(map_data)
+
+# with open('map.json') as map_data: ## FINAL PATH
+#     global_path_data = json.load(map_data)
 
 global_path_xy = global_path_data.values()
 
@@ -34,8 +34,8 @@ if __name__ == "__main__":
     ActivateSignalInterruptHandler()
 
     MAP_data = OSMHandler.OSM_data(filename_input)
-    STOP_data = OSMHandler.OSM_data('/home/gigacha/TEAM-GIGACHA/src/local_pkg/GIGACHA_Mapdata/osm_GIGACHA/B2_SURFACELINEMARK.osm')
-    TRAFFIC_data = OSMHandler.OSM_data('/home/gigacha/TEAM-GIGACHA/src/local_pkg/GIGACHA_Mapdata/osm_GIGACHA/C1_TRAFFICLIGHT.osm')
+    STOP_data = OSMHandler.OSM_data('/home/gigacha/TEAM-GIGACHA/src/local_pkg/osm_GIGACHA/B2_SURFACELINEMARK.osm')
+    TRAFFIC_data = OSMHandler.OSM_data('/home/gigacha/TEAM-GIGACHA/src/local_pkg/osm_GIGACHA/C1_TRAFFICLIGHT.osm')
 
     ####### ENTIRE MAP #######
     lat_lon = []
