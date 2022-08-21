@@ -41,7 +41,7 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(ty
     //xroi.setInputCloud(cloud_filtered);
 	xroi.setInputCloud(cloud);
     xroi.setFilterFieldName("x");
-    xroi.setFilterLimits(0.2, 10);
+    xroi.setFilterLimits(-0.2, 10);
     xroi.filter(*cloud_filtered);
 
     pcl::PassThrough<PointT> yroi;
@@ -53,7 +53,7 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(ty
     pcl::PassThrough<PointT> zroi;
 	zroi.setInputCloud(cloud_filtered);
     zroi.setFilterFieldName("z");
-    zroi.setFilterLimits(-0.9, 0);
+    zroi.setFilterLimits(-0.7, 0);
     zroi.filter(*cloud_filtered);
     cerr << "ROI " << cloud_filtered->points.size() << "\n";
 
