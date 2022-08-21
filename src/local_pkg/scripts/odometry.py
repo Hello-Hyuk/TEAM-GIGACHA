@@ -12,6 +12,7 @@ class DR():
         self.left = 0  # pulse from serial 
  
         self.gear = 0 
+        self.speed = 0
  
         self.dis = 0.0 
  
@@ -85,6 +86,7 @@ class DR():
         self.dis = (self.dis_left + self.dis_right) / 2 
  
     def serialTopulse(self, data): 
+        self.speed = data.speed
         self.gear = data.gear 
         if self.init == 0: 
             self.init = int(data.encoder[0]) + int(data.encoder[1])*256 \

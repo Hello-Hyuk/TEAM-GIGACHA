@@ -4,12 +4,14 @@ import rospy
 from time import sleep
 from math import hypot
 from std_msgs.msg import Int64
+from local_pkg.msg import Serial_Info
 from .cubic_spline_planner import calc_spline_course
 
 class MP(threading.Thread):
     def __init__(self, parent, rate):
         super().__init__()
         rospy.Subscriber('/Displacement_right', Int64, self.encoderCallback)
+        rospy.Subscriber('/serial', Serial_Info, self.serialTopulse)
         self.period = 1.0 / rate
         self.global_path = parent.shared.global_path
         self.shared = parent.shared
@@ -35,20 +37,18 @@ class MP(threading.Thread):
         self.stop_thread = False
         self.right_switch = False
 
-    def serialTopulse(self):
-        # print('self.ego.encoder',self.ego.encoder)
-        try:
-            if self.init == 0:
-                self.init = int(self.ego.encoder[0]) + int(self.ego.encoder[1])*256\
-                    + int(self.ego.encoder[2])*256**2 + \
-                    int(self.ego.encoder[3])*256**3
 
-            self.left = int(self.ego.encoder[0]) + int(self.ego.encoder[1])*256\
-                + int(self.ego.encoder[2])*256**2 + \
-                int(self.ego.encoder[3])*256**3 - self.init
-        except IndexError:
-            print("---------------error or check serial-------------------")
+    def serialTopulse(self, data):  
+        if self.init == 0: 
+            self.init = int(data.encoder[0]) + int(data.encoder[1])*256 \
+                 + int(data.encoder[2])*256**2 + \
+                    int(data.encoder[3])*256**3 
+ 
+        self.left = int(data.encoder[0]) + int(data.encoder[1])*256 \
+             + int(data.encoder[2])*256**2 + \
+                int(data.encoder[3])*256**3 - self.init 
 
+        self.filter()
 
     def filter(self):
         if self.flag_filter:
@@ -69,17 +69,14 @@ class MP(threading.Thread):
             self.right_pulse = self.right
 
     def encoderCallback(self,msg):
-        self.serialTopulse()
         if self.right_switch == False:
             self.right_init = msg.data
             self.right_switch = True
 
         self.right = msg.data - self.right_init
 
-        self.filter()
-
         self.pulse = (self.right_pulse + self.left_pulse) / 2
-
+        
     def map_maker(self):
         self.global_path.x.append(self.ego.x)
         self.global_path.y.append(self.ego.y)

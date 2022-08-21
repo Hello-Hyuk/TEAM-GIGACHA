@@ -1,8 +1,9 @@
 import threading
+import rospy
 from time import sleep
 from .lat_controller import LatController
 from .lon_controller import LonController
-from local_pkg import Control_Info
+from local_pkg.msg import Control_Info
 
 class Controller(threading.Thread):
     def __init__(self, parent, rate):

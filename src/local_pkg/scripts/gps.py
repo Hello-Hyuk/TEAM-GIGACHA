@@ -1,4 +1,3 @@
-#!/usr/bin/env python3 
 import rospy 
 import pymap3d 
 import time 
@@ -8,10 +7,12 @@ from sensor_msgs.msg import NavSatFix
 from ublox_msgs.msg import NavPVT 
  
 class GPS(): 
-    def __init__(self): 
+    def __init__(self, base_name): 
         rospy.Subscriber("ublox_gps/fix", NavSatFix, self.gps_call_back) 
         rospy.Subscriber("ublox_gps/navpvt", NavPVT, self.navpvt_call_back) 
         rospy.Subscriber("/simul_gps", Pose, self.gps_call_back_simul) 
+
+        self.base_name = base_name
          
         self.x = 0.0 
         self.y = 0.0 
@@ -23,7 +24,7 @@ class GPS():
         with open('/home/gigacha/TEAM-GIGACHA/src/local_pkg/scripts/base.json') as base: 
             base_data = json.load(base) 
  
-        self.base = base_data["Siheung"] # KCity, Siheung, KCity_semi,
+        self.base = base_data[self.base_name] # KCity, Siheung, KCity_semi,
         self.lat = self.base['lat'] 
         self.lon = self.base['lon'] 
         self.alt = self.base['alt'] 
