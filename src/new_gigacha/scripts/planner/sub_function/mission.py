@@ -251,10 +251,11 @@ class Mission():
             if self.obs_dis <= 10:
                 if self.check == False:
                     self.plan.behavior_decision = "stop"
-                    self.ego.target_brake = 33
-                    self.wait_time = time()
+                    self.ego.target_brake = 100
+                    self.ego.target_speed = 0
+                    sleep(5)
                     self.check = True
-                if self.plan.behavior_decision == "stop" and time() - self.wait_time > 5:
+                if self.plan.behavior_decision == "stop":
                     self.ego.target_brake = 0
                     self.ego.target_speed = 5.0
                     self.plan.behavior_decision = "static_obstacle_avoidance"
