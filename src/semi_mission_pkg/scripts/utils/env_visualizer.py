@@ -226,8 +226,8 @@ class Visualizer(threading.Thread):
                     circle_marker.lifetime = rospy.Duration(0.1)
                     circle_marker.pose.position.x = self.perception.objx[i]
                     circle_marker.pose.position.y = self.perception.objy[i]
-                    circle_marker.scale.x = (self.perception.objw[i]+1)
-                    circle_marker.scale.y = (self.perception.objw[i]+1)
+                    circle_marker.scale.x = (self.perception.objw[i]+2)
+                    circle_marker.scale.y = (self.perception.objw[i]+2)
                     vis_obj1.markers.append(circle_marker)
                     c_id1 = c_id1 + 1
 

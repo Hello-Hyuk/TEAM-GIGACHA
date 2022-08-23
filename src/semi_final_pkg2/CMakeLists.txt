@@ -72,7 +72,6 @@ generate_messages(
   DEPENDENCIES
   std_msgs
   geometry_msgs
-  new_gigacha
   local_pkg
 )
 
