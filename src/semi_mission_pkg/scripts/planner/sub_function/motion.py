@@ -21,6 +21,7 @@ class Motion():
     #     for i in range(len(self.lattice_path)):
     #         self.lane_weight[i] = sqrt((self.lattice_path[i].x[-1] - self.shared.perception.signx[0])**2 + (self.lattice_path[i].poses[-1].pose.position.y - self.perception.signy[0])**2)
 
+    
     def select_trajectory(self):
         self.shared.selected_lane = self.lane_weight.index(min(self.lane_weight))
 
@@ -47,15 +48,15 @@ class Motion():
         if (self.shared.selected_lane == 1 and self.isObstacle[1] != 1000):
             if(self.isObstacle[1] < self.isObstacle[2]): 
                 print("+++++++++++++\nobstacle in lane 1\n++++++++++++")
-                self.lane_weight = [1000, 1000, 0]
-        elif (self.shared.selected_lane == 2 and self.isObstacle[2] != 1000):
+                self.lane_weight = [0, 1000, 1000]
+        elif (self.shared.selected_lane == 0 and self.isObstacle[2] != 1000):
             if(self.isObstacle[1] > self.isObstacle[2]):
                 print("+++++++++++++\nobstacle in lane 2\n++++++++++++")
                 self.lane_weight = [1000, 0, 1000]
         else:
-            # self.ego.emergency_stop = 1
-            pass
+            self.lane_weight = [1000, 0, 1000]
         #print("selected_lane is ",self.shared.selected_lane,"lane weight is", self.lane_weight)
+
 
 
     def path_maker(self):

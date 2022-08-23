@@ -42,14 +42,6 @@ class MotionPlanner(threading.Thread):
                     self.motion.weight_function_obstacle_avoidance()
                     self.motion.select_trajectory()
 
-                elif self.shared.plan.behavior_decision == "go_side":
-                    self.motion.select_trajectory()
-
-                elif self.shared.plan.behavior_decision == "stop":
-                    # self.plan.trajectory.x = []
-                    # self.plan.trajectory.y = []
-                    pass
-
                 elif self.shared.plan.behavior_decision == "turn_right":
                     self.shared.selected_lane = 2
 
@@ -71,17 +63,9 @@ class MotionPlanner(threading.Thread):
 
                 #################################################
 
-                elif self.shared.plan.behavior_decision == "pickup":
-                    self.shared.selected_lane = 3
-                
-                elif self.shared.plan.behavior_decision == "pickup_end":
-                    self.shared.selected_lane = 2
-
-                elif self.shared.plan.behavior_decision == "delivery":
-                    self.shared.selected_lane = 3
-
-                elif self.shared.plan.behavior_decision == "delivery_end":
-                    self.shared.selected_lane = 2
+                elif self.shared.plan.behavior_decision == "emergency_avoidance":
+                    self.motion.weight_function_obstacle_avoidance()
+                    self.motion.select_trajectory()
 
             except IndexError:
                 print("++++++++mission_controller+++++++++")

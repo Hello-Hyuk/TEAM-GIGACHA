@@ -17,7 +17,7 @@ class Mission():
         
         self.obstacle_checker = False
         self.stop_checker = False
-        self.check = False
+        
         self.prev_objx = 0
 
         self.now = 0
@@ -32,6 +32,8 @@ class Mission():
 
         self.pickup_checker = False
         self.delivery_checker = False
+
+        self.emergency_check = False
 
     def go(self):
         self.ego.target_estop = 0x00
@@ -245,28 +247,19 @@ class Mission():
             self.plan.behavior_decision = "child_area"
 
     def emergency_stop(self):
-        if (len(self.perception.objx) > 0):
-            self.obs_dis = sqrt(
-                (self.perception.objx[0] - self.ego.x)**2 + (self.perception.objy[0] - self.ego.y)**2)
-            if self.obs_dis <= 10:
-                if self.check == False:
-                    self.plan.behavior_decision = "stop"
-                    self.ego.target_brake = 100
-                    self.ego.target_speed = 0
-                    sleep(5)
-                    self.check = True
-                if self.plan.behavior_decision == "stop":
-                    self.ego.target_brake = 0
-                    self.ego.target_speed = 5.0
-                    self.plan.behavior_decision = "static_obstacle_avoidance"
-                    #self.sign_detected = 1
-            elif self.obs_dis > 10:  # and self.sign_detected == 0:
-                self.plan.behavior_decision = "go"
-                self.ego.target_speed = 10.0
-                self.shared.selected_lane = 1
-                self.check = False
-        else:
-            self.plan.behavior_decision = "go"
+        self.ego.target_speed = 5
+        self.plan.behavior_decision = "emergency_avoidance"
+        if (self.shared.selected_lane == 0) and self.emergency_check == False:
+            self.plan.behavior_decision = "stop"
+            self.ego.target_brake = 100
+            self.ego.target_speed = 0
+            sleep(5)
+            self.ego.target_brake = 0
+            self.ego.target_speed = 5
+            self.emergency_check = True
+
+        elif (self.shared.selected_lane == 1) and self.emergency_check == True:
+            self.emergency_check = False
 
     def convert_lidar(self):
         theta = (self.ego.heading) * pi / 180
@@ -361,3 +354,4 @@ class Mission():
             if int(seq_list[i]) == self.perception.target:
                 self.selected = i
         print(self.selected)
+
