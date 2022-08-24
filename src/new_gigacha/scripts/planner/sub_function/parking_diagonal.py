@@ -26,7 +26,7 @@ class Parking_Motion():
         self.base_lat = 37.36458356
         self.base_lon = 126.7237789
         self.base_alt = 15.4
-        with open('new_gigacha/scripts/planner/sub_function/parking_JSON/parking_KCity_parallel.json') as pkc:
+        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_siheung.json') as pkc:
             self.parking_point = json.load(pkc)
         self.direction = 1
 
@@ -152,7 +152,6 @@ class Parking_Motion():
         return min_idx
 
     def parking_drive(self, direction):
-        self.parking.on = True
         self.parking.direction = direction
 
         if self.parking.direction == 2:

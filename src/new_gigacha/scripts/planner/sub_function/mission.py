@@ -28,6 +28,7 @@ class Mission():
         self.parking_switch = False
         self.force_switch = False
         self.inflection_switch = False
+        self.first_stop = False
 
         self.selected = 0
         self.vote = {"345":0, "354":0, "435":0, "453":0, "534":0, "543":0}
@@ -108,6 +109,26 @@ class Mission():
             self.ego.target_brake = 0
             self.parking_create = True
             self.plan.behavior_decision = "parking_trajectory_Create"
+            # if self.parking.select_num == 1:
+            #     self.ego.target_speed = 5
+            #     self.ego.target_brake = 0
+            #     self.parking_create = True
+            #     self.plan.behavior_decision = "parking_trajectory_Create"
+            # elif self.parking.select_num != 1:
+            #     self.Parking_stop_function(200, 300):
+            #     if self.parking.select_num == 1:
+            #         self.ego.target_speed = 5
+            #         self.ego.target_brake = 0
+            #         self.parking_create = True
+            #         self.plan.behavior_decision = "parking_trajectory_Create"
+            #     elif self.parking.select_num != 2:
+            #         self.Parking_stop_function(300, 400):
+            #         if self.parking.select_num == 2:
+            #             self.ego.target_speed = 5
+            #             self.ego.target_brake = 0
+            #             self.parking_create = True
+            #             self.plan.behavior_decision = "parking_trajectory_Create"
+
         if (self.parking_create and self.parking_switch == False):
             if (self.parking_backward_start == False and len(self.parking.forward_path.x) > 0) and (self.parking.mindex + 25 <= self.ego.index <= self.parking.mindex + 45):
                 self.ego.target_speed = 0
@@ -131,7 +152,6 @@ class Mission():
                     self.ego.target_steer = 27
                 # elif (1 <= abs(int(self.parking.inflection_point - self.parking.index)) <= 10) and self.inflection_switch == False:
                 elif (35 <= self.parking.index <= 50) and self.inflection_switch == False:
-                    print("1111111111111121211111")
                     self.ego.target_speed = 0
                     self.ego.target_brake = 150
                     sleep(2)
@@ -161,52 +181,41 @@ class Mission():
                     self.ego.target_brake = 0
                     self.parking_switch = True
 
-    def Parking_Kcity_diagonal(self):
-        if ((self.parking_create == False) and (910 <= self.ego.index <= 930)):
-            self.plan.behavior_decision = "stop"
-            self.ego.target_brake = 200 
-            print("start")
-            sleep(3)
-            print("end")
-            self.parking.select_num = self.perception.parking_num
-            self.ego.target_brake = 0
-            self.parking_create = True
-            self.plan.behavior_decision = "parking_trajectory_Create"
-        if self.parking_create:
-            if (self.parking_forward_start == False) and (self.parking.mindex - 15 <= self.ego.index <= self.parking.mindex - 10):
-                self.plan.behavior_decision = "parkingForwardOn"
-                self.parking_forward_start = True
-            elif (15 <= self.parking.stop_index - self.parking.index <= 18):
-                    self.ego.target_estop = 1
-                    if self.parking.direction == 0:
-                        sleep(3)
-                        self.plan.behavior_decision = "parkingBackwardOn"
-                        self.ego.target_estop = 0
-                        self.ego.target_brake = 0
-                        self.ego.target_gear = 2
-                        self.ego.target_speed = 5
-                    elif self.parking.direction == 2:
-                        sleep(3)
-                        self.parking.on = False
-                        self.ego.target_estop = 0
-                        self.ego.target_brake = 0
-                        self.ego.target_gear = 0
-                        self.ego.target_speed = 5
-                        self.plan.behavior_decision = "driving"
-
-    def Parking_Siheung_diagonal(self):
-        if ((self.parking_create == False) and (20 <= self.ego.index <= 40)):
+    def Parking_stop_function(self, index1, index2):
+        self.plan.behavior_decision = "driving"
+        self.ego.target_speed = 5
+        self.ego.target_brake = 0
+        if ((self.parking_create == False) and (index1 <= self.ego.index <= index2)):
             self.plan.behavior_decision = "stop"
             self.ego.target_speed = 0
-            self.ego.target_brake = 50
+            self.ego.target_brake = 75
             sleep(3)
             self.parking.select_num = self.perception.parking_num
             self.ego.target_speed = 5
             self.ego.target_brake = 0
             self.parking_create = True
             self.plan.behavior_decision = "parking_trajectory_Create"
+
+    def Parking_diagonal(self):
+        if (self.parking_create == False):
+            if (20 <= self.ego.index <= 40) and self.first_stop == False:
+                self.plan.behavior_decision = "stop"
+                self.ego.target_speed = 0
+                self.ego.target_brake = 75
+                sleep(3)
+                self.parking.select_num = self.perception.parking_num
+                self.first_stop = True
+            if self.first_stop == True and ((self.parking.select_num == 1) or (self.parking.select_num == 2) or (self.parking.select_num == 3)):
+                self.ego.target_speed = 5
+                self.ego.target_brake = 0
+                self.parking_create = True
+                self.plan.behavior_decision = "parking_trajectory_Create"
+            elif self.first_stop == True and self.parking.select_num == 4:
+                self.Parking_stop_function(115, 135)
+
         if (self.parking_create and self.parking_switch == False):
             if (self.parking_forward_start == False and len(self.parking.forward_path.x) > 0):
+                self.parking.on = "on"
                 self.plan.behavior_decision = "parkingForwardOn"
                 self.parking_forward_start = True
             if (35 <= int(self.parking.stop_index - self.parking.index) <= 55) and (self.parking.direction == 0):
@@ -222,7 +231,7 @@ class Mission():
                     self.ego.target_brake = 50
                     sleep(3)
                     self.plan.behavior_decision = "driving"
-                    self.parking.on = False
+                    self.parking.on = "off"
                     self.ego.target_gear = 0
                     self.ego.target_speed = 5
                     self.ego.target_brake = 0

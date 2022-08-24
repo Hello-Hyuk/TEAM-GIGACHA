@@ -13,7 +13,7 @@ class Perception_():
       # rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
       rospy.Subscriber("/sign", Detection2DArray, self.sign_callback)
       # rospy.Subscriber("/traffic", Detection2DArray, self.traffic_callback)
-      # rospy.Subscriber("/Parking_num", Int32, self.parking_callback)
+      rospy.Subscriber("/Parking_num", Int32, self.parking_callback)
       # rospy.Subscriber("/bbox1", Detection2DArray, self.camera_callback)
 
       self.signx = 0
@@ -161,4 +161,5 @@ class Perception_():
             self.tgreen = True
 
    def parking_callback(self, msg):
-      self.parking_num = msg.data
+      # self.parking_num = msg.data
+      self.parking_num = 4

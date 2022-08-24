@@ -34,7 +34,7 @@ class BehaviorPlanner(threading.Thread):
                     self.mission.time_checker = False
 
                 if self.plan.state == "parking":
-                    self.mission.Parking_Siheung_Parallel2()
+                    self.mission.Parking_diagonal()
 
                 elif self.plan.state == "static_obstacle_detected":
                     self.mission.static_obstacle()
