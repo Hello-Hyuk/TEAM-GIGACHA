@@ -40,20 +40,15 @@ class LatController(threading.Thread):
                     tmp = degrees(atan2(target_y - self.ego.y,
                                         target_x - self.ego.x)) % 360
 
-                    # heading = self.ego.heading*1
-                    # heading -= 180
-                    # heading %= 360
 
                     alpha = self.ego.heading - tmp
                     angle = atan2(2.0 * self.WB * sin(radians(alpha)) / lookahead, 1.0)
-                    # angle = -1.5*angle
 
                     if degrees(angle) < 0.5 and degrees(angle) > -0.5:
                         angle = 0
 
                     self.ego.input_steer = max(
                         min(degrees(angle), 27.0), -27.0)
-                    # self.ego.input_steer = -27.0
             except IndexError:
                 print("++++++++lat_controller+++++++++")
 

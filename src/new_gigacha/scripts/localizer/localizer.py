@@ -46,7 +46,7 @@ class Localizer(threading.Thread):
     def index_finder(self):
         min_dis = -1
         min_idx = 0
-        step_size = 100
+        step_size = 50
         # save_idx = self.ego.index                    # for not decreasing index
         save_idx = 0
         for i in range(max(self.ego.index - step_size, 0), self.ego.index + step_size):
