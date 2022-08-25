@@ -26,43 +26,18 @@ class path_maker:
         self.obstacles_right=[]
         self.obstacles_left=[]
         self.nearest_obstacles = []
+        
+        #SF#
+        # self.left_obstacles=[]
+        # self.right_obstacles=[]
+        
         self.target_point = Point()
         # visualize용 메세지
         self.target_point_vis = Marker()
 
         rospy.spin()
 
-    def cal_circul(self,points):
 
-        x_list=[]
-        y_list=[]
-
-         
-        for point in points:
-            x=point[0]
-            y=point[1]
-            x_list.append([-2*x,-2*y,1])
-            y_list.append(-(x*x)-(y*y))
-            
-        x_matrix=np.array(x_list)
-        y_matrix=np.array(y_list)
-        x_trans=x_matrix.T
-            
-
-        a_matrix=np.linalg.inv(x_trans.dot(x_matrix)).dot(x_trans).dot(y_matrix)
-        a=a_matrix[0]
-        b=a_matrix[1]
-        c=a_matrix[2]
-        r=sqrt(a*a+b*b-c)
-        if r>5:
-            pass
-            print("r>5",r)
-
-        else:
-            print("r<5",r)
-
-            self.target_point.x = a
-            self.target_point.y = b
 
 
     def calc_distance(self, obs_x, obs_y):
@@ -105,6 +80,20 @@ class path_maker:
                 tmp_right_obs.append(point)
         return (tmp_left_obs, tmp_right_obs)
 
+    #SF#
+    # def preprocessing(self,points):
+
+
+
+    #     if points.name="left_cone":
+    #         self.left_obstacles=points
+
+
+
+
+    #     elif points.name="right_cone":
+    #         self.right_obstacles=points
+
 
     # 하나의 점만 검출될 경우
     # 이전 스티어링 값 유지
@@ -114,7 +103,27 @@ class path_maker:
 
 
 
+    #SF#
+    # def secondCOM(self, left_points,right_points):
+        
+    
+    #     x_sum = 0
+    #     y_sum = 0
+    #     if len(left_points)>=2:
+    #         pass
+    #     if len(right_points)>=2:
+    #         pass
+    #     else:
+
+    #         self.target_point.x=(left_points[0][0] +right_points[0][0])/2
+    #         self.target_point.y =(left_points[0][1] +right_points[0][1])/2
+            
+        
+        
+        
+        
     def secondCOM(self, points):
+        
         x_sum = 0
         y_sum = 0
 
@@ -141,84 +150,166 @@ class path_maker:
 
 
 
-    def tripleCOM(self, points):
+    #SF#
+    # def cal_circul(self,left_points,right_points):
+
+    #     x_list=[]
+    #     y_list=[]
+
+         
+    #     for point in points:
+    #         x=point[0]
+    #         y=point[1]
+    #         x_list.append([-2*x,-2*y,1])
+    #         y_list.append(-(x*x)-(y*y))
+            
+    #     x_matrix=np.array(x_list)
+    #     y_matrix=np.array(y_list)
+    #     x_trans=x_matrix.T
+            
+
+    #     a_matrix=np.linalg.inv(x_trans.dot(x_matrix)).dot(x_trans).dot(y_matrix)
+    #     a=a_matrix[0]
+    #     b=a_matrix[1]
+    #     c=a_matrix[2]
+    #     r=sqrt(a*a+b*b-c)
+    #     if r>5:
+    #         pass
+    #         print("r>5",r)
+
+    #     else:
+    #         print("r<5",r)
+
+    #         self.target_point.x = a
+    #         self.target_point.y = b
+
+
+
+    def cal_circul(self,points):
+
+        x_list=[]
+        y_list=[]
+
+         
+        for point in points:
+            x=point[0]
+            y=point[1]
+            x_list.append([-2*x,-2*y,1])
+            y_list.append(-(x*x)-(y*y))
+            
+        x_matrix=np.array(x_list)
+        y_matrix=np.array(y_list)
+        x_trans=x_matrix.T
+            
+
+        a_matrix=np.linalg.inv(x_trans.dot(x_matrix)).dot(x_trans).dot(y_matrix)
+        a=a_matrix[0]
+        b=a_matrix[1]
+        c=a_matrix[2]
+        r=sqrt(a*a+b*b-c)
+        if r>5:
+            pass
+            print("r>5",r)
+
+        else:
+            print("r<5",r)
+
+            self.target_point.x = a
+            self.target_point.y = b
+
+
+
+    # def tripleCOM(self, points):
     
         
-        x_sum = 0
-        y_sum = 0
-        for point in points:
-            x_sum = x_sum + point[0]
-            y_sum = y_sum + point[1]
+    #     x_sum = 0
+    #     y_sum = 0
+    #     for point in points:
+    #         x_sum = x_sum + point[0]
+    #         y_sum = y_sum + point[1]
 
-        self.target_point.x = x_sum / (len(points)+1)
-        self.target_point.y = y_sum / (len(points)+1)          
+    #     self.target_point.x = x_sum / (len(points)+1)
+    #     self.target_point.y = y_sum / (len(points)+1)          
 
 
-    def fouthCOM(self, points):
+    # def fouthCOM(self, points):
        
-        x_sum = 0
-        y_sum = 0
-        tmp1=0
-        tmp2=0
-        point_R=[]
-        point_L=[]
+    #     x_sum = 0
+    #     y_sum = 0
+    #     tmp1=0
+    #     tmp2=0
+    #     point_R=[]
+    #     point_L=[]
 
-        for point in points:
+    #     for point in points:
 
-            if point[1]<0:
-                point_R=point
-
-
-            if point[1]>0:
-                point_L=point
+    #         if point[1]<0:
+    #             point_R=point
 
 
+    #         if point[1]>0:
+    #             point_L=point
 
 
-            if point[1]<0:
-                tmp1=tmp1+1
-                if tmp1>=3:
-
-                    x_sum = x_sum + point[0]+3*point_L[0]
-                    y_sum = y_sum + point[1]+3*point_L[1]
-
-                    self.target_point.x = x_sum /6
-                    self.target_point.y = y_sum /6
-
-                else:
-                    x_sum = x_sum + point[0]
-                    y_sum = y_sum + point[1]
-
-                    self.target_point.x = x_sum / len(points)
-                    self.target_point.y = y_sum / len(points)
 
 
-            elif point[1]>0:
-                tmp2=tmp2+1
+    #         if point[1]<0:
+    #             tmp1=tmp1+1
+    #             if tmp1>=3:
+
+    #                 x_sum = x_sum + point[0]+3*point_L[0]
+    #                 y_sum = y_sum + point[1]+3*point_L[1]
+
+    #                 self.target_point.x = x_sum /6
+    #                 self.target_point.y = y_sum /6
+
+    #             else:
+    #                 x_sum = x_sum + point[0]
+    #                 y_sum = y_sum + point[1]
+
+    #                 self.target_point.x = x_sum / len(points)
+    #                 self.target_point.y = y_sum / len(points)
+
+
+    #         elif point[1]>0:
+    #             tmp2=tmp2+1
                 
-                if tmp2>=3:
-                    x_sum = x_sum + point[0]+3*point_R[0]
-                    y_sum = y_sum + point[1]+3*point_R[1]
+    #             if tmp2>=3:
+    #                 x_sum = x_sum + point[0]+3*point_R[0]
+    #                 y_sum = y_sum + point[1]+3*point_R[1]
 
-                    self.target_point.x = x_sum /6
-                    self.target_point.y = y_sum / 6
+    #                 self.target_point.x = x_sum /6
+    #                 self.target_point.y = y_sum / 6
 
-                else:
-                    x_sum = x_sum + point[0]
-                    y_sum = y_sum + point[1]
+    #             else:
+    #                 x_sum = x_sum + point[0]
+    #                 y_sum = y_sum + point[1]
 
-                    self.target_point.x = x_sum / len(points)
-                    self.target_point.y = y_sum / len(points)
+    #                 self.target_point.x = x_sum / len(points)
+    #                 self.target_point.y = y_sum / len(points)
 
 
 
 
     def makePath(self, msg):
 
+
+        #SF#
+        # for obs in msg.custom_markers:
+        #     tmp_obs_dis = self.calc_distance(obs.pose.position.x, obs.pose.position.y)
+        #     self.obstacles.append([round(obs.pose.position.x, 2), round(obs.pose.position.y, 2), round(tmp_obs_dis, 2),obs.name]) # obstacle[3]->obstacle's name(left_cone,right_cone)
+
+            
+
+
         
         for obs in msg.markers:
             tmp_obs_dis = self.calc_distance(obs.pose.position.x, obs.pose.position.y)
             self.obstacles.append([round(obs.pose.position.x, 2), round(obs.pose.position.y, 2), round(tmp_obs_dis, 2)])
+
+        #SF#
+        #preprocessing
+        #self.preprocessing(self.obstacles) #separate left_cone, right_cone
         
         # 점 정렬 & 4개 점 filtering
         self.obstacles.sort(key = lambda x : x[2])
@@ -233,14 +324,22 @@ class path_maker:
 
         elif len(self.obstacles) == 2:
             self.secondCOM(self.obstacles)
+            #SF#
+            #self.secondCOM(self.left_obstacles,self.right_obstacles)
         
         elif len(self.obstacles) == 3:
             self.cal_circul(self.obstacles)
+            #SF#
+            #self.cal_circul(self.left_obstacles,self.right_obstacles)
+
+
             #self.tripleCOM(self.obstacles)
 
 
         else:
             self.cal_circul(self.obstacles)
+            #SF#
+            #self.cal_circul(self.left_obstacles,self.right_obstacles)
             #self.fouthCOM(self.obstacles)
 
         print("self.obstacles",self.obstacles)
