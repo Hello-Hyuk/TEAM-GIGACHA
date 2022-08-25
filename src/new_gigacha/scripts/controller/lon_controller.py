@@ -28,7 +28,7 @@ class LonController(threading.Thread):
             out_vel_plan.append(self.car_max_speed)
         print("len : ",len(path.x))
         for i in range(point_num,len(path.x) - point_num):
-        
+            
             x_list = []
             y_list = []
             for box in  range(-point_num, point_num):

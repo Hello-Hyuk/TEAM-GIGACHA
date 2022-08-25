@@ -34,19 +34,6 @@ class path_maker:
 
     def cal_circul(self,points):
 
-    #     for point in points:
-    #         cx=point[0]
-    #         cy=point[1]
-
-    #         A=np.array([2*cx,2*cy,1])
-    #         B=np.array([cx*cx+cy*cy])
-        
-    #         np.append(A, A, axis=0)
-    #         np.append(B, B, axis=0)
-
-    #     C=np.linalg.solve(A,B)
-    #     print(C)
-
         x_list=[]
         y_list=[]
 
@@ -67,14 +54,15 @@ class path_maker:
         b=a_matrix[1]
         c=a_matrix[2]
         r=sqrt(a*a+b*b-c)
-        print(r)
-        self.target_point.x = a
-        self.target_point.y = b
+        if r>5:
+            pass
+            print("r>5",r)
 
+        else:
+            print("r<5",r)
 
-
-
-
+            self.target_point.x = a
+            self.target_point.y = b
 
 
     def calc_distance(self, obs_x, obs_y):
@@ -153,12 +141,6 @@ class path_maker:
 
 
 
-       
-
-
-
-
-
     def tripleCOM(self, points):
     
         
@@ -172,8 +154,6 @@ class path_maker:
         self.target_point.y = y_sum / (len(points)+1)          
 
 
-
-#method1
     def fouthCOM(self, points):
        
         x_sum = 0
@@ -272,6 +252,7 @@ class path_maker:
         self.pub.publish(self.target_point)
         self.obstacles.clear()
         self.target_point_vis.points.clear()
+        #rospy.sleep(0.36) #default 0.1
         
 
 if __name__ == "__main__":
