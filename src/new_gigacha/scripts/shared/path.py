@@ -4,3 +4,4 @@ class Path():
         self.y = []
         self.k = []
         self.yaw = []
+        self.mission = []

@@ -24,9 +24,9 @@ from cubic_spline_planner import calc_spline_course
 # base_alt = 15.4
 
 # Siheung
-base_lat = 37.36458356
-base_lon = 126.7237789
-base_alt = 15.4
+# base_lat = 37.36458356
+# base_lon = 126.7237789
+# base_alt = 15.4
 
 # simul
 # base_lat = 37.239235
@@ -68,7 +68,7 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     colnames = ['lon', 'lat']
     # df = pd.read_csv(f'maps/Siheung/nodes/turn_right/turn_right_line.csv', names=colnames, header=None) # siheung
-    df = pd.read_csv(f'parallel.csv', names=colnames, header=None)
+    df = pd.read_csv(f'uturnCourse.csv', names=colnames, header=None)
     x = []
     y = []
 
@@ -100,7 +100,11 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 # cubic("parallelSTR", 1,2)
 # cubic("kcitySTR",1,2)
 # enu('parking_1lane_siheung', 6)
-enu('roi_siheung_parallel', 12)
+cubic('uturn1', 1,2,3,4,5)
+cubic('uturn2', 5,6)
+cubic('uturn3', 6,7)
+cubic('uturn4', 7,8,9,10,11,12,13,14)
+cubic('uturn5', 14,15)
 
 # cubic("2",2,3,4,5,6,7)
 # cubic("3",7,8)

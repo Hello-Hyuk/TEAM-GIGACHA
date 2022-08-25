@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import time
-import csv
+import json
 import threading
 import math
 import rospy
@@ -35,13 +35,15 @@ class Localizer(threading.Thread):
         self.ego.pitch = msg.pitch
 
     def read_global_path(self):
-        with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
-            csv_reader = csv.reader(csv_file)
-            for line in csv_reader:
-                self.global_path.x.append(float(line[0]))
-                self.global_path.y.append(float(line[1]))
+        with open(f"maps/{self.mapname}.json") as json_file:
+            json_data = json.load(json_file)
+            for n, (x, y , mission) in enumerate(json_data.values()):
+                self.global_path.x.append(x)
+                self.global_path.y.append(y)
+                self.global_path.mission.append(mission)
                 # self.global_path.k.append(float(line[2]))
                 # self.global_path.yaw.append(float(line[3]))
+        # print("self.global_path.x",self.global_path.x)
 
     def index_finder(self):
         min_dis = -1
