@@ -1,7 +1,7 @@
 import json
 
 
-files=['global_path_1.json','global_path_2.json','global_path_3.json','global_path_4.json']
+files=['final_map.json', 'final_path5.json']
 
 def merge_JsonFiles(filename):
     data_dict = dict()
@@ -15,7 +15,7 @@ def merge_JsonFiles(filename):
         data_dict[n] = nodes
     
     j = json.dumps(data_dict, indent = 4)
-    f = open('map.json', 'w')
+    f = open('final_path.json', 'w')
     print(j, file = f)
     f.close()
 

@@ -36,6 +36,6 @@ for i in range(len(x_list)):
     central_data[i].append(y_list[i])
 
 j = json.dumps(central_data, indent = 4)
-f = open('stop_line_coordinates', 'w')
+f = open('stop_line_coordinates.json', 'w')
 print(j, file = f)
 f.close()

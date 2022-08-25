@@ -81,7 +81,7 @@ class Global_path_planning():
             print("CAN'T FIND A PATH")
 
         j = json.dumps(self.path_dict, indent = 4)
-        f = open('global_path_4.json', 'w')
+        f = open('final_path5.json', 'w')
         print(j, file = f)
         f.close()
 
@@ -89,10 +89,10 @@ if __name__ == '__main__':
     ActivateSignalInterruptHandler()
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--file', '--f', nargs='*', help='file_names', default='/home/gigacha/TEAM-GIGACHA/src/local_pkg/GIGACHA_Mapdata/osm_GIGACHA/output_osm/A2_LINK_output.osm', dest='file_names')
+    parser.add_argument('--file', '--f', nargs='*', help='file_names', default='/home/gigacha/TEAM-GIGACHA/src/local_pkg/osm_GIGACHA/output_osm/A2_LINK_output.osm', dest='file_names')
     
     filename_input = parser.parse_args().file_names
 
-    global_path_planning = Global_path_planning(filename_input, -165620, -269341,'driving')
+    global_path_planning = Global_path_planning(filename_input, -165620, -905257,'driving')
 
     print("==================COMPLETE==================")

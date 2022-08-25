@@ -22,11 +22,11 @@ lat = base['lat']
 lon = base['lon']
 alt = base['alt']
 
-# with open('../json_files/semi_final/semi_map.json') as map_data: ## SEMI FINAL PATH
-#     global_path_data = json.load(map_data)
-
-with open('map.json') as map_data: ## FINAL PATH
+with open('../json_files/semi_final/semi_map.json') as map_data: ## SEMI FINAL PATH
     global_path_data = json.load(map_data)
+# 
+# with open('../json_files/final_map.json') as map_data: ## FINAL PATH
+    # global_path_data = json.load(map_data)
 
 global_path_xy = global_path_data.values()
 
