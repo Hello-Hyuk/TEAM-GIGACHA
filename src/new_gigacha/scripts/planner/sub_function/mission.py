@@ -212,9 +212,10 @@ class Mission():
             self.parking_create = True
             self.plan.behavior_decision = "parking_trajectory_Create"
 
-    def Parking_diagonal(self):
+    def Parking_Siheung_diagonal(self):
         if (self.parking_create == False):
-            if (20 <= self.ego.index <= 40) and self.first_stop == False:
+            # if (20 <= self.ego.index <= 40) and self.first_stop == False: # Siheung
+            if (910 <= self.ego.index <= 930) and self.first_stop == False: # K-City
                 self.plan.behavior_decision = "stop"
                 self.ego.target_speed = 0
                 self.ego.target_brake = 75
@@ -226,15 +227,33 @@ class Mission():
                 self.ego.target_brake = 0
                 self.parking_create = True
                 self.plan.behavior_decision = "parking_trajectory_Create"
-            elif self.first_stop == True and self.parking.select_num == 4:
-                self.Parking_stop_function(115, 135)
+            elif self.first_stop == True and self.parking.select_num == 4 or self.parking.select_num == 5 or self.parking.select_num == 6:
+                # self.Parking_stop_function(115, 135) # Siheung
+                self.Parking_stop_function(1025, 1045) # K-City
+
+    def Parking_KCity_diagonal(self):
+        if (self.parking_create == False):
+            if (910 <= self.ego.index <= 930) and self.first_stop == False: # K-City
+                self.plan.behavior_decision = "stop"
+                self.ego.target_speed = 0
+                self.ego.target_brake = 75
+                sleep(3)
+                self.parking.select_num = self.perception.parking_num
+                self.first_stop = True
+            if self.first_stop == True and ((self.parking.select_num == 1) or (self.parking.select_num == 2) or (self.parking.select_num == 3)):
+                self.ego.target_speed = 5
+                self.ego.target_brake = 0
+                self.parking_create = True
+                self.plan.behavior_decision = "parking_trajectory_Create"
+            elif self.first_stop == True and self.parking.select_num == 4 or self.parking.select_num == 5 or self.parking.select_num == 6:
+                self.Parking_stop_function(1025, 1045) # K-City
 
         if (self.parking_create and self.parking_switch == False):
             if (self.parking_forward_start == False and len(self.parking.forward_path.x) > 0):
                 self.parking.on = "on"
                 self.plan.behavior_decision = "parkingForwardOn"
                 self.parking_forward_start = True
-            if (35 <= int(self.parking.stop_index - self.parking.index) <= 55) and (self.parking.direction == 0):
+            if (5 <= int(self.parking.stop_index - self.parking.index) <= 20) and (self.parking.direction == 0):
                     self.ego.target_speed = 0
                     self.ego.target_brake = 50
                     sleep(3)

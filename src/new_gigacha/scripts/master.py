@@ -50,10 +50,10 @@ class Master(threading.Thread):
             print("---------------------")
             self.checker_all()
             # print('Localization')
-            print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
-                .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
+            ##print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
+            ##    .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
             # print('Mission_State : {}'.format(self.shared.plan.state))
-            print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
+            ##print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
             # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
             # print('Controller')
             # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
@@ -63,8 +63,8 @@ class Master(threading.Thread):
             # print("tmp :" ,len(self.shared.perception.tmp_objx))
             # print("real :" ,len(self.shared.perception.objx))
             # print("real :" , self.shared.perception.objx, self.shared.perception.objy)
-            print('self.shared.park.index : ',self.shared.park.index)
-            print("parking on : ", self.shared.park.on)
+            ##print('self.shared.park.index : ',self.shared.park.index)
+            ##print("parking on : ", self.shared.park.on)
             # print("hello")
             sleep(self.period)
 

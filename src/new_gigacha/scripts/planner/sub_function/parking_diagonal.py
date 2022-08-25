@@ -14,21 +14,21 @@ class Parking_Motion():
         self.global_path = self.shared.global_path
         self.parking = self.shared.park
 
-        #simul kcity
-        # self.base_lat = 37.239231667
-        # self.base_lon = 126.773156667
-        # self.base_alt = 15.4
-        # with open('/parking_JSON/parking_KCity2.json') as pkc:
-        #     self.parking_point = json.load(pkc)
-        # self.direction = -1
-
-        #siheung
-        self.base_lat = 37.36458356
-        self.base_lon = 126.7237789
+        # simul kcity
+        self.base_lat = 37.239231667
+        self.base_lon = 126.773156667
         self.base_alt = 15.4
-        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_siheung.json') as pkc:
+        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_KCity2.json') as pkc:
             self.parking_point = json.load(pkc)
-        self.direction = 1
+        self.direction = -1
+
+        # #siheung
+        # self.base_lat = 37.36458356
+        # self.base_lon = 126.7237789
+        # self.base_alt = 15.4
+        # with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_siheung.json') as pkc:
+        #     self.parking_point = json.load(pkc)
+        # self.direction = 1
 
         self.smooth_radius = 11
         self.cnt = False

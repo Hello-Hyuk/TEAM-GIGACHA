@@ -32,7 +32,7 @@ class Perception_():
       self.tgreen = False
       self.tmp_lidar_lock = threading.Lock()
       self.lidar_lock = threading.Lock()
-      self.signname = " "
+      self.signname = "parking"
       self.parking_num = ""
       self.target = 3
 
@@ -161,5 +161,5 @@ class Perception_():
             self.tgreen = True
 
    def parking_callback(self, msg):
-      # self.parking_num = msg.data
-      self.parking_num = 2
+      self.parking_num = msg.data
+      # self.parking_num = 2
