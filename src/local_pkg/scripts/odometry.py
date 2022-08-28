@@ -87,7 +87,7 @@ class DR():
     def serialTopulse(self, data): 
         self.speed = data.speed
         self.gear = data.gear 
-        self.speed = data.speed
+        
         if self.init == 0: 
             self.init = int(data.encoder[0]) + int(data.encoder[1])*256 \
                  + int(data.encoder[2])*256**2 + \
