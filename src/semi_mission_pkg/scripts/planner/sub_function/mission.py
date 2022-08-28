@@ -180,6 +180,7 @@ class Mission():
                 elif (10 <= int(self.parking.stop_index - self.parking.index) <= 20):
                     self.ego.target_speed = 0
                     self.ego.target_brake = 50
+                    
                     sleep(3)
                     self.plan.behavior_decision = "parkingForwardOn"
                     self.ego.target_gear = 0
