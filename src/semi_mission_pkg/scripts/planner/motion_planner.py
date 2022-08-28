@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from re import A
 import threading
 from time import sleep
 from .sub_function.motion import Motion
@@ -15,54 +14,10 @@ class MotionPlanner(threading.Thread):
         self.shared = parent.shared
         self.plan = parent.shared.plan
         self.ego = parent.shared.ego
-        # self.parking = parent.shared.
-                elif self.shared.plan.behavior_decision == "pickup":
-                    self.shared.selected_lane = 3
-                
-                elif self.shared.plan.behavior_decision == "pickup_end":
-                    self.shared.selected_lane = 2
-
-                elif self.shared.plan.behavior_decision == "delivery":
-                    self.shared.selected_lane = 3
-
-                elif self.shared.plan.behavior_decision == "delivery_end":
-                    self.shared.selected_lane = 2
-                elif self.shared.plan.behavior_decision == "pickup":
-                    self.shared.selected_lane = 3
-                
-                elif self.shared.plan.behavior_decision == "pickup_end":
-                    self.shared.selected_lane = 2
-
-                elif self.shared.plan.behavior_decision == "delivery":
-                    self.shared.selected_lane = 3
-
-                elif self.shared.plan.behavior_decision == "delivery_end":
-                    self.shared.selected_lane = 2
-                elif self.shared.plan.behavior_decision == "pickup":
-                    self.shared.selected_lane = 3
-                
-                elif self.shared.plan.behavior_decision == "pickup_end":
-                    self.shared.selected_lane = 2
-
-                elif self.shared.plan.behavior_decision == "delivery":
-                    self.shared.selected_lane = 3
-
-                elif self.shared.plan.behavior_decision == "delivery_end":
-                    self.shared.selected_lane = 2
+        # self.parking = parent.shared.parking
 
         # self.trajectory = self.plan.trajectory # to controller
-        self.global_path = self.shared.global_path
-                elif self.shared.plan.behavior_decision == "pickup":
-                    self.shared.selected_lane = 3
-                
-                elif self.shared.plan.behavior_decision == "pickup_end":
-                    self.shared.selected_lane = 2
-
-                elif self.shared.plan.behavior_decision == "delivery":
-                    self.shared.selected_lane = 3
-
-                elif self.shared.plan.behavior_decision == "delivery_end":
-                    self.shared.selected_lane = 2  # from localizer
+        self.global_path = self.shared.global_path  # from localizer
 
         # from global path (find_local_path)
         self.cut_path = self.shared.cut_path
@@ -71,17 +26,6 @@ class MotionPlanner(threading.Thread):
         self.lane_weight = [10000, 0, 10000]
         self.isObstacle = [1000, 1000, 1000]
 
-                elif self.shared.plan.behavior_decision == "pickup":
-                    self.shared.selected_lane = 3
-                
-                elif self.shared.plan.behavior_decision == "pickup_end":
-                    self.shared.selected_lane = 2
-
-                elif self.shared.plan.behavior_decision == "delivery":
-                    self.shared.selected_lane = 3
-
-                elif self.shared.plan.behavior_decision == "delivery_end":
-                    self.shared.selected_lane = 2
         self.motion = Motion(self.shared, self.plan, self.ego)
         self.park_motion = Parking_Motion(self.shared, self.plan, self.ego)
 
