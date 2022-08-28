@@ -115,8 +115,6 @@ class Parking_Motion():
 
             theta_O3_to_lot = rad2deg(
                 atan2(dis_mindex_to_start/(self.smooth_radius-dis_mindex_to_lot), 1))
-
-
             # self.parking.o3x = self.parking_x + self.smooth_radius*cos(radians(self.park_heading)) - self.smooth_radius*sin(radians(self.park_heading))
             # self.parking.o3y = self.parking_y + self.smooth_radius*sin(radians(self.park_heading)) + self.smooth_radius*cos(radians(self.park_heading))
             
