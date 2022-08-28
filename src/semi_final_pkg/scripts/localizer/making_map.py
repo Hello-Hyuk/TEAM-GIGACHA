@@ -32,6 +32,8 @@ class MP(threading.Thread):
         self.diff_right = 0
         self.temp = 0
 
+        self.init_switch = False
+
         self.odometry_left = 0
 
         self.stop_thread = False
@@ -78,23 +80,34 @@ class MP(threading.Thread):
         self.pulse = (self.right_pulse + self.left_pulse) / 2
         
     def map_maker(self):
+        if self.init_switch == False:
+            self.init_switch = True
+            self.init_x, self.init_y = self.ego.x, self.ego.y
         self.global_path.x.append(self.ego.x)
         self.global_path.y.append(self.ego.y)
         self.temp = self.pulse
 
     def map_routine(self):
+        value = 5
         x = []
         y = []
-        x.append(self.global_path.x[-5])
+        x.append(self.global_path.x[-value])
         x.append(self.global_path.x[0])
 
-        y.append(self.global_path.y[-5])
+        y.append(self.global_path.y[-value])
         y.append(self.global_path.y[0])
 
         cx, cy, _, _, _ = calc_spline_course(x, y, ds=0.1)
 
-        self.global_path.x.extend(cx)
-        self.global_path.y.extend(cy)
+        for i range(value):
+            del self.global_path.x[0]
+            del self.global_path.y[0]
+
+        self.global_path.x = cx.extend(self.global_path.x)
+        self.global_path.y = cy.extend(self.global_path.y)
+
+        # self.global_path.x.extend(cx)
+        # self.global_path.y.extend(cy)
         
         for i in range(3):
             self.global_path.x.extend(self.global_path.x)
@@ -106,7 +119,7 @@ class MP(threading.Thread):
                 if round(self.pulse) % 6 == 0 and self.pulse !=self.temp:
                     self.map_maker()
 
-                if len(self.global_path.x) >= 50 and hypot(self.ego.x, self.ego.y) <= 1.2:
+                if len(self.global_path.x) >= 50 and hypot(self.ego.x - self.init_x, self.ego.y - self.init_y) <= 1.2:
                     self.stop_thread = True
                     self.map_routine()
                     print('====================2ND START====================')

@@ -2,7 +2,6 @@
 import threading
 from time import sleep
 from .sub_function.mission import Mission
-from .sub_function.parking_diagonal_lidar import PL
 from std_msgs.msg import String
 
 
@@ -23,8 +22,6 @@ class BehaviorPlanner(threading.Thread):
         self.sign_detected = 0  # action just one time
         self.mission = Mission(self.shared, self.ego,
                                self.perception, self.plan)
-        self.pl = PL(self.ego)
-
         self.state_remember = "go"
 
     def run(self):
@@ -37,10 +34,7 @@ class BehaviorPlanner(threading.Thread):
                     self.mission.time_checker = False
 
                 if self.plan.state == "parking":
-                    self.mission.Parking_KCity_diagonal()
-                
-                elif self.plan.state == "U-TURN":
-                    self.mission.u_turn()
+                    self.mission.Parking_Parallel()
 
                 elif self.plan.state == "static_obstacle_detected":
                     self.mission.static_obstacle()
