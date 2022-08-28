@@ -14,21 +14,21 @@ class Parking_Motion():
         self.global_path = self.shared.global_path
         self.parking = self.shared.park
 
-        #simul kcity
-        # self.base_lat = 37.239231667
-        # self.base_lon = 126.773156667
-        # self.base_alt = 15.4
-        # with open('/parking_JSON/parking_KCity2.json') as pkc:
-        #     self.parking_point = json.load(pkc)
-        # self.direction = -1
-
-        #siheung
-        self.base_lat = 37.36458356
-        self.base_lon = 126.7237789
+        # simul kcity
+        self.base_lat = 37.23873
+        self.base_lon = 126.772383333333
         self.base_alt = 15.4
-        with open('new_gigacha/scripts/planner/sub_function/parking_JSON/parking_KCity_parallel.json') as pkc:
+        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_KCity2.json') as pkc:
             self.parking_point = json.load(pkc)
-        self.direction = 1
+        self.direction = -1
+
+        # #siheung
+        # self.base_lat = 37.36458356
+        # self.base_lon = 126.7237789
+        # self.base_alt = 15.4
+        # with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_siheung.json') as pkc:
+        #     self.parking_point = json.load(pkc)
+        # self.direction = 1
 
         self.smooth_radius = 11
         self.cnt = False
@@ -75,32 +75,31 @@ class Parking_Motion():
                                     self.base_lat, self.base_lon, self.base_alt)
         return x, y
 
+
     def find_O3(self):
 
         dis_mindex_to_lot = sqrt((self.parking_x - self.global_path.x[self.parking.mindex])**2 + (
             self.parking_y - self.global_path.y[self.parking.mindex])**2)
         dis_mindex_to_start = sqrt(2*dis_mindex_to_lot *
                                 self.smooth_radius - dis_mindex_to_lot**2)
-        dis_mindex_to_ego = sqrt((self.global_path.x[self.parking.mindex]-self.global_path.x[self.ego.index])
-                                ** 2 + (self.global_path.y[self.parking.mindex]-self.global_path.y[self.ego.index])**2)
 
-        dis_start_to_ego = dis_mindex_to_ego - dis_mindex_to_start
+        self.start_index = self.parking.mindex - round(10*dis_mindex_to_start)
 
-        dis_O3 = sqrt(self.smooth_radius**2 + dis_start_to_ego**2)
+        # self.park_heading = rad2deg(atan2(
+        #     (self.parking_end_y-self.parking_y), (self.parking_end_x-self.parking_x)))%360
 
-        theta_O3 = rad2deg(
-            atan2(self.smooth_radius/dis_start_to_ego, 1))%360
-
-
-        heading_to_O3 = self.heading + self.direction*theta_O3
+        # self.park_heading = (self.park_heading - 90)%360
 
         theta_O3_to_lot = rad2deg(
             atan2(dis_mindex_to_start/(self.smooth_radius-dis_mindex_to_lot), 1))
+        # self.park_heading = -1*(90 - theta_O3_to_lot)
+        self.parking.o3x = self.global_path.x[self.start_index] + self.smooth_radius*cos(radians((self.heading -90)%360))
+        self.parking.o3y = self.global_path.y[self.start_index] + self.smooth_radius*sin(radians((self.heading -90)%360))
 
-        self.parking.o3x = self.global_path.x[self.ego.index] + dis_O3*cos(radians(heading_to_O3))
-        self.parking.o3y = self.global_path.y[self.ego.index] + dis_O3*sin(radians(heading_to_O3))
-
-        return  theta_O3_to_lot      
+        # self.parking.o3x = self.parking_x + self.smooth_radius*cos(radians(self.park_heading)) - self.smooth_radius*sin(radians(self.park_heading))
+        # self.parking.o3y = self.parking_y + self.smooth_radius*sin(radians(self.park_heading)) + self.smooth_radius*cos(radians(self.park_heading))
+        
+        return  theta_O3_to_lot     
     
     def make_path(self, x, y, start, end, radius, direction):
         start = int(round(start))
@@ -152,7 +151,6 @@ class Parking_Motion():
         return min_idx
 
     def parking_drive(self, direction):
-        self.parking.on = True
         self.parking.direction = direction
 
         if self.parking.direction == 2:

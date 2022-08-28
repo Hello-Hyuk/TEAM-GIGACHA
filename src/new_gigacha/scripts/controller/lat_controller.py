@@ -21,37 +21,34 @@ class LatController(threading.Thread):
     def run(self):
         while True:
             try:
-                if self.parking.on:
+                if self.parking.on == "on":
                     self.parking_run()
-                else:
+                elif self.parking.on == "forced":
+                    self.parking_run2()
+                elif self.parking.on == "off":
                     self.path = self.lattice_path[self.shared.selected_lane]
                     # print(len(self.lattice_path), "\n", self.shared.selected_lane)
                     # self.path = self.shared.global_path
                     lookahead = min(self.k * self.ego.speed +
                                     self.lookahead_default, 6)
-                    # target_index = len(self.path.x) - 30
+                    target_index = len(self.path.x) - 30
 
                     # lookahead = min(self.k * self.ego.speed + self.lookahead_default, 7)
-                    target_index = int(lookahead * 10)
+                    # target_index = int(lookahead * 10)
 
                     target_x, target_y = self.path.x[target_index], self.path.y[target_index]
                     tmp = degrees(atan2(target_y - self.ego.y,
                                         target_x - self.ego.x)) % 360
 
-                    # heading = self.ego.heading*1
-                    # heading -= 180
-                    # heading %= 360
 
                     alpha = self.ego.heading - tmp
                     angle = atan2(2.0 * self.WB * sin(radians(alpha)) / lookahead, 1.0)
-                    # angle = -1.5*angle
 
                     if degrees(angle) < 0.5 and degrees(angle) > -0.5:
                         angle = 0
 
                     self.ego.input_steer = max(
                         min(degrees(angle), 27.0), -27.0)
-                    # self.ego.input_steer = -27.0
             except IndexError:
                 print("++++++++lat_controller+++++++++")
 
@@ -64,8 +61,10 @@ class LatController(threading.Thread):
         else:
             self.path = self.parking.backward_path
             lookahead = 5
-
+        # if not self.parking.inflection_on:
         target_index = lookahead + self.parking.index
+        # else:
+        #     target_index = len(self.parking.backward_path.x) - 1
 
         target_x, target_y = self.path.x[target_index], self.path.y[target_index]
         tmp = degrees(atan2(target_y - self.ego.y,
@@ -84,10 +83,13 @@ class LatController(threading.Thread):
 
         ###### Back Driving ######
         if self.ego.input_gear == 2:
-            angle = -2.5*angle
+            angle = -1.5*angle
         ##########################
 
         if degrees(angle) < 3.5 and degrees(angle) > -3.5:
             angle = 0
 
         self.ego.input_steer = max(min(degrees(angle), 27.0), -27.0)
+
+    def parking_run2(self):
+        self.ego.input_steer = self.ego.target_steer

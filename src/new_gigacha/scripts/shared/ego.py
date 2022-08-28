@@ -9,7 +9,7 @@ class Ego():
         self.heading = 0.0
         self.roll = 0.0
         self.pitch = 0.0
-        self.index = 0
+        self.index = int(0)
         self.orientation = Quaternion()
 
         # Odometry
@@ -32,6 +32,7 @@ class Ego():
         self.target_gear = 0
         self.target_brake = 0
         self.target_estop = 0
+        self.target_steer = 0
 
         # Controller to Serial (writer)
         self.input_estop = 0x00
