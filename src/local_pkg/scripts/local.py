@@ -3,7 +3,6 @@ import time
 import rospy
 import math
 import argparse
-from numpy import rad2deg
 from local_pkg.msg import Local
 from gps import GPS
 from ahrs import IMU
@@ -57,6 +56,7 @@ class Localization():
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
         self.msg.speed = self.dr.speed
+        self.msg.distance = self.dr.dis
 
         if self.gps.heading_switch:
             if not self.dr_init:
