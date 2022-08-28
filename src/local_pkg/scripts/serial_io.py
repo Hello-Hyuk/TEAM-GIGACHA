@@ -10,8 +10,8 @@ import rospy
 class Serial_IO:
     def __init__(self):
         # Serial Connect
-        # self.ser = serial.Serial("/dev/ttyUSB0", 115200) # Simulation
-        self.ser = serial.Serial("/dev/erp42", 115200) # Real World
+        self.ser = serial.Serial("/dev/ttyUSB1", 115200) # Simulation
+        # self.ser = serial.Serial("/dev/erp42", 115200) # Real World
         print("Serial_IO: Serial connecting to /dev/erp42...")
 
         # ROS Publish
@@ -35,7 +35,7 @@ class Serial_IO:
         th_serialRead.start()
 
         # Main Loop
-        rate = rospy.Rate(20)
+        rate = rospy.Rate(10)
         while not rospy.is_shutdown():
             self.serialWrite()
             rate.sleep()

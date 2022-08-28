@@ -7,7 +7,7 @@ from sig_int_handler import Activate_Signal_Interrupt_Handler
 class AHRS_Parsing:
     def __init__(self):
         rospy.init_node("ahrs_raw", anonymous=False)
-        print('AHRS_Parsing : Serial connecting to /dev/imu')
+        rospy.loginfo('AHRS_Parsing : Serial connecting to /dev/imu')
         self.ser = serial.Serial(port = '/dev/imu', baudrate = 115200)
 
         self.raw_data = Imu()
@@ -36,7 +36,7 @@ class AHRS_Parsing:
             self.raw_data.linear_acceleration.y = float(sdata[9])
             self.raw_data.linear_acceleration.z = float(sdata[11]) # state of charge
         except IndexError:
-            print("=============================")
+            rospy.loginfo("=============================")
 
 
         self.pub.publish(self.raw_data)
