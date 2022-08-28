@@ -3,7 +3,7 @@ from .path import Path
 
 class Parking():
     def __init__(self):
-        self.on = False
+        self.on = "off"
         self.mindex = 0
         self.forward_path = Path()
         self.backward_path = Path()

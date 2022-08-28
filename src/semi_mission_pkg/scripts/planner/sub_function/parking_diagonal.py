@@ -76,30 +76,51 @@ class Parking_Motion():
         return x, y
 
 
+    # def find_O3(self):
+
+    #     dis_mindex_to_lot = sqrt((self.parking_x - self.global_path.x[self.parking.mindex])**2 + (
+    #         self.parking_y - self.global_path.y[self.parking.mindex])**2)
+    #     dis_mindex_to_start = sqrt(2*dis_mindex_to_lot *
+    #                             self.smooth_radius - dis_mindex_to_lot**2)
+
+    #     self.start_index = self.parking.mindex - round(10*dis_mindex_to_start)
+
+    #     # self.park_heading = rad2deg(atan2(
+    #     #     (self.parking_end_y-self.parking_y), (self.parking_end_x-self.parking_x)))%360
+
+    #     # self.park_heading = (self.park_heading - 90)%360
+
+    #     theta_O3_to_lot = rad2deg(
+    #         atan2(dis_mindex_to_start/(self.smooth_radius-dis_mindex_to_lot), 1))
+    #     # self.park_heading = -1*(90 - theta_O3_to_lot)
+    #     self.parking.o3x = self.global_path.x[self.start_index] + self.smooth_radius*cos(radians((self.heading -90)%360))
+    #     self.parking.o3y = self.global_path.y[self.start_index] + self.smooth_radius*sin(radians((self.heading -90)%360))
+
+    #     # self.parking.o3x = self.parking_x + self.smooth_radius*cos(radians(self.park_heading)) - self.smooth_radius*sin(radians(self.park_heading))
+    #     # self.parking.o3y = self.parking_y + self.smooth_radius*sin(radians(self.park_heading)) + self.smooth_radius*cos(radians(self.park_heading))
+        
+    #     return  theta_O3_to_lot
     def find_O3(self):
 
-        dis_mindex_to_lot = sqrt((self.parking_x - self.global_path.x[self.parking.mindex])**2 + (
-            self.parking_y - self.global_path.y[self.parking.mindex])**2)
-        dis_mindex_to_start = sqrt(2*dis_mindex_to_lot *
-                                self.smooth_radius - dis_mindex_to_lot**2)
+            dis_mindex_to_lot = sqrt((self.parking_x - self.global_path.x[self.parking.mindex])**2 + (
+                self.parking_y - self.global_path.y[self.parking.mindex])**2)
+            dis_mindex_to_start = sqrt(2*dis_mindex_to_lot *
+                                    self.smooth_radius - dis_mindex_to_lot**2)
 
-        self.start_index = self.parking.mindex - round(10*dis_mindex_to_start)
+            vvv = (self.parking_y - self.parking_end_y)/(self.parking_end_x - self.parking_x)
 
-        # self.park_heading = rad2deg(atan2(
-        #     (self.parking_end_y-self.parking_y), (self.parking_end_x-self.parking_x)))%360
+            self.parking.o3y = sqrt((self.smooth_radius**2)/((vvv)**2+1)) + self.parking_y
 
-        # self.park_heading = (self.park_heading - 90)%360
+            self.parking.o3x = (self.parking.o3y - self.parking_y)*(vvv) + self.parking_x
 
-        theta_O3_to_lot = rad2deg(
-            atan2(dis_mindex_to_start/(self.smooth_radius-dis_mindex_to_lot), 1))
-        # self.park_heading = -1*(90 - theta_O3_to_lot)
-        self.parking.o3x = self.global_path.x[self.start_index] + self.smooth_radius*cos(radians((self.heading -90)%360))
-        self.parking.o3y = self.global_path.y[self.start_index] + self.smooth_radius*sin(radians((self.heading -90)%360))
+            theta_O3_to_lot = rad2deg(
+                atan2(dis_mindex_to_start/(self.smooth_radius-dis_mindex_to_lot), 1))
 
-        # self.parking.o3x = self.parking_x + self.smooth_radius*cos(radians(self.park_heading)) - self.smooth_radius*sin(radians(self.park_heading))
-        # self.parking.o3y = self.parking_y + self.smooth_radius*sin(radians(self.park_heading)) + self.smooth_radius*cos(radians(self.park_heading))
-        
-        return  theta_O3_to_lot     
+
+            # self.parking.o3x = self.parking_x + self.smooth_radius*cos(radians(self.park_heading)) - self.smooth_radius*sin(radians(self.park_heading))
+            # self.parking.o3y = self.parking_y + self.smooth_radius*sin(radians(self.park_heading)) + self.smooth_radius*cos(radians(self.park_heading))
+            
+            return  theta_O3_to_lot                  
     
     def make_path(self, x, y, start, end, radius, direction):
         start = int(round(start))

@@ -19,6 +19,8 @@ class Mission():
         self.stop_checker = False
         self.check = False
         self.prev_objx = 0
+        self.emergency_check = False
+        self.obstacle_stop = False
 
         self.now = 0
         self.parking_create = False
@@ -30,7 +32,6 @@ class Mission():
         self.inflection_switch = False
         self.first_stop = False
         self.second_stop = False
-        self.obstacle_stop = False
 
         self.selected = 0
         self.vote = {"345":0, "354":0, "435":0, "453":0, "534":0, "543":0}
@@ -310,6 +311,14 @@ class Mission():
     def static_obstacle(self):
         self.plan.behavior_decision = "static_obstacle_avoidance"
         index = len(self.perception.objx)
+
+        if (2137 < self.ego.index < 2167) and self.obstacle_stop == False:
+            self.ego.target_speed = 0
+            self.ego.target_brake = 70
+            sleep(3)
+            self.ego.target_speed = 10
+            self.ego.target_brake = 0
+            self.obstacle_stop = True
         
         if (len(self.perception.objx) > 0):
             self.obs_dis = 15.5
