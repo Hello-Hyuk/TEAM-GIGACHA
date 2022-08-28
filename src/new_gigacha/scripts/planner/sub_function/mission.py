@@ -43,7 +43,7 @@ class Mission():
     def go(self):
         self.ego.target_estop = 0x00
         self.ego.target_gear = 0
-        self.ego.target_speed = 20.0
+        self.ego.target_speed = 15.0
         self.plan.behavior_decision = "driving"
         
     def time_sleep(self, time):
@@ -232,8 +232,9 @@ class Mission():
                 self.Parking_stop_function(1025, 1045) # K-City
 
     def Parking_KCity_diagonal(self):
+        print("select num : ", self.parking.select_num)
         if (self.parking_create == False):
-            if (910 <= self.ego.index <= 930) and self.first_stop == False: # K-City
+            if (765 <= self.ego.index <= 795) and self.first_stop == False: # K-City
                 self.plan.behavior_decision = "stop"
                 self.ego.target_speed = 0
                 self.ego.target_brake = 75
@@ -245,8 +246,8 @@ class Mission():
                 self.ego.target_brake = 0
                 self.parking_create = True
                 self.plan.behavior_decision = "parking_trajectory_Create"
-            elif self.first_stop == True and self.parking.select_num == 4 or self.parking.select_num == 5 or self.parking.select_num == 6:
-                self.Parking_stop_function(1025, 1045) # K-City
+            elif self.first_stop == True and self.parking.select_num == -1 or self.parking.select_num == 4 or self.parking.select_num == 5 or self.parking.select_num == 6:
+                self.Parking_stop_function(875, 905) # K-City
 
         if (self.parking_create and self.parking_switch == False):
             if (self.parking_forward_start == False and len(self.parking.forward_path.x) > 0):
