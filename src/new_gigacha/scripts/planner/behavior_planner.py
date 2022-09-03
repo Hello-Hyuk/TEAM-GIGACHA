@@ -37,7 +37,7 @@ class BehaviorPlanner(threading.Thread):
                     self.mission.time_checker = False
 
                 if self.plan.state == "parking":
-                    self.mission.Parking_KCity_diagonal()
+                    self.mission.Parking_KCity_Parallel()
                 
                 elif self.plan.state == "U-TURN":
                     self.mission.u_turn()
