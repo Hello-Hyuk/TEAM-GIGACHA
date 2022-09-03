@@ -91,7 +91,6 @@ class PL():
         elif 9700 < self.ego.index < 9730:
             if parking_result[2] < 5: 
                 result_number = i + 1
-                break
         else:
             for i in range(4, 6): 
                 if parking_result[i] < 5: 

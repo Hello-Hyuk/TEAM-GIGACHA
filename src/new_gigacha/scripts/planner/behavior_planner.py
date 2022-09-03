@@ -2,7 +2,7 @@
 import threading
 from time import sleep
 from .sub_function.mission import Mission
-from .sub_function.parking_diagonal_lidar import PL
+from .sub_function.parking_parallel_lidar import PL
 from std_msgs.msg import String
 
 

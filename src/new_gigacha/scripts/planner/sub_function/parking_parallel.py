@@ -19,20 +19,20 @@ class Parking_Motion():
         self.tmp_backward_path = Path()
 
         #simul kcity
-        # self.base_lat = 37.239231667
-        # self.base_lon = 126.773156667
-        # self.base_alt = 15.4
-        # with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_KCity_parallel.json') as pkc:
-        #     self.parking_point = json.load(pkc)
-
-        # siheung
-        self.base_lat = 37.36458356
-        self.base_lon = 126.7237789
+        self.base_lat = 37.23873
+        self.base_lon = 126.772383333333
         self.base_alt = 15.4
-        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_Siheung_parallel.json') as pkc:
+        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_KCity_parallel.json') as pkc:
             self.parking_point = json.load(pkc)
 
-        self.radius = 3.5
+        # siheung
+        # self.base_lat = 37.36458356
+        # self.base_lon = 126.7237789
+        # self.base_alt = 15.4
+        # with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_Siheung_parallel.json') as pkc:
+        #     self.parking_point = json.load(pkc)
+
+        self.radius = 1.15
         # minimun_radius == 1.95
         self.o1_x = 0.5
         self.long = 0

@@ -165,7 +165,7 @@ class Mission():
 
     def Parking_KCity_Parallel(self):
         if (self.parking_create == False):
-            if (5930 <= self.ego.index <= 9560) and self.first_stop == False:
+            if (9530 <= self.ego.index <= 9560) and self.first_stop == False:
                 self.plan.behavior_decision = "stop"
                 self.ego.target_speed = 0
                 self.ego.target_brake = 50
