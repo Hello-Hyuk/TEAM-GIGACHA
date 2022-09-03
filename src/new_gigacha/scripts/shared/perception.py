@@ -10,7 +10,7 @@ class Perception_():
       self.id_check = False
 
       # rospy.Subscriber("/input", Perception, self.input_callback)
-      # rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
+      rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
       rospy.Subscriber("/sign", Detection2DArray, self.sign_callback)
       # rospy.Subscriber("/traffic", Detection2DArray, self.traffic_callback)
       rospy.Subscriber("/Parking_num", Int32, self.parking_callback)
@@ -75,7 +75,7 @@ class Perception_():
          tmp_objw = []
          tmp_objh = []
          for i in range(len(msg.markers)):
-            tmp_objx.append(msg.markers[i].pose.position.x+0.8)
+            tmp_objx.append(msg.markers[i].pose.position.x + 1.15)
             tmp_objy.append(msg.markers[i].pose.position.y)
             tmp_objw.append(msg.markers[i].scale.y)
             tmp_objh.append(msg.markers[i].scale.x)

@@ -58,7 +58,7 @@ class BehaviorPlanner(threading.Thread):
                     self.mission.child_area(
                         self.shared.perception.signx, self.shared.perception.signy)
 
-                elif self.plan.state == "right_sign_area":
+                elif self.plan.state == "non_right_sign":
                     self.mission.non_traffic_right()
 
                 elif self.plan.state == "emergency_stop":

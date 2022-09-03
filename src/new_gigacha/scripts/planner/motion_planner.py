@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
+from ast import Pass
 from re import A
 import threading
 from time import sleep
 from .sub_function.motion import Motion
 from .sub_function.find_local_path import findLocalPath
 # from .sub_function.LPP import path_maker  # LPP 구현 하기
-from .sub_function.parking_diagonal import Parking_Motion
+from .sub_function.parking_parallel2 import Parking_Motion
 
 class MotionPlanner(threading.Thread):
     def __init__(self, parent, rate):
@@ -50,10 +51,10 @@ class MotionPlanner(threading.Thread):
                     pass
 
                 elif self.shared.plan.behavior_decision == "turn_right":
-                    self.shared.selected_lane = 2
+                    pass
 
                 elif self.shared.plan.behavior_decision == "turn_left":
-                    self.shared.selected_lane = 0
+                    pass
 
                 elif self.shared.plan.behavior_decision == "driving":
                     self.motion.select_trajectory()

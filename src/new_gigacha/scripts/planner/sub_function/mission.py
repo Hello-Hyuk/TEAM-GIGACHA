@@ -37,15 +37,30 @@ class Mission():
 
         self.pickup_checker = False
         self.delivery_checker = False
-        
+        self.non_traffic_right_checker = 0
         self.uturn_stop = False
 
+    def range(self, a, b = 30):
+        return (a-b) <= self.ego.index <= a
+
+    def target_control(self, brake, speed):
+        self.ego.target_brake = brake
+        self.ego.target_speed = speed
 
     def go(self):
-        self.ego.target_estop = 0x00
-        self.ego.target_gear = 0
-        self.ego.target_speed = 15.0
-        self.plan.behavior_decision = "driving"
+        if self.perception.tgreen == 1:
+            self.plan.behavior_decision = "driving"
+            self.ego.target_brake = 0
+            self.ego.target_speed = 15
+        else:
+            if self.range(1614) or self.range(2172) or self.range(3544) or self.range(6692) or self.range(6708) or self.range(8026) or self.range(8497):
+                self.plan.behavior_decision = "stop"
+                self.ego.target_brake = 50
+                self.ego.target_speed = 0
+            else:
+                self.plan.behavior_decision = "driving"
+                self.ego.target_brake = 0
+                self.ego.target_speed = 15
         
     def time_sleep(self, time):
         self.cur_t = time()
@@ -275,22 +290,33 @@ class Mission():
                     self.parking_switch = True
 
     def u_turn(self):
-        self.plan.behavior_decision = "driving"
-        if (self.ego.index < 110):
-            self.parking.on = "on"
-        elif (110 <= self.ego.index <= 175) and self.uturn_stop == False:
+        self.perception.tleft = 1
+        if self.perception.tleft == 1 :
+            self.plan.behavior_decision = "driving"
+            if (5175 < self.ego.index < 5335):
+                self.parking.on = "U_turn"
+            if self.range(5365) and self.uturn_stop == False:
+                    self.plan.behavior_decision = "stop"
+                    self.ego.target_speed = 0
+                    self.ego.target_brake = 75
+                    sleep(3)
+                    self.plan.behavior_decision = "driving"
+                    self.parking.on = "forced"
+                    self.ego.target_speed = 5
+                    self.ego.target_brake = 0
+                    self.ego.target_steer = -27
+                    self.uturn_stop = True
+            elif self.ego.index > 5423 and self.uturn_stop == True:
+                self.parking.on = "off"
+        else:
+            if self.range(5375):
                 self.plan.behavior_decision = "stop"
+                self.ego.target_brake = 50
                 self.ego.target_speed = 0
-                self.ego.target_brake = 75
-                sleep(3)
+            else:
                 self.plan.behavior_decision = "driving"
-                self.parking.on = "forced"
-                self.ego.target_speed = 5
                 self.ego.target_brake = 0
-                self.ego.target_steer = -27
-                self.uturn_stop = True
-        elif self.ego.index > 175 and self.uturn_stop == True:
-            self.parking.on = "off"
+                self.ego.target_speed = 10
 
     def stop(self):
         self.sign_dis = sqrt(
@@ -332,7 +358,7 @@ class Mission():
             if time() - self.cur_t < 5:
                 self.ego.target_speed = 5.0
             else:
-                self.ego.target_speed = 10.0
+                self.ego.target_speed = 15.0
 
     def turn_right(self):
         if self.perception.tgreen == 1:
@@ -354,55 +380,26 @@ class Mission():
         if self.perception.tleft == 1 :
             self.plan.behavior_decision = "driving"
             self.ego.target_brake = 0
-            self.ego.target_speed = 10
+            self.ego.target_speed = 15
         else:
-            # if self.ego.index >= 410 and self.ego.index <= 470:
-            if self.ego.index >= 3400 and self.ego.index <= 3475: # Siheung
+            if self.range(4609):
                 self.plan.behavior_decision = "stop"
                 self.ego.target_brake = 50
                 self.ego.target_speed = 0
             else:
                 self.plan.behavior_decision = "driving"
                 self.ego.target_brake = 0
-                self.ego.target_speed = 10
+                self.ego.target_speed = 15
 
     def non_traffic_right(self):
-        if self.ego.index >= 430 and self.ego.index <= 450:
+        if (self.range(5597, 20) and self.non_traffic_right_checker == 0) or (self.range(5831, 20) and self.non_traffic_right_checker == 1):
             self.plan.behavior_decision = "stop"
-            if self.time_checker == False:
-                self.time_checker = True
-                self.cur_t = time()
-
-            if time() - self.cur_t > 3:
-                self.plan.behavior_decision = "turn_right"
-        else:
-            self.plan.behavior_decision = "turn_right"
-
-
-    def child_area(self):
-        if (len(self.perception.signx)!= 0):
-            self.sign_dis = sqrt((self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
-            if self.sign_dis <= 15:
-                self.ego.target_speed = 7.0
-            else:
-                self.ego.target_speed = 10.0
-            self.plan.behavior_decision = "child_area"
-
-    def emergency_stop(self):
-        self.ego.target_speed = 5
-        self.plan.behavior_decision = "emergency_avoidance"
-        if (self.shared.selected_lane == 0) and self.emergency_check == False:
-            self.plan.behavior_decision = "stop"
-            self.ego.target_brake = 100
-            self.ego.target_speed = 0
-            sleep(5)
-            self.ego.target_brake = 0
-            self.ego.target_speed = 5
-            self.emergency_check = True
-
-        elif (self.shared.selected_lane == 1) and self.emergency_check == True:
-            self.emergency_check = False
-
+            self.target_control(50,0)
+            sleep(3)
+            self.plan.behavior_decision = "driving"
+            self.target_control(0,15)
+            self.non_traffic_right_checker += 1
+            
     def convert_lidar(self):
         theta = (self.ego.heading) * pi / 180
         size = 0

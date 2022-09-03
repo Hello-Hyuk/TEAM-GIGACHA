@@ -25,6 +25,8 @@ class LatController(threading.Thread):
                     self.parking_run()
                 elif self.parking.on == "forced":
                     self.parking_run2()
+                elif self.parking.on == "U_turn":
+                    self.U_turn()
                 elif self.parking.on == "off":
                     self.path = self.lattice_path[self.shared.selected_lane]
                     # print(len(self.lattice_path), "\n", self.shared.selected_lane)
@@ -93,3 +95,23 @@ class LatController(threading.Thread):
 
     def parking_run2(self):
         self.ego.input_steer = self.ego.target_steer
+    
+    def U_turn(self):
+        self.path = self.lattice_path[self.shared.selected_lane]
+        lookahead = min(self.k * self.ego.speed +
+                        self.lookahead_default, 6)
+        target_index = 5
+
+        target_x, target_y = self.path.x[target_index], self.path.y[target_index]
+        tmp = degrees(atan2(target_y - self.ego.y,
+                            target_x - self.ego.x)) % 360
+
+
+        alpha = self.ego.heading - tmp
+        angle = atan2(2.0 * self.WB * sin(radians(alpha)) / lookahead, 1.0)
+
+        if degrees(angle) < 0.5 and degrees(angle) > -0.5:
+            angle = 0
+
+        self.ego.input_steer = max(
+            min(degrees(angle), 27.0), -27.0)
