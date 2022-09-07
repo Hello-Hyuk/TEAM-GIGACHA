@@ -31,7 +31,7 @@ class PL():
         self.base_lat = 37.23873
         self.base_lon = 126.772383333333
         self.base_alt = 15.4
-        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_KCity_diagonal_roi.json') as pkc:
+        with open('/home/gigacha/TEAM-GIGACHA/src/semi_mission_pkg/scripts/planner/sub_function/parking_JSON/parking_KCity_diagonal_roi.json') as pkc:
             self.parking_point = json.load(pkc)
 
     def parking(self, temp_points):
