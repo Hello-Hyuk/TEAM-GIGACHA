@@ -3,6 +3,7 @@ import rospy
 from local_pkg.msg import Local
 from local_pkg.msg import Serial_Info
 from local_pkg.msg import Control_Info
+from geometry_msgs.msg import Pose
 from sensor_msgs.msg import NavSatFix 
 from ublox_msgs.msg import NavPVT 
 from PyQt5.QtWidgets import *
@@ -14,6 +15,9 @@ form_class = uic.loadUiType("uis/local_ui.ui")[0]
 class WindowClass(QDialog, form_class):
     def __init__(self):
         super().__init__()
+        self.checker_list = [False, False, False]
+        
+        rospy.init_node("Local_qt", anonymous=False)
         rospy.Subscriber("/local_msgs", Local, self.localCallback)
         rospy.Subscriber("ublox_gps/fix", NavSatFix, self.gpsCallback) 
         rospy.Subscriber("ublox_gps/navpvt", NavPVT, self.navpvtCallback) 
@@ -25,7 +29,6 @@ class WindowClass(QDialog, form_class):
         self.initUI()
         self.data = Local()
 
-        self.checker_list = [False, False, False]
 
         self.dial.setMaximum(359)
         self.dial.setMinimum(0)
@@ -33,13 +36,14 @@ class WindowClass(QDialog, form_class):
 
         self.dial_steer.setMaximum(30.0)
         self.dial_steer.setMinimum(-30.0)
-        self.dial_steer.setSinglestep(1.0)
+        # self.dial_steer.setSinglestep(1.0)
 
         self.slider_speed.setMaximum(20.0)
         self.slider_speed.setMinimum(0.0)
-        self.slider_speed.setSingleStep(1.0)
+        # self.slider_speed.setSingleStep(1.0)
 
         self.dial.valueChanged.connect(self.LCDHeading)
+        
 
     def controlCallback(self, msg):
         self.dial_steer.setValue(self.msg.steer)
@@ -63,6 +67,7 @@ class WindowClass(QDialog, form_class):
             self.lbl_ma.setText("MANUAL")
 
     def localCallback(self, msg):
+        print("+++++++++++++++++++++++++++++++")
         self.data = msg
 
         if not self.checker_list[0]:
