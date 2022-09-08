@@ -161,4 +161,5 @@ class Perception_():
             self.tgreen = True
 
    def parking_callback(self, msg):
-      self.parking_num = msg.data
+      # self.parking_num = msg.data
+      self.parking_num = 1
