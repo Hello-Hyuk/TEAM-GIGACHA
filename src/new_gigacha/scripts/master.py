@@ -24,7 +24,7 @@ class Master(threading.Thread):
     def run(self):
         self.shared = Shared()
 
-        self.localizer = Localizer(self, rate=10)
+        self.localizer = Localizer(self, rate=50)
         self.init_thread(self.localizer)
 
         self.mission_planner = MissionPlanner(self, rate=10)
@@ -49,10 +49,10 @@ class Master(threading.Thread):
             # print("---------------------")
             # self.checker_all()
             # # print('Localization')
-            # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
-            #    .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
-            # print('Mission_State : {}'.format(self.shared.plan.state))
-            ##print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
+            print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
+               .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
+            print('Mission_State : {}'.format(self.shared.plan.state))
+            print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
             # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
             # print('Controller')
             # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))

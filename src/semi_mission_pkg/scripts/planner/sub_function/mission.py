@@ -41,17 +41,14 @@ class Mission():
         
         self.uturn_stop = False
 
+    def range(self, a):
+        return (a-30) <= self.ego.index <= a
 
     def go(self):
         self.ego.target_estop = 0x00
         self.ego.target_gear = 0
         self.ego.target_speed = 15.0
         self.plan.behavior_decision = "driving"
-        
-    def time_sleep(self, time):
-        self.cur_t = time()
-        while (time() - self.cur_t < time):
-            pass
 
     def Parking_Siheung_Parallel(self):
         if ((self.parking_create == False) and (80 <= self.ego.index <= 100)):
@@ -276,24 +273,6 @@ class Mission():
                     self.ego.target_brake = 0
                     self.parking_switch = True
 
-    def u_turn(self):
-        self.plan.behavior_decision = "driving"
-        if (self.ego.index < 110):
-            self.parking.on = "on"
-        elif (110 <= self.ego.index <= 175) and self.uturn_stop == False:
-                self.plan.behavior_decision = "stop"
-                self.ego.target_speed = 0
-                self.ego.target_brake = 75
-                sleep(3)
-                self.plan.behavior_decision = "driving"
-                self.parking.on = "forced"
-                self.ego.target_speed = 5
-                self.ego.target_brake = 0
-                self.ego.target_steer = -27
-                self.uturn_stop = True
-        elif self.ego.index > 175 and self.uturn_stop == True:
-            self.parking.on = "off"
-
     def stop(self):
         self.sign_dis = sqrt(
             (self.perception.signx[0] - self.ego.x)**2 + (self.perception.signy[0] - self.ego.y)**2)
@@ -366,8 +345,7 @@ class Mission():
             self.ego.target_brake = 0
             self.ego.target_speed = 10
         else:
-            # if self.ego.index >= 410 and self.ego.index <= 470:
-            if self.ego.index >= 3400 and self.ego.index <= 3475: # Siheung
+            if self.range(4609):
                 self.plan.behavior_decision = "stop"
                 self.ego.target_brake = 50
                 self.ego.target_speed = 0

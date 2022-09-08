@@ -9,11 +9,13 @@ class Ego():
         self.roll = 0.0
         self.pitch = 0.0
         self.index = 0
+        self.speed = 0.0
         self.orientation = Quaternion()
 
         # Odometry
-        self.dr_x = 0
-        self.dr_y = 0
+        self.dr_x = 0.0
+        self.dr_y = 0.0
+        self.distance = 0.0
 
         # Serial to Ego (reader)
         self.auto_manual = 0

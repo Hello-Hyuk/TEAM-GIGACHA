@@ -2,7 +2,7 @@
 import threading
 from time import sleep
 from .sub_function.mission import Mission
-from .sub_function.parking_diagonal_lidar import PL
+from .sub_function.parking_parallel_lidar import PL
 from std_msgs.msg import String
 
 
@@ -37,7 +37,7 @@ class BehaviorPlanner(threading.Thread):
                     self.mission.time_checker = False
 
                 if self.plan.state == "parking":
-                    self.mission.Parking_KCity_diagonal()
+                    self.mission.Parking_KCity_Parallel()
                 
                 elif self.plan.state == "U-TURN":
                     self.mission.u_turn()
@@ -58,7 +58,7 @@ class BehaviorPlanner(threading.Thread):
                     self.mission.child_area(
                         self.shared.perception.signx, self.shared.perception.signy)
 
-                elif self.plan.state == "right_sign_area":
+                elif self.plan.state == "non_right_sign":
                     self.mission.non_traffic_right()
 
                 elif self.plan.state == "emergency_stop":

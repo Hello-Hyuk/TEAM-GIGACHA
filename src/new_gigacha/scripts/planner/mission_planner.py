@@ -31,7 +31,7 @@ class MissionPlanner(threading.Thread):
                     self.plan.state = "left_sign_detected"
 
                 elif self.shared.perception.signname == "non_traffic_right":
-                    self.plan.state ="right_sign_area"
+                    self.plan.state ="non_right_sign"
 
                 elif self.perception.signname == "AEB":
                     self.plan.state = "emergency_stop"

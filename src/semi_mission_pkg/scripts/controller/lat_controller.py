@@ -25,6 +25,7 @@ class LatController(threading.Thread):
                     self.parking_run()
                 elif self.parking.on == "forced":
                     self.parking_run2()
+
                 elif self.parking.on == "off":
                     self.path = self.lattice_path[self.shared.selected_lane]
                     # print(len(self.lattice_path), "\n", self.shared.selected_lane)

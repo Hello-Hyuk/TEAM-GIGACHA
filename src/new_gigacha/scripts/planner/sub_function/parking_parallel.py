@@ -17,36 +17,37 @@ class Parking_Motion():
         self.parking = self.shared.park
 
         self.tmp_backward_path = Path()
-        self.cnt = False
 
         #simul kcity
-        # self.base_lat = 37.239231667
-        # self.base_lon = 126.773156667
-        # self.base_alt = 15.4
-        # with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_KCity_parallel.json') as pkc:
-        #     self.parking_point = json.load(pkc)
-
-        # siheung
-        self.base_lat = 37.36458356
-        self.base_lon = 126.7237789
+        self.base_lat = 37.23873
+        self.base_lon = 126.772383333333
         self.base_alt = 15.4
-        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_Siheung_parallel.json') as pkc:
+        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_KCity_parallel.json') as pkc:
             self.parking_point = json.load(pkc)
 
-        self.radius = 4.15
+        # siheung
+        # self.base_lat = 37.36458356
+        # self.base_lon = 126.7237789
+        # self.base_alt = 15.4
+        # with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_Siheung_parallel.json') as pkc:
+        #     self.parking_point = json.load(pkc)
+
+        self.radius = 1.15
         # minimun_radius == 1.95
         self.o1_x = 0.5
+        self.long = 0
         self.mapname = ''
         self.cnt = False
+        self.cnt2 = False
         
 
     def make_parking_tra(self):
-        self.point = self.parking_point[str(1)]
-        # self.point = self.parking_point[str(self.parking.select_num)]
+        # self.point = self.parking_point[str(1)]
+        self.point = self.parking_point[str(self.parking.select_num)]
         self.start_point = self.point["start"]
         self.end_point = self.point["end"]
-        if self.cnt == False:
-            self.cnt = True
+        if self.cnt2 == False:
+            self.cnt2 = True
             self.findParkingPath()
 
     def findParkingPath(self):
@@ -56,7 +57,7 @@ class Parking_Motion():
 
         self.parking_width = hypot(self.parking_end_y - self.parking_y, self.parking_end_x - self.parking_x)
         self.heading = rad2deg(atan2((self.parking_end_y - self.parking_y),(self.parking_end_x - self.parking_x)))%360
-        # print(f"self.heading : {self.heading}")
+        print(f"self.heading : {self.heading}")
 
         self.find_O1()
 
@@ -64,20 +65,24 @@ class Parking_Motion():
  
         heading_O2_O1 = rad2deg(atan2(self.radius, self.parking_width))
 
+
+        ex, ey = self.parking.o2x + (O2_radius) * cos(radians(self.heading + 90)), self.parking.o2y + (O2_radius) * sin(radians(self.heading + 90))
+        sx, sy = ex + self.o1_x*cos(radians(self.heading)), ey + self.o1_x*sin(radians(self.heading)) 
+        
+        self.make_straight_path(sx, sy, ex, ey)
+
         self.make_path(self.parking.o2x, self.parking.o2y, self.heading + 90, self.heading + 180 - heading_O2_O1 , O2_radius, 1)
-        print('self.parking.backward_path.x',len(self.parking.backward_path.x))
-        self.parking.inflection_point = int(len(self.parking.backward_path.x) -1)
-        print("inflect index : ", self.parking.inflection_point)
+        self.parking.incflection_point = len(self.parking.backward_path.x) - 1
+        print(self.parking.incflection_point)
         self.make_path(self.parking.o1x, self.parking.o1y, self.heading - heading_O2_O1  , self.heading - 90, self.radius, -1)
-        print('self.parking.backward_path.x',len(self.parking.backward_path.x))
 
-        # self.make_curve_path()
+        sx, sy = self.parking_x + self.o1_x*cos(radians(self.heading)), self.parking_y + self.o1_x*sin(radians(self.heading))
+        ex, ey = self.parking_x, self.parking_y
+        self.make_straight_path(sx, sy, ex, ey)  
 
-        # self.make_straight_path()        
-
-        print("path index : ", len(self.parking.backward_path.x))
+        print(len(self.parking.backward_path.x))
         # print(hypot((self.parking.backward_path.x[120] - self.parking.backward_path.x[119]), (self.parking.backward_path.y[120] - self.parking.backward_path.y[119])))
-        print('self.parking.backward_path.x',len(self.parking.backward_path.x))
+
         self.parking.forward_path.x, self.parking.forward_path.y = list(reversed(self.parking.backward_path.x)), list(reversed(self.parking.backward_path.y))  
 
         min_index = 0
@@ -91,7 +96,7 @@ class Parking_Motion():
                 min_dis = dis
                 min_index = i
 
-        self.parking.mindex = min_index + self.o1_x*10
+        self.parking.mindex = min_index + (self.o1_x + self.long)*10
 
     def parking_call_back(self,x1,y1):
         x, y, _ = pymap3d.geodetic2enu(x1, y1, self.base_alt,
@@ -107,8 +112,8 @@ class Parking_Motion():
 
     def find_O2(self):
         def func(a,b,c):
-            # print("1 : ", (-b+sqrt(b**2-4*a*c))/2*a)
-            # print("2 : ", (-b-sqrt(b**2-4*a*c))/2*a)
+            print("1 : ", (-b+sqrt(b**2-4*a*c))/2*a)
+            print("2 : ", (-b-sqrt(b**2-4*a*c))/2*a)
             return max((-b+sqrt(b**2-4*a*c))/2*a, (-b-sqrt(b**2-4*a*c))/2*a)
 
         O2_radius = func(1,2*self.radius,-self.parking_width**2)
@@ -119,28 +124,29 @@ class Parking_Motion():
         return O2_radius
 
     def make_path(self, x, y, start, end, radius, direction):
-        start = int(round(start))
-        end = int(round(end))
+        self.tmp_backward_path.x = []
+        self.tmp_backward_path.y = []
+        # start = int(round(start))
+        # end = int(round(end))
+        middle = (start+end)/2
 
-        # for i in range(0,30):
-        #     self.parking.forward_path.x.append(self.global_path.x[self.start_index -30 +i])
-        #     self.parking.forward_path.y.append(self.global_path.y[self.start_index -30 +i])
+        self.tmp_backward_path.x.append(x+radius*cos(radians(start)))
+        self.tmp_backward_path.y.append(y+radius*sin(radians(start)))
+        self.tmp_backward_path.x.append(x+radius*cos(radians(middle)))
+        self.tmp_backward_path.y.append(y+radius*sin(radians(middle)))
+        self.tmp_backward_path.x.append(x+radius*cos(radians(end)))
+        self.tmp_backward_path.y.append(y+radius*sin(radians(end)))
 
-        for theta in range(start, end, direction):
-            self.parking.backward_path.x.append(x+radius*cos(radians(theta)))
-            self.parking.backward_path.y.append(y+radius*sin(radians(theta)))
-            theta += direction
+        self.make_curve_path(self.tmp_backward_path)
 
-    def make_curve_path(self):
-        cx, cy, _, _, _ = calc_spline_course(self.parking.backward_path.x, self.parking.backward_path.y ,ds = 0.1)
+
+    def make_curve_path(self,path):
+        cx, cy, _, _, _ = calc_spline_course(path.x, path.y ,ds = 0.1)
 
         self.parking.backward_path.x.extend(cx)
         self.parking.backward_path.y.extend(cy)
 
-    def make_straight_path(self):
-        sx = self.parking_x + self.o1_x*cos(radians(self.heading))
-        sy = self.parking_y + self.o1_x*sin(radians(self.heading))
-        ex,ey = self.parking_x, self.parking_y
+    def make_straight_path(self, sx, sy, ex, ey):
         
         x = []
         y = []
@@ -176,7 +182,6 @@ class Parking_Motion():
         return min_idx
 
     def parking_drive(self, direction):
-        self.parking.on = True
         self.parking.direction = direction
 
         if self.parking.direction == 0:
