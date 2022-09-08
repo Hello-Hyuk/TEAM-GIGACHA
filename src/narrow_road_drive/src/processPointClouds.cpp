@@ -19,7 +19,7 @@ void ProcessPointClouds<PointT>::numPoints(typename pcl::PointCloud<PointT>::Ptr
 /*FilterCloud function filters the given cloud. Following operations are performed
  * Downsampling: points are converted to voxels using the dimensions provided.
  * */
-int x_roi = 0;
+
 template<typename PointT>
 typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(typename pcl::PointCloud<PointT>::Ptr cloud)
 {
@@ -38,14 +38,11 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(ty
     // std::cerr << "Voxeled " << cloud_filtered->points.size () << std::endl;
 
     // Filtering a PointCloud using a PassThrough filter
-	if(x_roi == 0){
-		cin >> x_roi;
-	}
     pcl::PassThrough<PointT> xroi;
     //xroi.setInputCloud(cloud_filtered);
 	xroi.setInputCloud(cloud);
     xroi.setFilterFieldName("x");
-    xroi.setFilterLimits(-0.2, x_roi);
+    xroi.setFilterLimits(-0.2, 20);
     xroi.filter(*cloud_filtered);
 
     pcl::PassThrough<PointT> yroi;
