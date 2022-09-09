@@ -52,7 +52,7 @@ class Visualizer(threading.Thread):
         self.vis_parking_path_pub = rospy.Publisher(
             "/vis_parking_path", Path, queue_size=1)
 
-        # self.vis_trajectory_pub_dr = rospy.Publisher("/vis_trajectory_dr", PointCloud, queue_size=1)
+        self.vis_trajectory_pub_dr = rospy.Publisher("/vis_trajectory_dr", PointCloud, queue_size=1)
         # self.vis_pose_pub_dr = rospy.Publisher("/vis_position_dr", Odometry, queue_size=1)
 
         self.vis_global_path = Path()  # using path
@@ -79,17 +79,17 @@ class Visualizer(threading.Thread):
         self.vis_parking_path = Path()
         self.vis_parking_path.header.frame_id = "map"
 
-        # self.vis_trajectory_dr = PointCloud()
-        # self.vis_trajectory_dr.header.frame_id = "map"
+        self.vis_trajectory_dr = PointCloud()
+        self.vis_trajectory_dr.header.frame_id = "map"
 
         self.vis_pose = Odometry()
         self.vis_pose.header.frame_id = "map"
 
-        # self.vis_pose_dr = Odometry()
-        # self.vis_pose_dr.header.frame_id = "map"
+        self.vis_pose_dr = Odometry()
+        self.vis_pose_dr.header.frame_id = "map"
 
         self.t = time()
-        # self.d = time()
+        self.d = time()
 
     def run(self):
         while True:
@@ -115,17 +115,17 @@ class Visualizer(threading.Thread):
                     self.vis_trajectory.points.append(ppoint)
 
                 # dead reckoning
-                # ppoint_dr = Point32()
-                # ppoint_dr.x = self.ego.dr_x
-                # ppoint_dr.y = self.ego.dr_y
-                # ppoint_dr.z = 0
-                # self.vis_pose_dr.pose.pose.position.x = ppoint_dr.x
-                # self.vis_pose_dr.pose.pose.position.y = ppoint_dr.y
-                # self.vis_trajectory_dr.header.stamp = rospy.Time.now()
-                # self.vis_pose_dr.pose.pose.orientation = self.ego.orientation
-                # if self.d - time() < 0.5 :
-                #     self.d = time()
-                #     self.vis_trajectory_dr.points.append(ppoint_dr)
+                ppoint_dr = Point32()
+                ppoint_dr.x = self.ego.dr_x
+                ppoint_dr.y = self.ego.dr_y
+                ppoint_dr.z = 0
+                self.vis_pose_dr.pose.pose.position.x = ppoint_dr.x
+                self.vis_pose_dr.pose.pose.position.y = ppoint_dr.y
+                self.vis_trajectory_dr.header.stamp = rospy.Time.now()
+                self.vis_pose_dr.pose.pose.orientation = self.ego.orientation
+                if self.d - time() < 0.5 :
+                    self.d = time()
+                    self.vis_trajectory_dr.points.append(ppoint_dr)
 
                 # car heading
                 # simul
@@ -309,7 +309,7 @@ class Visualizer(threading.Thread):
 
                 self.vis_trajectory_pub.publish(self.vis_trajectory)
 
-                # self.vis_trajectory_pub_dr.publish(self.vis_trajectory_dr)
+                self.vis_trajectory_pub_dr.publish(self.vis_trajectory_dr)
 
                 # self.vis_pose.header.stamp = rospy.Time.now()
                 self.vis_pose_pub.publish(self.vis_pose)

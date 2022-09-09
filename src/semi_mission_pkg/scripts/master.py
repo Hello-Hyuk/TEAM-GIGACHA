@@ -63,6 +63,7 @@ class Master(threading.Thread):
             # print("real :" ,len(self.shared.perception.objx))
             # print("real :" , self.shared.perception.objx, self.shared.perception.objy)
             # print("hello")
+            print('parking num : ', self.shared.perception.parking_num)
             sleep(self.period)
 
     def init_thread(self, module):

@@ -26,6 +26,7 @@ class Localization():
         self.heading = 0.0
 
         self.dr_init = False
+        self.dis_init = 0
 
     def heading_decision(self):
         global time_sync
@@ -56,16 +57,17 @@ class Localization():
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
         self.msg.speed = self.dr.speed
-        self.msg.distance = self.dr.dis
+        # self.msg.distance = self.dr.dis
 
         if self.gps.heading_switch:
             if not self.dr_init:
                 self.msg.dr_x = self.gps.x
                 self.msg.dr_y = self.gps.y
+                self.dis_init = self.dr.dis
                 self.dr_init = True
-            
-            self.msg.dr_x += self.dr.dis*math.cos(math.radians(self.heading))
-            self.msg.dr_y += self.dr.dis*math.sin(math.radians(self.heading))
+            dis = self.dr.dis - self.dis_init
+            self.msg.dr_x += dis*math.cos(math.radians(self.heading))
+            self.msg.dr_y += dis*math.sin(math.radians(self.heading))
             
         self.msg.roll = self.imu.roll
         self.msg.pitch = self.imu.pitch
@@ -87,7 +89,7 @@ if __name__=='__main__':
     basename_input = parser.parse_args().base_names
 
     if len(basename_input) == 0:
-        base_name = "Siheung"
+        base_name = "KCity"
 
     elif len(basename_input) == 1:
         base_name = basename_input[0]

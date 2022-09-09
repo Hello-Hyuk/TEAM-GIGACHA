@@ -92,9 +92,9 @@ class PL():
         result_number = -1
 
         # diagonal
-        if 765 < self.ego.index < 795:
+        if 735 < self.ego.index < 805:
             for i in range(0, 3): 
-                if parking_result[i] < 5: 
+                if parking_result[i] < 5:
                     result_number = i + 1 
                     break
         else:

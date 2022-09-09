@@ -19,7 +19,7 @@ class Parking_Motion():
         self.base_lat = 37.23873
         self.base_lon = 126.772383333333
         self.base_alt = 15.4
-        with open('/home/gigacha/TEAM-GIGACHA/src/new_gigacha/scripts/planner/sub_function/parking_JSON/parking_KCity2.json') as pkc:
+        with open('/home/gigacha/TEAM-GIGACHA/src/semi_mission_pkg/scripts/planner/sub_function/parking_JSON/parking_KCity.json') as pkc:
             self.parking_point = json.load(pkc)
         self.direction = -1
 
@@ -32,12 +32,13 @@ class Parking_Motion():
         # self.direction = 1
 
         self.tmp_forward_path = Path()
-
-        self.smooth_radius = 7
+        self.list_radius = [7, 9, 7, 8, 7, 8]
+        self.smooth_radius = 0
         self.cnt = False
 
     def make_parking_tra(self):
         self.point = self.parking_point[str(self.parking.select_num)]
+        self.smooth_radius = self.list_radius[int(self.parking.select_num) - 1]
         # self.point = self.parking_point[str(1)]
         self.start_point = self.point["start"]
         self.end_point = self.point["end"]
