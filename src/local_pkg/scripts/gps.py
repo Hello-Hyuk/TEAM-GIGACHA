@@ -16,7 +16,8 @@ class GPS():
          
         self.x = 0.0 
         self.y = 0.0 
-        self.heading = 0.0 
+        self.heading = 0.0
+        self.acc = 0
         self.heading_switch = False 
  
         self.time = 0.0 
@@ -41,6 +42,7 @@ class GPS():
  
     def navpvt_call_back(self, data): 
         self.time = time.time() 
+        self.acc = data.hAcc
         gps_heading = (450-(data.heading * 10**(-5)))%360 
         headAcc = data.headAcc 
  

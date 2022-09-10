@@ -7,6 +7,7 @@ from geometry_msgs.msg import Pose
 from sensor_msgs.msg import NavSatFix 
 from ublox_msgs.msg import NavPVT 
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5 import uic
 
@@ -15,9 +16,10 @@ form_class = uic.loadUiType("uis/local_ui.ui")[0]
 class WindowClass(QDialog, form_class):
     def __init__(self):
         super().__init__()
-        self.checker_list = [False, False, False]
-        
-        rospy.init_node("Local_qt", anonymous=False)
+        self.setupUi(self)
+        self.initUI()
+
+        rospy.init_node("Gigacha_ui", anonymous = False)
         rospy.Subscriber("/local_msgs", Local, self.localCallback)
         rospy.Subscriber("ublox_gps/fix", NavSatFix, self.gpsCallback) 
         rospy.Subscriber("ublox_gps/navpvt", NavPVT, self.navpvtCallback) 
@@ -25,29 +27,32 @@ class WindowClass(QDialog, form_class):
         rospy.Subscriber("/simul_gps", Pose, self.simulGpsCallback)
         rospy.Subscriber("/controller", Control_Info, self.controlCallback)
 
-        self.setupUi(self)
-        self.initUI()
-        self.data = Local()
+        self.dial_heading.setMaximum(180)
+        self.dial_heading.setMinimum(-180)
 
+        self.dial_steer.setMaximum(30)
+        self.dial_steer.setMinimum(-30)
 
-        self.dial.setMaximum(359)
-        self.dial.setMinimum(0)
-        self.dial.setSingleStep(1)
+        self.slider_speed.setMaximum(20)
+        self.slider_speed.setMinimum(0)
 
-        self.dial_steer.setMaximum(30.0)
-        self.dial_steer.setMinimum(-30.0)
-        # self.dial_steer.setSinglestep(1.0)
+    def localCallback(self, msg):
+        self.lbl_x.setText(str(msg.x))
+        self.lbl_y.setText(str(msg.y))
+        self.lbl_drx.setText(str(msg.dr_x))
+        self.lbl_dry.setText(str(msg.dr_y))
 
-        self.slider_speed.setMaximum(20.0)
-        self.slider_speed.setMinimum(0.0)
-        # self.slider_speed.setSingleStep(1.0)
+        if 0 <= msg.heading < 180:
+            heading = msg.headin
+        else:
+            heading = msg.heading - 360
 
-        self.dial.valueChanged.connect(self.LCDHeading)
-        
+        self.dial_heading.setValue(int(heading))
+        self.lbl_heading.setText(str(msg.heading))
 
     def controlCallback(self, msg):
-        self.dial_steer.setValue(self.msg.steer)
-        self.lbl_steer.setText("{0}",format(self.dial_steer.value()))
+        self.dial_steer.setValue(int(msg.steer))
+        self.lbl_steer.setText("{0}".format(self.dial_steer.value()))
 
         if msg.gear == 0:
             self.lbl_gear.setText("Forward")
@@ -55,7 +60,7 @@ class WindowClass(QDialog, form_class):
             self.lbl_gear.setText("Backward")
 
     def serialCallback(self, data):
-        self.slider_speed.setValue(data.speed)
+        self.slider_speed.setValue(round(data.speed))
         self.lbl_speed.setText("{0} km/h".format(self.slider_speed.value()))
 
         self.slider_brake.setValue(data.brake)
@@ -66,37 +71,22 @@ class WindowClass(QDialog, form_class):
         else:
             self.lbl_ma.setText("MANUAL")
 
-    def localCallback(self, msg):
-        print("+++++++++++++++++++++++++++++++")
-        self.data = msg
-
-        if not self.checker_list[0]:
-            self.tb_position.setPlainText('x : {0}\n\
-            y : {1}\n\
-            dr_x : {2}\n\
-            dr_y : {3}\n\
-            ==============='.format(self.data.x, self.data.y,\
-            self.data.dr_x, self.data.dr_y))
-            self.checker_list[0] = True
-
-        self.tb_position.append('x : {0}\n\
-            y : {1}\n\
-            dr_x : {2}\n\
-            dr_y : {3}\n\
-            ==============='.format(self.data.x, self.data.y,\
-            self.data.dr_x, self.data.dr_y))
-
-        self.dial.setValue(self.data.heading)
-
     def gpsCallback(self, data):
+        self.lbl_lat.setText(str(data.latitude))
+        self.lbl_lon.setText(str(data.longitude))
 
-        if not self.checker_list[1]:
-            self.tb_geo.setPlainText('latitude : {0}\nlongitude : {1}\n\
-            ==============='.format(self.data.latitude, self.data.longitude))
-            self.checker_list[1] = True
-
-        self.tb_geo.append('latitude : {0}\nlongitude : {1}\n\
-            ==============='.format(self.data.latitude, self.data.longitude))
+        if data.fixType == 0:
+            self.lbl_gnss.setText("UNAVAILABLE")
+        elif data.fixType == 1:
+            self.lbl_gnss.setText("INACCURACY")
+        elif data.fixType == 2:
+            self.lbl_gnss.setText("GNSS - 3sat")
+        elif data.fixType == 3:
+            self.lbl_gnss.setText("GNSS - 12sat")
+        elif data.fixType == 4:
+            self.lbl_gnss.setText("DIFF")
+        else:
+            self.lbl_gnss.setText("FIX")
 
     def navpvtCallback(self, data):
         self.lbl_acc.setText("{0}".format(data.hAcc))
@@ -107,18 +97,8 @@ class WindowClass(QDialog, form_class):
             self.lbl_rtk.setText("OFF")
 
     def simulGpsCallback(self, data):
-        
-        if not self.checker_list[1]:
-            self.tb_geo.setPlainText('latitude : {0}\nlongitude : {1}\n\
-            ==============='.format(self.data.position.x, self.data.position.y))
-            self.checker_list[1] = True
-
-        self.tb_geo.append('latitude : {0}\nlongitude : {1}\n\
-            ==============='.format(self.data.position.x, self.data.position.y))
-
-
-    def LCDHeading(self):
-        self.heading.display
+        self.lbl_lat.setText(str(data.position.x))
+        self.lbl_lon.setText(str(data.position.y))
 
     def initUI(self):
         self.setWindowTitle('Local Informations')
@@ -129,4 +109,4 @@ if __name__ == "__main__" :
     app = QApplication(sys.argv)
     myWindow = WindowClass()
     myWindow.show()
-    app.exec_()
+    sys.exit(app.exec_())

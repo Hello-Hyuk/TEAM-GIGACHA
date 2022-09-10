@@ -4,6 +4,7 @@ import rospy
 import math
 import argparse
 from local_pkg.msg import Local
+from nav_msgs.msg import Path
 from gps import GPS
 from ahrs import IMU
 from odometry import DR
@@ -14,8 +15,11 @@ from sig_int_handler import Activate_Signal_Interrupt_Handler
 class Localization():
     def __init__(self, base):
         rospy.init_node('Localization', anonymous = False)
+        rospy.Subscrber("/vis_global_path", Path, self.masterCallback)
+
         self.pub = rospy.Publisher('/local_msgs', Local, queue_size = 1)
         self.msg = Local()
+        self.control_msg = Control_Info()
         self.base = base
 
         self.gps = GPS(self.base)
@@ -26,7 +30,11 @@ class Localization():
         self.heading = 0.0
 
         self.dr_init = False
+        self.master_switch = False
         self.dis_init = 0
+
+    def masterCallback(self, msg):
+        self.master_switch = True
 
     def heading_decision(self):
         global time_sync
@@ -57,17 +65,17 @@ class Localization():
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
         self.msg.speed = self.dr.speed
-        # self.msg.distance = self.dr.dis
 
-        if self.gps.heading_switch:
+        if self.master_switch and (self.gps.acc < 50):
             if not self.dr_init:
-                self.msg.dr_x = self.gps.x
-                self.msg.dr_y = self.gps.y
                 self.dis_init = self.dr.dis
                 self.dr_init = True
-            dis = self.dr.dis - self.dis_init
+
+            self.msg.dr_x = self.gps.x
+            self.msg.dr_y = self.gps.y
+            dis = self.dr.dis - self.dis_init # should be 0 at first
             self.msg.dr_x += dis*math.cos(math.radians(self.heading))
-            self.msg.dr_y += dis*math.sin(math.radians(self.heading))
+            self.msg.dr_y += dis*math.cos(math.radians(self.heading))
             
         self.msg.roll = self.imu.roll
         self.msg.pitch = self.imu.pitch

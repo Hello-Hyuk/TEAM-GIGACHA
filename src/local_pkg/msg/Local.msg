@@ -6,5 +6,4 @@ float64 pitch
 float64 dr_x
 float64 dr_y
 float64 speed
-float64 distance
 geometry_msgs/Quaternion orientation
