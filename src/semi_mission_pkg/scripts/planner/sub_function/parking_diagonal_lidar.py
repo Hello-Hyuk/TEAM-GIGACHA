@@ -66,9 +66,9 @@ class PL():
         parking_space_poly5 = Polygon(parking_space_5) 
         parking_space_poly6 = Polygon(parking_space_6) 
         
-        p1, p2, p3, p4, p5, p6 = PolygonStamped()
-        p1.header.frame_id, p2.header.frame_id, p3.header.frame_id, p4.header.frame_id, p5.header.frame_id, p6.header.frame_id = "map"
-        p1.header.stamp, p2.header.stamp, p3.header.stamp, p4.header.stamp, p5.header.stamp, p6.header.stamp = rospy.Time.now()
+        p1, p2, p3, p4, p5, p6 = PolygonStamped(), PolygonStamped(), PolygonStamped(), PolygonStamped(), PolygonStamped(), PolygonStamped()
+        p1.header.frame_id, p2.header.frame_id, p3.header.frame_id, p4.header.frame_id, p5.header.frame_id, p6.header.frame_id = "map", "map", "map", "map", "map", "map"
+        p1.header.stamp, p2.header.stamp, p3.header.stamp, p4.header.stamp, p5.header.stamp, p6.header.stamp = rospy.Time.now(), rospy.Time.now(), rospy.Time.now(), rospy.Time.now(), rospy.Time.now(), rospy.Time.now()
         
         p1.polygon.points = [Point32(x = parking_point_x_y[0][0], y = parking_point_x_y[0][1]),
                         Point32(x = parking_point_x_y[1][0], y = parking_point_x_y[1][1]),
