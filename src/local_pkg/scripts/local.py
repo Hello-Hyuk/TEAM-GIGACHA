@@ -65,6 +65,7 @@ class Localization():
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
         self.msg.speed = self.dr.speed
+        self.msg.dis = self.dr.dis
 
         if self.master_switch and (self.gps.acc < 50):
             if not self.dr_init:
@@ -73,9 +74,9 @@ class Localization():
 
             self.msg.dr_x = self.gps.x
             self.msg.dr_y = self.gps.y
-            dis = self.dr.dis - self.dis_init # should be 0 at first
-            self.msg.dr_x += dis*math.cos(math.radians(self.heading))
-            self.msg.dr_y += dis*math.cos(math.radians(self.heading))
+            dis_ = self.dr.dis - self.dis_init # should be 0 at first
+            self.msg.dr_x += dis_*math.cos(math.radians(self.heading))
+            self.msg.dr_y += dis_*math.cos(math.radians(self.heading))
             
         self.msg.roll = self.imu.roll
         self.msg.pitch = self.imu.pitch
