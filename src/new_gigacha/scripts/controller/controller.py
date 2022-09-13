@@ -18,7 +18,7 @@ class Controller(threading.Thread):
         self.serial_pub = rospy.Publisher("controller", Control_Info, queue_size=1)        
 
         self.lat_controller = LatController(self.ego, self.shared, self.lattice_path, self.plan, self.parking)
-        self.lon_controller = LonController(self.ego, self.shared)
+        # self.lon_controller = LonController(self.ego, self.shared)
 
     def run(self):
         while True:
