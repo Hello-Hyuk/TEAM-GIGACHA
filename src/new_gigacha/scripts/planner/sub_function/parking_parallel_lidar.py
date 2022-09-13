@@ -4,17 +4,12 @@ import pymap3d
 import rospy 
 import json
 
-from time import sleep, time
 from math import cos, sin, pi 
 
 from sensor_msgs import point_cloud2 
-from sensor_msgs.msg import PointCloud2 
-from sensor_msgs.msg import PointField 
-from sensor_msgs.msg import PointCloud 
-from sensor_msgs.msg import ChannelFloat32 
-from geometry_msgs.msg import Point32 
-from std_msgs.msg import Int32, String 
-from nav_msgs.msg import Odometry
+from sensor_msgs.msg import PointCloud2, PointCloud, ChannelFloat32 
+from geometry_msgs.msg import PolygonStamped, Point32
+from std_msgs.msg import Int32
  
 import numpy as np 
 from shapely.geometry import Point, Polygon 
@@ -25,7 +20,12 @@ class PL():
         self.ego = ego
         rospy.Subscriber("/velodyne_points", PointCloud2, self.getMsg_parking) 
         self.pub = rospy.Publisher("lidar_pub", PointCloud, queue_size=1) 
-        self.pub_num = rospy.Publisher("Parking_num", Int32, queue_size=1) 
+        self.pub_num = rospy.Publisher("Parking_num", Int32, queue_size=1)
+        self.pub_roi1 = rospy.Publisher("Parking_ROI1", PolygonStamped, queue_size=1)
+        self.pub_roi2 = rospy.Publisher("Parking_ROI2", PolygonStamped, queue_size=1) 
+        self.pub_roi3 = rospy.Publisher("Parking_ROI3", PolygonStamped, queue_size=1) 
+        self.pub_roi4 = rospy.Publisher("Parking_ROI4", PolygonStamped, queue_size=1) 
+        self.pub_roi5 = rospy.Publisher("Parking_ROI5", PolygonStamped, queue_size=1)
 
         # simul kcity
         self.base_lat = 37.23873
@@ -57,6 +57,41 @@ class PL():
         parking_space_poly3 = Polygon(parking_space_3) 
         parking_space_poly4 = Polygon(parking_space_4) 
         parking_space_poly5 = Polygon(parking_space_5)
+        
+        p1, p2, p3, p4, p5 = PolygonStamped(), PolygonStamped(), PolygonStamped(), PolygonStamped(), PolygonStamped()
+        p1.header.frame_id, p2.header.frame_id, p3.header.frame_id, p4.header.frame_id, p5.header.frame_id = "map", "map", "map", "map", "map"
+        p1.header.stamp, p2.header.stamp, p3.header.stamp, p4.header.stamp, p5.header.stamp = rospy.Time.now(), rospy.Time.now(), rospy.Time.now(), rospy.Time.now(), rospy.Time.now()
+        
+        p1.polygon.points = [Point32(x = parking_point_x_y[0][0], y = parking_point_x_y[0][1]),
+                        Point32(x = parking_point_x_y[1][0], y = parking_point_x_y[1][1]),
+                        Point32(x = parking_point_x_y[2][0], y = parking_point_x_y[2][1]),
+                        Point32(x = parking_point_x_y[3][0], y = parking_point_x_y[3][1])]
+        
+        p2.polygon.points = [Point32(x = parking_point_x_y[4][0], y = parking_point_x_y[4][1]),
+                        Point32(x = parking_point_x_y[5][0], y = parking_point_x_y[5][1]),
+                        Point32(x = parking_point_x_y[6][0], y = parking_point_x_y[6][1]),
+                        Point32(x = parking_point_x_y[7][0], y = parking_point_x_y[7][1])]
+        
+        p3.polygon.points = [Point32(x = parking_point_x_y[8][0], y = parking_point_x_y[8][1]),
+                        Point32(x = parking_point_x_y[9][0], y = parking_point_x_y[9][1]),
+                        Point32(x = parking_point_x_y[10][0], y = parking_point_x_y[10][1]),
+                        Point32(x = parking_point_x_y[11][0], y = parking_point_x_y[11][1])]
+        
+        p4.polygon.points = [Point32(x = parking_point_x_y[12][0], y = parking_point_x_y[12][1]),
+                        Point32(x = parking_point_x_y[13][0], y = parking_point_x_y[13][1]),
+                        Point32(x = parking_point_x_y[14][0], y = parking_point_x_y[14][1]),
+                        Point32(x = parking_point_x_y[15][0], y = parking_point_x_y[15][1])]
+        
+        p5.polygon.points = [Point32(x = parking_point_x_y[16][0], y = parking_point_x_y[16][1]),
+                        Point32(x = parking_point_x_y[17][0], y = parking_point_x_y[17][1]),
+                        Point32(x = parking_point_x_y[18][0], y = parking_point_x_y[18][1]),
+                        Point32(x = parking_point_x_y[19][0], y = parking_point_x_y[19][1])]
+        
+        self.pub_roi1.publish(p1)
+        self.pub_roi2.publish(p2)
+        self.pub_roi3.publish(p3)
+        self.pub_roi4.publish(p4)
+        self.pub_roi5.publish(p5)
     
         parking_result = [0, 0, 0, 0, 0] 
         
