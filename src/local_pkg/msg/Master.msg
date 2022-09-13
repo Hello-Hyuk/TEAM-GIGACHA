@@ -1,9 +1,9 @@
 string mission
 string behavior
 uint32 index
-uint32 localizer
-uint32 mission_pln
-uint32 behavior_pln
-uint32 motion_pln
-uint32 lat_con
-uint32 lon_con
+bool localizer
+bool mission_pln
+bool behavior_pln
+bool motion_pln
+bool lat_con
+bool lon_con

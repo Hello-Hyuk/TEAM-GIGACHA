@@ -37,8 +37,6 @@ class Localizer(threading.Thread):
         self.ego.roll = msg.roll
         self.ego.pitch = msg.pitch
 
-        self.ego.x = msg.x
-        self.ego.y = msg.y
     # def read_global_path(self):
     #     with open(f"maps/{self.mapname}.json", 'r') as json_file:
     #         json_data = json.load(json_file)
@@ -77,17 +75,17 @@ class Localizer(threading.Thread):
         
         self.perception.signname = self.global_path.mission[self.ego.index]
 
-    # def dead_reckoning(self):
-    #     if self.hAcc < 50 :
-    #         self.ego.x = self.x
-    #         self.ego.y = self.y
-    #     else:
-    #         self.ego.x = self.ego.dr_x
-    #         self.ego.y = self.ego.dr_y
+    def dead_reckoning(self):
+        if self.hAcc < 50 :
+            self.ego.x = self.x
+            self.ego.y = self.y
+        else:
+            self.ego.x = self.ego.dr_x
+            self.ego.y = self.ego.dr_y
 
     def run(self):
         while True:
             self.index_finder()
-            # self.dead_reckoning()
+            self.dead_reckoning()
 
             sleep(self.period)

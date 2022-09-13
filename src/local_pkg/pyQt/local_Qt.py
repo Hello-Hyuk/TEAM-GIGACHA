@@ -49,12 +49,6 @@ class WindowClass(QDialog, form_class):
         self.rbtn_lat_con.setAutoExclusive(False)
         self.rbtn_lon_con.setAutoExclusive(False)
 
-    def checker(self, data):
-        if data == 1:
-            return True
-        elif data == 0:
-            return False
-
     def masterCallback(self, msg):
         self.lbl_index.setText(str(msg.index))
         self.lbl_mission.setText(msg.mission)

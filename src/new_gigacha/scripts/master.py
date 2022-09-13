@@ -21,7 +21,7 @@ class Master(threading.Thread):
         self.period = 1.0 / ui_rate
 
         rospy.init_node('master', anonymous=False)
-        # self.pub = rospy.Publisher("/from_master", Master, queue_size = 1)
+        self.pub = rospy.Publisher("/from_master", Master, queue_size = 1)
         # self.status = Master()
 
     def run(self):
@@ -101,10 +101,7 @@ class Master(threading.Thread):
             print(type(module).__name__, "is dead..")
 
     def thread_checker_(self, module):
-        if module.is_alive():
-            return 1
-        else:
-            return 0
+        return module.is_alive()
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser(
