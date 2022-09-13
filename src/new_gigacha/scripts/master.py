@@ -7,8 +7,7 @@ from localizer.localizer import Localizer
 from planner.mission_planner import MissionPlanner
 from planner.behavior_planner import BehaviorPlanner
 from planner.motion_planner import MotionPlanner
-from controller.lat_controller import LatController
-from controller.lon_controller import LonController
+from controller.controller import Controller
 from utils.sig_int_handler import ActivateSignalInterruptHandler
 from utils.env_visualizer import Visualizer
 
@@ -39,11 +38,8 @@ class Master(threading.Thread):
         self.motion_planner = MotionPlanner(self, rate=20)
         self.init_thread(self.motion_planner)
 
-        self.lat_controller = LatController(self, rate=20)
-        self.init_thread(self.lat_controller)
-
-        self.lon_controller = LonController(self, rate=20)
-        self.init_thread(self.lon_controller)
+        self.controller = Controller(self, rate=20)
+        self.init_thread(self.controller)
 
         self.visualizer = Visualizer(self, rate=10)
         self.init_thread(self.visualizer)
@@ -109,7 +105,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='Siheung/siheung_final',
+        default='kcity_simul/final_map',
         help='kcity/map1, songdo/map2, yonghyeon/Yonghyeon, kcity_simul/left_lane, kcity_simul/right_lane, kcity_simul/final, inha_parking/gpp'
     )
 
