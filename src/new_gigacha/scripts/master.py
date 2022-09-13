@@ -65,17 +65,17 @@ class Master(threading.Thread):
             ##print("parking on : ", self.shared.park.on)
             # print("hello")
 
-            self.status.mission = self.shared.plan.state
-            self.status.behavior = self.shared.plan.behavior_decision
-            self.status.index = self.shared.ego.index
-            self.status.localizer = self.thread_checker_(self.localizer)
-            self.status.mission_pln = self.thread_checker_(self.mission_planner)
-            self.status.behavior_pln = self.thread_checker_(self.behavior_planner)
-            self.status.motion_pln = self.thread_checker_(self.motion_planner)
-            self.status.lat_con = self.thread_checker_(self.lat_controller)
-            self.status.lon_con = self.thread_checker_(self.lon_controller)
+            # self.status.mission = self.shared.plan.state
+            # self.status.behavior = self.shared.plan.behavior_decision
+            # self.status.index = self.shared.ego.index
+            # self.status.localizer = self.thread_checker_(self.localizer)
+            # self.status.mission_pln = self.thread_checker_(self.mission_planner)
+            # self.status.behavior_pln = self.thread_checker_(self.behavior_planner)
+            # self.status.motion_pln = self.thread_checker_(self.motion_planner)
+            # self.status.lat_con = self.thread_checker_(self.lat_controller)
+            # self.status.lon_con = self.thread_checker_(self.lon_controller)
 
-            self.pub.publish(self.status)
+            # self.pub.publish(self.status)
 
             sleep(self.period)
 
