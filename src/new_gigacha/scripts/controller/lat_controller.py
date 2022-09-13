@@ -1,22 +1,18 @@
-import threading
-from time import sleep
 from math import hypot, cos, sin, degrees, atan2, radians, pi
 
+class LatController():
+    def __init__(self, eg, sh, lattice, pl, park):
+ 
+        self.ego = eg
+        self.shared = sh
+        self.plan = pl
+        self.parking = park
+        self.lattice_path = lattice
 
-class LatController(threading.Thread):
-    def __init__(self, parent, rate):
-        super().__init__()
-        self.period = 1.0 / rate
-        self.shared = parent.shared
-        self.ego = parent.shared.ego
-        self.plan = parent.shared.plan
-        self.parking = parent.shared.park
-
-        self.lattice_path = parent.shared.lattice_path
-
-        self.WB = 1.04  # wheel base
-        self.k = 0.15  # 1.5
-        self.lookahead_default = 4  # look-ahead default
+        self.global_path = self.shared.global_path
+        self.WB = 1.04 # wheel base
+        self.k = 0.15 #1.5
+        self.lookahead_default = 4 #look-ahead default
 
     def run(self):
         while True:
@@ -49,12 +45,12 @@ class LatController(threading.Thread):
                     if degrees(angle) < 0.5 and degrees(angle) > -0.5:
                         angle = 0
 
-                    self.ego.input_steer = max(
-                        min(degrees(angle), 27.0), -27.0)
+                    self.steer = max(min(degrees(angle), 27.0), -27.0)
+
+                return self.steer
+
             except IndexError:
                 print("++++++++lat_controller+++++++++")
-
-            sleep(self.period)
 
     def parking_run(self):
         if self.parking.direction == 0:
@@ -69,8 +65,7 @@ class LatController(threading.Thread):
         #     target_index = len(self.parking.backward_path.x) - 1
 
         target_x, target_y = self.path.x[target_index], self.path.y[target_index]
-        tmp = degrees(atan2(target_y - self.ego.y,
-                            target_x - self.ego.x)) % 360
+        tmp = degrees(atan2(target_y - self.ego.y, target_x - self.ego.x)) % 360
 
         heading = self.ego.heading
         ###### Back Driving ######
@@ -91,10 +86,10 @@ class LatController(threading.Thread):
         if degrees(angle) < 3.5 and degrees(angle) > -3.5:
             angle = 0
 
-        self.ego.input_steer = max(min(degrees(angle), 27.0), -27.0)
+        self.steer = max(min(degrees(angle), 27.0), -27.0)
 
     def parking_run2(self):
-        self.ego.input_steer = self.ego.target_steer
+        self.steer = self.ego.target_steer
     
     def U_turn(self):
         self.path = self.lattice_path[self.shared.selected_lane]
@@ -113,5 +108,4 @@ class LatController(threading.Thread):
         if degrees(angle) < 0.5 and degrees(angle) > -0.5:
             angle = 0
 
-        self.ego.input_steer = max(
-            min(degrees(angle), 27.0), -27.0)
+        self.steer = max(min(degrees(angle), 27.0), -27.0)
