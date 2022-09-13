@@ -4,6 +4,7 @@ import rospy
 import math
 import argparse
 from local_pkg.msg import Local
+from local_pkg.msg import Master
 from nav_msgs.msg import Path
 from gps import GPS
 from ahrs import IMU
@@ -15,11 +16,11 @@ from sig_int_handler import Activate_Signal_Interrupt_Handler
 class Localization():
     def __init__(self, base):
         rospy.init_node('Localization', anonymous = False)
-        rospy.Subscrber("/vis_global_path", Path, self.masterCallback)
+        rospy.Subscriber("/from_master", Master, self.masterCallback)
+        rospy.Subscriber("/vis_global_path", Path, self.masterCallback)
 
         self.pub = rospy.Publisher('/local_msgs', Local, queue_size = 1)
         self.msg = Local()
-        self.control_msg = Control_Info()
         self.base = base
 
         self.gps = GPS(self.base)
@@ -29,9 +30,11 @@ class Localization():
         self.offset = 0
         self.heading = 0.0
 
-        self.dr_init = False
         self.master_switch = False
-        self.dis_init = 0
+        self.dr_init = False
+        self.last_pulse = 0
+
+        self.dead_heading = 0
 
     def masterCallback(self, msg):
         self.master_switch = True
@@ -64,19 +67,33 @@ class Localization():
         
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
+        self.msg.hAcc = self.gps.hAcc
         self.msg.speed = self.dr.speed
-        self.msg.dis = self.dr.dis
+        self.msg.dis = self.dr.pulse / 58.82
 
-        if self.master_switch and (self.gps.acc < 50):
-            if not self.dr_init:
-                self.dis_init = self.dr.dis
-                self.dr_init = True
+        if self.master_switch:
+            if 0 < self.gps.hAcc < 50:
+                self.msg.dr_x = self.gps.x
+                self.msg.dr_y = self.gps.y
+                self.dr_init = False
+            
+            else:
+                if not self.dr_init:
+                    self.last_pulse = self.dr.pulse
+                    self.dr_init = True
 
-            self.msg.dr_x = self.gps.x
-            self.msg.dr_y = self.gps.y
-            dis_ = self.dr.dis - self.dis_init # should be 0 at first
-            self.msg.dr_x += dis_*math.cos(math.radians(self.heading))
-            self.msg.dr_y += dis_*math.cos(math.radians(self.heading))
+                if self.gps.heading_switch == True and self.dr_init:
+                    if self.dr.gear == 0:
+                        self.dead_heading = self.heading
+                    elif self.dr.gear == 2:
+                        self.dead_heading = (self.heading + 180)%360
+                    
+                    self.diff_pulse = self.dr.pulse - self.last_pulse
+                    dis = self.diff_pulse / 58.82
+
+                    self.msg.dr_x += dis*math.cos(math.radians(self.dead_heading))
+                    self.msg.dr_y += dis*math.sin(math.radians(self.dead_heading))
+                    self.last_pulse = self.dr.pulse
             
         self.msg.roll = self.imu.roll
         self.msg.pitch = self.imu.pitch
@@ -88,7 +105,7 @@ class Localization():
 
         self.pub.publish(self.msg)
 
-        rospy.loginfo(self.msg)
+        # rospy.loginfo(self.msg)
 
 if __name__=='__main__':
     Activate_Signal_Interrupt_Handler()

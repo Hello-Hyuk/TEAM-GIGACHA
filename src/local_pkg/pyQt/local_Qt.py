@@ -49,6 +49,12 @@ class WindowClass(QDialog, form_class):
         self.rbtn_lat_con.setAutoExclusive(False)
         self.rbtn_lon_con.setAutoExclusive(False)
 
+    def checker(self, data):
+        if data == 1:
+            return True
+        elif data == 0:
+            return False
+
     def masterCallback(self, msg):
         self.lbl_index.setText(str(msg.index))
         self.lbl_mission.setText(msg.mission)
@@ -100,6 +106,14 @@ class WindowClass(QDialog, form_class):
         self.lbl_lat.setText(str(data.latitude))
         self.lbl_lon.setText(str(data.longitude))
 
+    def navpvtCallback(self, data):
+        self.lbl_acc.setText("{0}".format(data.hAcc))
+
+        if data.hAcc < 50:
+            self.lbl_rtk.setText("ON")
+        else:
+            self.lbl_rtk.setText("OFF")
+
         if data.fixType == 0:
             self.lbl_gnss.setText("UNAVAILABLE")
         elif data.fixType == 1:
@@ -112,14 +126,6 @@ class WindowClass(QDialog, form_class):
             self.lbl_gnss.setText("DIFF")
         else:
             self.lbl_gnss.setText("FIX")
-
-    def navpvtCallback(self, data):
-        self.lbl_acc.setText("{0}".format(data.hAcc))
-
-        if data.hAcc < 50:
-            self.lbl_rtk.setText("ON")
-        else:
-            self.lbl_rtk.setText("OFF")
 
     def simulGpsCallback(self, data):
         self.lbl_lat.setText(str(data.position.x))

@@ -8,6 +8,8 @@ Panels:
         - /Status1
         - /Odometry1/Shape1
         - /Path6
+        - /PointCloud1
+        - /PointCloud2
       Splitter Ratio: 0.5
     Tree Height: 672
   - Class: rviz/Selection
@@ -28,7 +30,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: PointCloud
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -208,7 +210,7 @@ Visualization Manager:
       Marker Topic: /vis_obj1
       Name: MarkerArray
       Namespaces:
-        circles: true
+        {}
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -233,6 +235,62 @@ Visualization Manager:
       Shaft Length: 0.10000000149011612
       Topic: /vis_parking_path
       Unreliable: false
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud
+      Color: 239; 41; 41
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: PointCloud
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Points
+      Topic: /vis_trajectory
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 0
+        Min Value: 0
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud
+      Color: 255; 255; 255
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: PointCloud
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Points
+      Topic: /vis_trajectory_dr
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
       Value: true
   Enabled: true
   Global Options:
@@ -262,25 +320,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1080.40478515625
+      Distance: 937.0653076171875
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 127.07292175292969
-        Y: 259.58551025390625
-        Z: -689.6091918945312
+        X: 14.68243408203125
+        Y: 87.2776107788086
+        Z: -669.8404541015625
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.3247963190078735
+      Pitch: 1.5647963285446167
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.388573169708252
+      Yaw: 0.925389289855957
     Saved: ~
 Window Geometry:
   Displays:
@@ -299,4 +357,4 @@ Window Geometry:
     collapsed: true
   Width: 1267
   X: 187
-  Y: 62
+  Y: 32

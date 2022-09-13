@@ -17,7 +17,7 @@ class GPS():
         self.x = 0.0 
         self.y = 0.0 
         self.heading = 0.0
-        self.acc = 0
+        self.hAcc = 0
         self.heading_switch = False 
  
         self.time = 0.0 
@@ -46,7 +46,7 @@ class GPS():
         gps_heading = (450-(data.heading * 10**(-5)))%360 
         headAcc = data.headAcc 
  
-        if headAcc < 600000: 
+        if headAcc < 400000: 
             self.heading_switch = True 
             self.heading = gps_heading 
         else: 

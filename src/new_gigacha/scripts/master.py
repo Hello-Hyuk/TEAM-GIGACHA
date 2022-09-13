@@ -21,8 +21,8 @@ class Master(threading.Thread):
         self.period = 1.0 / ui_rate
 
         rospy.init_node('master', anonymous=False)
-        self.pub = rospy.Publisher("/from_master", Master, queue_size = 1)
-        self.status = Master()
+        # self.pub = rospy.Publisher("/from_master", Master, queue_size = 1)
+        # self.status = Master()
 
     def run(self):
         self.shared = Shared()
@@ -102,9 +102,9 @@ class Master(threading.Thread):
 
     def thread_checker_(self, module):
         if module.is_alive():
-            return True
+            return 1
         else:
-            return False
+            return 0
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser(
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='kcity_simul/final_map',
+        default='Siheung/siheung_final',
         help='kcity/map1, songdo/map2, yonghyeon/Yonghyeon, kcity_simul/left_lane, kcity_simul/right_lane, kcity_simul/final, inha_parking/gpp'
     )
 

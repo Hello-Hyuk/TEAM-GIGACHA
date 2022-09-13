@@ -79,17 +79,17 @@ class Visualizer(threading.Thread):
         self.vis_parking_path = Path()
         self.vis_parking_path.header.frame_id = "map"
 
-        # self.vis_trajectory_dr = PointCloud()
-        # self.vis_trajectory_dr.header.frame_id = "map"
+        self.vis_trajectory_dr = PointCloud()
+        self.vis_trajectory_dr.header.frame_id = "map"
 
         self.vis_pose = Odometry()
         self.vis_pose.header.frame_id = "map"
 
-        # self.vis_pose_dr = Odometry()
-        # self.vis_pose_dr.header.frame_id = "map"
+        self.vis_pose_dr = Odometry()
+        self.vis_pose_dr.header.frame_id = "map"
 
         self.t = time()
-        # self.d = time()
+        self.d = time()
 
     def run(self):
         while True:
