@@ -3,7 +3,7 @@ import rospy
 from local_pkg.msg import Local
 from local_pkg.msg import Serial_Info
 from local_pkg.msg import Control_Info
-from local_pkg.msg import Master
+from local_pkg.msg import Guii
 from geometry_msgs.msg import Pose
 from sensor_msgs.msg import NavSatFix 
 from ublox_msgs.msg import NavPVT 
@@ -26,7 +26,7 @@ class WindowClass(QDialog, form_class):
 
         rospy.init_node("Gigacha_ui", anonymous = False)
         rospy.Subscriber("/local_msgs", Local, self.localCallback)
-        rospy.Subscriber("/from_master", Master, self.masterCallback)
+        rospy.Subscriber("/from_master", Guii, self.masterCallback)
         rospy.Subscriber("ublox_gps/fix", NavSatFix, self.gpsCallback) 
         rospy.Subscriber("ublox_gps/navpvt", NavPVT, self.navpvtCallback) 
         rospy.Subscriber("/serial", Serial_Info, self.serialCallback)
@@ -54,12 +54,11 @@ class WindowClass(QDialog, form_class):
         self.lbl_mission.setText(msg.mission)
         self.lbl_behavior.setText(msg.behavior)
 
-        self.rbtn_localizer.setChecked(msg.localizer)
+        self.rbtn_localizer.setChecked(msg.local)
         self.rbtn_mission_pln.setChecked(msg.mission_pln)
         self.rbtn_behavior_pln.setChecked(msg.behavior_pln)
         self.rbtn_motion_pln.setChecked(msg.motion_pln)
-        self.rbtn_lat_con.setChecked(msg.lat_con)
-        self.rbtn_lon_con.setChecked(msg.lon_con)
+        self.rbtn_lat_con.setChecked(msg.con)
 
     def localCallback(self, msg):
         self.lbl_x.setText(str(msg.x))

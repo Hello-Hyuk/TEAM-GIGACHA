@@ -1,8 +1,7 @@
 import threading
 import rospy
 import argparse
-from math import hypot
-from local_pkg.msg import Master
+from local_pkg.msg import Guii
 from shared.shared import Shared
 from localizer.localizer import Localizer
 from planner.mission_planner import MissionPlanner
@@ -21,8 +20,9 @@ class Master(threading.Thread):
         self.period = 1.0 / ui_rate
 
         rospy.init_node('master', anonymous=False)
-        # self.pub = rospy.Publisher("/from_master", Master, queue_size = 1)
-        # self.status = Master()
+        self.pub = rospy.Publisher("/from_master", Guii, queue_size = 1)
+
+        self.status = Guii()
 
     def run(self):
         self.shared = Shared()
@@ -60,19 +60,16 @@ class Master(threading.Thread):
             # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
             # print('Speed : {},'.format(self.shared.ego.speed))
 
-            # print('delivery sign number : ', self.shared.perception.sign_num)
+            self.status.mission = self.shared.plan.state
+            self.status.behavior = self.shared.plan.behavior_decision
+            self.status.index = self.shared.ego.index
+            self.status.local = self.thread_checker_(self.localizer)
+            self.status.mission_pln = self.thread_checker_(self.mission_planner)
+            self.status.behavior_pln = self.thread_checker_(self.behavior_planner)
+            self.status.motion_pln = self.thread_checker_(self.motion_planner)
+            self.status.con = self.thread_checker_(self.controller)
 
-            # self.status.mission = self.shared.plan.state
-            # self.status.behavior = self.shared.plan.behavior_decision
-            # self.status.index = self.shared.ego.index
-            # self.status.localizer = self.thread_checker_(self.localizer)
-            # self.status.mission_pln = self.thread_checker_(self.mission_planner)
-            # self.status.behavior_pln = self.thread_checker_(self.behavior_planner)
-            # self.status.motion_pln = self.thread_checker_(self.motion_planner)
-            # self.status.lat_con = self.thread_checker_(self.lat_controller)
-            # self.status.lon_con = self.thread_checker_(self.lon_controller)
-
-            # self.pub.publish(self.status)
+            self.pub.publish(self.status)
 
             # a = hypot(self.shared.global_path.x[50] - self.shared.global_path.x[49], self.shared.global_path.y[50] - self.shared.global_path.y[49])
 
@@ -89,8 +86,7 @@ class Master(threading.Thread):
         self.thread_checker(self.mission_planner)    
         self.thread_checker(self.behavior_planner)
         self.thread_checker(self.motion_planner)
-        self.thread_checker(self.lat_controller)
-        self.thread_checker(self.lon_controller)
+        self.thread_checker(self.controller)
         self.thread_checker(self.visualizer)
 
     def thread_checker(self, module):
