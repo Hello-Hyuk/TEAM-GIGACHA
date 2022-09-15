@@ -40,23 +40,23 @@ class Localizer(threading.Thread):
         self.ego.x = msg.x
         self.ego.y = msg.y
         
-    # def read_global_path(self):
-    #     with open(f"maps/{self.mapname}.json", 'r') as json_file:
-    #         json_data = json.load(json_file)
-    #         for n, (x, y , mission) in enumerate(json_data.values()):
-    #             self.global_path.x.append(x)
-    #             self.global_path.y.append(y)
-    #             self.global_path.mission.append(mission)
-
     def read_global_path(self):
-        with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
-            csv_reader = csv.reader(csv_file)
-            for line in csv_reader:
-                self.global_path.x.append(float(line[0]))
-                self.global_path.y.append(float(line[1]))
-                self.global_path.mission.append("delivery")
-                # self.global_path.k.append(float(line[2]))
-                # self.global_path.yaw.append(float(line[3])
+        with open(f"maps/{self.mapname}.json", 'r') as json_file:
+            json_data = json.load(json_file)
+            for n, (x, y , mission) in enumerate(json_data.values()):
+                self.global_path.x.append(x)
+                self.global_path.y.append(y)
+                self.global_path.mission.append(mission)
+
+    # def read_global_path(self):
+    #     with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
+    #         csv_reader = csv.reader(csv_file)
+    #         for line in csv_reader:
+    #             self.global_path.x.append(float(line[0]))
+    #             self.global_path.y.append(float(line[1]))
+    #             self.global_path.mission.append("delivery")
+    #             # self.global_path.k.append(float(line[2]))
+    #             # self.global_path.yaw.append(float(line[3])
 
     def index_finder(self):
         min_dis = -1

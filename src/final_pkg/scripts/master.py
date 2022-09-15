@@ -47,7 +47,6 @@ class Master(threading.Thread):
 
         while True:
             # print("---------------------")
-            # self.checker_all()
             # # print('Localization')
 
             # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
@@ -60,6 +59,9 @@ class Master(threading.Thread):
             # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
             # print('Speed : {},'.format(self.shared.ego.speed))
 
+            self.checker_all()
+            print("running master")
+
             self.status.mission = self.shared.plan.state
             self.status.behavior = self.shared.plan.behavior_decision
             self.status.index = self.shared.ego.index
@@ -71,11 +73,7 @@ class Master(threading.Thread):
 
             self.pub.publish(self.status)
 
-            # a = hypot(self.shared.global_path.x[50] - self.shared.global_path.x[49], self.shared.global_path.y[50] - self.shared.global_path.y[49])
-
             sleep(self.period)
-
-            # print(a)
 
     def init_thread(self, module):
         module.daemon = True
@@ -95,9 +93,9 @@ class Master(threading.Thread):
 
     def thread_checker_(self, module):
         if module.is_alive():
-            return "ON"
+            return int(1)
         else:
-            return "OFF"
+            return int(0)
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser(
@@ -105,8 +103,8 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='Siheung/delivery2',
-        help='kcity_simul/final_map, Siheung/delivery'
+        default='kcity_simul/final_map',
+        help='kcity_simul/final_map, Siheung/delivery2'
     )
 
     ActivateSignalInterruptHandler()
