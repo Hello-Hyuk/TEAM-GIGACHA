@@ -97,8 +97,8 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='kcity_simul/final_map',
-        help='kcity/map1, songdo/map2, yonghyeon/Yonghyeon, kcity_simul/left_lane, kcity_simul/right_lane, kcity_simul/final, inha_parking/gpp'
+        default='Siheung/delivery2',
+        help='kcity_simul/final_map, Siheung/delivery'
     )
 
     ActivateSignalInterruptHandler()

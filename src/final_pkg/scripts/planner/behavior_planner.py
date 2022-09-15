@@ -47,8 +47,11 @@ class BehaviorPlanner(threading.Thread):
                 elif self.plan.state == "non_right_sign":
                     self.mission.non_traffic_right()
 
-                elif self.plan.state == "delivery":
+                elif self.plan.state == "pickup":
                     self.mission.pickup()
+
+                elif self.plan.state == "delivery":
+                    self.mission.delivery()
 
                 else:
                     self.mission.go()
