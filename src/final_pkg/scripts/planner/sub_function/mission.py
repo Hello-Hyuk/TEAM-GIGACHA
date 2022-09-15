@@ -25,12 +25,19 @@ class Mission():
         self.selected = 0
         self.vote = {"345":0, "354":0, "435":0, "453":0, "534":0, "543":0}
 
+        self.signx = 0
+        self.signy = 0
+        self.B_x = [0,0,0]
+        self.B_y = [0,0,0]
+
         self.pickup_checker = False
         self.delivery_checker = False
+        self.voting_checker = False
+
         self.non_traffic_right_checker = 0
         self.uturn_stop = False
 
-        self.speed = 15
+        self.speed = 10
 
     def range(self, a, b = 30):
         return (a-b) <= self.ego.index <= a
@@ -300,7 +307,7 @@ class Mission():
                 objx.append(self.perception.tmp_objx[i] * cos(theta) + self.perception.tmp_objy[i] * -sin(theta) + self.ego.x)
                 objy.append(self.perception.tmp_objx[i] * sin(theta) + self.perception.tmp_objy[i] * cos(theta) + self.ego.y)
     
-        self.perception.lidar_lock.acquire()   
+        self.perception.lidar_lock.acquire()
         self.perception.objy = []
         self.perception.objx = []
         self.perception.objx = objx
@@ -310,36 +317,17 @@ class Mission():
         self.perception.lidar_lock.release()
         self.perception.tmp_lidar_lock.release()
 
-    def pickup(self):
-        self.plan.behavior_decision = "delivery_mode"
-        sign_dis = 0.0
-        sign_dis = sqrt((self.perception.signx - self.ego.x)**2 + (self.perception.signy - self.ego.y)**2)
-        # print("pickup : " , sign_dis)
-        if 0 < sign_dis < 1.3 and self.pickup_checker == False:
-            self.pickup_checker = True
-            self.plan.behavior_decision = "stop"
-            self.target_control(70, 0)
-            sleep(5)
-            self.target_control(0, self.speed)
-            self.plan.behavior_decision = "pickup_end"
-            self.voting()
-        elif 0 < sign_dis < 10:
-            self.plan.behavior_decision = "pickup"
-        if (self.pickup_checker == True):
-            self.delivery()
+    def convert_delivery(self):
+        theta = (self.ego.heading) * pi / 180
+        size = 0
+        if(self.perception.signx != 0):
+            self.signx = self.perception.signx * cos(theta) + self.perception.signy * -sin(theta) + self.ego.x
+            self.signy = self.perception.signx * sin(theta) + self.perception.signy * cos(theta) + self.ego.y
         
-    def delivery(self):
-        self.plan.behavior_decision = "delivery"
-        sign_dis = sqrt(
-                (self.perception.B_x[self.selected] - self.ego.x)**2 + (self.perception.B_y[self.selected] - self.ego.y)**2)
-        print("delivery : ", sign_dis)
-        if(0 < sign_dis < 1.2 and self.delivery_checker == False):
-            self.delivery_checker = True
-            self.plan.behavior_decision = "stop"
-            self.target_control(70, 0)
-            sleep(5) 
-            self.target_control(0, self.speed)
-        self.plan.behavior_decision = "delivery_end"
+        if(self.perception.first_sign != 0):
+            for i in range(3):
+                self.B_x[i] = self.perception.B_x[i] * cos(theta) + self.perception.B_y[i] * -sin(theta) + self.ego.x
+                self.B_y[i] = self.perception.B_x[i] * sin(theta) + self.perception.B_y[i] * cos(theta) + self.ego.y
 
     def voting(self): 
         count = 0  
@@ -351,8 +339,79 @@ class Mission():
                 count += 1
         print(self.vote)
         seq = max(self.vote, key=self.vote.get)
-        seq_list = list(seq)
-        for i in range(len(seq_list)):
-            if int(seq_list[i]) == self.perception.target:
-                self.selected = i
+
+        for i in seq:
+            if int(i) == self.perception.target:
+                self.selected = int(i)
         print(self.selected)
+
+    def pickup(self):
+        self.plan.behavior_decision = "pickup_mode"
+
+        sign_dis = 0.0
+        sign_dis = sqrt((self.signx - self.ego.x)**2 + (self.signy - self.ego.y)**2)
+        print("sign distance : ", sign_dis)
+        if 0 < sign_dis < 4 and self.pickup_checker == False:
+            self.pickup_checker = True
+            self.plan.behavior_decision = "stop"
+            self.target_control(200, 0)
+            sleep(5)
+            self.target_control(0, self.speed)
+            self.plan.behavior_decision = "pickup_end"
+        elif 0 < sign_dis < 10 and self.pickup_checker == False:
+            self.plan.behavior_decision = "pickup"
+        
+    def delivery(self):
+        self.target_control(0, 5)
+        self.plan.behavior_decision = "delivery_mode"
+
+        if (self.perception.first_sign != 0) and self.voting_checker == False:
+            self.voting()
+            self.voting_checker = True
+        
+        sign_dis = 0.0
+        sign_dis = sqrt((self.B_x[self.selected] - self.ego.x)**2 + (self.B_y[self.selected] - self.ego.y)**2)
+        print("first : ", self.perception.first_sign, "second : ", self.perception.second_sign, "third : ", self.perception.third_sign)
+        print("selected num : ", self.selected)
+        print("B_x : ", self.B_x)
+        print("sign distance : ", sign_dis)
+
+        if (0 < sign_dis < 4 and self.delivery_checker == False and self.voting_checker == True):
+            self.delivery_checker = True
+            self.plan.behavior_decision = "stop"
+            self.target_control(200, 0)
+            sleep(5) 
+            self.target_control(0, self.speed)
+            self.plan.behavior_decision = "delivery_end"
+        elif 0 < sign_dis < 10 and self.delivery_checker == False:
+            self.plan.behavior_decision = "delivery"
+
+    # def pickup(self):
+    #     self.plan.behavior_decision = "delivery_mode"
+    #     sign_dis = 0.0
+    #     sign_dis = sqrt((self.perception.signx - self.ego.x)**2 + (self.perception.signy - self.ego.y)**2)
+    #     # print("pickup : " , sign_dis)
+    #     if 0 < sign_dis < 1.3 and self.pickup_checker == False:
+    #         self.pickup_checker = True
+    #         self.plan.behavior_decision = "stop"
+    #         self.target_control(200, 0)
+    #         sleep(5)
+    #         self.target_control(0, self.speed)
+    #         self.plan.behavior_decision = "pickup_end"
+    #         self.voting()
+    #     elif 0 < sign_dis < 10:
+    #         self.plan.behavior_decision = "pickup"
+    #     if (self.pickup_checker == True):
+    #         self.delivery()
+        
+    # def delivery(self):
+    #     self.plan.behavior_decision = "delivery"
+    #     sign_dis = sqrt((self.perception.B_x[self.selected] - self.ego.x)**2 + (self.perception.B_y[self.selected] - self.ego.y)**2)
+    #     print("delivery : ", sign_dis)
+    #     if(0 < sign_dis < 1.2 and self.delivery_checker == False):
+    #         self.delivery_checker = True
+    #         self.plan.behavior_decision = "stop"
+    #         self.target_control(200, 0)
+    #         sleep(5) 
+    #         self.target_control(0, self.speed)
+    #     self.plan.behavior_decision = "delivery_end"

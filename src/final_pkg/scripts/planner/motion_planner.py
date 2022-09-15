@@ -58,17 +58,31 @@ class MotionPlanner(threading.Thread):
 
                 ######################delivery###########################
 
+                # elif self.shared.plan.behavior_decision == "pickup":
+                #     self.shared.selected_lane = 3
+                
+                # elif self.shared.plan.behavior_decision == "pickup_end":
+                #     self.shared.selected_lane = 2
+
+                # elif self.shared.plan.behavior_decision == "delivery":
+                #     self.shared.selected_lane = 3
+
+                # elif self.shared.plan.behavior_decision == "delivery_end":
+                #     self.shared.selected_lane = 2
+
+                ######################delivery Siheung###########################
+
                 elif self.shared.plan.behavior_decision == "pickup":
                     self.shared.selected_lane = 3
                 
                 elif self.shared.plan.behavior_decision == "pickup_end":
-                    self.shared.selected_lane = 2
+                    self.shared.selected_lane = 1
 
                 elif self.shared.plan.behavior_decision == "delivery":
                     self.shared.selected_lane = 3
 
                 elif self.shared.plan.behavior_decision == "delivery_end":
-                    self.shared.selected_lane = 2
+                    self.shared.selected_lane = 1
 
             except IndexError:
                 print("++++++++motion_planner+++++++++")

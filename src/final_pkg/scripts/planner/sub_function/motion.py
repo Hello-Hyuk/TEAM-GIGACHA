@@ -77,7 +77,11 @@ class Motion():
             world_current_point = np.array([[self.ego.x], [self.ego.y], [1]])
             local_current_point = det_t.dot(world_current_point)
 
-            lane_off_set = [3.5, 0, -3.5, -4]
+            #Siheung delivery test
+            lane_off_set = [3.5, 0, -2 ,-3.5]
+            #KCity delivery test
+            # lane_off_set = [3.5, 0, -3.5, -4] # need to be determined
+
             local_lattice_points = []
             for i in range(len(lane_off_set)):
                 local_lattice_points.append([local_end_point[0][0], local_end_point[1][0] + lane_off_set[i], 1])

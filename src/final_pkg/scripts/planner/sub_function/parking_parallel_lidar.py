@@ -127,7 +127,7 @@ class PL():
             if parking_result[2] < 5: 
                 result_number = i + 1
         else:
-            for i in range(4, 6): 
+            for i in range(3, 5): 
                 if parking_result[i] < 5: 
                     result_number = i + 1
                     break

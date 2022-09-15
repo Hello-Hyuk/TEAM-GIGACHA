@@ -1,7 +1,7 @@
 import threading
 import rospy
 import argparse
-from local_pkg.msg import Master
+from local_pkg.msg import Guii
 from shared.shared import Shared
 from localizer.localizer import Localizer
 from planner.mission_planner import MissionPlanner
@@ -20,8 +20,9 @@ class Master(threading.Thread):
         self.period = 1.0 / ui_rate
 
         rospy.init_node('master', anonymous=False)
-        # self.pub = rospy.Publisher("/from_master", Master, queue_size = 1)
-        # self.status = Master()
+        self.pub = rospy.Publisher("/from_master", Guii, queue_size = 1)
+
+        self.status = Guii()
 
     def run(self):
         self.shared = Shared()
@@ -48,28 +49,33 @@ class Master(threading.Thread):
             # print("---------------------")
             # self.checker_all()
             # # print('Localization')
-            print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
-               .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
-            print('Mission_State : {}'.format(self.shared.plan.state))
-            print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
+
+            # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
+            #    .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
+            # print('Mission_State : {}'.format(self.shared.plan.state))
+            # print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
+
             # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
             # print('Controller')
             # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
             # print('Speed : {},'.format(self.shared.ego.speed))
 
-            # self.status.mission = self.shared.plan.state
-            # self.status.behavior = self.shared.plan.behavior_decision
-            # self.status.index = self.shared.ego.index
-            # self.status.localizer = self.thread_checker_(self.localizer)
-            # self.status.mission_pln = self.thread_checker_(self.mission_planner)
-            # self.status.behavior_pln = self.thread_checker_(self.behavior_planner)
-            # self.status.motion_pln = self.thread_checker_(self.motion_planner)
-            # self.status.lat_con = self.thread_checker_(self.lat_controller)
-            # self.status.lon_con = self.thread_checker_(self.lon_controller)
+            self.status.mission = self.shared.plan.state
+            self.status.behavior = self.shared.plan.behavior_decision
+            self.status.index = self.shared.ego.index
+            self.status.local = self.thread_checker_(self.localizer)
+            self.status.mission_pln = self.thread_checker_(self.mission_planner)
+            self.status.behavior_pln = self.thread_checker_(self.behavior_planner)
+            self.status.motion_pln = self.thread_checker_(self.motion_planner)
+            self.status.con = self.thread_checker_(self.controller)
 
-            # self.pub.publish(self.status)
+            self.pub.publish(self.status)
+
+            # a = hypot(self.shared.global_path.x[50] - self.shared.global_path.x[49], self.shared.global_path.y[50] - self.shared.global_path.y[49])
 
             sleep(self.period)
+
+            # print(a)
 
     def init_thread(self, module):
         module.daemon = True
@@ -80,8 +86,7 @@ class Master(threading.Thread):
         self.thread_checker(self.mission_planner)    
         self.thread_checker(self.behavior_planner)
         self.thread_checker(self.motion_planner)
-        self.thread_checker(self.lat_controller)
-        self.thread_checker(self.lon_controller)
+        self.thread_checker(self.controller)
         self.thread_checker(self.visualizer)
 
     def thread_checker(self, module):
@@ -89,7 +94,10 @@ class Master(threading.Thread):
             print(type(module).__name__, "is dead..")
 
     def thread_checker_(self, module):
-        return module.is_alive()
+        if module.is_alive():
+            return "ON"
+        else:
+            return "OFF"
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser(
@@ -97,8 +105,8 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='kcity_simul/final_map',
-        help='kcity/map1, songdo/map2, yonghyeon/Yonghyeon, kcity_simul/left_lane, kcity_simul/right_lane, kcity_simul/final, inha_parking/gpp'
+        default='Siheung/delivery2',
+        help='kcity_simul/final_map, Siheung/delivery'
     )
 
     ActivateSignalInterruptHandler()

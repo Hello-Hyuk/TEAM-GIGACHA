@@ -25,6 +25,9 @@ class BehaviorPlanner(threading.Thread):
             try:
                 self.mission.convert_lidar()
 
+                if (self.perception.sign_num != 0):
+                    self.mission.convert_delivery()
+
                 if self.state_remember != self.plan.state:
                     self.state_remember = self.plan.state
                     self.mission.time_checker = False
@@ -47,8 +50,11 @@ class BehaviorPlanner(threading.Thread):
                 elif self.plan.state == "non_right_sign":
                     self.mission.non_traffic_right()
 
-                elif self.plan.state == "delivery":
+                elif self.plan.state == "pickup":
                     self.mission.pickup()
+
+                elif self.plan.state == "delivery":
+                    self.mission.delivery()
 
                 else:
                     self.mission.go()
