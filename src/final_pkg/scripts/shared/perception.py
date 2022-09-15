@@ -5,6 +5,7 @@ from visualization_msgs.msg import MarkerArray
 from std_msgs.msg import Int32
 from vision_msgs.msg import Detection2DArray
 from sensor_msgs.msg import PointCloud
+from geometry_msgs.msg import PoseArray
 
 class Perception_():
    def __init__(self):
@@ -13,7 +14,8 @@ class Perception_():
       rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
       rospy.Subscriber("/traffic", Detection2DArray, self.traffic_callback)
       rospy.Subscriber("/Parking_num", Int32, self.parking_callback)
-      rospy.Subscriber("/target_points", PointCloud, self.delivery_callback)
+      # rospy.Subscriber("/target_points", PointCloud, self.delivery_callback)
+      rospy.Subscriber("/pcd", PoseArray, self.delivery_callback)
 
       self.objx = []
       self.objy = []
@@ -42,24 +44,50 @@ class Perception_():
       self.second_sign = 0
       self.third_sign = 0 
 
+      self.sign_num = 0
+
+   # # with tracking
+   # def delivery_callback(self, msg):
+   #    # pickup
+   #    print("===================PICKUP===================:{0}".format(len(msg.points)))
+   #    if (len(msg.points) == 1):
+   #       if msg.points[0].z == 0:
+   #          self.target = 1
+   #       elif msg.points[0].z == 1:
+   #          self.target = 2
+   #       elif msg.points[0].z == 2:
+   #          self.target = 2
+   #       self.signx = msg.points[0].x
+   #       self.signy = msg.points[0].y
+   #    elif (len(msg.points) == 3):
+   #       for i in range(3):
+   #          self.B_x[i] = msg.points[i].x
+   #          self.B_y[i] = msg.points[i].y
+   #       self.first_sign = msg.points[0].z
+   #       self.second_sign = msg.points[1].z
+   #       self.third_sign = msg.points[2].z
+
+   # without tracking
    def delivery_callback(self, msg):
       # pickup
-      if (len(msg.points) == 1):
-         if msg.points[0].z == 0:
+      # print("===================PICKUP===================:{0}".format(len(msg.poses)))
+      self.sign_num = len(msg.poses)
+      if (len(msg.poses) == 1):
+         if int(msg.poses[0].orientation.w) == 0:
             self.target = 1
-         elif msg.points[0].z == 1:
+         elif int(msg.poses[0].orientation.w) == 1:
             self.target = 2
-         elif msg.points[0].z == 2:
-            self.target = 2
-         self.signx = msg.points[0].x
-         self.signy = msg.points[0].y
-      elif (len(msg.points) == 3):
+         elif int(msg.poses[0].orientation.w) == 2:
+            self.target = 3
+         self.signx = msg.poses[0].orientation.x
+         self.signy = msg.poses[0].orientation.y
+      elif (len(msg.poses) == 3):
          for i in range(3):
-            self.B_x[i] = msg.points[i].x
-            self.B_y[i] = msg.points[i].y
-         self.first_sign = msg.points[0].z
-         self.second_sign = msg.points[1].z
-         self.third_sign = msg.points[2].z
+            self.B_x[i] = msg.poses[i].orientation.x
+            self.B_y[i] = msg.poses[i].orientation.y
+         self.first_sign = int(msg.poses[0].orientation.w)
+         self.second_sign = int(msg.poses[1].orientation.w)
+         self.third_sign = int(msg.poses[2].orientation.w)
 
    def input_callback(self, msg):
       #first

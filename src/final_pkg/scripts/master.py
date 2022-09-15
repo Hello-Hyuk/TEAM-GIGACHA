@@ -1,6 +1,7 @@
 import threading
 import rospy
 import argparse
+from math import hypot
 from local_pkg.msg import Master
 from shared.shared import Shared
 from localizer.localizer import Localizer
@@ -48,14 +49,18 @@ class Master(threading.Thread):
             # print("---------------------")
             # self.checker_all()
             # # print('Localization')
-            print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
-               .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
-            print('Mission_State : {}'.format(self.shared.plan.state))
-            print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
+
+            # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
+            #    .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
+            # print('Mission_State : {}'.format(self.shared.plan.state))
+            # print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
+
             # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
             # print('Controller')
             # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
             # print('Speed : {},'.format(self.shared.ego.speed))
+
+            # print('delivery sign number : ', self.shared.perception.sign_num)
 
             # self.status.mission = self.shared.plan.state
             # self.status.behavior = self.shared.plan.behavior_decision
@@ -69,7 +74,11 @@ class Master(threading.Thread):
 
             # self.pub.publish(self.status)
 
+            # a = hypot(self.shared.global_path.x[50] - self.shared.global_path.x[49], self.shared.global_path.y[50] - self.shared.global_path.y[49])
+
             sleep(self.period)
+
+            # print(a)
 
     def init_thread(self, module):
         module.daemon = True
@@ -89,7 +98,10 @@ class Master(threading.Thread):
             print(type(module).__name__, "is dead..")
 
     def thread_checker_(self, module):
-        return module.is_alive()
+        if module.is_alive():
+            return "ON"
+        else:
+            return "OFF"
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser(

@@ -78,7 +78,7 @@ class Motion():
             local_current_point = det_t.dot(world_current_point)
 
             #Siheung delivery test
-            lane_off_set = [3.5, 0, -3.5, -4]
+            lane_off_set = [3.5, 0, -2 ,-3.5]
             #KCity delivery test
             # lane_off_set = [3.5, 0, -3.5, -4] # need to be determined
 

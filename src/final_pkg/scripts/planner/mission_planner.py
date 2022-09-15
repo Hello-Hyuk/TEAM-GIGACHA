@@ -40,13 +40,13 @@ class MissionPlanner(threading.Thread):
                 #     self.plan.state = "go"
 
                 ########Siheung##########
-                if 0 < self.ego.index < 1000:
+                if self.ego.index < 190:
                     self.plan.state = "pickup"
 
-                elif 1000 < self.ego.index < 2000:
+                elif 190 < self.ego.index < 565:
                     self.plan.state = "go"
 
-                elif 2000 < self.ego.index < 3000:
+                elif 565 < self.ego.index:
                     self.plan.state = "delivery"
 
             except IndexError:
