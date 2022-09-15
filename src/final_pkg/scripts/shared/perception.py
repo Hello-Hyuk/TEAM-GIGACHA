@@ -9,14 +9,12 @@ from sensor_msgs.msg import PointCloud
 class Perception_():
    def __init__(self):
       # rospy.Subscriber("/input", Perception, self.input_callback)
-      rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
       # rospy.Subscriber("/sign", Detection2DArray, self.sign_callback)
+      rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
       rospy.Subscriber("/traffic", Detection2DArray, self.traffic_callback)
       rospy.Subscriber("/Parking_num", Int32, self.parking_callback)
       rospy.Subscriber("/target_points", PointCloud, self.delivery_callback)
 
-      self.signx = 0
-      self.signy = 0
       self.objx = []
       self.objy = []
       self.objw = []
@@ -36,7 +34,8 @@ class Perception_():
       self.target = 3
 
       #for input_callback
-      self.B_signs = {"B1": 0, "B2": 0, "B3":0}
+      self.signx = 0
+      self.signy = 0
       self.B_x = [0,0,0]
       self.B_y = [0,0,0]
       self.first_sign = 0
