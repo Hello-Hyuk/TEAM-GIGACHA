@@ -11,6 +11,7 @@ class DR():
         self.left = 0  # pulse from serial 
  
         self.gear = 0 
+        self.speed = 0
  
         self.init = 0 
         self.flag_filter = True 

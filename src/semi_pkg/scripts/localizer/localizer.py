@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 import threading
+import csv
 import rospy
 from local_pkg.msg import Local
 from math import hypot
@@ -20,18 +21,25 @@ class Localizer(threading.Thread):
         self.global_path = parent.shared.global_path
         self.perception = parent.shared.perception
         self.read_global_path()  # only one time
+        self.hAcc = 100000
+        self.x = 0
+        self.y = 0
 
     def local_callback(self, msg):
-        self.ego.x = msg.x
-        self.ego.y = msg.y
+        self.x = msg.x
+        self.y = msg.y
+        self.hAcc = msg.hAcc
+        self.ego.speed = msg.speeed
         self.ego.heading = msg.heading
-        self.ego.speed = msg.speed
         self.ego.orientaion = msg.orientation
         self.ego.dr_x = msg.dr_x
         self.ego.dr_y = msg.dr_y
         self.ego.roll = msg.roll
         self.ego.pitch = msg.pitch
 
+        self.ego.x = msg.x
+        self.ego.y = msg.y
+        
     def read_global_path(self):
         with open(f"maps/{self.mapname}.json", 'r') as json_file:
             json_data = json.load(json_file)
@@ -39,6 +47,16 @@ class Localizer(threading.Thread):
                 self.global_path.x.append(x)
                 self.global_path.y.append(y)
                 self.global_path.mission.append(mission)
+
+    # def read_global_path(self):
+    #     with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
+    #         csv_reader = csv.reader(csv_file)
+    #         for line in csv_reader:
+    #             self.global_path.x.append(float(line[0]))
+    #             self.global_path.y.append(float(line[1]))
+    #             self.global_path.mission.append("delivery")
+    #             # self.global_path.k.append(float(line[2]))
+    #             # self.global_path.yaw.append(float(line[3])
 
     def index_finder(self):
         min_dis = -1
@@ -57,11 +75,20 @@ class Localizer(threading.Thread):
                 min_idx = i
                 save_idx = i
         self.ego.index = min_idx
-
+        
         self.perception.signname = self.global_path.mission[self.ego.index]
+
+    def dead_reckoning(self):
+        if self.hAcc < 50 :
+            self.ego.x = self.x
+            self.ego.y = self.y
+        else:
+            self.ego.x = self.ego.dr_x
+            self.ego.y = self.ego.dr_y
 
     def run(self):
         while True:
             self.index_finder()
+            self.dead_reckoning()
 
             sleep(self.period)

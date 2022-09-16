@@ -28,9 +28,9 @@ class Localizer(threading.Thread):
     def local_callback(self, msg):
         self.x = msg.x
         self.y = msg.y
-        self.ego.heading = msg.heading
-        self.ego.speed = msg.speed
         self.hAcc = msg.hAcc
+        self.ego.speed = msg.speeed
+        self.ego.heading = msg.heading
         self.ego.orientaion = msg.orientation
         self.ego.dr_x = msg.dr_x
         self.ego.dr_y = msg.dr_y

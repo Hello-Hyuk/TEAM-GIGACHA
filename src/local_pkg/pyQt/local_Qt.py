@@ -41,6 +41,8 @@ class WindowClass(QDialog, form_class):
 
         self.slider_speed.setMaximum(20)
         self.slider_speed.setMinimum(0)
+        self.slider_brake.setMaximum(200)
+        self.slider_brake.setMinimum(0)
 
         self.rbtn_localizer.setAutoExclusive(False)
         self.rbtn_mission_pln.setAutoExclusive(False)

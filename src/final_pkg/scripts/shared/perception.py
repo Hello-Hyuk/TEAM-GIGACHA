@@ -12,10 +12,12 @@ class Perception_():
       # rospy.Subscriber("/input", Perception, self.input_callback)
       # rospy.Subscriber("/sign", Detection2DArray, self.sign_callback)
       rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
-      rospy.Subscriber("/traffic", Detection2DArray, self.traffic_callback)
+      rospy.Subscriber("/traffic_bbox", Detection2DArray, self.traffic_callback)
       rospy.Subscriber("/Parking_num", Int32, self.parking_callback)
       # rospy.Subscriber("/target_points", PointCloud, self.delivery_callback)
       rospy.Subscriber("/pcd", PoseArray, self.delivery_callback)
+      rospy.Subscriber("/sign_bbox", Detection2DArray, self.delivery_sign_callback)
+
 
       self.objx = []
       self.objy = []
@@ -42,7 +44,7 @@ class Perception_():
       self.B_y = [0,0,0]
       self.first_sign = 0
       self.second_sign = 0
-      self.third_sign = 0 
+      self.third_sign = 0
 
       self.sign_num = 0
 
@@ -85,9 +87,15 @@ class Perception_():
          for i in range(3):
             self.B_x[i] = msg.poses[i].orientation.x
             self.B_y[i] = msg.poses[i].orientation.y
-         self.first_sign = int(msg.poses[0].orientation.w)
-         self.second_sign = int(msg.poses[1].orientation.w)
-         self.third_sign = int(msg.poses[2].orientation.w)
+         # self.first_sign = int(msg.poses[0].orientation.w)
+         # self.second_sign = int(msg.poses[1].orientation.w)
+         # self.third_sign = int(msg.poses[2].orientation.w)
+
+   def delivery_sign_callback(self, msg):
+      if (len(msg.detections) == 3):
+         self.first_sign = msg.detections[0].results[0].id
+         self.second_sign = msg.detections[1].results[0].id
+         self.third_sign = msg.detections[2].results[0].id
 
    def input_callback(self, msg):
       #first

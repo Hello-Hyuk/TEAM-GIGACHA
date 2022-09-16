@@ -4,7 +4,7 @@ import rospy
 import math
 import argparse
 from local_pkg.msg import Local
-from local_pkg.msg import Master
+from local_pkg.msg import Guii
 from nav_msgs.msg import Path
 from gps import GPS
 from ahrs import IMU
@@ -16,7 +16,7 @@ from sig_int_handler import Activate_Signal_Interrupt_Handler
 class Localization():
     def __init__(self, base):
         rospy.init_node('Localization', anonymous = False)
-        rospy.Subscriber("/from_master", Master, self.masterCallback)
+        rospy.Subscriber("/from_master", Guii, self.masterCallback)
         rospy.Subscriber("/vis_global_path", Path, self.masterCallback)
 
         self.pub = rospy.Publisher('/local_msgs', Local, queue_size = 1)
@@ -68,7 +68,7 @@ class Localization():
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
         self.msg.hAcc = self.gps.hAcc
-        # self.msg.speed = self.dr.speed
+        self.msg.speeed = self.dr.speed
         self.msg.dis = self.dr.pulse / 58.82
 
         if self.master_switch:
@@ -105,7 +105,7 @@ class Localization():
 
         self.pub.publish(self.msg)
 
-        # rospy.loginfo(self.msg)
+        rospy.loginfo(self.msg)
 
 if __name__=='__main__':
     Activate_Signal_Interrupt_Handler()

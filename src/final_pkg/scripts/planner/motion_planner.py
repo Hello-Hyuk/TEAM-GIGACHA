@@ -58,14 +58,20 @@ class MotionPlanner(threading.Thread):
 
                 ######################delivery###########################
 
+                elif self.shared.plan.behavior_decision == "pickup_mode":
+                    self.shared.selected_lane = 3
+
                 elif self.shared.plan.behavior_decision == "pickup":
                     self.shared.selected_lane = 3
                 
                 elif self.shared.plan.behavior_decision == "pickup_end":
-                    self.shared.selected_lane = 1
+                    self.shared.selected_lane = 2
+
+                elif self.shared.plan.behavior_decision == "delivery_mode":
+                    self.shared.selected_lane = 4
 
                 elif self.shared.plan.behavior_decision == "delivery":
-                    self.shared.selected_lane = 2
+                    self.shared.selected_lane = 4
 
                 elif self.shared.plan.behavior_decision == "delivery_end":
                     self.shared.selected_lane = 1

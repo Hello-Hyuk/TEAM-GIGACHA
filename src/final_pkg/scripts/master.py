@@ -20,9 +20,10 @@ class Master(threading.Thread):
         self.period = 1.0 / ui_rate
 
         rospy.init_node('master', anonymous=False)
-        self.pub = rospy.Publisher("/from_master", Guii, queue_size = 1)
+        # self.pub = rospy.Publisher("/from_master", Guii, queue_size = 1)
 
         self.status = Guii()
+        self.dead_index = 0
 
     def run(self):
         self.shared = Shared()
@@ -53,6 +54,7 @@ class Master(threading.Thread):
             #    .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
             # print('Mission_State : {}'.format(self.shared.plan.state))
             # print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
+            # print("red : ", self.shared.perception.tred, ", yellow : ", self.shared.perception.tyellow, ", green : ", self.shared.perception.tgreen, ", left : ", self.shared.perception.tleft)
 
             # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
             # print('Controller')
@@ -60,18 +62,18 @@ class Master(threading.Thread):
             # print('Speed : {},'.format(self.shared.ego.speed))
 
             self.checker_all()
-            print("running master")
+            # print("running master")
 
-            self.status.mission = self.shared.plan.state
-            self.status.behavior = self.shared.plan.behavior_decision
-            self.status.index = self.shared.ego.index
-            self.status.local = self.thread_checker_(self.localizer)
-            self.status.mission_pln = self.thread_checker_(self.mission_planner)
-            self.status.behavior_pln = self.thread_checker_(self.behavior_planner)
-            self.status.motion_pln = self.thread_checker_(self.motion_planner)
-            self.status.con = self.thread_checker_(self.controller)
+            # self.status.mission = self.shared.plan.state
+            # self.status.behavior = self.shared.plan.behavior_decision
+            # self.status.index = self.shared.ego.index
+            # self.status.local = self.thread_checker_(self.localizer)
+            # self.status.mission_pln = self.thread_checker_(self.mission_planner)
+            # self.status.behavior_pln = self.thread_checker_(self.behavior_planner)
+            # self.status.motion_pln = self.thread_checker_(self.motion_planner)
+            # self.status.con = self.thread_checker_(self.controller)
 
-            self.pub.publish(self.status)
+            # self.pub.publish(self.status)
 
             sleep(self.period)
 
@@ -89,7 +91,9 @@ class Master(threading.Thread):
 
     def thread_checker(self, module):
         if not module.is_alive():
-            print(type(module).__name__, "is dead..")
+            print(type(module).__name__, "is dead.. at : ", self.dead_index)
+            if self.dead_index == 0:
+                self.dead_index = self.shared.ego.index
 
     def thread_checker_(self, module):
         if module.is_alive():
