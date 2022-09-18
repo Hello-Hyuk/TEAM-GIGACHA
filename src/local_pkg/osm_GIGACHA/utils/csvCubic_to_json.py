@@ -11,9 +11,10 @@ def csvTojson():
             list1.append(row)
             # print(list1)
 
-        for n, (x, y) in enumerate(list1):
-            data_dict[n] = [float(x), float(y)]
-            data_dict[n].append("")
+
+        for n, [x, y, k, yaw, index] in enumerate(list1):
+            data_dict[n] = [float(x), float(y),"go"]
+            # data_dict[n].append("")
 
     j = json.dumps(data_dict, indent = 4)
     f = open('ssibaedal.json', 'w')
