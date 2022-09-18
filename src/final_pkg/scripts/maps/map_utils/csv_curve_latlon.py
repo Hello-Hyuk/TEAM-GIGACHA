@@ -24,14 +24,14 @@ from cubic_spline_planner import calc_spline_course
 # base_alt = 15.4
 
 # Siheung
-# base_lat = 37.36458356
-# base_lon = 126.7237789
-# base_alt = 15.4
+base_lat = 37.36458356
+base_lon = 126.7237789
+base_alt = 15.4
 
 # simul
-base_lat = 37.23873
-base_lon = 126.772383333333
-base_alt = 15.4
+# base_lat = 37.23873
+# base_lon = 126.772383333333
+# base_alt = 15.4
 
 # yonghyeon_navileguan
 # base_lat = 37.4508561
@@ -68,7 +68,7 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     colnames = ['lon', 'lat']
     # df = pd.read_csv(f'maps/Siheung/nodes/turn_right/turn_right_line.csv', names=colnames, header=None) # siheung
-    df = pd.read_csv(f'final.csv', names=colnames, header=None)
+    df = pd.read_csv(f'new_siheung2.csv', names=colnames, header=None)
     x = []
     y = []
 
@@ -91,14 +91,12 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     return(cx, cy, cyaw, ck, s)
 
-
-
-cubic('str1', 1,2)
-# cubic('uturn1', 1,2,3,4,5)
-# cubic('uturn2', 5,6)
-# cubic('uturn3', 6,7)
-# cubic('uturn4', 7,8,9,10,11,12,13,14)
-# cubic('uturn5', 14,15)
+# cubic('sibaecur1', 1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 143)
+# cubic('sibaecur2', 1, 10, 20, 30, 40, 50, 60, 64)
+cubic('sibaecur3', 1, 10, 20, 30, 40, 50, 60, 70, 80, 85)
+# cubic('sibaestr2', 3,4)
+# cubic('sibaestr3', 5,6)
+# cubic('sibaestr4', 7,8)
 
 # cubic("2",2,3,4,5,6,7)
 # cubic("3",7,8)
