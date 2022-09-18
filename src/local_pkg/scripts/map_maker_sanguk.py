@@ -15,6 +15,7 @@ from local_pkg.msg import Serial_Info
 
 class MC():
     def __init__(self):
+        rospy.init_node('Map_maker', anonymous = False)
         self.map_switch = False
         self.right = 0  # pulse from sensor
         self.left = 0  # pulse from serial
@@ -53,8 +54,10 @@ class MC():
         self.alt = self.base['alt']
 
     def gps_call_back(self, data):
-        self.gps_x, self.gps_y, _ = pymap3d.geodetic2enu(data.latitude, data.longitude, self.alt,
-                                                         self.lat, self.lon, self.alt)
+        # self.gps_x, self.gps_y, _ = pymap3d.geodetic2enu(data.latitude, data.longitude, self.alt,
+        #                                                  self.lat, self.lon, self.alt)
+        self.gps_x = data.longitude
+        self.gps_y = data.latitude
 
     def serialTopulse(self, data):
 
@@ -117,7 +120,7 @@ class MC():
             save_data = list(zip(self.x, self.y))
 
             save_df = pd.DataFrame(save_data)
-            save_df.to_csv("new_siheung.csv", index=False, header=False)
+            save_df.to_csv("new_siheung3.csv", index=False, header=False)
             self.map_switch = True
 
     def main(self):
