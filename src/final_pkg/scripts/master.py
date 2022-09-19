@@ -1,7 +1,7 @@
 import threading
 import rospy
 import argparse
-from local_pkg.msg import Guii
+# from local_pkg.msg import Guii
 from shared.shared import Shared
 from localizer.localizer import Localizer
 from planner.mission_planner import MissionPlanner
@@ -22,7 +22,7 @@ class Master(threading.Thread):
         rospy.init_node('master', anonymous=False)
         # self.pub = rospy.Publisher("/from_master", Guii, queue_size = 1)
 
-        self.status = Guii()
+        # self.status = Guii()
         self.dead_index = 0
 
     def run(self):
@@ -50,10 +50,11 @@ class Master(threading.Thread):
             # print("---------------------")
             # # print('Localization')
 
-            print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
-               .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
-            print('Mission_State : {}'.format(self.shared.plan.state))
+            #print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
+               #.format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
+            #print('Mission_State : {}'.format(self.shared.plan.state))
             print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
+            #print('target : {}'.format(self.shared.perception.target))
             # print("red : ", self.shared.perception.tred, ", yellow : ", self.shared.perception.tyellow, ", green : ", self.shared.perception.tgreen, ", left : ", self.shared.perception.tleft)
 
             # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
@@ -107,7 +108,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='kcity_simul/final_map',
+        default='Siheung/sibaedal',
         help='kcity_simul/final_map, Siheung/delivery2, Siheung/sibaedal'
     )
 

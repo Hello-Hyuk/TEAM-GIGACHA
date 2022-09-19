@@ -321,16 +321,25 @@ class Mission():
     def convert_delivery(self):
         theta = (self.ego.heading) * pi / 180
         size = 0
+        print('convert')
+        self.perception.delivery_lidar_lock.acquire()
         if(self.perception.signx != 0):
             self.signx = self.perception.signx * cos(theta) + self.perception.signy * -sin(theta) + self.ego.x
             self.signy = self.perception.signx * sin(theta) + self.perception.signy * cos(theta) + self.ego.y
         
         if(self.perception.first_sign != 0):
             for i in range(3):
-                self.B_x[i] = self.perception.B_x[i] * cos(theta) + self.perception.B_y[i] * -sin(theta) + self.ego.x
-                self.B_y[i] = self.perception.B_x[i] * sin(theta) + self.perception.B_y[i] * cos(theta) + self.ego.y
+                if(B_x[i] != 0):
+                    self.B_x[i] = self.perception.B_x[i] * cos(theta) + self.perception.B_y[i] * -sin(theta) + self.ego.x
+                    self.B_y[i] = self.perception.B_x[i] * sin(theta) + self.perception.B_y[i] * cos(theta) + self.ego.y
+        
+        self.perception.delivery_lidar_lock.release()
+        print('mission : ' )
+        for i in range(3):
+            print(self.B_x[0], self.B_x[1], self.B_x[2] )
 
     def voting(self): 
+        print('voting')
         count = 0  
         while(count < 100):
             sort_result = ""
@@ -346,6 +355,7 @@ class Mission():
             if int(i) == self.perception.target:
                 self.selected = int(i)
         print(self.selected)
+        self.target_control(0, 7)
 
     def pickup(self):
         if self.pickup_checker == False:
@@ -373,12 +383,10 @@ class Mission():
         #     self.voting()
         #     self.voting_checker = True
         if range(6140) and self.voting_checker == False:
-            self.voting()
-            self.voting_checker = True
             self.plan.behavior_decision = "stop"
             self.target_control(200, 0)
-            sleep(3)
-            self.target_control(0, 7)
+            self.voting()
+            self.voting_checker = True
             self.plan.behavior_decision = "delivery"
 
         sign_dis = 0.0

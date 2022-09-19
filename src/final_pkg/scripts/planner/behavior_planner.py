@@ -23,9 +23,8 @@ class BehaviorPlanner(threading.Thread):
     def run(self):
         while True:
             try:
-                self.mission.convert_lidar()
-
                 if (self.perception.sign_num != 0):
+                    print('behavior_convert2')
                     self.mission.convert_delivery()
 
                 if self.state_remember != self.plan.state:

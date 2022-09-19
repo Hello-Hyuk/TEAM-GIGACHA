@@ -28,8 +28,8 @@ class Localizer(threading.Thread):
     def local_callback(self, msg):
         self.x = msg.x
         self.y = msg.y
-        self.hAcc = msg.hAcc
-        self.ego.speed = msg.speeed
+        # self.hAcc = msg.hAcc
+        # self.ego.speed = msg.speeed
         self.ego.heading = msg.heading
         self.ego.orientaion = msg.orientation
         self.ego.dr_x = msg.dr_x
@@ -61,7 +61,7 @@ class Localizer(threading.Thread):
     def index_finder(self):
         min_dis = -1
         min_idx = 0
-        step_size = 50
+        step_size = 3000
         # save_idx = self.ego.index                    # for not decreasing index
         save_idx = 0
         for i in range(max(self.ego.index - step_size, 0), self.ego.index + step_size):
@@ -89,6 +89,6 @@ class Localizer(threading.Thread):
     def run(self):
         while True:
             self.index_finder()
-            self.dead_reckoning()
+            # self.dead_reckoning()
 
             sleep(self.period)

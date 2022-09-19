@@ -67,9 +67,9 @@ class Localization():
         
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
-        self.msg.hAcc = self.gps.hAcc
-        self.msg.speeed = self.dr.speed
-        self.msg.dis = self.dr.pulse / 58.82
+        # self.msg.hAcc = self.gps.hAcc
+        # self.msg.speeed = self.dr.speed
+        # self.msg.dis = self.dr.pulse / 58.82
 
         if self.master_switch:
             if 0 < self.gps.hAcc < 50:

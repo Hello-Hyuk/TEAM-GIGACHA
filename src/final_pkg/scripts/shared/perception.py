@@ -32,6 +32,7 @@ class Perception_():
       self.tleft = False
       self.tgreen = False
       self.tmp_lidar_lock = threading.Lock()
+      self.delivery_lidar_lock = threading.Lock()
       self.lidar_lock = threading.Lock()
       self.signname = ""
       self.parking_num = ""
@@ -73,20 +74,39 @@ class Perception_():
    def delivery_callback(self, msg):
       # pickup
       # print("===================PICKUP===================:{0}".format(len(msg.poses)))
+
+      self.delivery_lidar_lock.acquire()
       self.sign_num = len(msg.poses)
-      if (len(msg.poses) == 1):
+      if len(msg.poses) != 0:
          if int(msg.poses[0].orientation.w) == 0:
             self.target = 1
+            self.signx = msg.poses[0].orientation.x
+            self.signy = msg.poses[0].orientation.y
          elif int(msg.poses[0].orientation.w) == 1:
             self.target = 2
+            self.signx = msg.poses[0].orientation.x
+            self.signy = msg.poses[0].orientation.y
          elif int(msg.poses[0].orientation.w) == 2:
             self.target = 3
-         self.signx = msg.poses[0].orientation.x
-         self.signy = msg.poses[0].orientation.y
-      elif (len(msg.poses) == 3):
-         for i in range(3):
-            self.B_x[i] = msg.poses[i].orientation.x
-            self.B_y[i] = msg.poses[i].orientation.y
+            self.signx = msg.poses[0].orientation.x
+            self.signy = msg.poses[0].orientation.y
+
+         for i in range(len(msg.poses)):
+            if int(msg.poses[i].orientation.w) == 3:
+               self.B_x[0] = msg.poses[i].orientation.x
+               self.B_y[0] = msg.poses[i].orientation.y
+         
+            elif int(msg.poses[i].orientation.w) == 4:
+               self.B_x[1] = msg.poses[i].orientation.x
+               self.B_y[1] = msg.poses[i].orientation.y
+
+            elif int(msg.poses[i].orientation.w) == 5:
+               self.B_x[2] = msg.poses[i].orientation.x
+               self.B_y[2] = msg.poses[i].orientation.y
+      self.delivery_lidar_lock.release()
+      print('perception : ')
+      for i in range(3):
+         print(self.B_x[0], self.B_x[1], self.B_x[2] )
          # self.first_sign = int(msg.poses[0].orientation.w)
          # self.second_sign = int(msg.poses[1].orientation.w)
          # self.third_sign = int(msg.poses[2].orientation.w)
