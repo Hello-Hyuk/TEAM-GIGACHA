@@ -53,31 +53,39 @@ CMAKE_BINARY_DIR = /home/gigacha/TEAM-GIGACHA/build
 # Include the progress variables for this target.
 include local_pkg/CMakeFiles/local_pkg_generate_messages_cpp.dir/progress.make
 
+local_pkg/CMakeFiles/local_pkg_generate_messages_cpp: /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Guii.h
 local_pkg/CMakeFiles/local_pkg_generate_messages_cpp: /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Serial_Info.h
 local_pkg/CMakeFiles/local_pkg_generate_messages_cpp: /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Control_Info.h
 local_pkg/CMakeFiles/local_pkg_generate_messages_cpp: /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Local.h
 
 
+/home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Guii.h: /opt/ros/melodic/lib/gencpp/gen_cpp.py
+/home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Guii.h: /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg
+/home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Guii.h: /opt/ros/melodic/share/gencpp/msg.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code from local_pkg/Guii.msg"
+	cd /home/gigacha/TEAM-GIGACHA/src/local_pkg && /home/gigacha/TEAM-GIGACHA/build/catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -p local_pkg -o /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg -e /opt/ros/melodic/share/gencpp/cmake/..
+
 /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Serial_Info.h: /opt/ros/melodic/lib/gencpp/gen_cpp.py
 /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Serial_Info.h: /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Serial_Info.msg
 /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Serial_Info.h: /opt/ros/melodic/share/gencpp/msg.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code from local_pkg/Serial_Info.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating C++ code from local_pkg/Serial_Info.msg"
 	cd /home/gigacha/TEAM-GIGACHA/src/local_pkg && /home/gigacha/TEAM-GIGACHA/build/catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Serial_Info.msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -p local_pkg -o /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg -e /opt/ros/melodic/share/gencpp/cmake/..
 
 /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Control_Info.h: /opt/ros/melodic/lib/gencpp/gen_cpp.py
 /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Control_Info.h: /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Control_Info.msg
 /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Control_Info.h: /opt/ros/melodic/share/gencpp/msg.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating C++ code from local_pkg/Control_Info.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating C++ code from local_pkg/Control_Info.msg"
 	cd /home/gigacha/TEAM-GIGACHA/src/local_pkg && /home/gigacha/TEAM-GIGACHA/build/catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Control_Info.msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -p local_pkg -o /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg -e /opt/ros/melodic/share/gencpp/cmake/..
 
 /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Local.h: /opt/ros/melodic/lib/gencpp/gen_cpp.py
 /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Local.h: /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Local.msg
 /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Local.h: /opt/ros/melodic/share/geometry_msgs/msg/Quaternion.msg
 /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Local.h: /opt/ros/melodic/share/gencpp/msg.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating C++ code from local_pkg/Local.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating C++ code from local_pkg/Local.msg"
 	cd /home/gigacha/TEAM-GIGACHA/src/local_pkg && /home/gigacha/TEAM-GIGACHA/build/catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Local.msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -p local_pkg -o /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg -e /opt/ros/melodic/share/gencpp/cmake/..
 
 local_pkg_generate_messages_cpp: local_pkg/CMakeFiles/local_pkg_generate_messages_cpp
+local_pkg_generate_messages_cpp: /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Guii.h
 local_pkg_generate_messages_cpp: /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Serial_Info.h
 local_pkg_generate_messages_cpp: /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Control_Info.h
 local_pkg_generate_messages_cpp: /home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Local.h

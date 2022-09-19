@@ -13,8 +13,12 @@
           DR_X
           DR_Y-VAL
           DR_Y
-          SPEED-VAL
-          SPEED
+          HACC-VAL
+          HACC
+          SPEEED-VAL
+          SPEEED
+          DIS-VAL
+          DIS
           ORIENTATION-VAL
           ORIENTATION
 ))

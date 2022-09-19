@@ -53,33 +53,40 @@ CMAKE_BINARY_DIR = /home/gigacha/TEAM-GIGACHA/build
 # Include the progress variables for this target.
 include local_pkg/CMakeFiles/local_pkg_generate_messages_eus.dir/progress.make
 
+local_pkg/CMakeFiles/local_pkg_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Guii.l
 local_pkg/CMakeFiles/local_pkg_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Serial_Info.l
 local_pkg/CMakeFiles/local_pkg_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Control_Info.l
 local_pkg/CMakeFiles/local_pkg_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Local.l
 local_pkg/CMakeFiles/local_pkg_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/manifest.l
 
 
+/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Guii.l: /opt/ros/melodic/lib/geneus/gen_eus.py
+/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Guii.l: /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating EusLisp code from local_pkg/Guii.msg"
+	cd /home/gigacha/TEAM-GIGACHA/build/local_pkg && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -p local_pkg -o /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg
+
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Serial_Info.l: /opt/ros/melodic/lib/geneus/gen_eus.py
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Serial_Info.l: /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Serial_Info.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating EusLisp code from local_pkg/Serial_Info.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating EusLisp code from local_pkg/Serial_Info.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/local_pkg && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Serial_Info.msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -p local_pkg -o /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg
 
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Control_Info.l: /opt/ros/melodic/lib/geneus/gen_eus.py
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Control_Info.l: /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Control_Info.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating EusLisp code from local_pkg/Control_Info.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating EusLisp code from local_pkg/Control_Info.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/local_pkg && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Control_Info.msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -p local_pkg -o /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg
 
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Local.l: /opt/ros/melodic/lib/geneus/gen_eus.py
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Local.l: /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Local.msg
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Local.l: /opt/ros/melodic/share/geometry_msgs/msg/Quaternion.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating EusLisp code from local_pkg/Local.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp code from local_pkg/Local.msg"
 	cd /home/gigacha/TEAM-GIGACHA/build/local_pkg && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Local.msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg -p local_pkg -o /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg
 
 /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/manifest.l: /opt/ros/melodic/lib/geneus/gen_eus.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp manifest code for local_pkg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/gigacha/TEAM-GIGACHA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating EusLisp manifest code for local_pkg"
 	cd /home/gigacha/TEAM-GIGACHA/build/local_pkg && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py -m -o /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg local_pkg std_msgs geometry_msgs local_pkg
 
 local_pkg_generate_messages_eus: local_pkg/CMakeFiles/local_pkg_generate_messages_eus
+local_pkg_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Guii.l
 local_pkg_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Serial_Info.l
 local_pkg_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Control_Info.l
 local_pkg_generate_messages_eus: /home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Local.l

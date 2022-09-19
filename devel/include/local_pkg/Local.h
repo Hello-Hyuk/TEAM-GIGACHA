@@ -32,7 +32,9 @@ struct Local_
     , pitch(0.0)
     , dr_x(0.0)
     , dr_y(0.0)
-    , speed(0.0)
+    , hAcc(0)
+    , speeed(0.0)
+    , dis(0.0)
     , orientation()  {
     }
   Local_(const ContainerAllocator& _alloc)
@@ -43,7 +45,9 @@ struct Local_
     , pitch(0.0)
     , dr_x(0.0)
     , dr_y(0.0)
-    , speed(0.0)
+    , hAcc(0)
+    , speeed(0.0)
+    , dis(0.0)
     , orientation(_alloc)  {
   (void)_alloc;
     }
@@ -71,8 +75,14 @@ struct Local_
    typedef double _dr_y_type;
   _dr_y_type dr_y;
 
-   typedef double _speed_type;
-  _speed_type speed;
+   typedef int64_t _hAcc_type;
+  _hAcc_type hAcc;
+
+   typedef double _speeed_type;
+  _speeed_type speeed;
+
+   typedef double _dis_type;
+  _dis_type dis;
 
    typedef  ::geometry_msgs::Quaternion_<ContainerAllocator>  _orientation_type;
   _orientation_type orientation;
@@ -113,7 +123,9 @@ bool operator==(const ::local_pkg::Local_<ContainerAllocator1> & lhs, const ::lo
     lhs.pitch == rhs.pitch &&
     lhs.dr_x == rhs.dr_x &&
     lhs.dr_y == rhs.dr_y &&
-    lhs.speed == rhs.speed &&
+    lhs.hAcc == rhs.hAcc &&
+    lhs.speeed == rhs.speeed &&
+    lhs.dis == rhs.dis &&
     lhs.orientation == rhs.orientation;
 }
 
@@ -171,12 +183,12 @@ struct MD5Sum< ::local_pkg::Local_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "cce7c2876a38968541530fffb9014fcd";
+    return "02900f6dd7ae8d0a3ed2e4e2d3c5c924";
   }
 
   static const char* value(const ::local_pkg::Local_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xcce7c2876a389685ULL;
-  static const uint64_t static_value2 = 0x41530fffb9014fcdULL;
+  static const uint64_t static_value1 = 0x02900f6dd7ae8d0aULL;
+  static const uint64_t static_value2 = 0x3ed2e4e2d3c5c924ULL;
 };
 
 template<class ContainerAllocator>
@@ -202,9 +214,10 @@ struct Definition< ::local_pkg::Local_<ContainerAllocator> >
 "float64 pitch\n"
 "float64 dr_x\n"
 "float64 dr_y\n"
-"float64 speed\n"
+"int64 hAcc\n"
+"float64 speeed\n"
+"float64 dis\n"
 "geometry_msgs/Quaternion orientation\n"
-"\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Quaternion\n"
 "# This represents an orientation in free space in quaternion form.\n"
@@ -238,7 +251,9 @@ namespace serialization
       stream.next(m.pitch);
       stream.next(m.dr_x);
       stream.next(m.dr_y);
-      stream.next(m.speed);
+      stream.next(m.hAcc);
+      stream.next(m.speeed);
+      stream.next(m.dis);
       stream.next(m.orientation);
     }
 
@@ -272,8 +287,12 @@ struct Printer< ::local_pkg::Local_<ContainerAllocator> >
     Printer<double>::stream(s, indent + "  ", v.dr_x);
     s << indent << "dr_y: ";
     Printer<double>::stream(s, indent + "  ", v.dr_y);
-    s << indent << "speed: ";
-    Printer<double>::stream(s, indent + "  ", v.speed);
+    s << indent << "hAcc: ";
+    Printer<int64_t>::stream(s, indent + "  ", v.hAcc);
+    s << indent << "speeed: ";
+    Printer<double>::stream(s, indent + "  ", v.speeed);
+    s << indent << "dis: ";
+    Printer<double>::stream(s, indent + "  ", v.dis);
     s << indent << "orientation: ";
     s << std::endl;
     Printer< ::geometry_msgs::Quaternion_<ContainerAllocator> >::stream(s, indent + "  ", v.orientation);

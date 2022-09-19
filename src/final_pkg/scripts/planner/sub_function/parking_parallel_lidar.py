@@ -24,20 +24,18 @@ class PL():
         self.pub_roi1 = rospy.Publisher("Parking_ROI1", PolygonStamped, queue_size=1)
         self.pub_roi2 = rospy.Publisher("Parking_ROI2", PolygonStamped, queue_size=1) 
         self.pub_roi3 = rospy.Publisher("Parking_ROI3", PolygonStamped, queue_size=1) 
-        self.pub_roi4 = rospy.Publisher("Parking_ROI4", PolygonStamped, queue_size=1) 
-        self.pub_roi5 = rospy.Publisher("Parking_ROI5", PolygonStamped, queue_size=1)
 
         # simul kcity
         self.base_lat = 37.23873
         self.base_lon = 126.772383333333
         self.base_alt = 15.4
-        with open('/home/gigacha/TEAM-GIGACHA/src/final_pkg/scripts/planner/sub_function/parking_JSON/parking_KCity_parallel_roi.json') as pkc:
+        with open('/home/gigacha/TEAM-GIGACHA/src/final_pkg/scripts/planner/sub_function/parking_JSON/parking_KCity_parallel_roi2.json') as pkc:
             self.parking_point = json.load(pkc)
 
     def parking(self, temp_points):
         parking_point_x_y = []
 
-        for i in range(1, 6):
+        for i in range(1, 4):
             self.point = self.parking_point[str(i)]
             for j in range(1, 5):
                 x1 = self.point[str(j)][0]
@@ -48,19 +46,15 @@ class PL():
         parking_space_1 = [parking_point_x_y[0], parking_point_x_y[1], parking_point_x_y[2], parking_point_x_y[3]] 
         parking_space_2 = [parking_point_x_y[4], parking_point_x_y[5], parking_point_x_y[6], parking_point_x_y[7]] 
         parking_space_3 = [parking_point_x_y[8], parking_point_x_y[9], parking_point_x_y[10], parking_point_x_y[11]] 
-        parking_space_4 = [parking_point_x_y[12], parking_point_x_y[13], parking_point_x_y[14], parking_point_x_y[15]] 
-        parking_space_5 = [parking_point_x_y[16], parking_point_x_y[16], parking_point_x_y[18], parking_point_x_y[19]]
 
         # 직사각형 생성 
         parking_space_poly1 = Polygon(parking_space_1) 
         parking_space_poly2 = Polygon(parking_space_2) 
         parking_space_poly3 = Polygon(parking_space_3) 
-        parking_space_poly4 = Polygon(parking_space_4) 
-        parking_space_poly5 = Polygon(parking_space_5)
         
-        p1, p2, p3, p4, p5 = PolygonStamped(), PolygonStamped(), PolygonStamped(), PolygonStamped(), PolygonStamped()
-        p1.header.frame_id, p2.header.frame_id, p3.header.frame_id, p4.header.frame_id, p5.header.frame_id = "map", "map", "map", "map", "map"
-        p1.header.stamp, p2.header.stamp, p3.header.stamp, p4.header.stamp, p5.header.stamp = rospy.Time.now(), rospy.Time.now(), rospy.Time.now(), rospy.Time.now(), rospy.Time.now()
+        p1, p2, p3 = PolygonStamped(), PolygonStamped(), PolygonStamped()
+        p1.header.frame_id, p2.header.frame_id, p3.header.frame_id = "map", "map", "map"
+        p1.header.stamp, p2.header.stamp, p3.header.stamp, = rospy.Time.now(), rospy.Time.now(), rospy.Time.now()
         
         p1.polygon.points = [Point32(x = parking_point_x_y[0][0], y = parking_point_x_y[0][1]),
                         Point32(x = parking_point_x_y[1][0], y = parking_point_x_y[1][1]),
@@ -77,23 +71,11 @@ class PL():
                         Point32(x = parking_point_x_y[10][0], y = parking_point_x_y[10][1]),
                         Point32(x = parking_point_x_y[11][0], y = parking_point_x_y[11][1])]
         
-        p4.polygon.points = [Point32(x = parking_point_x_y[12][0], y = parking_point_x_y[12][1]),
-                        Point32(x = parking_point_x_y[13][0], y = parking_point_x_y[13][1]),
-                        Point32(x = parking_point_x_y[14][0], y = parking_point_x_y[14][1]),
-                        Point32(x = parking_point_x_y[15][0], y = parking_point_x_y[15][1])]
-        
-        p5.polygon.points = [Point32(x = parking_point_x_y[16][0], y = parking_point_x_y[16][1]),
-                        Point32(x = parking_point_x_y[17][0], y = parking_point_x_y[17][1]),
-                        Point32(x = parking_point_x_y[18][0], y = parking_point_x_y[18][1]),
-                        Point32(x = parking_point_x_y[19][0], y = parking_point_x_y[19][1])]
-        
         self.pub_roi1.publish(p1)
         self.pub_roi2.publish(p2)
         self.pub_roi3.publish(p3)
-        self.pub_roi4.publish(p4)
-        self.pub_roi5.publish(p5)
     
-        parking_result = [0, 0, 0, 0, 0] 
+        parking_result = [0, 0, 0] 
         
         for i in range(len(temp_points)): 
             test_code = Point(temp_points[i].x, temp_points[i].y) 
@@ -103,31 +85,21 @@ class PL():
                 parking_result[1]+=1 
             if test_code.within(parking_space_poly3): 
                 parking_result[2]+=1 
-            if test_code.within(parking_space_poly4): 
-                parking_result[3]+=1 
-            if test_code.within(parking_space_poly5): 
-                parking_result[4]+=1 
     
         # print("parking 1 :", parking_result[0])  
         # print("parking 2 :", parking_result[1]) 
         # print("parking 3 :", parking_result[2]) 
-        # print("parking 4 :", parking_result[3]) 
-        # print("parking 5 :", parking_result[4]) 
-        # print("parking 6 :", parking_result[5]) 
         
         result_number = -1
 
         # parallel
-        if 9530 < self.ego.index < 9560:
+        if self.ego.index < 9565:
             for i in range(0, 2): 
                 if parking_result[i] < 5: 
                     result_number = i + 1 
                     break
-        elif 9700 < self.ego.index < 9730:
-            if parking_result[2] < 5: 
-                result_number = i + 1
         else:
-            for i in range(3, 5): 
+            for i in range(1, 3): 
                 if parking_result[i] < 5: 
                     result_number = i + 1
                     break
@@ -140,7 +112,7 @@ class PL():
         points_list = [] 
     
         for p in gen: 
-            if (0 < p[0] < 20) and (-15 < p[1] < 0) and (-0.6 < p[2]): 
+            if (0 < p[0] < 20) and (-15 < p[1] < 0) and (-0.5 < p[2]): 
                 points_list.append([p[0] + 1.15, p[1], p[2], p[3]]) 
     
         test = PointCloud() 

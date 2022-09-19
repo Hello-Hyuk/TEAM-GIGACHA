@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/local_pkg_generate_messages_py"
+  "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/local_pkg/msg/_Guii.py"
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/local_pkg/msg/_Serial_Info.py"
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/local_pkg/msg/_Control_Info.py"
   "/home/gigacha/TEAM-GIGACHA/devel/lib/python2.7/dist-packages/local_pkg/msg/_Local.py"
