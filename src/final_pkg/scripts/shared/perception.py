@@ -36,7 +36,7 @@ class Perception_():
       self.lidar_lock = threading.Lock()
       self.signname = ""
       self.parking_num = ""
-      self.target = 3
+      self.target = 0
 
       #for input_callback
       self.signx = 0
@@ -104,38 +104,19 @@ class Perception_():
                self.B_x[2] = msg.poses[i].orientation.x
                self.B_y[2] = msg.poses[i].orientation.y
       self.delivery_lidar_lock.release()
-      print('perception : ')
-      for i in range(3):
-         print(self.B_x[0], self.B_x[1], self.B_x[2] )
+      # print('perception : ')
+      # print(self.B_x[0], self.B_x[1], self.B_x[2] )
          # self.first_sign = int(msg.poses[0].orientation.w)
          # self.second_sign = int(msg.poses[1].orientation.w)
          # self.third_sign = int(msg.poses[2].orientation.w)
 
    def delivery_sign_callback(self, msg):
-      if (len(msg.detections) == 3):
-         self.first_sign = msg.detections[0].results[0].id
-         self.second_sign = msg.detections[1].results[0].id
-         self.third_sign = msg.detections[2].results[0].id
+      pass
+   #    if (len(msg.detections) == 3):
+   #       self.first_sign = msg.detections[0].results[0].id
+   #       self.second_sign = msg.detections[1].results[0].id
+   #       self.third_sign = msg.detections[2].results[0].id
 
-   def input_callback(self, msg):
-      #first
-      if msg.A_target == 0:
-         self.target = 1
-      elif msg.A_target == 1:
-         self.target = 2
-      elif msg.A_target == 2:
-         self.target = 3
-      self.signx = msg.A_objx
-      self.signy = msg.A_objy
-      #second
-      if(len(msg.B_target_x) == 3):
-         for i in range(3):
-            self.B_x[i] = msg.B_target_x[i]
-            self.B_y[i] = msg.B_target_y[i]
-      
-      self.first_sign = msg.bbox_size[0]
-      self.second_sign = msg.bbox_size[1]
-      self.third_sign = msg.bbox_size[2]
    
    def lidar_callback(self, msg):
       if len(msg.markers) != 0:

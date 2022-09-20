@@ -23,9 +23,13 @@ class BehaviorPlanner(threading.Thread):
     def run(self):
         while True:
             try:
+                
+
+                self.perception.delivery_lidar_lock.acquire()
                 if (self.perception.sign_num != 0):
                     print('behavior_convert2')
                     self.mission.convert_delivery()
+                self.perception.delivery_lidar_lock.release()
 
                 if self.state_remember != self.plan.state:
                     self.state_remember = self.plan.state
@@ -38,6 +42,7 @@ class BehaviorPlanner(threading.Thread):
                     self.mission.u_turn()
 
                 elif self.plan.state == "static_obstacle_detected":
+                    self.mission.convert_lidar()
                     self.mission.static_obstacle()
 
                 elif self.plan.state == "right_sign_detected":
