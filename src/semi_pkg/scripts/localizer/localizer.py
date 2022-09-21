@@ -7,8 +7,6 @@ from local_pkg.msg import Local
 from math import hypot
 from time import sleep
 
-
-
 class Localizer(threading.Thread):
     def __init__(self, parent, rate):
         super().__init__()
@@ -43,10 +41,11 @@ class Localizer(threading.Thread):
     def read_global_path(self):
         with open(f"maps/{self.mapname}.json", 'r') as json_file:
             json_data = json.load(json_file)
-            for n, (x, y , mission) in enumerate(json_data.values()):
+            for n, (x, y , mission, map_speed) in enumerate(json_data.values()):
                 self.global_path.x.append(x)
                 self.global_path.y.append(y)
                 self.global_path.mission.append(mission)
+                self.ego.map_speed.append(map_speed)
 
     # def read_global_path(self):
     #     with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:

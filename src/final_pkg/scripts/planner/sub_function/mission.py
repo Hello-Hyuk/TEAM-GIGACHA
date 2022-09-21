@@ -368,14 +368,14 @@ class Mission():
         #     self.voting()
         #     self.voting_checker = True
 
-        # if range(6140) and self.voting_checker == False:
-        #     self.voting()
-        #     self.voting_checker = True
-        #     self.plan.behavior_decision = "stop"
-        #     self.target_control(200, 0)
-        #     sleep(3)
-        #     self.target_control(0, 7)
-        #     self.plan.behavior_decision = "delivery"
+        if range(6140) and self.voting_checker == False:
+            self.voting()
+            self.voting_checker = True
+            self.plan.behavior_decision = "stop"
+            self.target_control(200, 0)
+            sleep(3)
+            self.target_control(0, 7)
+            self.plan.behavior_decision = "delivery"
 
         sign_dis = 0.0
         sign_dis = sqrt((self.B_x[self.selected] - self.ego.x)**2 + (self.B_y[self.selected] - self.ego.y)**2)
