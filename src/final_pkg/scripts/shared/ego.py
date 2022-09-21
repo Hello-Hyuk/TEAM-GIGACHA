@@ -10,7 +10,8 @@ class Ego():
         self.pitch = 0.0
         self.index = int(0)
         self.orientation = Quaternion()
-
+        self.map_speed = []
+        
         # Odometry
         self.dr_x = 0
         self.dr_y = 0

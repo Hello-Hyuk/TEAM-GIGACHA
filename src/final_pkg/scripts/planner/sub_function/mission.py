@@ -144,22 +144,22 @@ class Mission():
                 self.parking.select_num = self.perception.parking_num
                 self.first_stop = True
                 if (self.parking.select_num == 1) or (self.parking.select_num == 2):
-                    self.target_control(0, 5)
+                    self.target_control(0, 10)
                     self.parking_create = True
                     self.plan.behavior_decision = "parking_trajectory_Create"
                 else:
-                    self.target_control(0, 5)
+                    self.target_control(0, 10)
             elif self.first_stop == True and (9600 <= self.ego.index <= 9650):
                 self.plan.behavior_decision = "stop"
                 self.target_control(200, 0)
                 sleep(3)
                 self.parking.select_num = self.perception.parking_num
                 if (self.parking.select_num == 2) or (self.parking.select_num == 3):
-                    self.target_control(0, 5)
+                    self.target_control(0, 10)
                     self.parking_create = True
                     self.plan.behavior_decision = "parking_trajectory_Create"
                 else:
-                    self.target_control(0, 5)
+                    self.target_control(0, 10)
 
         if (self.parking_create and self.parking_switch == False):
             if ((self.parking_backward_start == False) and len(self.parking.forward_path.x) > 0) and (self.parking.mindex + 15 <= self.ego.index <= self.parking.mindex + 30):
@@ -202,21 +202,21 @@ class Mission():
                     self.parking_switch = True
 
     def u_turn(self):
-        self.perception.tleft = 1
         if self.perception.tleft == 1 :
-            self.plan.behavior_decision = "driving"
+            # self.plan.behavior_decision = "driving"
             if (5175 < self.ego.index < 5335):
                 self.parking.on = "U_turn"
             if self.range(5345) and self.uturn_stop == False:
                     # self.plan.behavior_decision = "stop"
                     # self.target_control(75, 0)
                     # sleep(3)
-                    self.plan.behavior_decision = "driving"
+                    self.plan.behavior_decision = "U_turn"
                     self.parking.on = "forced"
                     self.target_control(0, 5)
                     self.ego.target_steer = -27
                     self.uturn_stop = True
             elif self.ego.index > 5407 and self.uturn_stop == True:
+                self.plan.behavior_decision = "driving"
                 self.parking.on = "off"
         else:
             if self.range(5375):
@@ -227,10 +227,10 @@ class Mission():
                 self.target_control(0, self.speed)
 
     def static_obstacle(self):
-        self.plan.behavior_decision = "static_obstacle_avoidance"
         index = len(self.perception.objx)
         
         if (len(self.perception.objx) > 0):
+            self.plan.behavior_decision = "static_obstacle_avoidance"
             self.obs_dis = 15.5
             for i in range(0, index):
                 self.dis = sqrt(
@@ -244,6 +244,7 @@ class Mission():
                 self.time_checker = False
             
         elif self.obstacle_checker == True:
+            self.plan.behavior_decision = "static_obstacle_avoidance"
             if self.time_checker == False:
                 self.cur_t = time()
                 self.time_checker = True
@@ -251,6 +252,9 @@ class Mission():
                 self.ego.target_speed = 7.0
             else:
                 self.ego.target_speed = self.speed
+
+        else:
+            self.plan.behavior_decision = "driving"
 
     def turn_right(self):
         if self.perception.tgreen == 1:
@@ -343,7 +347,7 @@ class Mission():
 
         sign_dis = 0.0
         sign_dis = sqrt((self.signx - self.ego.x)**2 + (self.signy - self.ego.y)**2)
-        print("sign distance : ", sign_dis)
+        # print("sign distance : ", sign_dis)
         if 0 < sign_dis < 6 and self.pickup_checker == False:
             self.pickup_checker = True
             self.plan.behavior_decision = "stop"
@@ -357,19 +361,21 @@ class Mission():
         
     def delivery(self):
         # self.target_control(0, 5)
-        self.plan.behavior_decision = "delivery_mode"
+        if self.delivery_checker == False:
+            self.plan.behavior_decision = "delivery_mode"
 
         # if (self.perception.first_sign != 0) and self.voting_checker == False:
         #     self.voting()
         #     self.voting_checker = True
-        if range(6140) and self.voting_checker == False:
-            self.voting()
-            self.voting_checker = True
-            self.plan.behavior_decision = "stop"
-            self.target_control(200, 0)
-            sleep(3)
-            self.target_control(0, 7)
-            self.plan.behavior_decision = "delivery"
+
+        # if range(6140) and self.voting_checker == False:
+        #     self.voting()
+        #     self.voting_checker = True
+        #     self.plan.behavior_decision = "stop"
+        #     self.target_control(200, 0)
+        #     sleep(3)
+        #     self.target_control(0, 7)
+        #     self.plan.behavior_decision = "delivery"
 
         sign_dis = 0.0
         sign_dis = sqrt((self.B_x[self.selected] - self.ego.x)**2 + (self.B_y[self.selected] - self.ego.y)**2)

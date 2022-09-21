@@ -170,7 +170,7 @@ class Perception_():
 
    def parking_callback(self, msg):
       self.parking_num = msg.data
-      # self.parking_num = 4
+      # self.parking_num = 3
 
 
    # def sign_callback(self, msg):

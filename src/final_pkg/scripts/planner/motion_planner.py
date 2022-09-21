@@ -90,6 +90,9 @@ class MotionPlanner(threading.Thread):
                 # elif self.shared.plan.behavior_decision == "delivery_end":
                 #     self.shared.selected_lane = 1
 
+                else:
+                    self.motion.select_trajectory()
+
             except IndexError:
                 print("++++++++motion_planner+++++++++")
 
