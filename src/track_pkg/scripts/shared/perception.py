@@ -1,54 +1,21 @@
 import rospy
-#from planner_and_control.msg import Perception
-from geometry_msgs.msg import Point
-from visualization_msgs.msg import MarkerArray, Marker
+
+from geometry_msgs.msg import PoseArray
 
 class Perception_():
    def __init__(self):
-      rospy.Subscriber("/target_point_vis", Marker, self.lidar_callback_vis)
-      rospy.Subscriber("/target_point", Point, self.lidar_callback)
+      rospy.Subscriber("/cone_blue", PoseArray, self.blue_callback)
+      rospy.Subscriber("/cone_yellow", PoseArray, self.yellow_callback)
+      self.point_x = 1
+      self.point_y = 0
+      self.point_r = 0
+      self.percep_state = 1
 
-      self.objx = 1
-      self.objy = 0
-      self.objr = 0
+   def blue_callback(self, msg):
+      pass
+   
+   def yellow_callback(self, msg):
+      pass
 
-   # def lidar_callback(self, msg):
-   #    self.objx = msg.x
-   #    self.objy = msg.y
-   #    self.objr = msg.z
-
-   # def lidar_callback(self, msg):
-   #    self.tmp_objx = []
-   #    self.tmp_objy = []
-   #    self.objw = []
-   #    self.objh = []
-
-   #    if msg.markers[0].id == 0:
-   #       self.tmp_objx = []
-   #       self.tmp_objy = []
-   #       self.objw = []
-   #       self.objh = []
-
-   #    self.tmp_objy.append(msg.markers[0].pose.position.y)
-   #    self.tmp_objx.append(msg.markers[0].pose.position.x)
-   #    self.objh.append(msg.markers[0].scale.y)
-   #    self.objw.append(msg.markers[0].scale.x)
-
-   #    for i in range(len(msg.markers)):
-   #       tmp_objx.append(msg.markers[i].pose.position.x)
-   #       tmp_objy.append(msg.markers[i].pose.position.y)
-   #       tmp_objw.append(msg.markers[i].scale.x)
-   #       tmp_objh.append(msg.markers[i].scale.y)
-      
-   #    self.tmp_objx = tmp_objx
-   #    self.tmp_objy = tmp_objy
-   #    self.objw = tmp_objw
-   #    self.objh = tmp_objh
-
-   def lidar_callback(self, msg):
-      self.objx = msg.x
-      self.objy = msg.y
-
-   def lidar_callback_vis(self, msg):
-      self.objx = msg.pose.position.x
-      self.objy = msg.pose.position.y
+   def Make_Path(self):
+      pass
