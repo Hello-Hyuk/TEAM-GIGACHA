@@ -30,7 +30,7 @@ class BehaviorPlanner(threading.Thread):
                     self.mission.time_checker = False
 
                 if self.plan.state == "parking":
-                    self.mission.Parking_KCity_diagonal()
+                    self.mission.Parking_KCity_diagonal_jeongseok()
 
                 elif self.plan.state == "static_obstacle_detected":
                     self.mission.static_obstacle()

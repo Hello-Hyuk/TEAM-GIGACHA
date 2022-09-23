@@ -32,10 +32,9 @@ class PL():
         self.base_lat = 37.23873
         self.base_lon = 126.772383333333
         self.base_alt = 15.4
-        with open('/home/gigacha/TEAM-GIGACHA/src/semi_pkg/scripts/planner/sub_function/parking_JSON/parking_KCity_diagonal_roi.json') as pkc:
+        with open('/home/gigacha/TEAM-GIGACHA/src/semi_pkg/scripts/planner/sub_function/parking_JSON/parking_KCity_diagonal_roi2.json') as pkc:
             self.parking_point = json.load(pkc)
 
-    def parking(self, temp_points):
         parking_point_x_y = []
 
         for i in range(1, 7):
@@ -60,12 +59,12 @@ class PL():
         parking_space_6 = [parking_point_x_y[20], parking_point_x_y[21], parking_point_x_y[22], parking_point_x_y[23]] 
 
         # 직사각형 생성 
-        parking_space_poly1 = Polygon(parking_space_1) 
-        parking_space_poly2 = Polygon(parking_space_2) 
-        parking_space_poly3 = Polygon(parking_space_3) 
-        parking_space_poly4 = Polygon(parking_space_4) 
-        parking_space_poly5 = Polygon(parking_space_5) 
-        parking_space_poly6 = Polygon(parking_space_6) 
+        self.parking_space_poly1 = Polygon(parking_space_1) 
+        self.parking_space_poly2 = Polygon(parking_space_2) 
+        self.parking_space_poly3 = Polygon(parking_space_3) 
+        self.parking_space_poly4 = Polygon(parking_space_4) 
+        self.parking_space_poly5 = Polygon(parking_space_5) 
+        self.parking_space_poly6 = Polygon(parking_space_6) 
         
         p1, p2, p3, p4, p5, p6 = PolygonStamped(), PolygonStamped(), PolygonStamped(), PolygonStamped(), PolygonStamped(), PolygonStamped()
         p1.header.frame_id, p2.header.frame_id, p3.header.frame_id, p4.header.frame_id, p5.header.frame_id, p6.header.frame_id = "map", "map", "map", "map", "map", "map"
@@ -107,22 +106,25 @@ class PL():
         self.pub_roi4.publish(p4)
         self.pub_roi5.publish(p5)
         self.pub_roi6.publish(p6)
+
+
+    def parking(self, temp_points):
     
         parking_result = [0, 0, 0, 0, 0, 0] 
         
         for i in range(len(temp_points)): 
             test_code = Point(temp_points[i].x, temp_points[i].y) 
-            if test_code.within(parking_space_poly1): 
+            if test_code.within(self.parking_space_poly1): 
                 parking_result[0]+=1 
-            if test_code.within(parking_space_poly2): 
+            if test_code.within(self.parking_space_poly2): 
                 parking_result[1]+=1 
-            if test_code.within(parking_space_poly3): 
+            if test_code.within(self.parking_space_poly3): 
                 parking_result[2]+=1 
-            if test_code.within(parking_space_poly4): 
+            if test_code.within(self.parking_space_poly4): 
                 parking_result[3]+=1 
-            if test_code.within(parking_space_poly5): 
+            if test_code.within(self.parking_space_poly5): 
                 parking_result[4]+=1 
-            if test_code.within(parking_space_poly6): 
+            if test_code.within(self.parking_space_poly6): 
                 parking_result[5]+=1 
     
         # print("parking 1 :", parking_result[0])  
@@ -135,17 +137,25 @@ class PL():
         result_number = -1
 
         # diagonal
-        if 735 < self.ego.index < 805:
-            for i in range(0, 3): 
+        if 745 < self.ego.index < 795:
+            for i in range(0, 2): 
                 if parking_result[i] < 5:
                     result_number = i + 1 
                     break
-        else:
-            for i in range(3, 6): 
+
+        elif 808 < self.ego.index < 855:
+            for i in range(2, 4): 
                 if parking_result[i] < 5: 
                     result_number = i + 1 
                     break
-        
+
+        elif 866 < self.ego.index < 916:
+            for i in range(4, 6): 
+                if parking_result[i] < 5: 
+                    result_number = i + 1 
+                    break
+                    
+        # print(result_number)
         return result_number
  
     def getMsg_parking(self, lidar_data): 
@@ -154,12 +164,12 @@ class PL():
         points_list = [] 
     
         for p in gen: 
-            if (0 < p[0] < 20) and (-15 < p[1] < 0) and (-0.6 < p[2]): 
-                points_list.append([p[0] + 1.15, p[1], p[2], p[3]]) 
+            if (0 < p[0] < 20) and (-15 < p[1] < 0) and (-0.5 < p[2]): 
+                points_list.append([p[0] + 1.15, p[1]]) 
     
         test = PointCloud() 
-        get_in = ChannelFloat32() 
-        get_in.name = 'VLP_intensery' 
+        # get_in = ChannelFloat32() 
+        # get_in.name = 'VLP_intensery' 
         test.points = [] 
         theta = self.ego.heading * pi / 180 
         for p in points_list: 
@@ -167,7 +177,7 @@ class PL():
             park.x = p[0] * cos(theta) + p[1] * -sin(theta) + self.ego.x
             park.y = p[0] * sin(theta) + p[1] * cos(theta) + self.ego.y
             park.z = 0 
-            get_in.values.append(p[3]) 
+            # get_in.values.append(p[3]) 
             test.points.append(park) 
             cnt += 1 
     
@@ -177,8 +187,8 @@ class PL():
         self.pub_num.publish(parking_number) 
         # print('===================================================parking number published', parking_number) 
     
-        #print("Input :", cnt) 
-        test.channels.append(get_in) 
+        print("Input :", cnt) 
+        # test.channels.append(get_in) 
         test.header.frame_id = 'map' 
         test.header.stamp = rospy.Time.now() 
         self.pub.publish(test)

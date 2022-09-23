@@ -60,7 +60,7 @@ class Master(threading.Thread):
             # print('Speed : {},'.format(self.shared.ego.speed))
 
             self.checker_all()
-            print("running master")
+            # print("running master")
 
             self.status.mission = self.shared.plan.state
             self.status.behavior = self.shared.plan.behavior_decision
