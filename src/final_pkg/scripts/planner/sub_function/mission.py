@@ -188,12 +188,14 @@ class Mission():
                     self.ego.target_steer = -27
                 elif (7 <= int(self.parking.stop_index - self.parking.index) <= 17):
                     self.target_control(200, 0)
-                    sleep(3)
+                    self.parking.on = "forced"
+                    self.ego.target_steer = 0
+                    sleep(11)
                     self.plan.behavior_decision = "parkingForwardOn"
-                    self.ego.target_gear = 0
-                    self.target_control(0, 5)
                     self.parking.on = "forced"
                     self.ego.target_steer = -27
+                    self.ego.target_gear = 0
+                    self.target_control(0, 5)
             # elif (1 <= abs(int(len(self.parking.forward_path.x) - self.parking.inflection_point - self.parking.index)) <= 5) and (self.parking.direction == 0):
             elif (27 <= self.parking.index <= 40) and (self.parking.direction == 0):
                     self.parking.on = "off"

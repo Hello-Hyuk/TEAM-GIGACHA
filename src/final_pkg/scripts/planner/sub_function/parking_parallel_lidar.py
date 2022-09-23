@@ -32,7 +32,6 @@ class PL():
         with open('/home/gigacha/TEAM-GIGACHA/src/final_pkg/scripts/planner/sub_function/parking_JSON/parking_KCity_parallel_roi2.json') as pkc:
             self.parking_point = json.load(pkc)
 
-    def parking(self, temp_points):
         parking_point_x_y = []
 
         for i in range(1, 4):
@@ -48,9 +47,9 @@ class PL():
         parking_space_3 = [parking_point_x_y[8], parking_point_x_y[9], parking_point_x_y[10], parking_point_x_y[11]] 
 
         # 직사각형 생성 
-        parking_space_poly1 = Polygon(parking_space_1) 
-        parking_space_poly2 = Polygon(parking_space_2) 
-        parking_space_poly3 = Polygon(parking_space_3) 
+        self.parking_space_poly1 = Polygon(parking_space_1) 
+        self.parking_space_poly2 = Polygon(parking_space_2) 
+        self.parking_space_poly3 = Polygon(parking_space_3) 
         
         p1, p2, p3 = PolygonStamped(), PolygonStamped(), PolygonStamped()
         p1.header.frame_id, p2.header.frame_id, p3.header.frame_id = "map", "map", "map"
@@ -75,15 +74,16 @@ class PL():
         self.pub_roi2.publish(p2)
         self.pub_roi3.publish(p3)
     
-        parking_result = [0, 0, 0] 
+    def parking(self, temp_points):
+        parking_result = [0, 0, 0]
         
         for i in range(len(temp_points)): 
             test_code = Point(temp_points[i].x, temp_points[i].y) 
-            if test_code.within(parking_space_poly1): 
+            if test_code.within(self.parking_space_poly1):
                 parking_result[0]+=1 
-            if test_code.within(parking_space_poly2): 
+            if test_code.within(self.parking_space_poly2): 
                 parking_result[1]+=1 
-            if test_code.within(parking_space_poly3): 
+            if test_code.within(self.parking_space_poly3): 
                 parking_result[2]+=1 
     
         # print("parking 1 :", parking_result[0])  

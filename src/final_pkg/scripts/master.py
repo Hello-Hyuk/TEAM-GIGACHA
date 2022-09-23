@@ -20,7 +20,7 @@ class Master(threading.Thread):
         self.period = 1.0 / ui_rate
 
         rospy.init_node('master', anonymous=False)
-        # self.pub = rospy.Publisher("/from_master", Guii, queue_size = 1)
+        # # self.pub = rospy.Publisher("/from_master", Guii, queue_size = 1)
 
         self.status = Guii()
         self.dead_index = 0
