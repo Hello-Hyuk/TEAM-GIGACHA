@@ -11,10 +11,11 @@ class Controller(threading.Thread):
         self.period = 1.0 / rate
         self.shared = parent.shared
         self.ego = parent.shared.ego
+        self.perception = self.shared.perception
 
         self.serial_pub = rospy.Publisher("controller", Control_Info, queue_size=1)        
 
-        self.lat_controller = LatController(self.ego, self.shared)
+        self.lat_controller = LatController(self.perception, self.shared)
         self.lon_controller = LonController(self.ego, self.shared)
 
     def run(self):

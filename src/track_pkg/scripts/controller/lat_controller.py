@@ -1,9 +1,9 @@
 from math import hypot, cos, sin, degrees, atan2, radians, pi
 
 class LatController():
-    def __init__(self, eg, sh):
+    def __init__(self, pc, sh):
  
-        self.ego = eg
+        self.perception = pc
         self.shared = sh
 
         self.global_path = self.shared.global_path
@@ -14,34 +14,49 @@ class LatController():
     def run(self):
         while True:
             try:
-                # if self.shared.state == "2nd":
-                #     self.path = self.global_path
-                #     # lookahead = min(self.k * self.ego.speed + self.lookahead_default, 6)
-                #     lookahead = 3
-                #     target_index = lookahead*10 + self.ego.index
-                    
-                #     target_x, target_y = self.path.x[target_index], self.path.y[target_index]
+                if self.perception.percep_state == 1:
+                    self.forced_angle1()
+                elif self.perception.percep_state == 2:
+                    self.forced_angle2()
+                elif self.shared.state == "2nd":
+                    self.second_driving()
+                else:
+                    target_x, target_y = self.perception.point_x, self.perception.point_y
+                    tmp = degrees(atan2(target_y, target_x)) % 360
+                    distance = hypot(target_x, target_y)
+                    alpha = -tmp
+                    angle = atan2(2.0 * self.WB * sin(radians(alpha)) / distance, 1.0)
 
-                #     tmp = degrees(atan2(target_y - self.ego.y, target_x - self.ego.x)) % 360
-                    
-                #     alpha = self.ego.heading - tmp
-                #     angle = atan2(2.0 * self.WB * sin(radians(alpha)) / lookahead, 1.0)
+                    if degrees(angle) < 1 and degrees(angle) > -1:
+                        angle = 0
 
-                #     if degrees(angle) < 1 and degrees(angle) > -1:
-                #         angle = 0
+                    self.steer = max(min(degrees(angle), 27.0), -27.0)
+                
+                return self.steer
 
-                #     return max(min(degrees(angle), 27.0), -27.0)
-                # else:
-                target_x, target_y = self.ego.point_x, self.ego.point_y
-                tmp = degrees(atan2(target_y, target_x)) % 360
-                distance = hypot(target_x, target_y)
-                alpha = -tmp
-                angle = atan2(2.0 * self.WB * sin(radians(alpha)) / distance, 1.0)
-
-                if degrees(angle) < 1 and degrees(angle) > -1:
-                    angle = 0
-
-                return max(min(degrees(angle), 27.0), -27.0)
-
-            except ZeroDivisionError:
+            except ZeroDivisionError & IndexError:
                 print("+++++++++lat_control++++++++")
+
+    def forced_angle1(self):
+        self.steer = 27
+
+    def forced_angle2(self):
+        self.steer = -27
+
+    def second_driving(self):
+        self.path = self.global_path
+        # lookahead = min(self.k * self.ego.speed + self.lookahead_default, 6)
+        lookahead = 3
+        target_index = lookahead*10 + self.ego.index
+        
+        target_x, target_y = self.path.x[target_index], self.path.y[target_index]
+
+        tmp = degrees(atan2(target_y - self.ego.y, target_x - self.ego.x)) % 360
+        
+        alpha = self.ego.heading - tmp
+        angle = atan2(2.0 * self.WB * sin(radians(alpha)) / lookahead, 1.0)
+
+        if degrees(angle) < 1 and degrees(angle) > -1:
+            angle = 0
+
+        self.steer = max(min(degrees(angle), 27.0), -27.0)        
