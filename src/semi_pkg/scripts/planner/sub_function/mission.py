@@ -108,6 +108,71 @@ class Mission():
                     self.target_control(0, self.speed)
                     self.parking_switch = True
 
+    def Parking_KCity_diagonal_jeongseok(self):
+        # print(self.parking.select_num)
+        if (self.parking_create == False):
+            if (745 <= self.ego.index <= 795) and self.first_stop == False: # K-City
+                print("first stop")
+                self.plan.behavior_decision = "stop"
+                self.target_control(200, 0)
+                sleep(3)
+                self.parking.select_num = self.perception.parking_num
+                self.first_stop = True
+                if (self.parking.select_num == 1) or (self.parking.select_num == 2):
+                    self.target_control(0, 5)
+                    self.parking_create = True
+                    self.plan.behavior_decision = "parking_trajectory_Create"
+                elif self.parking.select_num == -1 or self.parking.select_num == 3 or self.parking.select_num == 4 or self.parking.select_num == 5 or self.parking.select_num == 6:
+                    self.target_control(0, 7)
+            elif (808 <= self.ego.index <= 855) and self.first_stop == True and self.second_stop == False:
+                print("second stop")
+                self.plan.behavior_decision = "stop"
+                self.target_control(200, 0)
+                sleep(3)
+                self.parking.select_num = self.perception.parking_num
+                self.second_stop = True
+                if (self.parking.select_num == 3) or (self.parking.select_num == 4):
+                    self.target_control(0, 5)
+                    self.parking_create = True
+                    self.plan.behavior_decision = "parking_trajectory_Create"
+                elif self.parking.select_num == -1 or self.parking.select_num == 5 or self.parking.select_num == 6:
+                    self.target_control(0, 7)
+            elif (866 <= self.ego.index <= 916) and self.second_stop == True:
+                print("third stop")
+                self.plan.behavior_decision = "stop"
+                self.target_control(200, 0)
+                sleep(4)
+                self.parking.select_num = self.perception.parking_num
+                if (self.parking.select_num == 5) or (self.parking.select_num == 6):
+                    self.target_control(0, 5)
+                    self.parking_create = True
+                    self.plan.behavior_decision = "parking_trajectory_Create"
+                elif self.parking.select_num == -1 :
+                    self.plan.behavior_decision = "driving"
+                    self.target_control(0, 15)
+                    self.parking_create = True 
+                    self.parking_switch = True
+
+        if (self.parking_create and self.parking_switch == False):
+            if (self.parking_forward_start == False and len(self.parking.forward_path.x) > 0):
+                self.parking.on = "on"
+                self.plan.behavior_decision = "parkingForwardOn"
+                self.parking_forward_start = True
+            if (15 <= int(self.parking.stop_index - self.parking.index) <= 45) and (self.parking.direction == 0):
+                    self.target_control(200, 0)
+                    sleep(10)
+                    self.plan.behavior_decision = "parkingBackwardOn"
+                    self.ego.target_gear = 2
+                    self.target_control(0, 5)
+            elif (15 <= int(self.parking.stop_index - self.parking.index) <= 25) and (self.parking.direction == 2):
+                    self.target_control(100, 0)
+                    sleep(3)
+                    self.plan.behavior_decision = "driving"
+                    self.parking.on = "off"
+                    self.ego.target_gear = 0
+                    self.target_control(0, self.speed)
+                    self.parking_switch = True
+
     def static_obstacle(self):
         self.plan.behavior_decision = "static_obstacle_avoidance"
         index = len(self.perception.objx)
