@@ -25,5 +25,4 @@
 
 <!--=====================SERIAL COM FOR ERP42=====================-->
  <node pkg="local_pkg" type="serial_io.py" name="serial" respawn="true" output="screen"/>
-  -->
 </launch>

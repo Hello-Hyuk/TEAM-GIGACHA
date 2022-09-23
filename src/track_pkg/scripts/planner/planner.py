@@ -20,30 +20,30 @@ class Planner(threading.Thread):
         while True:
             try:
                 #theta = (self.ego.heading) * pi / 180
-                if self.shared.state == "2nd":
+                # if self.shared.state == "2nd":
 
-                    min_dis = -1
-                    min_idx = 0
-                    step_size = 100
-                    save_idx = self.ego.index
-                    # save_idx = 0
+                #     min_dis = -1
+                #     min_idx = 0
+                #     step_size = 100
+                #     save_idx = self.ego.index
+                #     # save_idx = 0
 
-                    for i in range(max(self.ego.index - step_size, 0), self.ego.index + step_size):
-                        try:
-                            dis = hypot(self.global_path.x[i] - self.ego.x, self.global_path.y[i] - self.ego.y)
-                        except IndexError:
-                            break
-                        if (min_dis > dis or min_dis == -1) and save_idx <= i:
-                            min_dis = dis
-                            min_idx = i
-                            save_idx = i
+                #     for i in range(max(self.ego.index - step_size, 0), self.ego.index + step_size):
+                #         try:
+                #             dis = hypot(self.global_path.x[i] - self.ego.x, self.global_path.y[i] - self.ego.y)
+                #         except IndexError:
+                #             break
+                #         if (min_dis > dis or min_dis == -1) and save_idx <= i:
+                #             min_dis = dis
+                #             min_idx = i
+                #             save_idx = i
 
-                    self.ego.index = min_idx   
-                    print("index : ",self.ego.index)          
+                #     self.ego.index = min_idx   
+                #     print("index : ",self.ego.index)          
                 
-                else:
-                    self.ego.point_x = self.perception.objx
-                    self.ego.point_y = self.perception.objy
+                # else:
+                self.ego.point_x = self.perception.objx
+                self.ego.point_y = self.perception.objy
                                         
                             
             except IndexError:

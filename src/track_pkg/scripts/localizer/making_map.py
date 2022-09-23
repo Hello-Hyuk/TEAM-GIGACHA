@@ -56,8 +56,6 @@ class MP(threading.Thread):
              + int(data.encoder[2])*256**2 + \
                 int(data.encoder[3])*256**3 - self.init 
 
-        self.filter()
-
     def filter(self):
         if self.flag_filter:
             self.left_pulse = self.left
@@ -84,6 +82,8 @@ class MP(threading.Thread):
         self.right = msg.data - self.right_init
 
         self.pulse = (self.right_pulse + self.left_pulse) / 2
+        
+        self.filter()
         
     def map_maker(self):
         if self.init_switch == False:
