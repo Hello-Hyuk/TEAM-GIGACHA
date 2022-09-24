@@ -13,9 +13,9 @@ class Perception_():
    def __init__(self):
       rospy.Subscriber("/cone_blue", PoseArray, self.blue_callback)
       rospy.Subscriber("/cone_yellow", PoseArray, self.yellow_callback)
-      self.point_x = 1
+      self.point_x = 0.5
       self.point_y = 0
-      self.point_r = 0
+      #self.point_r = 0
       self.percep_state = "" #노랑만 다 보이면 1 파랑만 다보이면 2로 
 
 
@@ -64,6 +64,18 @@ class Perception_():
 
     #해당 코드는 인지된 러버콘이 2개일때 실행된다. 이때 좌측이나 우측에만 2개가 인지되는 부분을 분기문으로 pass시켜주었다.
     #좌측과 우측에 1개씩 인지되는 부분을 중점좌표로 target_point를 생성시켜주었다.
+
+   # def firstCOM(self, left_points, right_points):
+        
+   #    if len(left_points) == 1:
+   #       self.percep_state = "r_turn"
+   #    if len(right_points) == 1:
+   #       self.percep_state = "l_turn"
+      
+
+
+
+
    def secondCOM(self, left_points, right_points):
         
       if len(left_points) == 2:
@@ -99,14 +111,6 @@ class Perception_():
       self.point_y=(lpointy+rpointy)/(len(left_points)+len(right_points))
       print("4self.point_x : ",self.point_x)
       print("4self.point_y : ",self.point_y)
-
-
-
-
-
-
-
-
 
    # def cal_circul(self, left_points, right_points):
 
@@ -200,11 +204,15 @@ class Perception_():
             pass
         elif len(self.left_obs)+len(self.right_obs) == 1:
             pass
+            #self.firstCOM(self.left_obs, self.right_obs)
+
         elif len(self.left_obs)+len(self.right_obs) == 2:
             self.secondCOM(self.left_obs, self.right_obs)
-        elif len(self.left_obs)+len(self.right_obs) == 3:
-            #self.cal_circul(self.left_obs, self.right_obs)
-            self.fouthCOM(self.left_obs, self.right_obs)
+
+
+      #   elif len(self.left_obs)+len(self.right_obs) == 3:
+      #       #self.cal_circul(self.left_obs, self.right_obs)
+      #       self.fouthCOM(self.left_obs, self.right_obs)
 
         else:
             #self.cal_circul(self.left_obs, self.right_obs)
