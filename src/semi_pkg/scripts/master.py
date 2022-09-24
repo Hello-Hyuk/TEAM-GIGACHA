@@ -46,21 +46,21 @@ class Master(threading.Thread):
         self.init_thread(self.visualizer)
 
         while True:
-            # print("---------------------")
+            print("---------------------")
             # # print('Localization')
 
-            # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
-            #    .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
-            # print('Mission_State : {}'.format(self.shared.plan.state))
+            print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
+               .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
+            print('Mission_State : {}'.format(self.shared.plan.state))
             # print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
 
             # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
             # print('Controller')
             # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
-            # print('Speed : {},'.format(self.shared.ego.speed))
+            print('Speed : {},'.format(self.shared.ego.speed))
 
             self.checker_all()
-            print("running master")
+            # print("running master")
 
             self.status.mission = self.shared.plan.state
             self.status.behavior = self.shared.plan.behavior_decision
@@ -103,8 +103,8 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='kcity_simul/semi_map',
-        help='kcity/map1, songdo/map2, yonghyeon/Yonghyeon, kcity_simul/left_lane, kcity_simul/right_lane, kcity_simul/final, inha_parking/gpp'
+        default='Siheung/sihoipy',
+        help='kcity/map1, songdo/map2, yonghyeon/Yonghyeon, kcity_simul/left_lane, kcity_simul/right_lane, kcity_simul/final, inha_parking/gpp, kcity_simul/semi_map'
     )
 
     ActivateSignalInterruptHandler()
