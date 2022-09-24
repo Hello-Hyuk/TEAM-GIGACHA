@@ -16,7 +16,7 @@ class Perception_():
       self.point_x = 1
       self.point_y = 0
       self.point_r = 0
-      self.percep_state = 1 #노랑만 다 보이면 1 파랑만 다보이면 2로 
+      self.percep_state = "" #노랑만 다 보이면 1 파랑만 다보이면 2로 
 
 
    def calc_distance(self, obs_x, obs_y):
@@ -67,15 +67,17 @@ class Perception_():
    def secondCOM(self, left_points, right_points):
         
       if len(left_points) == 2:
-         self.percep_state == 1
+         self.percep_state = "r_turn"
       if len(right_points) == 2:
-         self.percep_state ==2
+         self.percep_state = "l_turn"
       
       else:
          self.point_x = (left_points[0][0] + right_points[0][0]) / 2
          self.point_y = (left_points[0][1] + right_points[0][1]) / 2
 
-    #해당 코드는 인지된 러버콘이 3개혹은 4개일때 실행된다. 저번과 달라진점은 ego의 상대좌표 (0,0)을 원의 중점을 생성하기 위한 point에 추가해주었다.
+      print("2self.point_x : ", self.point_x)
+      print("2self.point_y : ", self.point_y)
+
 
    def fouthCOM(self, left_points,right_points):
       lpointx=0
@@ -95,8 +97,8 @@ class Perception_():
 
       self.point_x=(lpointx+rpointx)/(len(left_points)+len(right_points))
       self.point_y=(lpointy+rpointy)/(len(left_points)+len(right_points))
-      print(self.point_x,"self.point_x")
-      print(self.point_y,"self.point_y")
+      print("4self.point_x : ",self.point_x)
+      print("4self.point_y : ",self.point_y)
 
 
 
@@ -110,7 +112,7 @@ class Perception_():
 
    #      x_list=[]
    #      y_list=[]
-   #      points=[[0, 0, 0, 0]]
+   #      #points=[[0, 0, 0, 0]]
 
    #      for point in left_points:
    #          points.append(point)
@@ -142,8 +144,8 @@ class Perception_():
 
    #      else:
    #          print("r<5",r)
-   #          self.target_point.x = a
-   #          self.target_point.y = b
+   #          point_x = a
+   #          point_y = b
 
 
    def yellow_callback(self, msg):
@@ -216,7 +218,7 @@ class Perception_():
         #rospy.sleep(0.36) #default 0.1
         
 
-if __name__ == "__main__":
-    print("PATH_MAKER_ON")
-    Perception_()
+# if __name__ == "__main__":
+#     print("PATH_MAKER_ON")
+#     Perception_()
 

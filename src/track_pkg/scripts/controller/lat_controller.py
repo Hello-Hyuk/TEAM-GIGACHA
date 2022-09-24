@@ -14,9 +14,9 @@ class LatController():
     def run(self):
         while True:
             try:
-                if self.perception.percep_state == 1:
+                if self.perception.percep_state == "r_turn":
                     self.forced_angle1()
-                elif self.perception.percep_state == 2:
+                elif self.perception.percep_state == "l_turn":
                     self.forced_angle2()
                 elif self.shared.state == "2nd":
                     self.second_driving()
