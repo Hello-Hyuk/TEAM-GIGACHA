@@ -4,7 +4,7 @@ import argparse
 from shared.shared import Shared
 # from localizer.localizer import Localizer
 # from localizer.making_map import MP
-# from planner.planner import Planner
+from planner.planner import Planner
 from controller.controller import Controller
 from utils.sig_int_handler import ActivateSignalInterruptHandler
 from utils.env_visualizer import Visualizer
@@ -28,24 +28,26 @@ class Master(threading.Thread):
         # self.mp = MP(self, rate = 1)
         # self.init_thread(self.mp)
 
-        # self.planner = Planner(self, rate=20)
-        # self.init_thread(self.planner)
+        self.planner = Planner(self, rate=10)
+        self.init_thread(self.planner)
 
-        self.controller = Controller(self, rate=3)
+        self.controller = Controller(self, rate=10)
         self.init_thread(self.controller)
         
         self.visualizer = Visualizer(self, rate=10)
         self.init_thread(self.visualizer)
+
         while True:
             # print("==========================")
             # self.checker_all()
             # print('Localization : x : {0}, y : {1}, index : {2}, heading : {3}'\
             #     .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
-            # print('Controller : Speed : {}, Steer : {}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
-            # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
-            # print("tmp :" ,len(self.shared.perception.tmp_objx))
-            print("target_x : ", self.shared.perception.objx, "target_y : ", self.shared.perception.objy)
-            print("state :" ,(self.shared.state))
+            print('Controller : Speed : {}, Steer : {}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
+            # # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
+            # # print("tmp :" ,len(self.shared.perception.tmp_objx))
+            # print("point_x : ", self.shared.ego.point_x, "point_y : ", self.shared.ego.point_y)
+            # print("state :" ,(self.shared.state))
+            print("ego state :" ,(self.shared.ego.percep_state))
             sleep(self.period)
 
     def init_thread(self, module):

@@ -4,6 +4,8 @@ from math import hypot
 from time import sleep
 from std_msgs.msg import String
 from math import pi, cos, sin
+from visualization_msgs.msg import MarkerArray, Marker
+import rospy
 
 class Planner(threading.Thread):
     def __init__(self, parent, rate):
@@ -16,37 +18,156 @@ class Planner(threading.Thread):
         self.perception = self.shared.perception
         self.state = self.shared.state
 
+
+    def makePath(self):
+
+        #   obstacles=[]
+        
+        #   for point in msg.poses:
+        #       tmp_obs_dis = self.calc_distance(point.orientation.x, point.orientation.y)
+        #       obstacles.append([round(point.orientation.x, 2), round(point.orientation.y, 2), round(tmp_obs_dis, 2), point.orientation.w]) # x좌표,y좌표,거리좌표,객체id(0==y, 1==b)
+        
+        #   print("self.obstacles : ", obstacles)
+
+            #   self.perception.left_obs,self.perception.right_obs=self.left_right_classification(obstacles) #separate left_cone, right_cone
+        # 점 정렬 & 왼쪽2개 오른쪽2개 필터링
+        
+        self.perception.left_obs.sort(key = lambda x : x[2])
+        self.perception.right_obs.sort(key= lambda x : x[2])
+
+        # 왼쪽에서 인식한 러버콘수가 2개초과이면 2개만 남긴다
+        # 그 뒤 오른쪽에서 인식한 러버콘 수가 2개 초과이면 2개만 남긴다.
+        # 위의 분기문을 다 거치고 나면 왼쪽 오른쪽 전부 2개 이하만 남음 (2,2),(2,1),(1,2),(1,1),(1,0),(0,1),(0,0)
+        # 해당 러버콘 수에 따라 분기문을 나눈다. -> 0개 1개일땐 pass, 2개 일땐 secondCOM, 3개,4개 일땐 cal_circul 사용
+
+        # print(self.perception.left_obs[0][0])
+        if len(self.perception.left_obs) > 2:
+            self.perception.left_obs = self.perception.left_obs[0:2]   
+
+        if len(self.perception.right_obs) > 2:
+            self.perception.right_obs=self.perception.right_obs[0:2]
+
+        # print("self.perception.left_obs : ",self.perception.left_obs)
+        # print("self.perception.right_obs : ",self.perception.right_obs)
+
+        if len(self.perception.left_obs)+len(self.perception.right_obs) == 0:
+            self.ego.percep_state =""
+
+            pass
+        elif len(self.perception.left_obs)+len(self.perception.right_obs) == 1:
+            self.ego.percep_state =""
+
+            pass
+            #self.firstCOM(self.perception.left_obs, self.perception.right_obs)
+
+        elif len(self.perception.left_obs)+len(self.perception.right_obs) == 2:
+            self.secondCOM(self.perception.left_obs, self.perception.right_obs)
+
+
+      #   elif len(self.perception.left_obs)+len(self.perception.right_obs) == 3:
+      #       #self.cal_circul(self.perception.left_obs, self.perception.right_obs)
+      #       self.fouthCOM(self.perception.left_obs, self.perception.right_obs)
+
+        else:
+            #self.cal_circul(self.perception.left_obs, self.perception.right_obs)
+            self.fouthCOM(self.perception.left_obs, self.perception.right_obs)
+
+        # print("self.obstacles",obstacles)
+
+    #해당 코드는 인지된 러버콘이 2개일때 실행된다. 이때 좌측이나 우측에만 2개가 인지되는 부분을 분기문으로 pass시켜주었다.
+    #좌측과 우측에 1개씩 인지되는 부분을 중점좌표로 target_point를 생성시켜주었다.
+
+   # def firstCOM(self, left_points, right_points):
+        
+   #    if len(left_points) == 1:
+   #       self.ego.percep_state = "r_turn"
+   #    if len(right_points) == 1:
+   #       self.ego.percep_state = "l_turn"
+      
+    def secondCOM(self, left_points, right_points):
+            
+        if len(left_points) == 2:
+            self.ego.percep_state = "y_turn"
+
+        elif len(right_points) == 2:
+            self.ego.percep_state = "b_turn"
+
+        
+        
+        else:
+            self.ego.point_x = (left_points[0][0] + right_points[0][0]) / 2
+            self.ego.point_y = (left_points[0][1] + right_points[0][1]) / 2
+
+        # print("2self.ego.point_x : ", self.ego.point_x)
+        # print("2self.ego.point_y : ", self.ego.point_y)
+
+    def fouthCOM(self, left_points,right_points):
+        self.ego.percep_state =""
+        lpointx=0
+        lpointy=0
+        rpointx=0
+        rpointy=0
+
+        for point in left_points:
+            lpointx+=point[0]
+            lpointy+=point[1]
+
+        for point in right_points:
+            rpointx+=point[0]
+            rpointy+=point[1]
+
+
+        self.ego.point_x=(lpointx+rpointx)/(len(left_points)+len(right_points))
+        self.ego.point_y=(lpointy+rpointy)/(len(left_points)+len(right_points))
+        # print("4self.ego.point_x : ",self.ego.point_x)
+        # print("4self.ego.point_y : ",self.ego.point_y)
+
+    # def cal_circul(self, left_points, right_points):
+
+    #      x_list=[]
+    #      y_list=[]
+    #      #points=[[0, 0, 0, 0]]
+
+    #      for point in left_points:
+    #          points.append(point)
+
+    #      for point in right_points:
+    #          points.append(point)
+
+    #      for point in points:
+    #          x = point[0]
+    #          y = point[1]
+    #          x_list.append([-2*x,-2*y,1])
+    #          y_list.append(-(x*x)-(y*y))
+            
+    #      print(points)
+    #      x_matrix=np.array(x_list)
+    #      y_matrix=np.array(y_list)
+    #      x_trans=x_matrix.T
+                
+    #      a_matrix=np.linalg.inv(x_trans.dot(x_matrix)).dot(x_trans).dot(y_matrix)
+    #      a=a_matrix[0]
+    #      b=a_matrix[1]
+    #      c=a_matrix[2]
+    #      r=sqrt(a*a+b*b-c)
+
+    #      #아쉬운점은 여기에 딱 하나 rules based가 추가되었는데 이유는 r이 5보다 클 경우 gui상에서 직선 구간임이 자명하지만 이를 pass로 처리해주지 않으면 원의 중점이
+    #      #코스 밖에 생성되기도 하기에 이를 방지하기 위한 rules_based이다.
+    #      if r>5:
+    #          print("r>5",r)
+
+    #      else:
+    #          print("r<5",r)
+    #          ego.point_x = a
+    #          ego.point_y = b
+
+
     def run(self):
         while True:
-            try:
-                #theta = (self.ego.heading) * pi / 180
-                # if self.shared.state == "2nd":
-
-                #     min_dis = -1
-                #     min_idx = 0
-                #     step_size = 100
-                #     save_idx = self.ego.index
-                #     # save_idx = 0
-
-                #     for i in range(max(self.ego.index - step_size, 0), self.ego.index + step_size):
-                #         try:
-                #             dis = hypot(self.global_path.x[i] - self.ego.x, self.global_path.y[i] - self.ego.y)
-                #         except IndexError:
-                #             break
-                #         if (min_dis > dis or min_dis == -1) and save_idx <= i:
-                #             min_dis = dis
-                #             min_idx = i
-                #             save_idx = i
-
-                #     self.ego.index = min_idx   
-                #     print("index : ",self.ego.index)          
-                
-                # else:
-                self.ego.point_x = self.perception.objx
-                self.ego.point_y = self.perception.objy
-                                        
-                            
-            except IndexError:
-                print("+++++++++Planner++++++++")
+            # try:
+            self.makePath()
+        
+            # except IndexError:
+                # print("+++++++++Planner++++++++")
             
             sleep(self.period)

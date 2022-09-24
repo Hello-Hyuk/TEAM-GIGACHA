@@ -34,6 +34,10 @@ class Ego():
         self.target_brake = 0
         self.target_estop = 0
 
+        self.percep_state = ""
+        self.point_x = 1
+        self.point_y = 0
+
         # Controller to Serial (writer)
         self.input_estop = 0x00
         self.input_gear = 0

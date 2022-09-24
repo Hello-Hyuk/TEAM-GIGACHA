@@ -1,10 +1,10 @@
 from math import hypot, cos, sin, degrees, atan2, radians, pi
 
 class LatController():
-    def __init__(self, pc, sh):
+    def __init__(self, sh, eg):
  
-        self.perception = pc
         self.shared = sh
+        self.ego = eg
 
         self.global_path = self.shared.global_path
         self.WB = 1.04 # wheel base
@@ -14,14 +14,14 @@ class LatController():
     def run(self):
         while True:
             try:
-                if self.perception.percep_state == "r_turn":
+                if self.ego.percep_state == "y_turn":
                     self.forced_angle1()
-                elif self.perception.percep_state == "l_turn":
+                elif self.ego.percep_state == "b_turn":
                     self.forced_angle2()
                 elif self.shared.state == "2nd":
                     self.second_driving()
                 else:
-                    target_x, target_y = self.perception.point_x, self.perception.point_y
+                    target_x, target_y = self.ego.point_x, self.ego.point_y
                     tmp = degrees(atan2(target_y, target_x)) % 360
                     distance = hypot(target_x, target_y)
                     alpha = -tmp
@@ -34,14 +34,14 @@ class LatController():
                 
                 return self.steer
 
-            except ZeroDivisionError & IndexError:
+            except ZeroDivisionError:
                 print("+++++++++lat_control++++++++")
 
     def forced_angle1(self):
-        self.steer = 27
+        self.steer = 20
 
     def forced_angle2(self):
-        self.steer = -27
+        self.steer = -20
 
     def second_driving(self):
         self.path = self.global_path
