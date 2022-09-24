@@ -375,7 +375,7 @@ class Mission():
         sign_dis = 0.0
         sign_dis = sqrt((self.signx - self.ego.x)**2 + (self.signy - self.ego.y)**2)
         print("sign distance : ", sign_dis)
-        if 0 < sign_dis < 6 and self.pickup_checker == False:
+        if 0 < sign_dis < 4 and self.pickup_checker == False:
             self.pickup_checker = True
             self.plan.behavior_decision = "stop"
             self.target_control(200, 0)
@@ -396,9 +396,10 @@ class Mission():
         print("B_x : ", self.B_x)
         print("sign distance : ", sign_dis)
 
-        if (0 < sign_dis < 5 and self.delivery_checker == False):
+        if (0 < sign_dis < 3.5 and self.delivery_checker == False):
             self.delivery_checker = True
             self.plan.behavior_decision = "stop"
+            print("stop - sign distance : ", sign_dis)
             self.target_control(200, 0)
             sleep(5) 
             self.target_control(0, self.speed)
