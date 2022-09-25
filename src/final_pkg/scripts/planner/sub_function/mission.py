@@ -248,7 +248,7 @@ class Mission():
                 print(len(self.perception.objx), " ", self.obs_dis)
 
             if self.obs_dis <= 15:
-                self.ego.target_speed = 7.0
+                self.target_control(0,7)
                 self.obstacle_checker = True
                 self.time_checker = False
             
@@ -257,9 +257,9 @@ class Mission():
                 self.cur_t = time()
                 self.time_checker = True
             if time() - self.cur_t < 5:
-                self.ego.target_speed = 7.0
+                self.target_control(0,7)
             else:
-                self.ego.target_speed = self.speed
+                self.target_control(0, self.speed)
 
     def turn_right(self):
         if self.perception.tgreen == 1:
