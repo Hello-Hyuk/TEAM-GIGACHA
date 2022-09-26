@@ -21,68 +21,44 @@ class Planner(threading.Thread):
 
     def makePath(self):
 
-        #   obstacles=[]
-        
-        #   for point in msg.poses:
-        #       tmp_obs_dis = self.calc_distance(point.orientation.x, point.orientation.y)
-        #       obstacles.append([round(point.orientation.x, 2), round(point.orientation.y, 2), round(tmp_obs_dis, 2), point.orientation.w]) # x좌표,y좌표,거리좌표,객체id(0==y, 1==b)
-        
-        #   print("self.obstacles : ", obstacles)
-
-            #   self.perception.left_obs,self.perception.right_obs=self.left_right_classification(obstacles) #separate left_cone, right_cone
-        # 점 정렬 & 왼쪽2개 오른쪽2개 필터링
         
         self.perception.left_obs.sort(key = lambda x : x[2])
         self.perception.right_obs.sort(key= lambda x : x[2])
 
-        # 왼쪽에서 인식한 러버콘수가 2개초과이면 2개만 남긴다
-        # 그 뒤 오른쪽에서 인식한 러버콘 수가 2개 초과이면 2개만 남긴다.
-        # 위의 분기문을 다 거치고 나면 왼쪽 오른쪽 전부 2개 이하만 남음 (2,2),(2,1),(1,2),(1,1),(1,0),(0,1),(0,0)
-        # 해당 러버콘 수에 따라 분기문을 나눈다. -> 0개 1개일땐 pass, 2개 일땐 secondCOM, 3개,4개 일땐 cal_circul 사용
+        # 왼쪽에서 인식한 러버콘수가 2개초과이면 2개만 남긴다 그 뒤 오른쪽에서 인식한 러버콘 수가 2개 초과이면 2개만 남긴다.
 
-        # print(self.perception.left_obs[0][0])
         if len(self.perception.left_obs) > 2:
             self.perception.left_obs = self.perception.left_obs[0:2]   
 
         if len(self.perception.right_obs) > 2:
             self.perception.right_obs=self.perception.right_obs[0:2]
 
-        # print("self.perception.left_obs : ",self.perception.left_obs)
-        # print("self.perception.right_obs : ",self.perception.right_obs)
-
+        # 해당 러버콘 수에 따라 분기문을 나눈다. -> 0개 1개일땐 pass, 2개 일땐 secondCOM, 3개,4개 일땐 fouthCOM 사용
         if len(self.perception.left_obs)+len(self.perception.right_obs) == 0:
             self.ego.percep_state =""
 
             pass
+
         elif len(self.perception.left_obs)+len(self.perception.right_obs) == 1:
+            self.firstCOM(self.perception.left_obs, self.perception.right_obs)
             self.ego.percep_state =""
 
-            pass
-            #self.firstCOM(self.perception.left_obs, self.perception.right_obs)
+
 
         elif len(self.perception.left_obs)+len(self.perception.right_obs) == 2:
             self.secondCOM(self.perception.left_obs, self.perception.right_obs)
 
 
-      #   elif len(self.perception.left_obs)+len(self.perception.right_obs) == 3:
-      #       #self.cal_circul(self.perception.left_obs, self.perception.right_obs)
-      #       self.fouthCOM(self.perception.left_obs, self.perception.right_obs)
-
         else:
             #self.cal_circul(self.perception.left_obs, self.perception.right_obs)
             self.fouthCOM(self.perception.left_obs, self.perception.right_obs)
 
-        # print("self.obstacles",obstacles)
-
-    #해당 코드는 인지된 러버콘이 2개일때 실행된다. 이때 좌측이나 우측에만 2개가 인지되는 부분을 분기문으로 pass시켜주었다.
-    #좌측과 우측에 1개씩 인지되는 부분을 중점좌표로 target_point를 생성시켜주었다.
-
-   # def firstCOM(self, left_points, right_points):
+    def firstCOM(self, left_points, right_points):
         
-   #    if len(left_points) == 1:
-   #       self.ego.percep_state = "r_turn"
-   #    if len(right_points) == 1:
-   #       self.ego.percep_state = "l_turn"
+        if len(left_points) == 1:
+            self.ego.percep_state = "y_turn"
+        if len(right_points) == 1:
+            self.ego.percep_state = "b_turn"
       
     def secondCOM(self, left_points, right_points):
             
@@ -98,8 +74,7 @@ class Planner(threading.Thread):
             self.ego.point_x = (left_points[0][0] + right_points[0][0]) / 2
             self.ego.point_y = (left_points[0][1] + right_points[0][1]) / 2
 
-        # print("2self.ego.point_x : ", self.ego.point_x)
-        # print("2self.ego.point_y : ", self.ego.point_y)
+
 
     def fouthCOM(self, left_points,right_points):
         self.ego.percep_state =""
