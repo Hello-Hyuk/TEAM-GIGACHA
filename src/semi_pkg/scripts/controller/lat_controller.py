@@ -29,7 +29,9 @@ class LatController():
                     # self.path = self.shared.global_path
                     lookahead = min(self.k * self.ego.speed +
                                     self.lookahead_default, 6)
-                    target_index = len(self.path.x) - 30
+                    target_index = len(self.path.x) - 49
+
+                    # print(target_index)
 
                     # lookahead = min(self.k * self.ego.speed + self.lookahead_default, 7)
                     # target_index = int(lookahead * 10)

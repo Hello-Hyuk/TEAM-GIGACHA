@@ -127,21 +127,24 @@ class Mission():
                 self.dis = sqrt(
                     (self.perception.objx[i] - self.ego.x)**2 + (self.perception.objy[i] - self.ego.y)**2)
                 self.obs_dis = min(self.obs_dis, self.dis)
-                print(len(self.perception.objx), " ", self.obs_dis)
+                # print(len(self.perception.objx), " ", self.obs_dis)
 
             if self.obs_dis <= 15:
                 self.target_control(0, 5)
                 self.obstacle_checker = True
                 self.time_checker = False
                 
-        # elif self.obstacle_checker == True:
-        #     if self.time_checker == False:
-        #         self.cur_t = time()
-        #         self.time_checker = True
-        #     if time() - self.cur_t < 5:
-        #         self.target_control(0,5)
-        #     else:
-        #         self.target_control(0, self.speed)
+        elif self.obstacle_checker == True:
+            if self.time_checker == False:
+                self.cur_t = time()
+                self.time_checker = True
+            if time() - self.cur_t < 5:
+                self.target_control(0, 5)
+            else:
+                self.target_control(0, 7)
+
+        else:
+            self.target_control(0, 7)
 
     def turn_left(self):
         if self.perception.tleft == 1 or self.perception.tgreen == 1:

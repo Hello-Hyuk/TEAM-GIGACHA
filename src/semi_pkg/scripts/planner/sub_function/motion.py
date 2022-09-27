@@ -14,14 +14,16 @@ class Motion():
         self.cut_path = self.shared.cut_path # from global path (find_local_path)
         self.lattice_path = self.shared.lattice_path # from LPP []
 
-        self.lane_weight = [10000, 0, 10000]
-        self.isObstacle = [1000, 1000, 1000]
+        self.lane_weight = [10000, 1000, 0, 10000]
+        self.isObstacle = [1000, 1000, 1000, 1000]
+        self.min_val = 0
+        self.check = 0
 
     def select_trajectory(self):
         self.shared.selected_lane = self.lane_weight.index(min(self.lane_weight))
 
     def weight_function_obstacle_avoidance(self):
-        self.isObstacle = [1000, 1000, 1000]
+        self.isObstacle = [1000, 1000, 1000, 1000]
 
         for i in range(len(self.isObstacle)): # 0,1,2
             path_check = True
@@ -38,16 +40,33 @@ class Motion():
                             break
                         else:
                             self.isObstacle[i] = 1000
+                self.min_val = min(self.isObstacle)
+                self.check = abs(self.isObstacle[3]- self.isObstacle[1])
                 self.shared.perception.lidar_lock.release()
+
+        if (self.isObstacle[3] != 1000 and self.isObstacle[2] != 1000 and self.isObstacle[1] != 1000):
+            if((self.isObstacle[2] == self.min_val or self.isObstacle[3] == self.min_val) and self.check <= 10): 
+                # print("+++++++++++++\nobstacle in lane 1,2,3\n++++++++++++")
+                self.lane_weight = [0,1000,1000,1000]
         
-        if (self.shared.selected_lane == 1 and self.isObstacle[1] != 1000):
-            if(self.isObstacle[1] < self.isObstacle[0]): 
-                print("+++++++++++++\nobstacle in lane 1\n++++++++++++")
-                self.lane_weight = [0,1000,1000]
-        elif (self.shared.selected_lane == 2 and self.isObstacle[2] != 1000):
-            if(self.isObstacle[1] > self.isObstacle[0]):
-                print("+++++++++++++\nobstacle in lane 2\n++++++++++++")
-                self.lane_weight = [1000, 0, 1000]
+        elif ((self.isObstacle[1] != 1000 and self.isObstacle[2] != 1000) or (self.isObstacle[1] != 1000)):
+            if(self.isObstacle[1] == self.min_val or self.isObstacle[2] == self.min_val): 
+                # print("+++++++++++++\nobstacle in lane 1 and 2 or 1\n++++++++++++")
+                self.lane_weight = [1000,1000,1000, 0]
+        
+        elif ((self.isObstacle[3] != 1000 and self.isObstacle[2] != 1000) or (self.isObstacle[3] != 1000)):
+            if(self.isObstacle[2] == self.min_val or self.isObstacle[3] == self.min_val): 
+                # print("+++++++++++++\nobstacle in lane 2 and 3 or 3\n++++++++++++")
+                self.lane_weight = [1000,0,1000,1000]
+
+        elif (self.isObstacle[2] != 1000):
+            if(self.isObstacle[2] == self.min_val): 
+                # print("+++++++++++++\nobstacle in  only 2\n++++++++++++")
+                self.lane_weight = [0,1000,1000,1000]
+
+        elif (self.isObstacle[3] == 1000 and self.isObstacle[2] == 1000 and self.isObstacle[1] == 1000):
+            # print("+++++++++++++\nNo obstacle in lane\n++++++++++++")
+            self.lane_weight = [1000,1000,0,1000]
 
     def path_maker(self):
         lattice = []
@@ -77,7 +96,8 @@ class Motion():
             world_current_point = np.array([[self.ego.x], [self.ego.y], [1]])
             local_current_point = det_t.dot(world_current_point)
 
-            lane_off_set = [3.5, 0, -3.5, -4]
+            # lane_off_set = [3.5, 0, -3.5, -4]
+            lane_off_set = [3.5, 1.1, 0, -1.1]
             local_lattice_points = []
             for i in range(len(lane_off_set)):
                 local_lattice_points.append([local_end_point[0][0], local_end_point[1][0] + lane_off_set[i], 1])
@@ -124,7 +144,7 @@ class Motion():
             
             add_point_size = int(self.ego.speed * 4)
             
-            add_point_size = 80
+            add_point_size = 100
 
             if add_point_size > len(self.cut_path.x) - 2:
                 add_point_size = len(self.cut_path.x)

@@ -46,7 +46,8 @@ class Localizer(threading.Thread):
             for n, (x, y , mission) in enumerate(json_data.values()):
                 self.global_path.x.append(x)
                 self.global_path.y.append(y)
-                self.global_path.mission.append(mission)
+                # self.global_path.mission.append(mission)
+                self.global_path.mission.append("static_obstacle_detected")
 
     # def read_global_path(self):
     #     with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
