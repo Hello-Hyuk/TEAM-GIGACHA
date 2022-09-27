@@ -37,27 +37,37 @@ class Mission():
         self.non_traffic_right_checker = 0
         self.uturn_stop = False
 
+        self.speed_check = False
+        self.sp = 0
+
         self.speed = 10
 
-    def range(self, a, b = 50):
-        return (a-b) <= self.ego.index <= a
+    def range(self, a):
+        return (a-100) <= self.ego.index <= a
 
     def target_control(self, brake, speed):
         self.ego.target_brake = brake
         self.ego.target_speed = speed
 
     def go(self):
-        if self.perception.tgreen == 1:
-            self.plan.behavior_decision = "driving"
-            self.target_control(0, self.speed)
-        else:
-            if self.range(1614) or self.range(2172) or self.range(3533) or self.range(6692) or self.range(6708) or self.range(8026) or self.range(8497):
-                # self.plan.behavior_decision = "stop"
-                # self.target_control(200,0)
-                pass
-            else:
-                self.plan.behavior_decision = "driving"
-                self.target_control(0, self.speed)
+        self.plan.behavior_decision = "driving"
+        self.target_control(0, 17)
+        # if self.range(600):
+        #     self.target_control(200, 0)
+        # else:
+        #     self.target_control(0, self.speed)
+
+        # if self.perception.tgreen == 1:
+        #     self.plan.behavior_decision = "driving"
+        #     self.target_control(0, self.speed)
+        # else:
+        #     if self.range(1614) or self.range(2172) or self.range(3533) or self.range(6692) or self.range(6708) or self.range(8026) or self.range(8497):
+        #         # self.plan.behavior_decision = "stop"
+        #         # self.target_control(200,0)
+        #         pass
+        #     else:
+        #         self.plan.behavior_decision = "driving"
+        #         self.target_control(0, self.speed)
         
     def Parking_Siheung_Parallel(self):
         if (self.parking_create == False):
@@ -278,14 +288,24 @@ class Mission():
     def turn_left(self):
         if self.perception.tleft == 1 :
             self.plan.behavior_decision = "driving"
-            self.target_control(0, self.speed)
+            self.target_control(0, 12)
         else:
-            if self.range(1237):
+            if self.range(1240):
                 self.plan.behavior_decision = "stop"
                 self.target_control(200, 0)
             else:
                 self.plan.behavior_decision = "driving"
-                self.target_control(0, self.speed)
+                self.target_control(0, 12)
+        # if self.perception.tleft == 1 :
+        #     self.plan.behavior_decision = "driving"
+        #     self.target_control(0, self.speed)
+        # else:
+        #     if self.range(1237):
+        #         self.plan.behavior_decision = "stop"
+        #         self.target_control(200, 0)
+        #     else:
+        #         self.plan.behavior_decision = "driving"
+        #         self.target_control(0, self.speed)
 
     def non_traffic_right(self):
         if (self.range(2032, 20) and self.non_traffic_right_checker == 0) or (self.range(2146, 20) and self.non_traffic_right_checker == 1):

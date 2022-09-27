@@ -47,20 +47,20 @@ class Master(threading.Thread):
         self.init_thread(self.visualizer)
 
         while True:
-            # print("---------------------")
+            print("---------------------")
             # # print('Localization')
 
-            # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
-            #    .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
-            #print('Mission_State : {}'.format(self.shared.plan.state))
-            # print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
+            print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
+               .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
+            print('Mission_State : {}'.format(self.shared.plan.state))
+            print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
             #print('target : {}'.format(self.shared.perception.target))
             # print("red : ", self.shared.perception.tred, ", yellow : ", self.shared.perception.tyellow, ", green : ", self.shared.perception.tgreen, ", left : ", self.shared.perception.tleft)
 
             # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
             # print('Controller')
-            # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
-            # print('Speed : {},'.format(self.shared.ego.speed))
+            print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
+            print('Current Speed : {},'.format(self.shared.ego.speed))
 
             self.checker_all()
             # print("running master")

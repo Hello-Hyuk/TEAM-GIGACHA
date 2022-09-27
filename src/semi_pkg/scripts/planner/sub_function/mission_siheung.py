@@ -28,10 +28,10 @@ class Mission():
         self.first_stop = False
         self.second_stop = False
 
-        self.speed = 15
+        self.speed = 20
 
-    def range(self, a):
-        return (a-50) <= self.ego.index <= a
+    def range(self, a, b = 50):
+        return (a-b) <= self.ego.index <= a
 
     def target_control(self, brake, speed):
         self.ego.target_brake = brake
@@ -42,6 +42,9 @@ class Mission():
         self.ego.target_gear = 0
         self.ego.target_speed = self.speed
         self.plan.behavior_decision = "driving"
+
+        if range(900, 100):
+            self.target_control(200, 0)
 
     def Parking_stop_function(self, index1, index2):
         self.plan.behavior_decision = "driving"
