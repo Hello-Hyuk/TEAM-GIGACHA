@@ -45,7 +45,7 @@ class MP(threading.Thread):
 
         self.temp_x = []
         self.temp_y = []
-
+        self.temp_dis = []
 
     def serialTopulse(self, data):
         self.gear = data.gear
@@ -93,56 +93,78 @@ class MP(threading.Thread):
         if self.init_switch == False:
             self.init_switch = True
             self.init_x, self.init_y = self.ego.x, self.ego.y
+            self.temp_x.append(self.init_x)
+            self.temp_y.append(self.init_y)
+
         # self.global_path.x.append(self.ego.x)
         # self.global_path.y.append(self.ego.y)
-        self.temp_x.append(self.ego.x)
-        self.temp_y.append(self.ego.y)
+        dis = hypot(self.temp_x[-1]- self.ego.x, self.temp_y[-1]- self.ego.y)
+
+        if dis >= 0.1:
+            self.temp_x.append(self.ego.x)
+            self.temp_y.append(self.ego.y)
+
         self.temp = self.pulse
 
     def map_routine(self, value):
+
+        self.global_path.x, self.global_path.y, _, self.global_path.curvature, _ = calc_spline_course(self.temp_x, self.temp_y, ds=0.1)
+        
+        
         x = []
         y = []
 
-        x.append(self.temp_x[-value])
-        x.append(self.temp_x[-1])
-        x.append(self.temp_x[value*2])
+        x.append(self.global_path.x[-value])
+        x.append(self.global_path.x[-1])
+        x.append(self.global_path.x[value*2])
 
-        y.append(self.temp_y[-value])
-        y.append(self.temp_y[-1])
-        y.append(self.temp_y[value*2])
+        y.append(self.global_path.y[-value])
+        y.append(self.global_path.y[-1])
+        y.append(self.global_path.y[value*2])
 
-        cx, cy, _, _, _ = calc_spline_course(x, y, ds=0.12)
+        cx, cy, _, _, _ = calc_spline_course(x, y, ds=0.1)
 
-        self.temp_x = self.temp_x[value*2 + 1 : -value]
-        self.temp_y = self.temp_y[value*2 + 1 : -value]
+        self.global_path.x = self.global_path.x[value*2 + 1 : -value]
+        self.global_path.y = self.global_path.y[value*2 + 1 : -value]
 
-        self.temp_x.extend(cx)
-        self.temp_y.extend(cy)
+        self.global_path.x.extend(cx)
+        self.global_path.y.extend(cy)
 
-        print(self.temp_x)
-        print(self.temp_y)
-        void_x =[]
-        void_y =[]
-        void_cur = []
+        param_check = 0
 
-        while len(self.temp_x) >= 10:
-            graph_x = self.temp_x[:10]
-            graph_y = self.temp_y[:10]
-            self.temp_x = self.temp_x[10:]
-            self.temp_y = self.temp_y[10:]
+        for i in range(len(self.temp_x)-1):
+            dis = hypot(self.temp_x[i+1]- self.temp_x[i],self.temp_y[i+1]- self.temp_y[i] )
+            if dis <= 0.1:
+                param_check += 1
+            self.temp_dis.append(dis)
 
-            void_x, void_y, _, void_cur, _ = calc_spline_course(graph_x, graph_y, ds=0.1)
-            self.global_path.x.extend(void_x)
-            self.global_path.y.extend(void_y)
-            self.global_path.curvature.extend(void_cur)
+        print(self.temp_dis)
+        print(param_check)
+        print(self.global_path.curvature)
+        
 
-        if len(self.temp_x) != 0:
-            graph_x = self.temp_x
-            graph_y = self.temp_y
-            void_x, void_y, _, void_cur, _ = calc_spline_course(graph_x, graph_y, ds=0.1)
-            self.global_path.x.extend(void_x)
-            self.global_path.y.extend(void_y)
-            self.global_path.curvature.extend(void_cur)
+        # void_x =[]
+        # void_y =[]
+        # void_cur = []
+
+        # while len(self.temp_x) >= 10:
+        #     graph_x = self.temp_x[:10]
+        #     graph_y = self.temp_y[:10]
+        #     self.temp_x = self.temp_x[10:]
+        #     self.temp_y = self.temp_y[10:]
+
+        #     void_x, void_y, _, void_cur, _ = calc_spline_course(graph_x, graph_y, ds=0.1)
+        #     self.global_path.x.extend(void_x)
+        #     self.global_path.y.extend(void_y)
+        #     self.global_path.curvature.extend(void_cur)
+
+        # if len(self.temp_x) != 0:
+        #     graph_x = self.temp_x
+        #     graph_y = self.temp_y
+        #     void_x, void_y, _, void_cur, _ = calc_spline_course(graph_x, graph_y, ds=0.1)
+        #     self.global_path.x.extend(void_x)
+        #     self.global_path.y.extend(void_y)
+        #     self.global_path.curvature.extend(void_cur)
         
         print('11111111111')
         for i in range(3):
@@ -199,9 +221,9 @@ class MP(threading.Thread):
                         self.temp_y = self.temp_y[:-10*self.backward_distance]
                         break                        
 
-                if len(self.temp_x) >= 50 and hypot(self.ego.x - self.init_x, self.ego.y - self.init_y) <= 1.5:
+                if len(self.temp_x) >= 50 and hypot(self.ego.x - self.init_x, self.ego.y - self.init_y) <= 1.2:
                     self.stop_thread = True
-                    self.map_routine(10)
+                    self.map_routine(5)
                     print('====================2ND START====================')
                     self.shared.state = "2nd"
             else:

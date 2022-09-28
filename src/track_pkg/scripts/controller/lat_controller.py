@@ -47,7 +47,7 @@ class LatController():
     def second_driving(self):
         self.path = self.global_path
         # lookahead = min(self.k * self.ego.speed + self.lookahead_default, 6)
-        lookahead = 3
+        lookahead = 6
         target_index = lookahead*10 + self.ego.index
         
         target_x, target_y = self.path.x[target_index], self.path.y[target_index]

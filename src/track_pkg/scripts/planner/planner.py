@@ -57,7 +57,8 @@ class Planner(threading.Thread):
             self.ego.point_x=(lpointx+rpointx)/(len(left_points)+len(right_points))
             self.ego.point_y=(lpointy+rpointy)/(len(left_points)+len(right_points))
         except ZeroDivisionError:
-            print("warning : division zero!")
+            pass
+            # print("warning : division zero!")
         # print("4self.ego.point_x : ",self.ego.point_x)
         # print("4self.ego.point_y : ",self.ego.point_y)
     
