@@ -18,6 +18,7 @@ class LatController():
                     self.forced_angle1()
                 elif self.ego.percep_state == "b_turn":
                     self.forced_angle2()
+                    
                 elif self.shared.state == "2nd":
                     self.second_driving()
                 else:
@@ -38,10 +39,10 @@ class LatController():
                 print("+++++++++lat_control++++++++")
 
     def forced_angle1(self):
-        self.steer = 20
+        self.steer = 15
 
     def forced_angle2(self):
-        self.steer = -20
+        self.steer = -15
 
     def second_driving(self):
         self.path = self.global_path

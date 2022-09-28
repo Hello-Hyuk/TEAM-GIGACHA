@@ -106,7 +106,7 @@ class path_maker:
             x_list.append([-2*x,-2*y,1])
             y_list.append(-(x*x)-(y*y))
         
-        print(points)
+        #print(points)
         x_matrix=np.array(x_list)
         y_matrix=np.array(y_list)
         x_trans=x_matrix.T
@@ -135,7 +135,7 @@ class path_maker:
             tmp_obs_dis = self.calc_distance(point.orientation.x, point.orientation.y)
             obstacles.append([round(point.orientation.x, 2), round(point.orientation.y, 2), round(tmp_obs_dis, 2), point.orientation.w]) # x좌표,y좌표,거리좌표,객체id(0==y, 1==b)
         
-        print("self.obstacles : ", obstacles)
+        #print("self.obstacles : ", obstacles)
 
         self.left_obs,self.right_obs=self.left_right_classification(obstacles) #separate left_cone, right_cone
         # 점 정렬 & 왼쪽2개 오른쪽2개 필터링
@@ -154,8 +154,8 @@ class path_maker:
         if len(self.right_obs) > 2:
             self.right_obs=self.right_obs[0:2]
 
-        print("self.left_obs : ",self.left_obs)
-        print("self.right_obs : ",self.right_obs)
+        #print("self.left_obs : ",self.left_obs)
+        #print("self.right_obs : ",self.right_obs)
 
         if len(self.left_obs)+len(self.right_obs) == 0:
             pass
@@ -177,5 +177,5 @@ class path_maker:
         
 
 if __name__ == "__main__":
-    print("PATH_MAKER_ON")
+   #print("PATH_MAKER_ON")
     path_maker()

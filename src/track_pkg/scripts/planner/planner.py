@@ -78,6 +78,19 @@ class Planner(threading.Thread):
 
     def fouthCOM(self, left_points,right_points):
         self.ego.percep_state =""
+        # for point in left_points:
+        #     if point[2]>7:
+        #         point[2]=0
+
+
+
+
+        # for point in right_points:
+        #     if point[2]>7:
+        #         point[2]=0
+
+
+
         lpointx=0
         lpointy=0
         rpointx=0

@@ -12,9 +12,8 @@ from utils.env_visualizer import Visualizer
 from time import sleep
 
 class Master(threading.Thread):
-    def __init__(self, args, ui_rate):
+    def __init__(self, ui_rate):
         super().__init__()
-        self.args = args
         self.period = 1.0 / ui_rate
 
         rospy.init_node('master', anonymous=False)
@@ -24,30 +23,22 @@ class Master(threading.Thread):
 
         # self.localizer = Localizer(self, rate=10)
         # self.init_thread(self.localizer)
-
         # self.mp = MP(self, rate = 1)
         # self.init_thread(self.mp)
 
-        self.planner = Planner(self, rate=10)
+
+        self.planner = Planner(self, rate=20)
         self.init_thread(self.planner)
 
-        self.controller = Controller(self, rate=10)
+        self.controller = Controller(self, rate=20)
         self.init_thread(self.controller)
         
         self.visualizer = Visualizer(self, rate=10)
         self.init_thread(self.visualizer)
-
         while True:
-            # print("==========================")
-            # self.checker_all()
-            # print('Localization : x : {0}, y : {1}, index : {2}, heading : {3}'\
-            #     .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
-            print('Controller : Speed : {}, Steer : {}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
-            # # print("tmp :" , self.shared.perception.tmp_objx, self.shared.perception.tmp_objy, self.shared.perception.objw)
-            # # print("tmp :" ,len(self.shared.perception.tmp_objx))
-            # print("point_x : ", self.shared.ego.point_x, "point_y : ", self.shared.ego.point_y)
-            # print("state :" ,(self.shared.state))
-            print("ego state :" ,(self.shared.ego.percep_state))
+            print("==========================")
+            print("target_x : ", self.shared.perception.objx, "target_y : ", self.shared.perception.objy)
+            print("state :" ,(self.shared.state))
             sleep(self.period)
 
     def init_thread(self, module):
@@ -66,17 +57,6 @@ class Master(threading.Thread):
             print(type(module).__name__, "is dead..")
 
 if __name__ == "__main__":
-#########################################################
-    argparser = argparse.ArgumentParser(
-        description="GIGACHA"
-    )
-    argparser.add_argument(
-        '--map',
-        default='yonghyeon/Yonghyeon',
-        help='kcity/map1, songdo/map2, yonghyeon'
-    )
-###########################################################
     ActivateSignalInterruptHandler()
-    args = argparser.parse_args()
-    master = Master(args, ui_rate=10)
+    master = Master(ui_rate=10)
     master.start()

@@ -27,7 +27,8 @@ class Perception_():
         
         for point in msg.poses:
             tmp_obs_dis = self.calc_distance(point.orientation.x, point.orientation.y)
-            obstacles.append([round(point.orientation.x, 2), round(point.orientation.y, 2), round(tmp_obs_dis, 2), point.orientation.w]) # x좌표,y좌표,거리좌표,객체id(0==y, 1==b)
+            if tmp_obs_dis<7.0:
+               obstacles.append([round(point.orientation.x, 2), round(point.orientation.y, 2), round(tmp_obs_dis, 2), point.orientation.w]) # x좌표,y좌표,거리좌표,객체id(0==y, 1==b)
         
         self.left_obs= obstacles
 
@@ -36,6 +37,7 @@ class Perception_():
         
         for point in msg.poses:
             tmp_obs_dis = self.calc_distance(point.orientation.x, point.orientation.y)
-            obstacles.append([round(point.orientation.x, 2), round(point.orientation.y, 2), round(tmp_obs_dis, 2), point.orientation.w]) # x좌표,y좌표,거리좌표,객체id(0==y, 1==b)
+            if tmp_obs_dis<7.0:
+               obstacles.append([round(point.orientation.x, 2), round(point.orientation.y, 2), round(tmp_obs_dis, 2), point.orientation.w]) # x좌표,y좌표,거리좌표,객체id(0==y, 1==b)
         
         self.right_obs= obstacles

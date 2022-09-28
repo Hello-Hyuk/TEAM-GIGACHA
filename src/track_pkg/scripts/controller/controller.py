@@ -39,6 +39,6 @@ class Controller(threading.Thread):
                 self.serial_pub.publish(serial)
 
             except IndexError:
-                print("+++++++controller++++++")
+                #print("+++++++controller++++++")
 
             sleep(self.period)
