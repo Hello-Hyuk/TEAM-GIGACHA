@@ -11,5 +11,5 @@ class Shared:
         self.perception = Perception_()
 
         # for planner
-        self.state = ""
+        self.state = "1st"
         self.global_path = Path()

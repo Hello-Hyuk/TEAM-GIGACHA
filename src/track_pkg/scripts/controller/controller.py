@@ -25,9 +25,10 @@ class Controller(threading.Thread):
                 # self.ego.input_brake = self.ego.target_brake
                 # self.ego.input_gear = self.ego.target_gear
                 
-                if self.ego.input_speed == 10 and self.ego.input_steer > 7:
+                if self.ego.input_speed == 7 and self.ego.input_steer > 3:
                     self.ego.input_speed = 5
 
+                # print("speed : ", self.ego.input_speed)
                 ######################## SERIAL ################################
                 serial = Control_Info()
                 serial.emergency_stop = self.ego.input_estop
@@ -39,6 +40,6 @@ class Controller(threading.Thread):
                 self.serial_pub.publish(serial)
 
             except IndexError:
-                #print("+++++++controller++++++")
+                print("+++++++controller++++++")
 
             sleep(self.period)

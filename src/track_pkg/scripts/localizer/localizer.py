@@ -10,8 +10,6 @@ class Localizer(threading.Thread):
     def __init__(self, parent, rate):
         super().__init__()
         rospy.Subscriber('/local_msgs', Local, self.local_callback)
-
-        self.mapname = parent.args.map
         self.period = 1.0 / rate
 
         self.ego = parent.shared.ego
@@ -24,8 +22,8 @@ class Localizer(threading.Thread):
         self.ego.orientaion = msg.orientation
         self.ego.dr_x = msg.dr_x
         self.ego.dr_y = msg.dr_y
-        self.ego.speed = msg.speed
-        self.ego.distance = msg.distance
+        self.ego.speed = msg.speeed
+        self.ego.distance = msg.dis
         self.ego.roll = msg.roll
         self.ego.pitch = msg.pitch
 

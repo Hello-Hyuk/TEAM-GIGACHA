@@ -19,14 +19,11 @@ class Planner(threading.Thread):
         self.state = self.shared.state
 
 
-    def makePath(self):
-
-        
+    def makePath(self):        
         self.perception.left_obs.sort(key = lambda x : x[2])
         self.perception.right_obs.sort(key= lambda x : x[2])
 
         # 왼쪽에서 인식한 러버콘수가 2개초과이면 2개만 남긴다 그 뒤 오른쪽에서 인식한 러버콘 수가 2개 초과이면 2개만 남긴다.
-
         if len(self.perception.left_obs) > 2:
             self.perception.left_obs = self.perception.left_obs[0:2]   
 
@@ -34,63 +31,15 @@ class Planner(threading.Thread):
             self.perception.right_obs=self.perception.right_obs[0:2]
 
         # 해당 러버콘 수에 따라 분기문을 나눈다. -> 0개 1개일땐 pass, 2개 일땐 secondCOM, 3개,4개 일땐 fouthCOM 사용
-        if len(self.perception.left_obs)+len(self.perception.right_obs) == 0:
-            self.ego.percep_state =""
-
+        if len(self.perception.left_obs) != 0 and len(self.perception.right_obs) != 0:
+            self.makeCOM(self.perception.left_obs, self.perception.right_obs)
+        elif len(self.perception.left_obs) == 0 or len(self.perception.right_obs) == 0:
+            self.makeFakeCOM(self.perception.left_obs, self.perception.right_obs)
+        else:   # (0, 0) case
             pass
 
-        elif len(self.perception.left_obs)+len(self.perception.right_obs) == 1:
-            self.firstCOM(self.perception.left_obs, self.perception.right_obs)
-            self.ego.percep_state =""
-
-
-
-        elif len(self.perception.left_obs)+len(self.perception.right_obs) == 2:
-            self.secondCOM(self.perception.left_obs, self.perception.right_obs)
-
-
-        else:
-            #self.cal_circul(self.perception.left_obs, self.perception.right_obs)
-            self.fouthCOM(self.perception.left_obs, self.perception.right_obs)
-
-    def firstCOM(self, left_points, right_points):
-        
-        if len(left_points) == 1:
-            self.ego.percep_state = "y_turn"
-        if len(right_points) == 1:
-            self.ego.percep_state = "b_turn"
-      
-    def secondCOM(self, left_points, right_points):
-            
-        if len(left_points) == 2:
-            self.ego.percep_state = "y_turn"
-
-        elif len(right_points) == 2:
-            self.ego.percep_state = "b_turn"
-
-        
-        
-        else:
-            self.ego.point_x = (left_points[0][0] + right_points[0][0]) / 2
-            self.ego.point_y = (left_points[0][1] + right_points[0][1]) / 2
-
-
-
-    def fouthCOM(self, left_points,right_points):
-        self.ego.percep_state =""
-        # for point in left_points:
-        #     if point[2]>7:
-        #         point[2]=0
-
-
-
-
-        # for point in right_points:
-        #     if point[2]>7:
-        #         point[2]=0
-
-
-
+    # (2,2), (2,1), (1,2), (1,1) case
+    def makeCOM(self, left_points, right_points):
         lpointx=0
         lpointy=0
         rpointx=0
@@ -104,11 +53,29 @@ class Planner(threading.Thread):
             rpointx+=point[0]
             rpointy+=point[1]
 
-
-        self.ego.point_x=(lpointx+rpointx)/(len(left_points)+len(right_points))
-        self.ego.point_y=(lpointy+rpointy)/(len(left_points)+len(right_points))
+        try:
+            self.ego.point_x=(lpointx+rpointx)/(len(left_points)+len(right_points))
+            self.ego.point_y=(lpointy+rpointy)/(len(left_points)+len(right_points))
+        except ZeroDivisionError:
+            print("warning : division zero!")
         # print("4self.ego.point_x : ",self.ego.point_x)
         # print("4self.ego.point_y : ",self.ego.point_y)
+    
+    # (2,0), (1,0), (0,2), (0,1) case
+    def makeFakeCOM(self, left_points, right_points):
+        fake_point_list = []
+        # right case
+        if len(left_points) == 0:
+            for rpoint in right_points:
+                fake_point_list.append([rpoint[0], rpoint[1]+3, rpoint[2], rpoint[3]])
+            self.makeCOM(fake_point_list, right_points)
+        # left case
+        elif len(right_points) == 0:
+            for lpoint in left_points:
+                fake_point_list.append([lpoint[0], lpoint[1]-3, lpoint[2], lpoint[3]])
+            self.makeCOM(left_points, fake_point_list)
+        else:
+            rospy.loginfo("Failed to classificate in FakeCOM")
 
     # def cal_circul(self, left_points, right_points):
 

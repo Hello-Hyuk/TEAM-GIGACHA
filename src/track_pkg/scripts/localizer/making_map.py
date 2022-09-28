@@ -41,6 +41,10 @@ class MP(threading.Thread):
         self.gear = int()
         self.auto_manual = int()
         self.backward_distance = 0.0
+        self.init_dis = 0.0
+
+        self.temp_x = []
+        self.temp_y = []
 
 
     def serialTopulse(self, data):
@@ -89,41 +93,98 @@ class MP(threading.Thread):
         if self.init_switch == False:
             self.init_switch = True
             self.init_x, self.init_y = self.ego.x, self.ego.y
-        self.global_path.x.append(self.ego.x)
-        self.global_path.y.append(self.ego.y)
+        # self.global_path.x.append(self.ego.x)
+        # self.global_path.y.append(self.ego.y)
+        self.temp_x.append(self.ego.x)
+        self.temp_y.append(self.ego.y)
         self.temp = self.pulse
 
     def map_routine(self, value):
         x = []
         y = []
 
-        x.append(self.global_path.x[-value])
-        x.append(self.global_path.x[-1])
-        x.append(self.global_path.x[value*2])
+        x.append(self.temp_x[-value])
+        x.append(self.temp_x[-1])
+        x.append(self.temp_x[value*2])
 
-        y.append(self.global_path.y[-value])
-        y.append(self.global_path.y[-1])
-        y.append(self.global_path.y[value*2])
+        y.append(self.temp_y[-value])
+        y.append(self.temp_y[-1])
+        y.append(self.temp_y[value*2])
 
-        cx, cy, _, _, _ = calc_spline_course(x, y, ds=0.1)
+        cx, cy, _, _, _ = calc_spline_course(x, y, ds=0.12)
 
-        self.global_path.x = self.global_path.x[value*2 + 1 : -value]
-        self.global_path.y = self.global_path.y[value*2 + 1 : -value]
+        self.temp_x = self.temp_x[value*2 + 1 : -value]
+        self.temp_y = self.temp_y[value*2 + 1 : -value]
 
-        self.global_path.x.extend(cx)
-        self.global_path.y.extend(cy)
+        self.temp_x.extend(cx)
+        self.temp_y.extend(cy)
+
+        print(self.temp_x)
+        print(self.temp_y)
+        void_x =[]
+        void_y =[]
+        void_cur = []
+
+        while len(self.temp_x) >= 10:
+            graph_x = self.temp_x[:10]
+            graph_y = self.temp_y[:10]
+            self.temp_x = self.temp_x[10:]
+            self.temp_y = self.temp_y[10:]
+
+            void_x, void_y, _, void_cur, _ = calc_spline_course(graph_x, graph_y, ds=0.1)
+            self.global_path.x.extend(void_x)
+            self.global_path.y.extend(void_y)
+            self.global_path.curvature.extend(void_cur)
+
+        if len(self.temp_x) != 0:
+            graph_x = self.temp_x
+            graph_y = self.temp_y
+            void_x, void_y, _, void_cur, _ = calc_spline_course(graph_x, graph_y, ds=0.1)
+            self.global_path.x.extend(void_x)
+            self.global_path.y.extend(void_y)
+            self.global_path.curvature.extend(void_cur)
         
+        print('11111111111')
         for i in range(3):
             self.global_path.x.extend(self.global_path.x)
             self.global_path.y.extend(self.global_path.y)
+        print('2222222222222')
+
+    # def map_routine(self, value):
+    #     x = []
+    #     y = []
+
+    #     x.append(self.global_path.x[-value])
+    #     x.append(self.global_path.x[-1])
+    #     x.append(self.global_path.x[value*2])
+
+    #     y.append(self.global_path.y[-value])
+    #     y.append(self.global_path.y[-1])
+    #     y.append(self.global_path.y[value*2])
+
+    #     cx, cy, _, _, _ = calc_spline_course(x, y, ds=0.12)
+
+    #     self.global_path.x = self.global_path.x[value*2 + 1 : -value]
+    #     self.global_path.y = self.global_path.y[value*2 + 1 : -value]
+
+    #     self.global_path.x.extend(cx)
+    #     self.global_path.y.extend(cy)
+
+    #     # self.global_path.x, self.global_path.y, _, self.global_path.curvature, _ = calc_spline_course(self.global_path.x, self.global_path.y, ds=0.1)
+        
+    #     print('11111111111')
+    #     for i in range(3):
+    #         self.global_path.x.extend(self.global_path.x)
+    #         self.global_path.y.extend(self.global_path.y)
+    #     print('2222222222222')
 
     def map_remover(self):
         if not self.collision_switch:
-            init_dis = self.ego.distance
+            self.init_dis = self.ego.distance
             self.collision_switch = True
 
         if self.gear == 2:
-            self.backward_distance = self.ego.distance - init_dis
+            self.backward_distance = self.ego.distance - self.init_dis
 
     def run(self):
         while True:
@@ -134,11 +195,11 @@ class MP(threading.Thread):
                 if self.auto_manual == 0:
                     self.map_remover()
                     if self.auto_manual == 1:
-                        self.global_path.x = self.global_path.x[:-10*self.backward_distance]
-                        self.global_path.y = self.global_path.y[:-10*self.backward_distance]
+                        self.temp_x = self.temp_x[:-10*self.backward_distance]
+                        self.temp_y = self.temp_y[:-10*self.backward_distance]
                         break                        
 
-                if len(self.global_path.x) >= 50 and hypot(self.ego.x - self.init_x, self.ego.y - self.init_y) <= 1.2:
+                if len(self.temp_x) >= 50 and hypot(self.ego.x - self.init_x, self.ego.y - self.init_y) <= 1.5:
                     self.stop_thread = True
                     self.map_routine(10)
                     print('====================2ND START====================')
