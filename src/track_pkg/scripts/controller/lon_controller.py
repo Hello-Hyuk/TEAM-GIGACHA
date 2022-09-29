@@ -6,12 +6,14 @@ class LonController():
 
     def run(self): 
         if self.shared.state == "2nd":
-            self.speed = 10
-
+            if self.ego.input_steer > 7:
+                self.speed = 6
+            else:
+                self.speed = 10
         else:
-            if self.ego.input_steer > 10:
+            if self.ego.input_steer > 7:
                 self.speed = 5
             else:
-                self.speed = 7
+                self.speed = 5
 
         return self.speed

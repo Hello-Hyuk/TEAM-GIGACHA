@@ -125,8 +125,8 @@ class Visualizer(threading.Thread):
                     circle_marker.lifetime = rospy.Duration(0.1)
                     circle_marker.pose.position.x = self.perception.left_obs[i][0]
                     circle_marker.pose.position.y = self.perception.left_obs[i][1]
-                    circle_marker.scale.x = 1
-                    circle_marker.scale.y = 1
+                    circle_marker.scale.x = 0.75
+                    circle_marker.scale.y = 0.75
                     vis_yellow.markers.append(circle_marker)
                     c_id1 = c_id1 + 1
                     
@@ -152,14 +152,14 @@ class Visualizer(threading.Thread):
                     circle_marker.pose.orientation.w = 1.0
                     circle_marker.scale.z = 0.1
                     circle_marker.color.r = 0
-                    circle_marker.color.g = 0
-                    circle_marker.color.b = 255
+                    circle_marker.color.g = 255
+                    circle_marker.color.b = 0
                     circle_marker.color.a = 1
                     circle_marker.lifetime = rospy.Duration(0.1)
                     circle_marker.pose.position.x = self.perception.right_obs[i][0]
                     circle_marker.pose.position.y = self.perception.right_obs[i][1]
-                    circle_marker.scale.x = 1
-                    circle_marker.scale.y = 1
+                    circle_marker.scale.x = 0.75
+                    circle_marker.scale.y = 0.75
                     vis_blue.markers.append(circle_marker)
                     c_id2 = c_id2 + 1
                 # publish

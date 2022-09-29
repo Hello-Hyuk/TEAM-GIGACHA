@@ -35,25 +35,6 @@ class Planner(threading.Thread):
         # concat all obstacle
         self.total_obs = self.perception.left_obs + self.perception.right_obs
 
-        # 해당 러버콘 수에 따라 분기문을 나눈다. -> 0개 1개일땐 pass, 2개 일땐 secondCOM, 3개,4개 일땐 fouthCOM 사용
-        # for rpoint, lpoint in zip(self.perception.right_obs, self.perception.left_obs):
-        #     if rpoint[1] - lpoint[1] > 0.0:
-        #         if rpoint[0] > lpoint[0]:
-        #             self.perception.right_obs = []
-        #             break
-        #         elif rpoint[0] < lpoint[0]:
-        #             self.perception.left_obs = []
-        #             break
-
-        # for rpoint, lpoint in zip(self.perception.right_obs, self.perception.left_obs):
-        #     if rpoint[1] - lpoint[1] > 0.0:
-        #         if rpoint[0] > lpoint[0]:
-        #             self.perception.right_obs = []
-        #             break
-        #         elif rpoint[0] < lpoint[0]:
-        #             self.perception.left_obs = []
-        #             break
-
         # (2,2), (2,1), (1,2), (1,1) case
         if len(self.perception.left_obs) != 0 and len(self.perception.right_obs) != 0:
             self.makeCOM(self.perception.left_obs, self.perception.right_obs)
@@ -66,7 +47,6 @@ class Planner(threading.Thread):
 
 
 
-    #def incline(self,left,ri)
 
 
     def makeCOM(self, left_points, right_points):
@@ -88,9 +68,6 @@ class Planner(threading.Thread):
             self.ego.point_y=(lpointy+rpointy)/(len(left_points)+len(right_points))
         except ZeroDivisionError:
             pass
-            # print("warning : division zero!")
-        # print("4self.ego.point_x : ",self.ego.point_x)
-        # print("4self.ego.point_y : ",self.ego.point_y)
     
     # (2,0), (1,0), (0,2), (0,1) case
     def makeFakeCOM(self, left_points, right_points):
@@ -98,12 +75,12 @@ class Planner(threading.Thread):
         # right case
         if len(left_points) == 0:
             for rpoint in right_points:
-                fake_point_list.append([rpoint[0], rpoint[1]+3, rpoint[2], rpoint[3]])
+                fake_point_list.append([rpoint[0], rpoint[1]+4.5, rpoint[2], rpoint[3]])
             self.makeCOM(fake_point_list, right_points)
         # left case
         elif len(right_points) == 0:
             for lpoint in left_points:
-                fake_point_list.append([lpoint[0], lpoint[1]-3, lpoint[2], lpoint[3]])
+                fake_point_list.append([lpoint[0], lpoint[1]-4.5, lpoint[2], lpoint[3]])
             self.makeCOM(left_points, fake_point_list)
         else:
             rospy.loginfo("Failed to classificate in FakeCOM")
