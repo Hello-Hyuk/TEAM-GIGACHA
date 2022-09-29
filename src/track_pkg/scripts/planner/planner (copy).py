@@ -17,13 +17,11 @@ class Planner(threading.Thread):
         self.ego = self.shared.ego
         self.perception = self.shared.perception
         self.state = self.shared.state
-        self.total_obs = []
 
 
     def makePath(self):        
         self.perception.left_obs.sort(key = lambda x : x[2])
         self.perception.right_obs.sort(key= lambda x : x[2])
-
 
         # 왼쪽에서 인식한 러버콘수가 2개초과이면 2개만 남긴다 그 뒤 오른쪽에서 인식한 러버콘 수가 2개 초과이면 2개만 남긴다.
         if len(self.perception.left_obs) > 2:
@@ -31,44 +29,16 @@ class Planner(threading.Thread):
 
         if len(self.perception.right_obs) > 2:
             self.perception.right_obs=self.perception.right_obs[0:2]
-        
-        # concat all obstacle
-        self.total_obs = self.perception.left_obs + self.perception.right_obs
 
         # 해당 러버콘 수에 따라 분기문을 나눈다. -> 0개 1개일땐 pass, 2개 일땐 secondCOM, 3개,4개 일땐 fouthCOM 사용
-        # for rpoint, lpoint in zip(self.perception.right_obs, self.perception.left_obs):
-        #     if rpoint[1] - lpoint[1] > 0.0:
-        #         if rpoint[0] > lpoint[0]:
-        #             self.perception.right_obs = []
-        #             break
-        #         elif rpoint[0] < lpoint[0]:
-        #             self.perception.left_obs = []
-        #             break
-
-        # for rpoint, lpoint in zip(self.perception.right_obs, self.perception.left_obs):
-        #     if rpoint[1] - lpoint[1] > 0.0:
-        #         if rpoint[0] > lpoint[0]:
-        #             self.perception.right_obs = []
-        #             break
-        #         elif rpoint[0] < lpoint[0]:
-        #             self.perception.left_obs = []
-        #             break
-
-        # (2,2), (2,1), (1,2), (1,1) case
         if len(self.perception.left_obs) != 0 and len(self.perception.right_obs) != 0:
             self.makeCOM(self.perception.left_obs, self.perception.right_obs)
-        # (2,0), (1,0), (0,1), (0,2)
         elif len(self.perception.left_obs) == 0 or len(self.perception.right_obs) == 0:
             self.makeFakeCOM(self.perception.left_obs, self.perception.right_obs)
         else:   # (0, 0) case
             pass
 
-
-
-
-    #def incline(self,left,ri)
-
-
+    # (2,2), (2,1), (1,2), (1,1) case
     def makeCOM(self, left_points, right_points):
         lpointx=0
         lpointy=0

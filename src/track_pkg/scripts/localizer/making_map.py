@@ -40,7 +40,7 @@ class MP(threading.Thread):
         # for collision checker
         self.gear = int()
         self.auto_manual = int()
-        self.backward_distance = 0.0
+        self.backward_distance = int(0)
         self.init_dis = 0.0
 
         self.temp_x = []
@@ -206,7 +206,7 @@ class MP(threading.Thread):
             self.collision_switch = True
 
         if self.gear == 2:
-            self.backward_distance = self.ego.distance - self.init_dis
+            self.backward_distance = int(self.ego.distance - self.init_dis)
 
     def run(self):
         while True:
@@ -221,10 +221,19 @@ class MP(threading.Thread):
                         self.temp_y = self.temp_y[:-10*self.backward_distance]
                         break                        
 
-                if len(self.temp_x) >= 50 and hypot(self.ego.x - self.init_x, self.ego.y - self.init_y) <= 1.2:
-                    self.stop_thread = True
-                    self.map_routine(5)
-                    print('====================2ND START====================')
-                    self.shared.state = "2nd"
+                if len(self.temp_x) >= 50 :
+                    if hypot(self.ego.x - self.temp_x[0], self.ego.y - self.temp_y[0]) <= 10:
+                        for i in range(10):
+                            dis = hypot(self.ego.x - self.temp_x[i], self.ego.y - self.temp_y[i])
+                            if dis <= 1.2:
+                                self.temp_x = self.temp_x[i:]
+                                self.temp_y = self.temp_y[i:]
+                                self.stop_thread = True
+                                self.map_routine(5)
+                                print('====================2ND START====================')
+                                self.shared.state = "2nd"
+                                break
+
+
             else:
                 sleep(self.period)

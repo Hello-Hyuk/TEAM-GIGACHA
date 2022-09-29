@@ -24,9 +24,6 @@ class Controller(threading.Thread):
                 self.ego.input_speed = self.lon_controller.run()
                 # self.ego.input_brake = self.ego.target_brake
                 # self.ego.input_gear = self.ego.target_gear
-                
-                if self.ego.input_speed == 7 and self.ego.input_steer > 3:
-                    self.ego.input_speed = 5
 
                 # print("speed : ", self.ego.input_speed)
                 ######################## SERIAL ################################

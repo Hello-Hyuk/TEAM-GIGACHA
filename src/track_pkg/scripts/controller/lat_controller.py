@@ -39,16 +39,17 @@ class LatController():
                 print("+++++++++lat_control++++++++")
 
     def forced_angle1(self):
-        self.steer = 15
+        self.steer = 20
 
     def forced_angle2(self):
-        self.steer = -15
+        self.steer = -20
 
     def second_driving(self):
         self.path = self.global_path
         # lookahead = min(self.k * self.ego.speed + self.lookahead_default, 6)
         lookahead = 6
-        target_index = lookahead*10 + self.ego.index
+        # target_index = lookahead*10 + self.ego.index
+        target_index = lookahead*self.ego.speed + self.ego.index
         
         target_x, target_y = self.path.x[target_index], self.path.y[target_index]
 
