@@ -28,7 +28,7 @@ class Mission():
         self.first_stop = False
         self.second_stop = False
 
-        self.speed = 20
+        self.speed = 10
 
     def range(self, a, b = 50):
         return (a-b) <= self.ego.index <= a
@@ -164,12 +164,13 @@ class Mission():
         if (self.shared.selected_lane == 0) and self.emergency_check == False:
             self.plan.behavior_decision = "stop"
             self.target_control(75, 0)
-            sleep(5)
+            sleep(10)
             self.target_control(0, 5)
             self.emergency_check = True
 
-        elif (self.shared.selected_lane == 1) and self.emergency_check == True:
-            self.emergency_check = False
+        elif (self.shared.selected_lane == 2) and self.emergency_check == True:
+            self.plan.behavior_decision = "driving"
+            #self.emergency_check = False
 
     def convert_lidar(self):
         theta = (self.ego.heading) * pi / 180

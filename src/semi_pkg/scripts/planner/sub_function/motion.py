@@ -22,6 +22,43 @@ class Motion():
     def select_trajectory(self):
         self.shared.selected_lane = self.lane_weight.index(min(self.lane_weight))
 
+    def weight_function_AEB(self):  #!! AEB's weight function !!
+        self.isObstacle = [1000, 1000, 1000, 1000]
+
+        for i in range(len(self.isObstacle)): # 0,1,2
+            path_check = True
+            if path_check == True:
+                self.shared.perception.lidar_lock.acquire()
+                for j in range(len(self.lattice_path[i].x)): # paths' index
+                    if path_check == False:
+                        break
+                    for k in range(len(self.shared.perception.objx)): # of obj
+                        ob_point_distance = sqrt((self.lattice_path[i].x[j] - self.shared.perception.objx[k])**2 + (self.lattice_path[i].y[j] - self.shared.perception.objy[k])**2)
+                        if ob_point_distance < (self.shared.perception.objw[k]/2+1): #and self.Obstacle_in_section == 0:
+                            self.isObstacle[i] = j
+                            path_check = False
+                            break
+                        else:
+                            self.isObstacle[i] = 1000
+                self.shared.perception.lidar_lock.release()
+
+        if (self.shared.selected_lane == 2 and self.isObstacle[2] != 1000):
+            if(self.isObstacle[2] < self.isObstacle[0]): 
+                print("+++++++++++++\nobstacle in lane 1\n++++++++++++")
+                self.lane_weight = [0, 1000, 1000, 1000]
+        elif (self.shared.selected_lane == 0 and self.isObstacle[0] != 1000):
+            if(self.isObstacle[0] > self.isObstacle[2]):
+                print("+++++++++++++\nobstacle in lane 2\n++++++++++++")
+                self.lane_weight = [1000, 1000, 0, 1000]
+        elif (self.shared.selected_lane == 0 and self.isObstacle[0] == 1000):
+            if(self.isObstacle[2] != 1000):
+                print("+++++++++++++\nobstacle in lane 2\n++++++++++++")
+                self.lane_weight = [0, 1000, 1000, 1000]
+            else:
+                self.lane_weight = [1000, 1000, 0, 1000]
+        
+
+
     def weight_function_obstacle_avoidance(self):
         self.isObstacle = [1000, 1000, 1000, 1000]
 
@@ -44,10 +81,10 @@ class Motion():
                 self.check = abs(self.isObstacle[3]- self.isObstacle[1])
                 self.shared.perception.lidar_lock.release()
 
-        if (self.isObstacle[3] != 1000 and self.isObstacle[2] != 1000 and self.isObstacle[1] != 1000):
-            if((self.isObstacle[2] == self.min_val or self.isObstacle[3] == self.min_val) and self.check <= 10): 
+        if ((self.isObstacle[3] != 1000 and self.isObstacle[2] != 1000 and self.isObstacle[1] != 1000) and self.check <= 10):
+            #if((self.isObstacle[2] == self.min_val or self.isObstacle[3] == self.min_val) and self.check <= 10): 
                 # print("+++++++++++++\nobstacle in lane 1,2,3\n++++++++++++")
-                self.lane_weight = [0,1000,1000,1000]
+            self.lane_weight = [0,1000,1000,1000]
         
         elif ((self.isObstacle[1] != 1000 and self.isObstacle[2] != 1000) or (self.isObstacle[1] != 1000)):
             if(self.isObstacle[1] == self.min_val or self.isObstacle[2] == self.min_val): 
@@ -57,7 +94,7 @@ class Motion():
         elif ((self.isObstacle[3] != 1000 and self.isObstacle[2] != 1000) or (self.isObstacle[3] != 1000)):
             if(self.isObstacle[2] == self.min_val or self.isObstacle[3] == self.min_val): 
                 # print("+++++++++++++\nobstacle in lane 2 and 3 or 3\n++++++++++++")
-                self.lane_weight = [1000,0,1000,1000]
+                self.lane_weight = [0,1000,1000,1000]
 
         elif (self.isObstacle[2] != 1000):
             if(self.isObstacle[2] == self.min_val): 
