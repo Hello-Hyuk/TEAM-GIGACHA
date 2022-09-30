@@ -68,7 +68,7 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     colnames = ['lon', 'lat']
     # df = pd.read_csv(f'maps/Siheung/nodes/turn_right/turn_right_line.csv', names=colnames, header=None) # siheung
-    df = pd.read_csv(f'new_siheung2.csv', names=colnames, header=None)
+    df = pd.read_csv(f'siStraight.csv', names=colnames, header=None)
     x = []
     y = []
 
@@ -91,12 +91,5 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     return(cx, cy, cyaw, ck, s)
 
-# cubic('sibaecur1', 1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 143)
-# cubic('sibaecur2', 1, 10, 20, 30, 40, 50, 60, 64)
-cubic('sibaecur3', 1, 10, 20, 30, 40, 50, 60, 70, 80, 85)
-# cubic('sibaestr2', 3,4)
-# cubic('sibaestr3', 5,6)
-# cubic('sibaestr4', 7,8)
 
-# cubic("2",2,3,4,5,6,7)
-# cubic("3",7,8)
+cubic('siStraight_',1,2,3)
