@@ -5,6 +5,7 @@ import json
 from geometry_msgs.msg import Pose
 from sensor_msgs.msg import NavSatFix
 from ublox_msgs.msg import NavPVT
+from math import abs
 
 
 class GPS():
@@ -22,6 +23,8 @@ class GPS():
         self.heading_switch = False
 
         self.time = 0.0
+        self.prev_heading = 0
+        self.cnt = False
 
         with open('/home/gigacha/TEAM-GIGACHA/src/local_pkg/scripts/base.json') as base:
             base_data = json.load(base)
@@ -43,8 +46,19 @@ class GPS():
     def navpvt_call_back(self, data):
         self.time = time.time()
         self.acc = data.hAcc
-        gps_heading = (450-(data.heading * 10**(-5))) % 360
         headAcc = data.headAcc
+
+        gps_heading = (450-(data.heading * 10**(-5))) % 360
+
+        if self.cnt == False:
+            self.prev_heading = gps_heading
+            self.cnt = True
+
+        # If 90 doesn't work well, please change 90 to 60, 30, 10.
+        if 90 < abs(gps_heading - self.prev_heading):
+            gps_heading = self.prev_heading
+
+        self.prev_heading = gps_heading
 
         if headAcc < 400000:
             self.heading_switch = True
