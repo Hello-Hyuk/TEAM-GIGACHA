@@ -14,6 +14,7 @@ class Mission():
         self.vote_checker = False
         
         self.obstacle_checker = False
+        self.encoder_checker = False
 
         self.parking_create = False
         self.parking_backward_start = False
@@ -392,9 +393,11 @@ class Mission():
         print("target : ", self.target)
 
         sign_dis = 0.0
+        # plan A
+        sign_dis = self.signx - self.ego.x
         sign_dis = sqrt((self.signx - self.ego.x)**2 + (self.signy - self.ego.y)**2)
         print("sign distance : ", sign_dis)
-        if 0 < sign_dis < 2.5 and self.pickup_checker == False:
+        if 0 < sign_dis < 1 and self.pickup_checker == False:
             self.pickup_checker = True
             self.plan.behavior_decision = "stop"
             self.target_control(200, 0)
@@ -404,6 +407,27 @@ class Mission():
         elif 0 < sign_dis < 10 and self.pickup_checker == False:
             self.target_control(0, 7)
             self.plan.behavior_decision = "pickup"
+        # plan B
+        # sign_dis = self.perception.signx
+        # init_dis = 0.0
+        # print("sign distance : ", sign_dis)
+        # if 0 < sign_dis < 8 and self.pickup_checker == False:
+        #     if not self.encoder_checker:
+        #         self.encoder_checker = True
+        #         init_dis = self.ego.dis
+            
+        #     if self.ego.dis - init_dis > 7:
+        #         self.pickup_checker = True
+        #         self.plan.behavior_decision = "stop"
+        #         self.target_control(200, 0)
+        #         sleep(5)
+        #         self.target_control(0, self.speed)            
+        #         self.plan.behavior_decision = "pickup_end"
+                
+        elif 0 < sign_dis < 10 and self.pickup_checker == False:
+            self.target_control(0, 7)
+            self.plan.behavior_decision = "pickup"
+        
         
     def delivery(self):
         # self.target_control(0, 7)
