@@ -241,7 +241,7 @@ class Mission():
                 print(len(self.perception.objx), " ", self.obs_dis)
 
             if self.obs_dis <= 15:
-                self.ego.target_speed = 7.0
+                self.target_control(0,7)
                 self.obstacle_checker = True
                 self.time_checker = False
             
@@ -251,9 +251,9 @@ class Mission():
                 self.cur_t = time()
                 self.time_checker = True
             if time() - self.cur_t < 5:
-                self.ego.target_speed = 7.0
+                self.target_control(0,7)
             else:
-                self.ego.target_speed = self.speed
+                self.target_control(0, self.speed)
 
         else:
             self.plan.behavior_decision = "driving"
@@ -371,12 +371,10 @@ class Mission():
         #     self.voting_checker = True
 
         if range(6140) and self.voting_checker == False:
-            self.voting()
-            self.voting_checker = True
             self.plan.behavior_decision = "stop"
             self.target_control(200, 0)
-            sleep(3)
-            self.target_control(0, 7)
+            self.voting()
+            self.voting_checker = True
             self.plan.behavior_decision = "delivery"
 
         sign_dis = 0.0
@@ -386,7 +384,7 @@ class Mission():
         print("B_x : ", self.B_x)
         print("sign distance : ", sign_dis)
 
-
+        
         if (0 < sign_dis < 6 and self.delivery_checker == False and self.voting_checker == True):
             self.delivery_checker = True
             self.plan.behavior_decision = "stop"

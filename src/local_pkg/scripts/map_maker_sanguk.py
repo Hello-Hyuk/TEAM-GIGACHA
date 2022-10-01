@@ -120,7 +120,7 @@ class MC():
             save_data = list(zip(self.x, self.y))
 
             save_df = pd.DataFrame(save_data)
-            save_df.to_csv("new_siheung3.csv", index=False, header=False)
+            save_df.to_csv("new_semi2.csv", index=False, header=False)
             self.map_switch = True
 
     def main(self):

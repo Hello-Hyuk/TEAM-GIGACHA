@@ -29,7 +29,7 @@ class Mission():
         self.signy = 0
         self.B_x = [0,0,0]
         self.B_y = [0,0,0]
-
+        self.target = 0
         self.pickup_checker = False
         self.delivery_checker = False
         self.voting_checker = False
@@ -37,27 +37,37 @@ class Mission():
         self.non_traffic_right_checker = 0
         self.uturn_stop = False
 
+        self.speed_check = False
+        self.sp = 0
+
         self.speed = 10
 
-    def range(self, a, b = 50):
-        return (a-b) <= self.ego.index <= a
+    def range(self, a):
+        return (a-100) <= self.ego.index <= a
 
     def target_control(self, brake, speed):
         self.ego.target_brake = brake
         self.ego.target_speed = speed
 
     def go(self):
-        if self.perception.tgreen == 1:
-            self.plan.behavior_decision = "driving"
-            self.target_control(0, self.speed)
-        else:
-            if self.range(1614) or self.range(2172) or self.range(3533) or self.range(6692) or self.range(6708) or self.range(8026) or self.range(8497):
-                # self.plan.behavior_decision = "stop"
-                # self.target_control(200,0)
-                pass
-            else:
-                self.plan.behavior_decision = "driving"
-                self.target_control(0, self.speed)
+        self.plan.behavior_decision = "driving"
+        self.target_control(0, 17)
+        # if self.range(600):
+        #     self.target_control(200, 0)
+        # else:
+        #     self.target_control(0, self.speed)
+
+        # if self.perception.tgreen == 1:
+        #     self.plan.behavior_decision = "driving"
+        #     self.target_control(0, self.speed)
+        # else:
+        #     if self.range(1614) or self.range(2172) or self.range(3533) or self.range(6692) or self.range(6708) or self.range(8026) or self.range(8497):
+        #         # self.plan.behavior_decision = "stop"
+        #         # self.target_control(200,0)
+        #         pass
+        #     else:
+        #         self.plan.behavior_decision = "driving"
+        #         self.target_control(0, self.speed)
         
     def Parking_Siheung_Parallel(self):
         if (self.parking_create == False):
@@ -249,7 +259,7 @@ class Mission():
                 print(len(self.perception.objx), " ", self.obs_dis)
 
             if self.obs_dis <= 15:
-                self.ego.target_speed = 7.0
+                self.target_control(0,7)
                 self.obstacle_checker = True
                 self.time_checker = False
             
@@ -258,9 +268,9 @@ class Mission():
                 self.cur_t = time()
                 self.time_checker = True
             if time() - self.cur_t < 5:
-                self.ego.target_speed = 7.0
+                self.target_control(0,7)
             else:
-                self.ego.target_speed = self.speed
+                self.target_control(0,self.speed)
 
     def turn_right(self):
         if self.perception.tgreen == 1:
@@ -278,14 +288,24 @@ class Mission():
     def turn_left(self):
         if self.perception.tleft == 1 :
             self.plan.behavior_decision = "driving"
-            self.target_control(0, self.speed)
+            self.target_control(0, 12)
         else:
-            if self.range(1237):
+            if self.range(1240):
                 self.plan.behavior_decision = "stop"
                 self.target_control(200, 0)
             else:
                 self.plan.behavior_decision = "driving"
-                self.target_control(0, self.speed)
+                self.target_control(0, 12)
+        # if self.perception.tleft == 1 :
+        #     self.plan.behavior_decision = "driving"
+        #     self.target_control(0, self.speed)
+        # else:
+        #     if self.range(1237):
+        #         self.plan.behavior_decision = "stop"
+        #         self.target_control(200, 0)
+        #     else:
+        #         self.plan.behavior_decision = "driving"
+        #         self.target_control(0, self.speed)
 
     def non_traffic_right(self):
         if (self.range(2032, 20) and self.non_traffic_right_checker == 0) or (self.range(2146, 20) and self.non_traffic_right_checker == 1):
@@ -321,40 +341,61 @@ class Mission():
     def convert_delivery(self):
         theta = (self.ego.heading) * pi / 180
         size = 0
+        
+
         if(self.perception.signx != 0):
             self.signx = self.perception.signx * cos(theta) + self.perception.signy * -sin(theta) + self.ego.x
             self.signy = self.perception.signx * sin(theta) + self.perception.signy * cos(theta) + self.ego.y
         
-        if(self.perception.first_sign != 0):
-            for i in range(3):
+        #self.perception.delivery_lidar_lock.acquire()
+        for i in range(3):
+            if(self.perception.B_x[i] != 0):
                 self.B_x[i] = self.perception.B_x[i] * cos(theta) + self.perception.B_y[i] * -sin(theta) + self.ego.x
                 self.B_y[i] = self.perception.B_x[i] * sin(theta) + self.perception.B_y[i] * cos(theta) + self.ego.y
+        #self.perception.delivery_lidar_lock.release()
+        # print('mission : ' )
+        
+        # print(self.B_x[0], self.B_x[1], self.B_x[2] )
 
-    def voting(self): 
-        count = 0  
-        while(count < 100):
-            sort_result = ""
-            sort_result += str(self.perception.first_sign) + str(self.perception.second_sign) + str(self.perception.third_sign)
-            if (sort_result in self.vote.keys()):
-                self.vote[sort_result] += 1
-                count += 1
-        print(self.vote)
-        seq = max(self.vote, key=self.vote.get)
+    # def voting(self): 
+    #     print('voting')
+    #     count = 0  
+    #     while(count < 100):
+    #         sort_result = ""
+    #         sort_result += str(self.perception.first_sign) + str(self.perception.second_sign) + str(self.perception.third_sign)
+    #         if (sort_result in self.vote.keys()):
+    #             self.vote[sort_result] += 1
+    #             count += 1
+    #     print(self.vote)
+    #     seq = max(self.vote, key=self.vote.get)
 
-        for i in seq:
-            print(i)
-            if int(i) == self.perception.target:
-                self.selected = int(i)
-        print(self.selected)
+    #     for i in seq:
+    #         print(i)
+    #         if int(i) == self.target:
+    #             self.selected = int(i)
+    #     print(self.selected)
+    #     self.target_control(0, 7)
 
     def pickup(self):
         if self.pickup_checker == False:
             self.plan.behavior_decision = "pickup_mode"
+        vote_list = [0,0,0]
+        vote_checker = False
+
+        if self.perception.signx != 0 and vote_checker == False:
+            vote_checker = True
+            count = 0
+            while count != 45:
+                print("Vote list : ", vote_list)
+                vote_list[self.perception.target-1] += 1
+                count +=1
+            self.target = vote_list.index(max(vote_list))+1
+        print("target : ", self.target)
 
         sign_dis = 0.0
         sign_dis = sqrt((self.signx - self.ego.x)**2 + (self.signy - self.ego.y)**2)
         print("sign distance : ", sign_dis)
-        if 0 < sign_dis < 6 and self.pickup_checker == False:
+        if 0 < sign_dis < 4 and self.pickup_checker == False:
             self.pickup_checker = True
             self.plan.behavior_decision = "stop"
             self.target_control(200, 0)
@@ -366,39 +407,26 @@ class Mission():
             self.plan.behavior_decision = "pickup"
         
     def delivery(self):
-        # self.target_control(0, 5)
+        # self.target_control(0, 7)
         self.plan.behavior_decision = "delivery_mode"
-
-        # if (self.perception.first_sign != 0) and self.voting_checker == False:
-        #     self.voting()
-        #     self.voting_checker = True
-        if range(6140) and self.voting_checker == False:
-            self.voting()
-            self.voting_checker = True
-            self.plan.behavior_decision = "stop"
-            self.target_control(200, 0)
-            sleep(3)
-            self.target_control(0, 7)
-            self.plan.behavior_decision = "delivery"
-
         sign_dis = 0.0
-        sign_dis = sqrt((self.B_x[self.selected] - self.ego.x)**2 + (self.B_y[self.selected] - self.ego.y)**2)
-        print("first : ", self.perception.first_sign, "second : ", self.perception.second_sign, "third : ", self.perception.third_sign)
-        print("selected num : ", self.selected)
+        if(self.B_x[self.target - 1]!=0):
+            sign_dis = sqrt((self.B_x[self.target - 1] - self.ego.x)**2 + (self.B_y[self.target - 1] - self.ego.y)**2)
+        print("selected num : ", self.target)
         print("B_x : ", self.B_x)
         print("sign distance : ", sign_dis)
 
-
-        if (0 < sign_dis < 6 and self.delivery_checker == False and self.voting_checker == True):
+        if (0 < sign_dis < 3.5 and self.delivery_checker == False):
             self.delivery_checker = True
             self.plan.behavior_decision = "stop"
+            print("stop - sign distance : ", sign_dis)
             self.target_control(200, 0)
             sleep(5) 
             self.target_control(0, self.speed)
             self.plan.behavior_decision = "delivery_end"
-        # elif 0 < sign_dis < 10 and self.delivery_checker == False:
-        #     self.target_control(0, 7)
-        #     self.plan.behavior_decision = "delivery"
+        elif 0 < sign_dis < 10 and self.delivery_checker == False:
+            self.target_control(0, 7)
+            self.plan.behavior_decision = "delivery"
 
     # def pickup(self):
     #     self.plan.behavior_decision = "delivery_mode"

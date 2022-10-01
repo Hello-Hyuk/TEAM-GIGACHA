@@ -42,7 +42,7 @@ class MotionPlanner(threading.Thread):
                     self.motion.select_trajectory()
 
                 elif self.shared.plan.behavior_decision == "emergency_avoidance":
-                    self.motion.weight_function_obstacle_avoidance()
+                    self.motion.weight_function_AEB()
                     self.motion.select_trajectory()
 
                 ################# parking ######################

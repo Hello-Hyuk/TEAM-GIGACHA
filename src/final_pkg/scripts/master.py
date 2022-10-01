@@ -1,7 +1,7 @@
 import threading
 import rospy
 import argparse
-from local_pkg.msg import Guii
+# from local_pkg.msg import Guii
 from shared.shared import Shared
 from localizer.localizer import Localizer
 from planner.mission_planner import MissionPlanner
@@ -22,7 +22,7 @@ class Master(threading.Thread):
         rospy.init_node('master', anonymous=False)
         # # self.pub = rospy.Publisher("/from_master", Guii, queue_size = 1)
 
-        self.status = Guii()
+        # self.status = Guii()
         self.dead_index = 0
 
     def run(self):
@@ -47,7 +47,7 @@ class Master(threading.Thread):
         self.init_thread(self.visualizer)
 
         while True:
-            # print("---------------------")
+            print("---------------------")
             # # print('Localization')
 
             # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
@@ -60,8 +60,8 @@ class Master(threading.Thread):
 
             # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
             # print('Controller')
-            # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
-            # print('Speed : {},'.format(self.shared.ego.speed))
+            print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
+            print('Current Speed : {},'.format(self.shared.ego.speed))
 
             self.checker_all()
             # print("running master")
@@ -109,7 +109,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='kcity_simul/final_map',
+        default='Siheung/sibaedal',
         help='kcity_simul/final_map, Siheung/delivery2, Siheung/sibaedal'
     )
 
