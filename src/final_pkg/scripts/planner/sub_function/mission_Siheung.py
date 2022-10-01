@@ -15,6 +15,7 @@ class Mission():
         
         self.obstacle_checker = False
         self.encoder_checker = False
+        self.sign_checker = False
 
         self.parking_create = False
         self.parking_backward_start = False
@@ -26,6 +27,7 @@ class Mission():
 
         self.selected = 0
         self.vote = {"345":0, "354":0, "435":0, "453":0, "534":0, "543":0}
+        self.init_dis = 0.0
 
         self.signx = 0
         self.signy = 0
@@ -390,43 +392,31 @@ class Mission():
                 self.vote_list[self.perception.target-1] += 1
                 count +=1
             self.target = self.vote_list.index(max(self.vote_list)) + 1
-        print("target : ", self.target)
+        # print("target : ", self.target)
 
         sign_dis = 0.0
-        # plan A
-        sign_dis = self.signx - self.ego.x
-        sign_dis = sqrt((self.signx - self.ego.x)**2 + (self.signy - self.ego.y)**2)
-        print("sign distance : ", sign_dis)
-        if 0 < sign_dis < 1 and self.pickup_checker == False:
-            self.pickup_checker = True
-            self.plan.behavior_decision = "stop"
-            self.target_control(200, 0)
-            sleep(5)
-            self.target_control(0, self.speed)
-            self.plan.behavior_decision = "pickup_end"
+        sign_dis = self.perception.signx
+        
+        if 0 < sign_dis < 8 and self.pickup_checker == False:
+            if not self.encoder_checker:
+                print('#######sign distance : ', sign_dis)
+                self.encoder_checker = True
+                self.init_dis = self.ego.dis
+                self.sign_checker = True    
         elif 0 < sign_dis < 10 and self.pickup_checker == False:
             self.target_control(0, 7)
             self.plan.behavior_decision = "pickup"
-        # plan B
-        # sign_dis = self.perception.signx
-        # init_dis = 0.0
-        # print("sign distance : ", sign_dis)
-        # if 0 < sign_dis < 8 and self.pickup_checker == False:
-        #     if not self.encoder_checker:
-        #         self.encoder_checker = True
-        #         init_dis = self.ego.dis
-            
-        #     if self.ego.dis - init_dis > 7:
-        #         self.pickup_checker = True
-        #         self.plan.behavior_decision = "stop"
-        #         self.target_control(200, 0)
-        #         sleep(5)
-        #         self.target_control(0, self.speed)            
-        #         self.plan.behavior_decision = "pickup_end"
+
+        if self.sign_checker and self.pickup_checker == False:
+            print("encoder checking : ", self.ego.dis - self.init_dis)
+            if self.ego.dis - self.init_dis > 7:
+                self.pickup_checker = True
+                self.plan.behavior_decision = "stop"
+                self.target_control(200, 0)
+                sleep(5)
+                self.target_control(0, self.speed)            
+                self.plan.behavior_decision = "pickup_end"
                 
-        elif 0 < sign_dis < 10 and self.pickup_checker == False:
-            self.target_control(0, 7)
-            self.plan.behavior_decision = "pickup"
         
         
     def delivery(self):
