@@ -166,13 +166,10 @@ class Mission():
                 self.target_control(0, self.speed)
 
     def emergency_stop(self):
+        self.plan.behavior_decision = "emergency_avoidance"
         if self.shared.plan.obstac == True:
-            self.plan.behavior_decision = "stop"
             self.target_control(200, 0)
-            sleep(10)
-            self.target_control(0, 5)
-        else:
-            self.plan.behavior_decision = "emergency_avoidance"
+            sleep(3)
             self.target_control(0, 10)
 
     def convert_lidar(self):

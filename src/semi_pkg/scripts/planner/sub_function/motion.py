@@ -45,6 +45,8 @@ class Motion():
         if self.isObstacle[2] != 1000:
             self.shared.plan.obstac = True
             self.lane_weight = [1000, 1000, 0, 1000]
+        else:
+            self.shared.plan.obstac = False
 
             # if(self.isObstacle[2] < self.isObstacle[0]):
             #     print("+++++++++++++\nobstacle in lane 1\n++++++++++++")
