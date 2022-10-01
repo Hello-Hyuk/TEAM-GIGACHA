@@ -44,31 +44,24 @@ import json
 # 
 
 stop_index_list = [1603, 2167, 3185]
-with open('/home/gigacha/TEAM-GIGACHA/src/local_pkg/osm_GIGACHA/json_files/semi_final/semi_map.json') as json_file:
+with open('siSemi.json') as json_file:
     json_data = json.load(json_file)
 
     list_1 = list(json_data.values())
 
-    for i in range(711, 1023):
-        list_1[i][2] = "parking"
-    
-    for i in range(1485, 1954):
-        list_1[i][2] = "turn_left_traffic_light"
+    for i in range(0, 230):
+        list_1[i][3] = 17
 
-    for i in range(1954, 2506):
-        list_1[i][2] = "static_obstacle"
-
-    for i in range(2506, 3186):
-        list_1[i][2] = "AEB"
-
+    for i in range(2437, 3464):
+        list_1[i][3] = 17
     
     dict_1 = dict()
 
-    for n, (x, y , mission) in enumerate(list_1):
-        dict_1[n] = [float(x), float(y), mission]
+    for n, (x, y , mission, speed) in enumerate(list_1):
+        dict_1[n] = [float(x), float(y), mission, speed]
 
     j = json.dumps(dict_1, indent = 4)
-    f = open('semi_map.json', 'w')
+    f = open('siSemi.json', 'w')
     print(j, file = f)
     f.close()
     

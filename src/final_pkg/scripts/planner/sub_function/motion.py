@@ -78,9 +78,9 @@ class Motion():
             local_current_point = det_t.dot(world_current_point)
 
             #Siheung delivery test
-            lane_off_set = [3.5, 0, -2 ,-3.5, -1]
+            lane_off_set = [3.5, 0, -3.5 , -4.5, -1]
             #KCity delivery test
-            lane_off_set = [3.5, 0, -3.5, -5.25, -1.75] # need to be determined
+            # lane_off_set = [3.5, 0, -3.5, -5.25, -1.75] # need to be determined
 
             local_lattice_points = []
             for i in range(len(lane_off_set)):

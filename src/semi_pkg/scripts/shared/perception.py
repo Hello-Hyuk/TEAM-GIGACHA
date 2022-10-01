@@ -7,7 +7,7 @@ from vision_msgs.msg import Detection2DArray
 class Perception_():
    def __init__(self):
       rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
-      rospy.Subscriber("/traffic", Detection2DArray, self.traffic_callback)
+      rospy.Subscriber("/traffic_bbox", Detection2DArray, self.traffic_callback)
       rospy.Subscriber("/Parking_num", Int32, self.parking_callback)
 
       self.signx = 0
@@ -54,27 +54,27 @@ class Perception_():
 
    def traffic_callback(self, msg):
       if len(msg.detections) > 0:
-         if msg.detections[0].results[0].id == 0 or msg.detections[0].results[0].id == 1:
+         if msg.detections[0].results[0].id == 0:
             self.tred = True
             self.tyellow = False
             self.tleft = False
             self.tgreen = False
-         elif msg.detections[0].results[0].id == 2 or msg.detections[0].results[0].id == 3:
+         elif msg.detections[0].results[0].id == 1:
             self.tred = False
             self.tyellow = True
             self.tleft = False
             self.tgreen = False
-         elif msg.detections[0].results[0].id == 4 or msg.detections[0].results[0].id == 5:
+         elif msg.detections[0].results[0].id == 2:
             self.tred = False
             self.tyellow = False
             self.tleft = False
             self.tgreen = True
-         elif msg.detections[0].results[0].id == 6:
+         elif msg.detections[0].results[0].id == 3:
             self.tred = True
             self.tyellow = False
             self.tleft = True
             self.tgreen = False
-         elif msg.detections[0].results[0].id == 7:
+         elif msg.detections[0].results[0].id == 4:
             self.tred = False
             self.tyellow = False
             self.tleft = True

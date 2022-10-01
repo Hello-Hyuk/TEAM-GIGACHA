@@ -34,7 +34,7 @@ class Localization():
         self.dr_init = False
         self.last_pulse = 0
 
-        self.dead_heading = 0
+        self.dead_heading = 0.0
 
     def masterCallback(self, msg):
         self.master_switch = True

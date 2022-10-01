@@ -42,20 +42,23 @@ class Motion():
                             self.isObstacle[i] = 1000
                 self.shared.perception.lidar_lock.release()
 
-        if (self.shared.selected_lane == 2 and self.isObstacle[2] != 1000):
-            if(self.isObstacle[2] < self.isObstacle[0]): 
-                print("+++++++++++++\nobstacle in lane 1\n++++++++++++")
-                self.lane_weight = [0, 1000, 1000, 1000]
-        elif (self.shared.selected_lane == 0 and self.isObstacle[0] != 1000):
-            if(self.isObstacle[0] > self.isObstacle[2]):
-                print("+++++++++++++\nobstacle in lane 2\n++++++++++++")
-                self.lane_weight = [1000, 1000, 0, 1000]
-        elif (self.shared.selected_lane == 0 and self.isObstacle[0] == 1000):
-            if(self.isObstacle[2] != 1000):
-                print("+++++++++++++\nobstacle in lane 2\n++++++++++++")
-                self.lane_weight = [0, 1000, 1000, 1000]
-            else:
-                self.lane_weight = [1000, 1000, 0, 1000]
+        if self.isObstacle[2] != 1000:
+            self.shared.plan.obstac = True
+            self.lane_weight = [1000, 1000, 0, 1000]
+
+            # if(self.isObstacle[2] < self.isObstacle[0]):
+            #     print("+++++++++++++\nobstacle in lane 1\n++++++++++++")
+            #     self.lane_weight = [0, 1000, 1000, 1000]
+        # elif (self.shared.selected_lane == 0 and self.isObstacle[0] != 1000):
+        #     if(self.isObstacle[0] > self.isObstacle[2]):
+        #         print("+++++++++++++\nobstacle in lane 2\n++++++++++++")
+        #         self.lane_weight = [1000, 1000, 0, 1000]
+        # elif (self.shared.selected_lane == 0 and self.isObstacle[0] == 1000):
+        #     if(self.isObstacle[2] != 1000):
+        #         print("+++++++++++++\nobstacle in lane 2\n++++++++++++")
+        #         self.lane_weight = [0, 1000, 1000, 1000]
+        #     else:
+        #         self.lane_weight = [1000, 1000, 0, 1000]
         
 
 

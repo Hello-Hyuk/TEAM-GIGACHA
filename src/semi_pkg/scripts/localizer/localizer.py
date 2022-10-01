@@ -41,7 +41,7 @@ class Localizer(threading.Thread):
     def read_global_path(self):
         with open(f"maps/{self.mapname}.json", 'r') as json_file:
             json_data = json.load(json_file)
-            for n, (x, y , mission, map_speed) in enumerate(json_data.values()):
+            for n, (x, y, mission, map_speed) in enumerate(json_data.values()):
                 self.global_path.x.append(x)
                 self.global_path.y.append(y)
                 self.global_path.mission.append(mission)

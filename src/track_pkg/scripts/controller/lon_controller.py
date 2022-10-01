@@ -14,6 +14,6 @@ class LonController():
             if self.ego.input_steer > 7:
                 self.speed = 5
             else:
-                self.speed = 5
+                self.speed = 7
 
         return self.speed

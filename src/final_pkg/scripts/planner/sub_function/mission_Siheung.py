@@ -11,6 +11,7 @@ class Mission():
         self.parking = self.shared.park
 
         self.time_checker = False
+        self.vote_checker = False
         
         self.obstacle_checker = False
 
@@ -29,6 +30,7 @@ class Mission():
         self.signy = 0
         self.B_x = [0,0,0]
         self.B_y = [0,0,0]
+        self.vote_list = [0,0,0]
         self.target = 0
         self.pickup_checker = False
         self.delivery_checker = False
@@ -51,7 +53,7 @@ class Mission():
 
     def go(self):
         self.plan.behavior_decision = "driving"
-        self.target_control(0, 17)
+        self.target_control(0, 10)
         # if self.range(600):
         #     self.target_control(200, 0)
         # else:
@@ -342,7 +344,6 @@ class Mission():
         theta = (self.ego.heading) * pi / 180
         size = 0
         
-
         if(self.perception.signx != 0):
             self.signx = self.perception.signx * cos(theta) + self.perception.signy * -sin(theta) + self.ego.x
             self.signy = self.perception.signx * sin(theta) + self.perception.signy * cos(theta) + self.ego.y
@@ -379,23 +380,21 @@ class Mission():
     def pickup(self):
         if self.pickup_checker == False:
             self.plan.behavior_decision = "pickup_mode"
-        vote_list = [0,0,0]
-        vote_checker = False
 
-        if self.perception.signx != 0 and vote_checker == False:
-            vote_checker = True
+        if self.perception.signx != 0 and self.vote_checker == False:
+            self.vote_checker = True
             count = 0
             while count != 45:
-                print("Vote list : ", vote_list)
-                vote_list[self.perception.target-1] += 1
+                print("Vote list : ", self.vote_list)
+                self.vote_list[self.perception.target-1] += 1
                 count +=1
-            self.target = vote_list.index(max(vote_list))+1
+            self.target = self.vote_list.index(max(self.vote_list)) + 1
         print("target : ", self.target)
 
         sign_dis = 0.0
         sign_dis = sqrt((self.signx - self.ego.x)**2 + (self.signy - self.ego.y)**2)
         print("sign distance : ", sign_dis)
-        if 0 < sign_dis < 4 and self.pickup_checker == False:
+        if 0 < sign_dis < 2.5 and self.pickup_checker == False:
             self.pickup_checker = True
             self.plan.behavior_decision = "stop"
             self.target_control(200, 0)
@@ -416,9 +415,9 @@ class Mission():
         print("B_x : ", self.B_x)
         print("sign distance : ", sign_dis)
 
-        if (0 < sign_dis < 3.5 and self.delivery_checker == False):
+        if (0 < sign_dis < 2.5 and self.delivery_checker == False):
             self.delivery_checker = True
-            self.plan.behavior_decision = "stop"
+            # self.plan.behavior_decision = "stop"
             print("stop - sign distance : ", sign_dis)
             self.target_control(200, 0)
             sleep(5) 

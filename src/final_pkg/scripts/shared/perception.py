@@ -18,7 +18,6 @@ class Perception_():
       rospy.Subscriber("/pcd", PoseArray, self.delivery_callback)
       rospy.Subscriber("/sign_bbox", Detection2DArray, self.delivery_sign_callback)
 
-
       self.objx = []
       self.objy = []
       self.objw = []

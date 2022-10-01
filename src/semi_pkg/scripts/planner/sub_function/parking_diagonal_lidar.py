@@ -187,7 +187,7 @@ class PL():
         self.pub_num.publish(parking_number) 
         # print('===================================================parking number published', parking_number) 
     
-        print("Input :", cnt) 
+        # print("Input :", cnt) 
         # test.channels.append(get_in) 
         test.header.frame_id = 'map' 
         test.header.stamp = rospy.Time.now() 

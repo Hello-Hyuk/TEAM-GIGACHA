@@ -28,6 +28,8 @@ class Mission():
         self.first_stop = False
         self.second_stop = False
 
+        self.turn_left_check = False
+
         self.speed = 10
 
     def range(self, a, b = 50):
@@ -43,8 +45,13 @@ class Mission():
         self.ego.target_speed = self.speed
         self.plan.behavior_decision = "driving"
 
-        if range(900, 100):
+        if self.range(1829, 100) and self.turn_left_check == False:
+            self.plan.behavior_decision = "stop"
             self.target_control(200, 0)
+            sleep(3)
+            self.plan.behavior_decision = "driving"
+            self.turn_left_check = True
+            self.target_control(0, self.speed)
 
     def Parking_stop_function(self, index1, index2):
         self.plan.behavior_decision = "driving"
@@ -147,11 +154,11 @@ class Mission():
             self.target_control(0, 7)
 
     def turn_left(self):
-        if self.perception.tleft == 1 or self.perception.tgreen == 1:
+        if self.perception.tleft == 1:
             self.plan.behavior_decision = "driving"
             self.target_control(0, self.speed)
         else:
-            if self.range(1610):
+            if self.range(229, 100):
                 self.plan.behavior_decision = "stop"
                 self.target_control(200, 0)
             else:
@@ -159,18 +166,14 @@ class Mission():
                 self.target_control(0, self.speed)
 
     def emergency_stop(self):
-        self.ego.target_speed = 10
-        self.plan.behavior_decision = "emergency_avoidance"
-        if (self.shared.selected_lane == 0) and self.emergency_check == False:
+        if self.shared.plan.obstac == True:
             self.plan.behavior_decision = "stop"
-            self.target_control(75, 0)
+            self.target_control(200, 0)
             sleep(10)
             self.target_control(0, 5)
-            self.emergency_check = True
-
-        elif (self.shared.selected_lane == 2) and self.emergency_check == True:
-            self.plan.behavior_decision = "driving"
-            #self.emergency_check = False
+        else:
+            self.plan.behavior_decision = "emergency_avoidance"
+            self.target_control(0, 10)
 
     def convert_lidar(self):
         theta = (self.ego.heading) * pi / 180

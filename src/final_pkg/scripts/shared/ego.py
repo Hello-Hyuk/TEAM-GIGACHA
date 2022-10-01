@@ -15,6 +15,7 @@ class Ego():
         # Odometry
         self.dr_x = 0
         self.dr_y = 0
+        self.dis = 0.0
 
         # Serial to Ego (reader)
         self.auto_manual = 0
