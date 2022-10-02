@@ -384,7 +384,6 @@ class Mission():
         print("B_x : ", self.B_x)
         print("sign distance : ", sign_dis)
 
-        
         if (0 < sign_dis < 6 and self.delivery_checker == False and self.voting_checker == True):
             self.delivery_checker = True
             self.plan.behavior_decision = "stop"

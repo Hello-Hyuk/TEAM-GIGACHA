@@ -47,8 +47,10 @@ class Mission():
 
         self.speed = 10
 
+        self.save = 0
+
     def range(self, a):
-        return (a-100) <= self.ego.index <= a
+        return (a-85) <= self.ego.index <= a
 
     def target_control(self, brake, speed):
         self.ego.target_brake = brake
@@ -56,7 +58,7 @@ class Mission():
 
     def go(self):
         self.plan.behavior_decision = "driving"
-        self.target_control(0, 10)
+        # self.target_control(0, 10)
         # if self.range(600):
         #     self.target_control(200, 0)
         # else:
@@ -297,7 +299,7 @@ class Mission():
         else:
             if self.range(1240):
                 self.plan.behavior_decision = "stop"
-                self.target_control(200, 0)
+                self.target_control(75, 0)
             else:
                 self.plan.behavior_decision = "driving"
                 self.target_control(0, 12)
@@ -382,16 +384,18 @@ class Mission():
                 print('#######sign distance : ', sign_dis)
                 self.encoder_checker = True
                 self.init_dis = self.ego.dis
+                self.save = self.perception.signx
                 self.sign_checker = True
         elif 0 < sign_dis < 10 and self.pickup_checker == False:
-            self.target_control(0, 7)
+            self.target_control(0, 5)
             self.plan.behavior_decision = "pickup"
 
         if self.sign_checker and self.pickup_checker == False:
             print("encoder checking : ", self.ego.dis - self.init_dis)
             if self.ego.dis - self.init_dis > 7:
+            # if self.ego.dis - self.init_dis > self.save - 1:
                 self.pickup_checker = True
-                self.plan.behavior_decision = "stop"
+                # self.plan.behavior_decision = "stop"
                 self.target_control(200, 0)
                 sleep(6)
                 self.target_control(0, self.speed)
@@ -404,10 +408,8 @@ class Mission():
         # self.target_control(0, 7)
         self.plan.behavior_decision = "delivery_mode"
         sign_dis = 0.0
-        # self.target = 2
         if(self.perception.B_x[self.target - 1]!=0):
             sign_dis = self.perception.B_x[self.target - 1]
-            # print("first step")
         # print('#######sign distance : ', sign_dis)
         # print(self.perception.B_x)
 
@@ -417,14 +419,14 @@ class Mission():
                 self.init_dis = self.ego.dis
                 self.sign_checker = True
         elif 0 < sign_dis < 10 and self.delivery_checker == False:
-            self.target_control(0, 7)
+            self.target_control(0, 5)
             self.plan.behavior_decision = "delivery"
 
         if self.sign_checker and self.delivery_checker == False:
             print("encoder checking : ", self.ego.dis - self.init_dis)
             if self.ego.dis - self.init_dis > 7:
                 self.delivery_checker = True
-                self.plan.behavior_decision = "stop"
+                # self.plan.behavior_decision = "stop"
                 self.target_control(200, 0)
                 sleep(6)
                 self.target_control(0, self.speed)
