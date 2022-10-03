@@ -27,7 +27,6 @@ class BehaviorPlanner(threading.Thread):
 
                 self.perception.delivery_lidar_lock.acquire()
                 if (self.perception.sign_num != 0):
-                    # print('behavior_convert2') 
                     self.mission.convert_delivery()
                 self.perception.delivery_lidar_lock.release()
 
