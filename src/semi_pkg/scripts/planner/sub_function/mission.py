@@ -28,7 +28,7 @@ class Mission():
         self.first_stop = False
         self.second_stop = False
 
-        self.speed = 15
+        self.speed = 10
 
     def range(self, a, b):
         return (a-b) <= self.ego.index <= a
@@ -191,7 +191,7 @@ class Mission():
                 print(len(self.perception.objx), " ", self.obs_dis)
 
             if self.obs_dis <= 15:
-                self.ego.target_speed = 5.0
+                self.target_control(0, 5)
                 self.obstacle_checker = True
                 self.time_checker = False
                 
@@ -200,9 +200,12 @@ class Mission():
                 self.cur_t = time()
                 self.time_checker = True
             if time() - self.cur_t < 5:
-                self.ego.target_speed = 5.0
+                self.target_control(0, 5)
             else:
-                self.ego.target_speed = self.speed
+                self.target_control(0, 7)
+            
+        else:
+            self.target_control(0, 7)
 
     def turn_left(self):
         if self.perception.tleft == 1 or self.perception.tgreen == 1:
@@ -217,17 +220,11 @@ class Mission():
                 self.target_control(0, self.speed)
 
     def emergency_stop(self):
-        self.ego.target_speed = 10
         self.plan.behavior_decision = "emergency_avoidance"
-        if (self.shared.selected_lane == 0) and self.emergency_check == False:
-            self.plan.behavior_decision = "stop"
-            self.target_control(75, 0)
-            sleep(5)
-            self.target_control(0, 5)
-            self.emergency_check = True
-
-        elif (self.shared.selected_lane == 1) and self.emergency_check == True:
-            self.emergency_check = False
+        if self.shared.plan.obstac == True:
+            self.target_control(200, 0)
+            sleep(3)
+            self.target_control(0, 10)
 
     def convert_lidar(self):
         theta = (self.ego.heading) * pi / 180
