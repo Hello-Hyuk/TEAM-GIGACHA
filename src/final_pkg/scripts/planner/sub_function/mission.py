@@ -196,6 +196,13 @@ class Mission():
                 self.plan.behavior_decision = "stop"
                 self.target_control(100, 0)
                 self.sign_count[0] = time()
+                # sample code start
+                if self.sign_count[1] == 0:
+                    self.sign_count[1] = time()
+                if time() - self.sign_count[1] > 2:
+                    self.perception.tleft = 1
+                    self.sign_count[1] = 0
+                # sample code end
             else:
                 self.plan.behavior_decision = "driving"
                 self.target_control(0, self.speed)
