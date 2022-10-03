@@ -42,9 +42,6 @@ class BehaviorPlanner(threading.Thread):
                     self.mission.convert_lidar()
                     self.mission.static_obstacle()
 
-                elif self.plan.state == "right_sign_detected":
-                    self.mission.turn_right()
-
                 elif self.plan.state == "left_sign_detected":
                     self.mission.turn_left()
 

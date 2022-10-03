@@ -24,9 +24,6 @@ class MissionPlanner(threading.Thread):
                 elif self.shared.perception.signname == "pickup":
                     self.plan.state = "pickup"
 
-                elif self.shared.perception.signname == "turn_right_traffic_light":
-                    self.plan.state = "right_sign_detected"
-                
                 elif self.shared.perception.signname == "turn_left_traffic_light":
                     self.plan.state = "left_sign_detected"
 
