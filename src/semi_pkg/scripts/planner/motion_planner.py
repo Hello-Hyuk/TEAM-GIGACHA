@@ -22,9 +22,6 @@ class MotionPlanner(threading.Thread):
         self.cut_path = self.shared.cut_path
         self.lattice_path = self.shared.lattice_path  # from LPP []
 
-        self.lane_weight = [10000, 0, 10000]
-        self.isObstacle = [1000, 1000, 1000]
-
         self.motion = Motion(self.shared, self.plan, self.ego)
         self.park_motion = Parking_Motion(self.shared, self.plan, self.ego)
 
@@ -39,6 +36,7 @@ class MotionPlanner(threading.Thread):
                     self.motion.select_trajectory()
 
                 elif self.shared.plan.behavior_decision == "driving":
+                    self.motion.lane_weight = [10000, 1000, 0, 10000]
                     self.motion.select_trajectory()
 
                 elif self.shared.plan.behavior_decision == "emergency_avoidance":

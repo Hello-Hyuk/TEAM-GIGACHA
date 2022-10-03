@@ -99,7 +99,7 @@ class PL():
                         Point32(x = parking_point_x_y[21][0], y = parking_point_x_y[21][1]),
                         Point32(x = parking_point_x_y[22][0], y = parking_point_x_y[22][1]),
                         Point32(x = parking_point_x_y[23][0], y = parking_point_x_y[23][1])]
-        
+
         self.pub_roi1.publish(p1)
         self.pub_roi2.publish(p2)
         self.pub_roi3.publish(p3)
@@ -136,19 +136,19 @@ class PL():
         
         # diagonal
         result_number = -1 
-        if 745 < self.ego.index < 795:
+        if 720 <= self.ego.index < 805:
             for i in range(0, 2): 
                 if parking_result[i] < 5:
                     result_number = i + 1 
                     break
 
-        elif 808 < self.ego.index < 855:
+        elif 808 <= self.ego.index <= 855:
             for i in range(2, 4): 
                 if parking_result[i] < 5: 
                     result_number = i + 1 
                     break
 
-        elif 866 < self.ego.index < 916:
+        elif 866 <= self.ego.index <= 916:
             for i in range(4, 6): 
                 if parking_result[i] < 5: 
                     result_number = i + 1 

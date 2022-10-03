@@ -48,7 +48,7 @@ class Mission():
         self.target_control(0, 5)
         if ((self.parking_create == False) and (index1 <= self.ego.index <= index2)):
             self.plan.behavior_decision = "stop"
-            self.target_control(200, 0)
+            self.target_control(100, 0)
             sleep(3)
             self.parking.select_num = self.perception.parking_num
             self.target_control(0, 5)
@@ -75,9 +75,9 @@ class Mission():
     def Parking_KCity_diagonal(self):
         print(self.parking.select_num)
         if (self.parking_create == False):
-            if (735 <= self.ego.index <= 805) and self.first_stop == False: # K-City
+            if (self.range(805, 85)) and self.first_stop == False: # K-City
                 self.plan.behavior_decision = "stop"
-                self.target_control(200, 0)
+                self.target_control(100, 0)
                 sleep(3)
                 self.parking.select_num = self.perception.parking_num
                 self.first_stop = True
@@ -94,7 +94,7 @@ class Mission():
                 self.plan.behavior_decision = "parkingForwardOn"
                 self.parking_forward_start = True
             if (15 <= int(self.parking.stop_index - self.parking.index) <= 45) and (self.parking.direction == 0):
-                    self.target_control(200, 0)
+                    self.target_control(100, 0)
                     sleep(3)
                     self.plan.behavior_decision = "parkingBackwardOn"
                     self.ego.target_gear = 2
@@ -110,10 +110,10 @@ class Mission():
 
     def Parking_KCity_diagonal_jeongseok(self):
         if (self.parking_create == False):
-            if (745 <= self.ego.index <= 795) and self.first_stop == False: # K-City
+            if (self.range(805, 85)) and self.first_stop == False: # K-City
                 print("first stop")
                 self.plan.behavior_decision = "stop"
-                self.target_control(200, 0)
+                self.target_control(100, 0)
                 sleep(3)
                 self.parking.select_num = self.perception.parking_num
                 self.first_stop = True
@@ -126,7 +126,7 @@ class Mission():
             elif (808 <= self.ego.index <= 855) and self.first_stop == True and self.second_stop == False:
                 print("second stop")
                 self.plan.behavior_decision = "stop"
-                self.target_control(200, 0)
+                self.target_control(100, 0)
                 sleep(3)
                 self.parking.select_num = self.perception.parking_num
                 self.second_stop = True
@@ -139,7 +139,7 @@ class Mission():
             elif (866 <= self.ego.index <= 916) and self.second_stop == True:
                 print("third stop")
                 self.plan.behavior_decision = "stop"
-                self.target_control(200, 0)
+                self.target_control(100, 0)
                 sleep(4)
                 self.parking.select_num = self.perception.parking_num
                 if (self.parking.select_num == 5) or (self.parking.select_num == 6):
@@ -158,7 +158,7 @@ class Mission():
                 self.plan.behavior_decision = "parkingForwardOn"
                 self.parking_forward_start = True
             if (15 <= int(self.parking.stop_index - self.parking.index) <= 45) and (self.parking.direction == 0):
-                    self.target_control(200, 0)
+                    self.target_control(100, 0)
                     sleep(10)
                     self.plan.behavior_decision = "parkingBackwardOn"
                     self.ego.target_gear = 2
@@ -176,10 +176,10 @@ class Mission():
         self.plan.behavior_decision = "static_obstacle_avoidance"
         index = len(self.perception.objx)
 
-        if (2137 < self.ego.index < 2157) and self.obstacle_stop == False:
-            self.target_control(75, 0)
+        if (self.range(2175, 50)) and self.obstacle_stop == False:
+            self.target_control(100, 0)
             sleep(3)
-            self.target_control(0, self.speed)
+            self.target_control(0, 10)
             self.obstacle_stop = True
         
         if (len(self.perception.objx) > 0):
@@ -190,7 +190,7 @@ class Mission():
                 self.obs_dis = min(self.obs_dis, self.dis)
                 print(len(self.perception.objx), " ", self.obs_dis)
 
-            if self.obs_dis <= 15:
+            if self.obs_dis <= 10:
                 self.target_control(0, 5)
                 self.obstacle_checker = True
                 self.time_checker = False
@@ -199,7 +199,7 @@ class Mission():
             if self.time_checker == False:
                 self.cur_t = time()
                 self.time_checker = True
-            if time() - self.cur_t < 5:
+            if time() - self.cur_t < 3:
                 self.target_control(0, 5)
             else:
                 self.target_control(0, 7)
@@ -214,12 +214,13 @@ class Mission():
         else:
             if self.range(1610, 85):
                 self.plan.behavior_decision = "stop"
-                self.target_control(200, 0)
+                self.target_control(100, 0)
             else:
                 self.plan.behavior_decision = "driving"
                 self.target_control(0, self.speed)
 
     def emergency_stop(self):
+        self.target_control(0, 10)
         self.plan.behavior_decision = "emergency_avoidance"
         if self.shared.plan.obstac == True:
             self.target_control(200, 0)
