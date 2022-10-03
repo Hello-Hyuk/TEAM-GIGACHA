@@ -128,7 +128,7 @@ class Motion():
             
             add_point_size = int(self.ego.speed * 4)
             
-            add_point_size = 80
+            add_point_size = 100
 
             if add_point_size > len(self.cut_path.x) - 2:
                 add_point_size = len(self.cut_path.x)
