@@ -280,12 +280,6 @@ class Mission():
                 self.target_control(0, self.speed)
 
     def turn_left(self):
-        # sample code start
-        c = ""
-        if c != "":
-            self.perception.tleft = 1
-        # sample code end
-
         if self.perception.tleft == 1 :
             self.plan.behavior_decision = "driving"
             self.target_control(0, self.speed)
@@ -297,7 +291,11 @@ class Mission():
                 self.target_control(100, 0)
                 self.sign_count[0] = time()
                 # sample code start
-                c = input("write code : ")
+                if self.sign_count[1] == 0:
+                    self.sign_count[1] = time()
+                if time() - self.sign_count[1] > 2:
+                    self.perception.tleft = 1
+                    self.sign_count[1] = 0
                 # sample code end
             else:
                 self.plan.behavior_decision = "driving"
