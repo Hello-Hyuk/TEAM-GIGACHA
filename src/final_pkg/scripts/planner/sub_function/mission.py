@@ -11,8 +11,11 @@ class Mission():
         self.parking = self.shared.park
 
         self.time_checker = False
-        
+        self.vote_checker = False
+
         self.obstacle_checker = False
+        self.encoder_checker = False
+        self.sign_checker = False
 
         self.parking_create = False
         self.parking_backward_start = False
@@ -24,12 +27,14 @@ class Mission():
 
         self.selected = 0
         self.vote = {"345":0, "354":0, "435":0, "453":0, "534":0, "543":0}
+        self.init_dis = 0.0
 
         self.signx = 0
         self.signy = 0
         self.B_x = [0,0,0]
         self.B_y = [0,0,0]
-
+        self.vote_list = [0,0,0]
+        self.target = 0
         self.pickup_checker = False
         self.delivery_checker = False
         self.voting_checker = False
@@ -37,7 +42,12 @@ class Mission():
         self.non_traffic_right_checker = 0
         self.uturn_stop = False
 
+        self.speed_check = False
+        self.sp = 0
+
         self.speed = 10
+
+        self.save = 0
 
     def range(self, a, b = 50):
         return (a-b) <= self.ego.index <= a
@@ -229,10 +239,10 @@ class Mission():
                 self.target_control(0, self.speed)
 
     def static_obstacle(self):
+        self.plan.behavior_decision = "static_obstacle_avoidance"
         index = len(self.perception.objx)
-        
+
         if (len(self.perception.objx) > 0):
-            self.plan.behavior_decision = "static_obstacle_avoidance"
             self.obs_dis = 15.5
             for i in range(0, index):
                 self.dis = sqrt(
@@ -244,9 +254,8 @@ class Mission():
                 self.target_control(0,7)
                 self.obstacle_checker = True
                 self.time_checker = False
-            
+
         elif self.obstacle_checker == True:
-            self.plan.behavior_decision = "static_obstacle_avoidance"
             if self.time_checker == False:
                 self.cur_t = time()
                 self.time_checker = True
@@ -254,9 +263,6 @@ class Mission():
                 self.target_control(0,7)
             else:
                 self.target_control(0, self.speed)
-
-        else:
-            self.plan.behavior_decision = "driving"
 
     def turn_right(self):
         if self.perception.tgreen == 1:
@@ -317,12 +323,13 @@ class Mission():
     def convert_delivery(self):
         theta = (self.ego.heading) * pi / 180
         size = 0
+
         if(self.perception.signx != 0):
             self.signx = self.perception.signx * cos(theta) + self.perception.signy * -sin(theta) + self.ego.x
             self.signy = self.perception.signx * sin(theta) + self.perception.signy * cos(theta) + self.ego.y
-        
-        if(self.perception.first_sign != 0):
-            for i in range(3):
+
+        for i in range(3):
+            if(self.perception.B_x[i] != 0):
                 self.B_x[i] = self.perception.B_x[i] * cos(theta) + self.perception.B_y[i] * -sin(theta) + self.ego.x
                 self.B_y[i] = self.perception.B_x[i] * sin(theta) + self.perception.B_y[i] * cos(theta) + self.ego.y
 
