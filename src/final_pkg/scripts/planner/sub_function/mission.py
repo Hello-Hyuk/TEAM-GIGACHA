@@ -27,6 +27,7 @@ class Mission():
 
         self.sign_count = [0,0]
 
+
         self.selected = 0
         self.vote = {"345":0, "354":0, "435":0, "453":0, "534":0, "543":0}
         self.init_dis = 0.0
@@ -135,7 +136,7 @@ class Mission():
                     self.parking_switch = True
 
     def u_turn(self):
-        if self.perception.tleft == 1 or 35 <= abs(time() - self.sign_count[1]) <= 43 :
+        if self.perception.tleft == 1 or 35 <= abs(time() - self.sign_count[0]) <= 43 :
             # self.plan.behavior_decision = "driving"
             if (5175 < self.ego.index < 5335):
                 self.parking.on = "U_turn"
@@ -186,23 +187,17 @@ class Mission():
                 self.target_control(0, self.speed)
 
     def turn_left(self):
-        if self.perception.tleft == 1 :
+        if self.perception.tleft:
             self.plan.behavior_decision = "driving"
             self.target_control(0, self.speed)
-            if self.sign_count[0] != 0 and self.sign_count[1] == 0:
-                self.sign_count[1] = time()
+            if self.sign_count[0] == 0 and self.sign_count[1] != 0:
+                self.sign_count[0] = time()
+                self.sign_count[1] = 0
         else:
             if self.range(4609, 50):
                 self.plan.behavior_decision = "stop"
                 self.target_control(100, 0)
-                self.sign_count[0] = time()
-                # sample code start
-                if self.sign_count[1] == 0:
-                    self.sign_count[1] = time()
-                if time() - self.sign_count[1] > 2:
-                    self.perception.tleft = 1
-                    self.sign_count[1] = 0
-                # sample code end
+                self.sign_count[1] = 1
             else:
                 self.plan.behavior_decision = "driving"
                 self.target_control(0, self.speed)

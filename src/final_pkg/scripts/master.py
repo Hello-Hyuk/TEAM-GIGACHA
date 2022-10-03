@@ -61,7 +61,7 @@ class Master(threading.Thread):
             # # # print('Controller')
             print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
             print('Current Speed : {},'.format(self.shared.ego.speed))
-            # print(self.shared.ego.dis)
+            print(self.shared.ego.dis)
 
             self.checker_all()
             # print("running master")

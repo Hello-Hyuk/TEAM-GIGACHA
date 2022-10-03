@@ -44,6 +44,7 @@ class MotionPlanner(threading.Thread):
                     pass
 
                 elif self.shared.plan.behavior_decision == "driving":
+                    self.motion.lane_weight = [10000, 0, 10000]
                     self.motion.select_trajectory()
 
                 # parking
