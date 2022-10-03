@@ -8,7 +8,7 @@ class Ego():
         self.heading = 0.0
         self.roll = 0.0
         self.pitch = 0.0
-        self.index = 2000
+        self.index = 0
         self.orientation = Quaternion()
         self.map_speed = []
         

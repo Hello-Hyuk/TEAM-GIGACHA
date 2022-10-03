@@ -30,8 +30,8 @@ class Mission():
 
         self.speed = 15
 
-    def range(self, a):
-        return (a-50) <= self.ego.index <= a
+    def range(self, a, b):
+        return (a-b) <= self.ego.index <= a
 
     def target_control(self, brake, speed):
         self.ego.target_brake = brake
@@ -109,7 +109,6 @@ class Mission():
                     self.parking_switch = True
 
     def Parking_KCity_diagonal_jeongseok(self):
-        # print(self.parking.select_num)
         if (self.parking_create == False):
             if (745 <= self.ego.index <= 795) and self.first_stop == False: # K-City
                 print("first stop")
@@ -152,7 +151,7 @@ class Mission():
                     self.target_control(0, 15)
                     self.parking_create = True 
                     self.parking_switch = True
-
+        
         if (self.parking_create and self.parking_switch == False):
             if (self.parking_forward_start == False and len(self.parking.forward_path.x) > 0):
                 self.parking.on = "on"
@@ -210,7 +209,7 @@ class Mission():
             self.plan.behavior_decision = "driving"
             self.target_control(0, self.speed)
         else:
-            if self.range(1610):
+            if self.range(1610, 85):
                 self.plan.behavior_decision = "stop"
                 self.target_control(200, 0)
             else:

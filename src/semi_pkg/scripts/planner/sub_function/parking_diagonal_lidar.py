@@ -134,9 +134,8 @@ class PL():
         # print("parking 5 :", parking_result[4]) 
         # print("parking 6 :", parking_result[5]) 
         
-        result_number = -1
-
         # diagonal
+        result_number = -1 
         if 745 < self.ego.index < 795:
             for i in range(0, 2): 
                 if parking_result[i] < 5:
