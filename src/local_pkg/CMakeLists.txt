@@ -54,7 +54,6 @@ add_message_files(
    Local.msg
    Serial_Info.msg
    Control_Info.msg
-   Guii.msg
 )
 
 ## Generate services in the 'srv' folder

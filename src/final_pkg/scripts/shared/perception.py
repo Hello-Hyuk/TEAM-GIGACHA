@@ -169,8 +169,10 @@ class Perception_():
             self.tgreen = True
 
    def parking_callback(self, msg):
-      self.parking_num = msg.data
+      ### HANAMJA JUCHA ###
       # self.parking_num = 3
+      #####################
+      self.parking_num = msg.data
 
 
    # def sign_callback(self, msg):

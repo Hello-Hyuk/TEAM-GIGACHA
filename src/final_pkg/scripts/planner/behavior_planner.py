@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import threading
 from time import sleep
-from .sub_function.mission_Siheung import Mission
+from .sub_function.mission import Mission
 from .sub_function.parking_parallel_lidar import PL
 
 class BehaviorPlanner(threading.Thread):
@@ -23,8 +23,6 @@ class BehaviorPlanner(threading.Thread):
     def run(self):
         while True:
             try:
-                
-
                 self.perception.delivery_lidar_lock.acquire()
                 if (self.perception.sign_num != 0):
                     # print('behavior_convert2') 

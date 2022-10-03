@@ -15,7 +15,7 @@ class MissionPlanner(threading.Thread):
     def run(self):
         while True:
             try:
-                if self.shared.perception.signname == "static_obstacle_detected":
+                if self.shared.perception.signname == "static_obstacle":
                     self.plan.state = "static_obstacle_detected"
 
                 elif self.shared.perception.signname == "turn_left_traffic_light":

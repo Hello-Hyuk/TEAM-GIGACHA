@@ -51,9 +51,9 @@ class Mission():
             self.plan.behavior_decision = "driving"
             self.target_control(0, self.speed)
         else:
-            if self.range(1614) or self.range(2172) or self.range(3533) or self.range(6692) or self.range(6708) or self.range(8026) or self.range(8497):
+            if self.range(1614, 85) or self.range(2172, 85) or self.range(3533, 85) or self.range(6692, 85) or self.range(6708, 85) or self.range(8026, 85) or self.range(8497, 85):
                 self.plan.behavior_decision = "stop"
-                self.target_control(200,0)
+                self.target_control(100,0)
             else:
                 self.plan.behavior_decision = "driving"
                 self.target_control(0, self.speed)
@@ -139,7 +139,7 @@ class Mission():
         if (self.parking_create == False):
             if (9515 <= self.ego.index <= 9565) and self.first_stop == False:
                 self.plan.behavior_decision = "stop"
-                self.target_control(200, 0)
+                self.target_control(100, 0)
                 sleep(3)
                 self.parking.select_num = self.perception.parking_num
                 self.first_stop = True
@@ -151,7 +151,7 @@ class Mission():
                     self.target_control(0, 10)
             elif self.first_stop == True and (9600 <= self.ego.index <= 9650):
                 self.plan.behavior_decision = "stop"
-                self.target_control(200, 0)
+                self.target_control(100, 0)
                 sleep(3)
                 self.parking.select_num = self.perception.parking_num
                 if (self.parking.select_num == 2) or (self.parking.select_num == 3):
@@ -221,9 +221,9 @@ class Mission():
                 self.plan.behavior_decision = "driving"
                 self.parking.on = "off"
         else:
-            if self.range(5375):
+            if self.range(5375, 50):
                 self.plan.behavior_decision = "stop"
-                self.target_control(200, 0)
+                self.target_control(100, 0)
             else:
                 self.plan.behavior_decision = "driving"
                 self.target_control(0, self.speed)
@@ -276,9 +276,9 @@ class Mission():
             self.plan.behavior_decision = "driving"
             self.target_control(0, self.speed)
         else:
-            if self.range(4609):
+            if self.range(4609, 50):
                 self.plan.behavior_decision = "stop"
-                self.target_control(200, 0)
+                self.target_control(100, 0)
             else:
                 self.plan.behavior_decision = "driving"
                 self.target_control(0, self.speed)

@@ -109,7 +109,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='Siheung/sibaedal',
+        default='kcity_simul/final_map',
         help='kcity_simul/final_map, Siheung/delivery2, Siheung/sibaedal'
     )
 
