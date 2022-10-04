@@ -21,6 +21,9 @@ class GPS():
         self.hAcc = 0
         self.heading_switch = False
 
+        self.cnt = False
+        self.prev_heading = 0
+
         self.time = 0.0
 
         with open('/home/gigacha/TEAM-GIGACHA/src/local_pkg/scripts/base.json') as base:
@@ -42,9 +45,21 @@ class GPS():
 
     def navpvt_call_back(self, data):
         self.time = time.time()
-        self.acc = data.hAcc
-        gps_heading = (450-(data.heading * 10**(-5))) % 360
+        self.hAcc = data.hAcc
         headAcc = data.headAcc
+
+        gps_heading = (450-(data.heading * 10**(-5))) % 360
+
+        if self.cnt == False and headAcc < 400000:
+            self.prev_heading = gps_heading
+            self.cnt = True
+
+        if self.cnt == True and headAcc < 400000:
+            # If 90 doesn't work well, 0please change 90 to 60, 30, 10.
+            if 90 <= abs(gps_heading - self.prev_heading) <= 230:
+                gps_heading = self.prev_heading
+
+            self.prev_heading = gps_heading
 
         if headAcc < 400000:
             self.heading_switch = True

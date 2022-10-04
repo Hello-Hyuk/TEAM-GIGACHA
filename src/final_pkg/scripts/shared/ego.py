@@ -38,6 +38,6 @@ class Ego():
         # Controller to Serial (writer)
         self.input_estop = 0x00
         self.input_gear = 0
-        self.input_speed = 5
+        self.input_speed = 10
         self.input_steer = 0
         self.input_brake = 0

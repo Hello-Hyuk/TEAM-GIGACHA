@@ -175,12 +175,6 @@ class Mission():
     def static_obstacle(self):
         self.plan.behavior_decision = "static_obstacle_avoidance"
         index = len(self.perception.objx)
-
-        if (self.range(2175, 50)) and self.obstacle_stop == False:
-            self.target_control(100, 0)
-            sleep(3)
-            self.target_control(0, 10)
-            self.obstacle_stop = True
         
         if (len(self.perception.objx) > 0):
             self.obs_dis = 15.5

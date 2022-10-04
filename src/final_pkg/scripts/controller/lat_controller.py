@@ -30,6 +30,8 @@ class LatController():
                     lookahead = min(self.k * self.ego.speed +
                                     self.lookahead_default, 6)
                     target_index = len(self.path.x) - 49
+
+                    print(target_index)
                     # target_index = len(self.path.x) - 45 # Siheung
 
                     # lookahead = min(self.k * self.ego.speed + self.lookahead_default, 7)

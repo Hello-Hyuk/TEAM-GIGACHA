@@ -1,7 +1,6 @@
 import threading
 import rospy
 import argparse
-from local_pkg.msg import Guii
 from shared.shared import Shared
 from localizer.localizer import Localizer
 from planner.mission_planner import MissionPlanner
@@ -20,9 +19,6 @@ class Master(threading.Thread):
         self.period = 1.0 / ui_rate
 
         rospy.init_node('master', anonymous=False)
-        self.pub = rospy.Publisher("/from_master", Guii, queue_size = 1)
-
-        self.status = Guii()
 
     def run(self):
         self.shared = Shared()
@@ -62,17 +58,6 @@ class Master(threading.Thread):
             self.checker_all()
             # print("running master")
 
-            self.status.mission = self.shared.plan.state
-            self.status.behavior = self.shared.plan.behavior_decision
-            self.status.index = self.shared.ego.index
-            self.status.local = self.thread_checker_(self.localizer)
-            self.status.mission_pln = self.thread_checker_(self.mission_planner)
-            self.status.behavior_pln = self.thread_checker_(self.behavior_planner)
-            self.status.motion_pln = self.thread_checker_(self.motion_planner)
-            self.status.con = self.thread_checker_(self.controller)
-
-            self.pub.publish(self.status)
-
             sleep(self.period)
 
     def init_thread(self, module):
@@ -91,11 +76,6 @@ class Master(threading.Thread):
         if not module.is_alive():
             print(type(module).__name__, "is dead..")
 
-    def thread_checker_(self, module):
-        if module.is_alive():
-            return int(1)
-        else:
-            return int(0)
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser(
