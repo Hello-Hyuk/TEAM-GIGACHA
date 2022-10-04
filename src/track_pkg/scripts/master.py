@@ -1,9 +1,8 @@
 import threading
 import rospy
 from shared.shared import Shared
-from localizer.localizer import Localizer
-from localizer.making_map import MP
 from planner.planner import Planner
+from localizer.localizer import Localizer
 from controller.controller import Controller
 from utils.sig_int_handler import ActivateSignalInterruptHandler
 from utils.env_visualizer import Visualizer
@@ -20,11 +19,8 @@ class Master(threading.Thread):
     def run(self):
         self.shared = Shared()
 
-        self.localizer = Localizer(self, rate=10)
+        self.localizer = Localizer(self, rate=50)
         self.init_thread(self.localizer)
-
-        self.mp = MP(self, rate = 1)
-        self.init_thread(self.mp)
 
         self.planner = Planner(self, rate=20)
         self.init_thread(self.planner)
@@ -38,13 +34,12 @@ class Master(threading.Thread):
         while True:
             # rospy.loginfo("==========================")
             #rospy.loginfo("target_x : ", self.shared.perception.objx, "target_y : ", self.shared.perception.objy)
-            rospy.loginfo("state : {}".format(self.shared.state))
-            # rospy.loginfo("steer : {}".format(self.shared.ego.input_steer))
+            # rospy.loginfo("state : {}".format(self.shared.state))
+            rospy.loginfo("steer : {}".format(round(self.shared.ego.input_steer, 1)))
+            rospy.loginfo("brake : {}".format(self.shared.ego.input_brake))
+            rospy.loginfo("input_speed : {}".format(self.shared.ego.input_speed))
+            rospy.loginfo("current_speed : {}".format(int(self.shared.ego.speed)))
             #rospy.loginfo("blue : {}".format(self.shared.ego.input_steer))
-
-
-
-
 
             sleep(self.period)
 
@@ -54,7 +49,6 @@ class Master(threading.Thread):
 
     def checker_all(self):
         self.thread_checker(self.localizer)
-        self.thread_checker(self.mp)
         self.thread_checker(self.planner)
         self.thread_checker(self.controller)
         self.thread_checker(self.visualizer)

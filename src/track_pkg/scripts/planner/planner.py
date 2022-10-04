@@ -37,15 +37,15 @@ class Planner(threading.Thread):
 
         # (2,2), (2,1), (1,2), (1,1) case
         if len(self.perception.left_obs) != 0 and len(self.perception.right_obs) != 0:
-            self.makeCOM(self.perception.left_obs, self.perception.right_obs)
+            if len(self.perception.left_obs) != len(self.perception.right_obs):
+                self.makeCOM(self.perception.left_obs, self.perception.right_obs)
+            else:              
+                self.makeCOM(self.perception.left_obs, self.perception.right_obs)
         # (2,0), (1,0), (0,1), (0,2)
         elif len(self.perception.left_obs) == 0 or len(self.perception.right_obs) == 0:
             self.makeFakeCOM(self.perception.left_obs, self.perception.right_obs)
         else:   # (0, 0) case
             pass
-
-
-
 
 
 
@@ -76,12 +76,12 @@ class Planner(threading.Thread):
         # right case
         if len(left_points) == 0:
             for rpoint in right_points:
-                fake_point_list.append([rpoint[0], rpoint[1]+3.5, rpoint[2], rpoint[3]])
+                fake_point_list.append([rpoint[0]-0.4, rpoint[1]+3.5, rpoint[2], rpoint[3]])
             self.makeCOM(fake_point_list, right_points)
         # left case
         elif len(right_points) == 0:
             for lpoint in left_points:
-                fake_point_list.append([lpoint[0], lpoint[1]-3.5, lpoint[2], lpoint[3]])
+                fake_point_list.append([lpoint[0]-0.4, lpoint[1]-3.5, lpoint[2], lpoint[3]])
             self.makeCOM(left_points, fake_point_list)
         else:
             rospy.loginfo("Failed to classificate in FakeCOM")

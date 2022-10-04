@@ -225,7 +225,7 @@ class MP(threading.Thread):
                     if hypot(self.ego.x - self.temp_x[0], self.ego.y - self.temp_y[0]) <= 10:
                         for i in range(10):
                             dis = hypot(self.ego.x - self.temp_x[i], self.ego.y - self.temp_y[i])
-                            if dis <= 1.2:
+                            if dis <= 3:
                                 self.temp_x = self.temp_x[i:]
                                 self.temp_y = self.temp_y[i:]
                                 self.stop_thread = True

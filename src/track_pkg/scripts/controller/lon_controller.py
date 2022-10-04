@@ -3,17 +3,25 @@ class LonController():
         self.ego = eg
         self.shared = sh
         self.speed = 0
+        self.brake = 0
 
-    def run(self): 
-        if self.shared.state == "2nd":
-            if self.ego.input_steer > 7:
-                self.speed = 6
+    def run(self):
+        if abs(self.ego.input_steer) > 15:
+            if self.ego.speed > 7:
+                self.brake = 20
+                self.speed = 0
             else:
-                self.speed = 10
-        else:
-            if self.ego.input_steer > 7:
-                self.speed = 5
-            else:
+                self.brake = 0
                 self.speed = 7
 
-        return self.speed
+        elif abs(self.ego.input_steer) > 10:
+            if self.ego.speed > 10:
+                self.brake = 25
+                self.speed = 0
+            else:
+                self.brake = 0
+                self.speed = 10
+        else:
+            self.speed = 13
+
+        return self.speed, self.brake
