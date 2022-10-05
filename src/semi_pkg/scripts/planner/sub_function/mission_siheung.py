@@ -45,9 +45,9 @@ class Mission():
         self.ego.target_speed = self.speed
         self.plan.behavior_decision = "driving"
 
-        if self.range(1829, 100) and self.turn_left_check == False:
+        if self.range(1829, 85) and self.turn_left_check == False:
             self.plan.behavior_decision = "stop"
-            self.target_control(200, 0)
+            self.target_control(100, 0)
             sleep(3)
             self.plan.behavior_decision = "driving"
             self.turn_left_check = True
@@ -158,9 +158,9 @@ class Mission():
             self.plan.behavior_decision = "driving"
             self.target_control(0, self.speed)
         else:
-            if self.range(229, 100):
+            if self.range(229, 85):
                 self.plan.behavior_decision = "stop"
-                self.target_control(200, 0)
+                self.target_control(100, 0)
             else:
                 self.plan.behavior_decision = "driving"
                 self.target_control(0, self.speed)

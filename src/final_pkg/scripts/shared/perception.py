@@ -12,11 +12,11 @@ class Perception_():
       # rospy.Subscriber("/input", Perception, self.input_callback)
       # rospy.Subscriber("/sign", Detection2DArray, self.sign_callback)
       rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
-      rospy.Subscriber("/traffic_bbox", Detection2DArray, self.traffic_callback)
+      # rospy.Subscriber("/traffic_bbox", Detection2DArray, self.traffic_callback)
       rospy.Subscriber("/Parking_num", Int32, self.parking_callback)
       # rospy.Subscriber("/target_points", PointCloud, self.delivery_callback)
-      rospy.Subscriber("/pcd", PoseArray, self.delivery_callback)
-      rospy.Subscriber("/sign_bbox", Detection2DArray, self.delivery_sign_callback)
+      # rospy.Subscriber("/pcd", PoseArray, self.delivery_callback)
+      rospy.Subscriber("/pcd", PoseArray, self.traffic1_callback)
 
       self.objx = []
       self.objy = []
@@ -139,34 +139,47 @@ class Perception_():
          self.tmp_objy = []
          self.tmp_objw = []
          self.tmp_objh = []
-
-   def traffic_callback(self, msg):
-      if len(msg.detections) > 0:
-         if msg.detections[0].results[0].id == 0:
+#######################################KCITY##########################
+   # def traffic_callback(self, msg):
+   #    if len(msg.detections) > 0:
+   #       if msg.detections[0].results[0].id == 0:
+   #          self.tred = True
+   #          self.tyellow = False
+   #          self.tleft = False
+   #          self.tgreen = False
+   #       elif msg.detections[0].results[0].id == 1:
+   #          self.tred = False
+   #          self.tyellow = True
+   #          self.tleft = False
+   #          self.tgreen = False
+   #       elif msg.detections[0].results[0].id == 2:
+   #          self.tred = False
+   #          self.tyellow = False
+   #          self.tleft = False
+   #          self.tgreen = True
+   #       elif msg.detections[0].results[0].id == 3:
+   #          self.tred = True
+   #          self.tyellow = False
+   #          self.tleft = True
+   #          self.tgreen = False
+   #       elif msg.detections[0].results[0].id == 4:
+   #          self.tred = False
+   #          self.tyellow = False
+   #          self.tleft = True
+   #          self.tgreen = True
+#########################SiHeung################################
+   def traffic1_callback(self, msg):
+      if len(msg.poses) != 0:
+         if int(msg.poses[0].orientation.w) == 0 or int(msg.poses[0].orientation.w) == 3:
             self.tred = True
             self.tyellow = False
             self.tleft = False
             self.tgreen = False
-         elif msg.detections[0].results[0].id == 1:
-            self.tred = False
-            self.tyellow = True
-            self.tleft = False
-            self.tgreen = False
-         elif msg.detections[0].results[0].id == 2:
-            self.tred = False
-            self.tyellow = False
-            self.tleft = False
-            self.tgreen = True
-         elif msg.detections[0].results[0].id == 3:
-            self.tred = True
-            self.tyellow = False
-            self.tleft = True
-            self.tgreen = False
-         elif msg.detections[0].results[0].id == 4:
+         elif int(msg.poses[0].orientation.w) == 1 or int(msg.poses[0].orientation.w) == 4:
             self.tred = False
             self.tyellow = False
             self.tleft = True
-            self.tgreen = True
+            self.tgreen = False
 
    def parking_callback(self, msg):
       ### HANAMJA JUCHA ###

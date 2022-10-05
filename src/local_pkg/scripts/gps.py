@@ -50,16 +50,16 @@ class GPS():
 
         gps_heading = (450-(data.heading * 10**(-5))) % 360
 
-        if self.cnt == False and headAcc < 400000:
-            self.prev_heading = gps_heading
-            self.cnt = True
+        # if self.cnt == False and headAcc < 400000:
+        #     self.prev_heading = gps_heading
+        #     self.cnt = True
 
-        if self.cnt == True and headAcc < 400000:
-            # If 90 doesn't work well, 0please change 90 to 60, 30, 10.
-            if 90 <= abs(gps_heading - self.prev_heading) <= 230:
-                gps_heading = self.prev_heading
+        # if self.cnt == True and headAcc < 400000:
+        #     # If 90 doesn't work well, 0please change 90 to 60, 30, 10.
+        #     if 90 <= abs(gps_heading - self.prev_heading) <= 230:
+        #         gps_heading = self.prev_heading
 
-            self.prev_heading = gps_heading
+        #     self.prev_heading = gps_heading
 
         if headAcc < 400000:
             self.heading_switch = True
