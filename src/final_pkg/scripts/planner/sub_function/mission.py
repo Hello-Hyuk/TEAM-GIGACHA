@@ -146,9 +146,9 @@ class Mission():
             if self.range(5375, 50):
                 self.uturn_checker = True
 
-            if (5175 < self.ego.index < 5335) and self.uturn_checker2 == False:
+            if (5175 < self.ego.index < 5325) and self.uturn_checker2 == False:
                 self.parking.on = "U_turn"
-            if self.range(5345) and self.uturn_stop == False:
+            if self.range(5375) and self.uturn_stop == False:
                 self.uturn_checker2 = True
                 self.plan.behavior_decision = "U_turn"
                 self.parking.on = "forced"
@@ -299,8 +299,9 @@ class Mission():
 
 
     def delivery(self):
-        # self.target_control(0, 7)
-        self.plan.behavior_decision = "delivery_mode"
+        if self.delivery_checker == False:
+            self.plan.behavior_decision = "delivery_mode"
+
         sign_dis = 0.0
         if(self.perception.B_x[self.target - 1]!=0):
             sign_dis = self.perception.B_x[self.target - 1]

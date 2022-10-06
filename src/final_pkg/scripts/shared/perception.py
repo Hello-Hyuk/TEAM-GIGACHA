@@ -13,9 +13,7 @@ class Perception_():
       rospy.Subscriber("/traffic_bbox", Detection2DArray, self.traffic_callback)
       rospy.Subscriber("/Parking_num", Int32, self.parking_callback)
       rospy.Subscriber("/pcd", PoseArray, self.delivery_callback)
-      ###uturn test###
-      # rospy.Subscriber("/pcd", PoseArray, self.traffic1_callback)
-      ######
+      
       self.objx = []
       self.objy = []
       self.objw = []
@@ -86,13 +84,6 @@ class Perception_():
          # self.second_sign = int(msg.poses[1].orientation.w)
          # self.third_sign = int(msg.poses[2].orientation.w)
 
-   def delivery_sign_callback(self, msg):
-      pass
-   #    if (len(msg.detections) == 3):
-   #       self.first_sign = msg.detections[0].results[0].id
-   #       self.second_sign = msg.detections[1].results[0].id
-   #       self.third_sign = msg.detections[2].results[0].id
-
    
    def lidar_callback(self, msg):
       if len(msg.markers) != 0:
@@ -118,7 +109,6 @@ class Perception_():
          self.tmp_objh = []
 
          
-#######################################KCITY##########################
    def traffic_callback(self, msg):
       if len(msg.detections) > 0:
          if msg.detections[0].results[0].id == 0:
@@ -147,57 +137,8 @@ class Perception_():
             self.tleft = True
             self.tgreen = True
 
-
-#########################SiHeung################################
-   # def traffic1_callback(self, msg):
-   #    if len(msg.poses) != 0:
-   #       if int(msg.poses[0].orientation.w) == 0 or int(msg.poses[0].orientation.w) == 3:
-   #          self.tred = True
-   #          self.tyellow = False
-   #          self.tleft = False
-   #          self.tgreen = False
-   #       elif int(msg.poses[0].orientation.w) == 1 or int(msg.poses[0].orientation.w) == 4:
-   #          self.tred = False
-   #          self.tyellow = False
-   #          self.tleft = True
-   #          self.tgreen = False
-
    def parking_callback(self, msg):
       ### HANAMJA JUCHA ###
       # self.parking_num = 3
       #####################
       self.parking_num = msg.data
-
-
-   # def sign_callback(self, msg):
-   #    for i in range(len(msg.detections)):
-   #       if len(msg.detections) == 3 and  2 < msg.detections[i].results[0].id < 6:
-   #          self.first_sign = msg.detections[0].results[0].id
-   #          self.second_sign = msg.detections[1].results[0].id
-   #          self.third_sign = msg.detections[2].results[0].id
-            # print(self.first_sign, " ", self.second_sign, " ", self.third_sign)
-         # if msg.detections[i].results[0].id == 0:
-         #    self.signname = "static_obstacle_detected"   #A1
-         #    # self.target = "B1"
-         # elif msg.detections[i].results[0].id == 1:
-         #    self.signname = "turn_left_traffic_light" #A2
-         #    # self.target = "B2"
-         # elif msg.detections[i].results[0].id == 2:
-         #    self.signname = "turn_right_traffic_light" #A3
-         #       # self.target = "B3"
-
-      # if msg.detections[i].results[0].id == 0:
-      #    self.signname = "static_obstacle_detected"   #A1
-      #    # self.target = "B1"
-      # elif msg.detections[i].results[0].id == 1:
-      #    self.signname = "turn_left_traffic_light" #A2
-      #    # self.target = "B2"
-      # elif msg.detections[i].results[0].id == 2:
-      #    self.signname = "turn_right_traffic_light" #A3
-            # self.target = "B3"
-      # elif msg.detections[i].results[0].id == 3:
-      #    self.signname = "AEB" #B1
-      # elif msg.detections[i].results[0].id == 4:
-      #    self.signname = "non_traffic_right" #B2
-      # elif msg.detections[i].results[0].id == 5:
-      #     self.signname = "parking"  #B3*
