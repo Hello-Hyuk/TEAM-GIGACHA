@@ -55,23 +55,6 @@ class Mission():
             self.parking_create = True
             self.plan.behavior_decision = "parking_trajectory_Create"
 
-    def Parking_Siheung_diagonal(self):
-        if (self.parking_create == False):
-            # if (20 <= self.ego.index <= 40) and self.first_stop == False: # Siheung
-            if (910 <= self.ego.index <= 930) and self.first_stop == False: # K-City
-                self.plan.behavior_decision = "stop"
-                self.target_control(75, 0)
-                sleep(3)
-                self.parking.select_num = self.perception.parking_num
-                self.first_stop = True
-            if self.first_stop == True and ((self.parking.select_num == 1) or (self.parking.select_num == 2) or (self.parking.select_num == 3)):
-                self.target_control(0, 5)
-                self.parking_create = True
-                self.plan.behavior_decision = "parking_trajectory_Create"
-            elif self.first_stop == True and self.parking.select_num == 4 or self.parking.select_num == 5 or self.parking.select_num == 6:
-                # self.Parking_stop_function(115, 135) # Siheung
-                self.Parking_stop_function(1025, 1045) # K-City
-
     def Parking_KCity_diagonal(self):
         print(self.parking.select_num)
         if (self.parking_create == False):
@@ -95,7 +78,7 @@ class Mission():
                 self.parking_forward_start = True
             if (15 <= int(self.parking.stop_index - self.parking.index) <= 45) and (self.parking.direction == 0):
                     self.target_control(100, 0)
-                    sleep(3)
+                    sleep(10)
                     self.plan.behavior_decision = "parkingBackwardOn"
                     self.ego.target_gear = 2
                     self.target_control(0, 5)
@@ -122,7 +105,7 @@ class Mission():
                     self.parking_create = True
                     self.plan.behavior_decision = "parking_trajectory_Create"
                 elif self.parking.select_num == -1 or self.parking.select_num == 3 or self.parking.select_num == 4 or self.parking.select_num == 5 or self.parking.select_num == 6:
-                    self.target_control(0, 7)
+                    self.target_control(0, 5)
             elif (808 <= self.ego.index <= 855) and self.first_stop == True and self.second_stop == False:
                 print("second stop")
                 self.plan.behavior_decision = "stop"
@@ -135,7 +118,7 @@ class Mission():
                     self.parking_create = True
                     self.plan.behavior_decision = "parking_trajectory_Create"
                 elif self.parking.select_num == -1 or self.parking.select_num == 5 or self.parking.select_num == 6:
-                    self.target_control(0, 7)
+                    self.target_control(0, 5)
             elif (866 <= self.ego.index <= 916) and self.second_stop == True:
                 print("third stop")
                 self.plan.behavior_decision = "stop"
@@ -149,7 +132,7 @@ class Mission():
                 elif self.parking.select_num == -1 :
                     self.plan.behavior_decision = "driving"
                     self.target_control(0, 15)
-                    self.parking_create = True 
+                    self.parking_create = True
                     self.parking_switch = True
         
         if (self.parking_create and self.parking_switch == False):
@@ -176,6 +159,12 @@ class Mission():
         self.plan.behavior_decision = "static_obstacle_avoidance"
         index = len(self.perception.objx)
         
+        if (self.range(2175,50)) and self.obstacle_stop == False:
+            self.target_control(100,0)
+            sleep(3)
+            self.target_control(0,10)
+            self.obstacle_stop = True
+
         if (len(self.perception.objx) > 0):
             self.obs_dis = 15.5
             for i in range(0, index):
@@ -217,7 +206,7 @@ class Mission():
         self.target_control(0, 10)
         self.plan.behavior_decision = "emergency_avoidance"
         if self.shared.plan.obstac == True:
-            self.target_control(200, 0)
+            self.target_control(150, 0)
             sleep(3)
             self.target_control(0, 10)
 

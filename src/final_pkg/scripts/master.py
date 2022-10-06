@@ -20,9 +20,7 @@ class Master(threading.Thread):
         self.period = 1.0 / ui_rate
 
         rospy.init_node('master', anonymous=False)
-        # # self.pub = rospy.Publisher("/from_master", Guii, queue_size = 1)
 
-        # self.status = Guii()
         self.dead_index = 0
 
     def run(self):
@@ -48,7 +46,6 @@ class Master(threading.Thread):
 
         while True:
             # print("---------------------")
-            # # print('Localization')
 
             # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
             #     .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
@@ -58,27 +55,12 @@ class Master(threading.Thread):
             print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
             # print('speed : ', self.shared.ego.input_speed)
             # print("red : ", self.shared.perception.tred, ", yellow : ", self.shared.perception.tyellow, ", green : ", self.shared.perception.tgreen, ", left : ", self.shared.perception.tleft)
-
             # # # # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
-            # # # # print('Controller')
             # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
-            print('parking.on :', self.shared.park.on)
             # print('Current Speed : {},'.format(self.shared.ego.speed))
             # print(self.shared.ego.dis)
 
             self.checker_all()
-            # print("running master")
-
-            # self.status.mission = self.shared.plan.state
-            # self.status.behavior = self.shared.plan.behavior_decision
-            # self.status.index = self.shared.ego.index
-            # self.status.local = self.thread_checker_(self.localizer)
-            # self.status.mission_pln = self.thread_checker_(self.mission_planner)
-            # self.status.behavior_pln = self.thread_checker_(self.behavior_planner)
-            # self.status.motion_pln = self.thread_checker_(self.motion_planner)
-            # self.status.con = self.thread_checker_(self.controller)
-
-            # self.pub.publish(self.status)
 
             sleep(self.period)
 
@@ -100,11 +82,6 @@ class Master(threading.Thread):
             if self.dead_index == 0:
                 self.dead_index = self.shared.ego.index
 
-    def thread_checker_(self, module):
-        if module.is_alive():
-            return int(1)
-        else:
-            return int(0)
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser(
@@ -112,7 +89,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='Siheung/sibaedal',
+        default='kcity_simul/final_map',
         help='kcity_simul/final_map, Siheung/delivery2, Siheung/sibaedal'
     )
 

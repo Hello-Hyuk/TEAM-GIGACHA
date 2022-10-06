@@ -30,17 +30,6 @@ class MissionPlanner(threading.Thread):
                 else:
                     self.plan.state = "go"
 
-                ############Siheung##########
-
-                # if 2400 < self.ego.index < 3200:
-                #     self.plan.state = "static_obstacle_detected"
-
-                # elif self.ego.index < 700:
-                #     self.plan.state = "right_sign_detected"
-
-                # elif self.ego.index >= 3200:
-                #     self.plan.state = "left_sign_detected"
-
             except IndexError:
                 print("++++++++mission_planner+++++++++")
 

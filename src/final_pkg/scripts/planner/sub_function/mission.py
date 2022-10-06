@@ -84,18 +84,18 @@ class Mission():
                 self.parking.select_num = self.perception.parking_num
                 self.first_stop = True
                 if (self.parking.select_num == 1) or (self.parking.select_num == 2):
-                    self.target_control(0, 10)
+                    self.target_control(0, 5)
                     self.parking_create = True
                     self.plan.behavior_decision = "parking_trajectory_Create"
                 else:
-                    self.target_control(0, 10)
+                    self.target_control(0, 5)
             elif self.first_stop == True and (9600 <= self.ego.index <= 9650):
                 self.plan.behavior_decision = "stop"
                 self.target_control(100, 0)
                 sleep(3)
                 self.parking.select_num = self.perception.parking_num
                 if (self.parking.select_num == 2) or (self.parking.select_num == 3):
-                    self.target_control(0, 10)
+                    self.target_control(0, 5)
                     self.parking_create = True
                     self.plan.behavior_decision = "parking_trajectory_Create"
                 else:
@@ -103,7 +103,7 @@ class Mission():
 
         if (self.parking_create and self.parking_switch == False):
             if ((self.parking_backward_start == False) and len(self.parking.forward_path.x) > 0) and (self.parking.mindex + 15 <= self.ego.index <= self.parking.mindex + 30):
-                self.target_control(200, 0)
+                self.target_control(100, 0)
                 sleep(3)
                 self.plan.behavior_decision = "parkingBackwardOn"
                 self.parking.on = "on"
@@ -112,22 +112,20 @@ class Mission():
                 self.parking_backward_start = True
             if (self.parking.direction == 2):
                 if (1 <= self.parking.index <= 20) and self.force_switch == False:
-                    self.target_control(200, 0)
-                    # sleep(2)
                     self.target_control(0, 5)
                     self.force_switch = True
                     self.parking.on = "forced"
                     self.ego.target_steer = 27
                 # elif (1 <= abs(int(self.parking.inflection_point - self.parking.index)) <= 10) and self.inflection_switch == False:
                 elif (35 <= self.parking.index <= 50) and self.inflection_switch == False:
-                    self.target_control(200, 0)
+                    self.target_control(100, 0)
                     sleep(2)
                     self.inflection_switch = True
                     self.target_control(0, 5)
                     self.parking.on = "forced"
                     self.ego.target_steer = -27
                 elif (7 <= int(self.parking.stop_index - self.parking.index) <= 17):
-                    self.target_control(200, 0)
+                    self.target_control(100, 0)
                     self.parking.on = "forced"
                     self.ego.target_steer = 0
                     sleep(11)
@@ -136,79 +134,40 @@ class Mission():
                     self.ego.target_steer = -27
                     self.ego.target_gear = 0
                     self.target_control(0, 5)
-            # elif (1 <= abs(int(len(self.parking.forward_path.x) - self.parking.inflection_point - self.parking.index)) <= 5) and (self.parking.direction == 0):
+            
             elif (27 <= self.parking.index <= 40) and (self.parking.direction == 0):
                     self.parking.on = "off"
                     self.plan.behavior_decision = "driving"
                     self.target_control(0, self.speed)
                     self.parking_switch = True
 
-##########################UTurn Kcity###############################
-    # def u_turn(self):
-    #     if self.perception.tleft == 1 or 35 <= abs(time() - self.sign_count[0]) <= 43 :
-    #         # self.plan.behavior_decision = "driving"
-    #         if (5175 < self.ego.index < 5335):
-    #             self.parking.on = "U_turn"
-    #         if self.range(5345) and self.uturn_stop == False:
-    #                 # self.plan.behavior_decision = "stop"
-    #                 # self.target_control(75, 0)
-    #                 # sleep(3)
-    #                 self.plan.behavior_decision = "U_turn"
-    #                 self.parking.on = "forced"
-    #                 self.target_control(0, 5)
-    #                 self.ego.target_steer = -27
-    #                 self.uturn_stop = True
-    #         elif self.ego.index > 5407 and self.uturn_stop == True:
-    #             self.plan.behavior_decision = "driving"
-    #             self.parking.on = "off"
-    #     else:
-    #         if self.range(5375, 50):
-    #             self.plan.behavior_decision = "stop"
-    #             self.target_control(100, 0)
-    #         else:
-    #             self.plan.behavior_decision = "driving"
-    #             self.target_control(0, self.speed)
-
-
-##########################UTurn Siheung###############################
-
     def u_turn(self):
         if self.perception.tleft == 1 or 35 <= abs(time() - self.sign_count[0]) <= 43 or self.uturn_checker:
-            # if self.range(1791, 50):
-            if self.range(827, 50):
+            if self.range(5375, 50):
                 self.uturn_checker = True
-            # self.plan.behavior_decision = "driving"
-            # if (1570 < self.ego.index < 1751) and self.uturn_checker2 == False:
-            if (200 < self.ego.index < 787) and self.uturn_checker2 == False:
-                self.parking.on = "U_turn"
 
-            # if self.range(1813) and self.uturn_stop == False:
-            if self.range(827) and self.uturn_stop == False:
+            if (5175 < self.ego.index < 5335) and self.uturn_checker2 == False:
+                self.parking.on = "U_turn"
+            if self.range(5345) and self.uturn_stop == False:
                 self.uturn_checker2 = True
-                print('111111111111')
-                # self.plan.behavior_decision = "stop"
-                # self.target_control(75, 0)
-                # sleep(3)
                 self.plan.behavior_decision = "U_turn"
                 self.parking.on = "forced"
                 self.target_control(0, 5)
                 self.ego.target_steer = -27
                 self.uturn_stop = True
-            # elif self.ego.index > 1858 and self.uturn_stop == True:
-            elif self.ego.index > 913 and self.uturn_stop == True:
+            elif self.ego.index > 5407 and self.uturn_stop == True:
                 self.plan.behavior_decision = "driving"
                 self.parking.on = "off"
                 self.uturn_checker = False
         else:
-            # if self.range(1813, 50):
-            if self.range(827, 50):
+            if self.range(5375, 50):
                 self.plan.behavior_decision = "stop"
                 self.target_control(100, 0)
                 print('34 time : ', abs(time() - self.sign_count[0]))
             else:
                 self.plan.behavior_decision = "driving"
                 self.target_control(0, self.speed)
-###########################################################################
+
     def static_obstacle(self):
         self.plan.behavior_decision = "static_obstacle_avoidance"
         index = len(self.perception.objx)
@@ -235,24 +194,6 @@ class Mission():
             else:
                 self.target_control(0, self.speed)
 
-###########################KCITY#################
-    # def turn_left(self):
-    #     if self.perception.tleft:
-    #         self.plan.behavior_decision = "driving"
-    #         self.target_control(0, self.speed)
-    #         if self.sign_count[0] == 0 and self.sign_count[1] != 0:
-    #             self.sign_count[0] = time()
-    #             self.sign_count[1] = 0
-    #     else:
-    #         if self.range(4609, 50):
-    #             self.plan.behavior_decision = "stop"
-    #             self.target_control(100, 0)
-    #             self.sign_count[1] = 1
-    #         else:
-    #             self.plan.behavior_decision = "driving"
-    #             self.target_control(0, self.speed)
-
-#############################Siheung##################
     def turn_left(self):
         if self.perception.tleft:
             self.plan.behavior_decision = "driving"
@@ -261,7 +202,7 @@ class Mission():
                 self.sign_count[0] = time()
                 self.sign_count[1] = 0
         else:
-            if self.range(1240, 85):
+            if self.range(4609, 50):
                 self.plan.behavior_decision = "stop"
                 self.target_control(100, 0)
                 self.sign_count[1] = 1
@@ -269,26 +210,15 @@ class Mission():
                 self.plan.behavior_decision = "driving"
                 self.target_control(0, self.speed)
 
-#########################KCITY############################
-    # def non_traffic_right(self):
-    #     if (self.range(5597, 50) and self.non_traffic_right_checker == 0) or (self.range(5821, 50) and self.non_traffic_right_checker == 1):
-    #         self.plan.behavior_decision = "stop"
-    #         self.target_control(100, 0)
-    #         sleep(3)
-    #         self.plan.behavior_decision = "driving"
-    #         self.target_control(0, self.speed)
-    #         self.non_traffic_right_checker += 1
-
-#######################Siheung#####################
     def non_traffic_right(self):
-        if (self.range(2032, 50) and self.non_traffic_right_checker == 0) or (self.range(2146, 50) and self.non_traffic_right_checker == 1):
+        if (self.range(5597, 50) and self.non_traffic_right_checker == 0) or (self.range(5821, 50) and self.non_traffic_right_checker == 1):
             self.plan.behavior_decision = "stop"
             self.target_control(100, 0)
             sleep(3)
             self.plan.behavior_decision = "driving"
             self.target_control(0, self.speed)
             self.non_traffic_right_checker += 1
-############################################################## 
+
     def convert_lidar(self):
         theta = (self.ego.heading) * pi / 180
         size = 0
@@ -357,7 +287,7 @@ class Mission():
         if self.sign_checker and self.pickup_checker == False:
             print("encoder checking : ", self.ego.dis - self.init_dis)
             # if self.ego.dis - self.init_dis > 7:
-            if self.ego.dis - self.init_dis > self.save - 0.7:
+            if self.ego.dis - self.init_dis > self.save - 1.0:
                 self.pickup_checker = True
                 # self.plan.behavior_decision = "stop"
                 self.target_control(200, 0)
@@ -391,7 +321,7 @@ class Mission():
         if self.sign_checker and self.delivery_checker == False:
             print("encoder checking : ", self.ego.dis - self.init_dis)  
             # if self.ego.dis - self.init_dis > 7:
-            if self.ego.dis - self.init_dis > self.save - 1:
+            if self.ego.dis - self.init_dis > self.save - 1.0:
                 self.delivery_checker = True
                 # self.plan.behavior_decision = "stop"
                 self.target_control(200, 0)

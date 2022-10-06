@@ -119,7 +119,7 @@ if __name__ == '__main__':
     basename_input = parser.parse_args().base_names
 
     if len(basename_input) == 0:
-        base_name = "Siheung"
+        base_name = "KCity"
 
     elif len(basename_input) == 1:
         base_name = basename_input[0]

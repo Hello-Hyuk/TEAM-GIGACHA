@@ -39,16 +39,6 @@ class MissionPlanner(threading.Thread):
                 else:
                     self.plan.state = "go"
 
-                #######Siheung##########
-                # if self.ego.index < 1000:
-                #     self.plan.state = "go"
-
-                # elif 1000 < self.ego.index < 2000:
-                #     self.plan.state = "left_sign_detected"
-
-                # elif 565 < self.ego.index:
-                #     self.plan.state = "delivery"
-
             except IndexError:
                 print("++++++++mission_planner+++++++++")
 

@@ -52,7 +52,9 @@ class MotionPlanner(threading.Thread):
 
                 elif self.shared.plan.behavior_decision == "parkingBackwardOn":
                     self.park_motion.parking_drive(2)
-
+                    
+                else:
+                    pass
                 #################################################
 
             except IndexError:
