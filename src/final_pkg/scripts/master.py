@@ -54,14 +54,14 @@ class Master(threading.Thread):
             #     .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
             print('index :', self.shared.ego.index)
             print('heading :', self.shared.ego.heading)
-            # print('Mission_State : {}'.format(self.shared.plan.state))
-            # print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
+            print('Mission_State : {}'.format(self.shared.plan.state))
+            print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
             # print('speed : ', self.shared.ego.input_speed)
-            print("red : ", self.shared.perception.tred, ", yellow : ", self.shared.perception.tyellow, ", green : ", self.shared.perception.tgreen, ", left : ", self.shared.perception.tleft)
+            # print("red : ", self.shared.perception.tred, ", yellow : ", self.shared.perception.tyellow, ", green : ", self.shared.perception.tgreen, ", left : ", self.shared.perception.tleft)
 
             # # # # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
             # # # # print('Controller')
-            print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
+            # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
             print('parking.on :', self.shared.park.on)
             # print('Current Speed : {},'.format(self.shared.ego.speed))
             # print(self.shared.ego.dis)
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='kcity_simul/final_map',
+        default='Siheung/sibaedal',
         help='kcity_simul/final_map, Siheung/delivery2, Siheung/sibaedal'
     )
 

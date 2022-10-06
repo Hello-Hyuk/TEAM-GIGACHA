@@ -33,10 +33,10 @@ class Mission():
         self.init_dis = 0.0
         self.save = 0
 
-        # self.signx = 0
-        # self.signy = 0
-        # self.B_x = [0,0,0]
-        # self.B_y = [0,0,0]
+        self.signx = 0
+        self.signy = 0
+        self.B_x = [0,0,0]
+        self.B_y = [0,0,0]
 
         self.vote_list = [0,0,0]
         self.target = 0
@@ -174,13 +174,16 @@ class Mission():
 
     def u_turn(self):
         if self.perception.tleft == 1 or 35 <= abs(time() - self.sign_count[0]) <= 43 or self.uturn_checker:
-            if self.range(1791, 50):
+            # if self.range(1791, 50):
+            if self.range(827, 50):
                 self.uturn_checker = True
             # self.plan.behavior_decision = "driving"
-            if (1570 < self.ego.index < 1751) and self.uturn_checker2 == False:
+            # if (1570 < self.ego.index < 1751) and self.uturn_checker2 == False:
+            if (200 < self.ego.index < 787) and self.uturn_checker2 == False:
                 self.parking.on = "U_turn"
 
-            if self.range(1778) and self.uturn_stop == False:
+            # if self.range(1813) and self.uturn_stop == False:
+            if self.range(827) and self.uturn_stop == False:
                 self.uturn_checker2 = True
                 print('111111111111')
                 # self.plan.behavior_decision = "stop"
@@ -191,15 +194,17 @@ class Mission():
                 self.target_control(0, 5)
                 self.ego.target_steer = -27
                 self.uturn_stop = True
-            elif self.ego.index > 1858 and self.uturn_stop == True:
+            # elif self.ego.index > 1858 and self.uturn_stop == True:
+            elif self.ego.index > 913 and self.uturn_stop == True:
                 self.plan.behavior_decision = "driving"
                 self.parking.on = "off"
                 self.uturn_checker = False
         else:
-            if self.range(1778, 50):
+            # if self.range(1813, 50):
+            if self.range(827, 50):
                 self.plan.behavior_decision = "stop"
                 self.target_control(100, 0)
-                print('time : ', abs(time() - self.sign_count[0]))
+                print('34 time : ', abs(time() - self.sign_count[0]))
             else:
                 self.plan.behavior_decision = "driving"
                 self.target_control(0, self.speed)
@@ -306,20 +311,20 @@ class Mission():
         self.perception.lidar_lock.release()
         self.perception.tmp_lidar_lock.release()
 
-    # def convert_delivery(self):
-    #     theta = (self.ego.heading) * pi / 180
-    #     size = 0
+    def convert_delivery(self):
+        theta = (self.ego.heading) * pi / 180
+        size = 0
 
-    #     if(self.perception.signx != 0):
-    #         self.signx = self.perception.signx * cos(theta) + self.perception.signy * -sin(theta) + self.ego.x
-    #         self.signy = self.perception.signx * sin(theta) + self.perception.signy * cos(theta) + self.ego.y
+        if(self.perception.signx != 0):
+            self.signx = self.perception.signx * cos(theta) + self.perception.signy * -sin(theta) + self.ego.x
+            self.signy = self.perception.signx * sin(theta) + self.perception.signy * cos(theta) + self.ego.y
 
-    #     #self.perception.delivery_lidar_lock.acquire()
-    #     for i in range(3):
-    #         if(self.perception.B_x[i] != 0):
-    #             self.B_x[i] = self.perception.B_x[i] * cos(theta) + self.perception.B_y[i] * -sin(theta) + self.ego.x
-    #             self.B_y[i] = self.perception.B_x[i] * sin(theta) + self.perception.B_y[i] * cos(theta) + self.ego.y
-    #     #self.perception.delivery_lidar_lock.release()
+        #self.perception.delivery_lidar_lock.acquire()
+        for i in range(3):
+            if(self.perception.B_x[i] != 0):
+                self.B_x[i] = self.perception.B_x[i] * cos(theta) + self.perception.B_y[i] * -sin(theta) + self.ego.x
+                self.B_y[i] = self.perception.B_x[i] * sin(theta) + self.perception.B_y[i] * cos(theta) + self.ego.y
+        #self.perception.delivery_lidar_lock.release()
 
     def pickup(self):
         if self.pickup_checker == False:
