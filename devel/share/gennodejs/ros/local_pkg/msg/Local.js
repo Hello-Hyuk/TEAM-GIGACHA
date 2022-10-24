@@ -26,7 +26,9 @@ class Local {
       this.pitch = null;
       this.dr_x = null;
       this.dr_y = null;
-      this.speed = null;
+      this.hAcc = null;
+      this.speeed = null;
+      this.dis = null;
       this.orientation = null;
     }
     else {
@@ -72,11 +74,23 @@ class Local {
       else {
         this.dr_y = 0.0;
       }
-      if (initObj.hasOwnProperty('speed')) {
-        this.speed = initObj.speed
+      if (initObj.hasOwnProperty('hAcc')) {
+        this.hAcc = initObj.hAcc
       }
       else {
-        this.speed = 0.0;
+        this.hAcc = 0;
+      }
+      if (initObj.hasOwnProperty('speeed')) {
+        this.speeed = initObj.speeed
+      }
+      else {
+        this.speeed = 0.0;
+      }
+      if (initObj.hasOwnProperty('dis')) {
+        this.dis = initObj.dis
+      }
+      else {
+        this.dis = 0.0;
       }
       if (initObj.hasOwnProperty('orientation')) {
         this.orientation = initObj.orientation
@@ -103,8 +117,12 @@ class Local {
     bufferOffset = _serializer.float64(obj.dr_x, buffer, bufferOffset);
     // Serialize message field [dr_y]
     bufferOffset = _serializer.float64(obj.dr_y, buffer, bufferOffset);
-    // Serialize message field [speed]
-    bufferOffset = _serializer.float64(obj.speed, buffer, bufferOffset);
+    // Serialize message field [hAcc]
+    bufferOffset = _serializer.int64(obj.hAcc, buffer, bufferOffset);
+    // Serialize message field [speeed]
+    bufferOffset = _serializer.float64(obj.speeed, buffer, bufferOffset);
+    // Serialize message field [dis]
+    bufferOffset = _serializer.float64(obj.dis, buffer, bufferOffset);
     // Serialize message field [orientation]
     bufferOffset = geometry_msgs.msg.Quaternion.serialize(obj.orientation, buffer, bufferOffset);
     return bufferOffset;
@@ -128,15 +146,19 @@ class Local {
     data.dr_x = _deserializer.float64(buffer, bufferOffset);
     // Deserialize message field [dr_y]
     data.dr_y = _deserializer.float64(buffer, bufferOffset);
-    // Deserialize message field [speed]
-    data.speed = _deserializer.float64(buffer, bufferOffset);
+    // Deserialize message field [hAcc]
+    data.hAcc = _deserializer.int64(buffer, bufferOffset);
+    // Deserialize message field [speeed]
+    data.speeed = _deserializer.float64(buffer, bufferOffset);
+    // Deserialize message field [dis]
+    data.dis = _deserializer.float64(buffer, bufferOffset);
     // Deserialize message field [orientation]
     data.orientation = geometry_msgs.msg.Quaternion.deserialize(buffer, bufferOffset);
     return data;
   }
 
   static getMessageSize(object) {
-    return 96;
+    return 112;
   }
 
   static datatype() {
@@ -146,7 +168,7 @@ class Local {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return 'cce7c2876a38968541530fffb9014fcd';
+    return '02900f6dd7ae8d0a3ed2e4e2d3c5c924';
   }
 
   static messageDefinition() {
@@ -159,9 +181,10 @@ class Local {
     float64 pitch
     float64 dr_x
     float64 dr_y
-    float64 speed
+    int64 hAcc
+    float64 speeed
+    float64 dis
     geometry_msgs/Quaternion orientation
-    
     ================================================================================
     MSG: geometry_msgs/Quaternion
     # This represents an orientation in free space in quaternion form.
@@ -229,11 +252,25 @@ class Local {
       resolved.dr_y = 0.0
     }
 
-    if (msg.speed !== undefined) {
-      resolved.speed = msg.speed;
+    if (msg.hAcc !== undefined) {
+      resolved.hAcc = msg.hAcc;
     }
     else {
-      resolved.speed = 0.0
+      resolved.hAcc = 0
+    }
+
+    if (msg.speeed !== undefined) {
+      resolved.speeed = msg.speeed;
+    }
+    else {
+      resolved.speeed = 0.0
+    }
+
+    if (msg.dis !== undefined) {
+      resolved.dis = msg.dis;
+    }
+    else {
+      resolved.dis = 0.0
     }
 
     if (msg.orientation !== undefined) {

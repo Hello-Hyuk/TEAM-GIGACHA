@@ -18,12 +18,11 @@
               file="$(find ublox_gps)/config/$(arg param_file_name).yaml" />
   </node>
 <!--=====================ENCODER=====================-->
-  <node pkg="local_pkg" type="encoder_parser.py" name="encoder" respawn="true"/>
+ <node pkg="local_pkg" type="encoder_parser.py" name="encoder" respawn="true"/>
 
 <!--=====================AHRS=====================-->
-  <node pkg="local_pkg" type="ahrs_parser.py" name="ahrs_raw" respawn="true" output="screen"/>
+ <node pkg="local_pkg" type="ahrs_parser.py" name="ahrs_raw" respawn="true" output="screen"/>
 
 <!--=====================SERIAL COM FOR ERP42=====================-->
-  <node pkg="local_pkg" type="serial_io.py" name="serial" respawn="true" output="screen"/>
-  
+ <node pkg="local_pkg" type="serial_io.py" name="serial" respawn="true" output="screen"/>
 </launch>

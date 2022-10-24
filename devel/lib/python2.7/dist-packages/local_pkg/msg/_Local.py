@@ -9,7 +9,7 @@ import struct
 import geometry_msgs.msg
 
 class Local(genpy.Message):
-  _md5sum = "cce7c2876a38968541530fffb9014fcd"
+  _md5sum = "02900f6dd7ae8d0a3ed2e4e2d3c5c924"
   _type = "local_pkg/Local"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float64 x
@@ -19,9 +19,10 @@ float64 roll
 float64 pitch
 float64 dr_x
 float64 dr_y
-float64 speed
+int64 hAcc
+float64 speeed
+float64 dis
 geometry_msgs/Quaternion orientation
-
 ================================================================================
 MSG: geometry_msgs/Quaternion
 # This represents an orientation in free space in quaternion form.
@@ -31,8 +32,8 @@ float64 y
 float64 z
 float64 w
 """
-  __slots__ = ['x','y','heading','roll','pitch','dr_x','dr_y','speed','orientation']
-  _slot_types = ['float64','float64','float64','float64','float64','float64','float64','float64','geometry_msgs/Quaternion']
+  __slots__ = ['x','y','heading','roll','pitch','dr_x','dr_y','hAcc','speeed','dis','orientation']
+  _slot_types = ['float64','float64','float64','float64','float64','float64','float64','int64','float64','float64','geometry_msgs/Quaternion']
 
   def __init__(self, *args, **kwds):
     """
@@ -42,7 +43,7 @@ float64 w
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       x,y,heading,roll,pitch,dr_x,dr_y,speed,orientation
+       x,y,heading,roll,pitch,dr_x,dr_y,hAcc,speeed,dis,orientation
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -65,8 +66,12 @@ float64 w
         self.dr_x = 0.
       if self.dr_y is None:
         self.dr_y = 0.
-      if self.speed is None:
-        self.speed = 0.
+      if self.hAcc is None:
+        self.hAcc = 0
+      if self.speeed is None:
+        self.speeed = 0.
+      if self.dis is None:
+        self.dis = 0.
       if self.orientation is None:
         self.orientation = geometry_msgs.msg.Quaternion()
     else:
@@ -77,7 +82,9 @@ float64 w
       self.pitch = 0.
       self.dr_x = 0.
       self.dr_y = 0.
-      self.speed = 0.
+      self.hAcc = 0
+      self.speeed = 0.
+      self.dis = 0.
       self.orientation = geometry_msgs.msg.Quaternion()
 
   def _get_types(self):
@@ -93,7 +100,7 @@ float64 w
     """
     try:
       _x = self
-      buff.write(_get_struct_12d().pack(_x.x, _x.y, _x.heading, _x.roll, _x.pitch, _x.dr_x, _x.dr_y, _x.speed, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w))
+      buff.write(_get_struct_7dq6d().pack(_x.x, _x.y, _x.heading, _x.roll, _x.pitch, _x.dr_x, _x.dr_y, _x.hAcc, _x.speeed, _x.dis, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -110,8 +117,8 @@ float64 w
       end = 0
       _x = self
       start = end
-      end += 96
-      (_x.x, _x.y, _x.heading, _x.roll, _x.pitch, _x.dr_x, _x.dr_y, _x.speed, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w,) = _get_struct_12d().unpack(str[start:end])
+      end += 112
+      (_x.x, _x.y, _x.heading, _x.roll, _x.pitch, _x.dr_x, _x.dr_y, _x.hAcc, _x.speeed, _x.dis, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w,) = _get_struct_7dq6d().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -125,7 +132,7 @@ float64 w
     """
     try:
       _x = self
-      buff.write(_get_struct_12d().pack(_x.x, _x.y, _x.heading, _x.roll, _x.pitch, _x.dr_x, _x.dr_y, _x.speed, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w))
+      buff.write(_get_struct_7dq6d().pack(_x.x, _x.y, _x.heading, _x.roll, _x.pitch, _x.dr_x, _x.dr_y, _x.hAcc, _x.speeed, _x.dis, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -143,8 +150,8 @@ float64 w
       end = 0
       _x = self
       start = end
-      end += 96
-      (_x.x, _x.y, _x.heading, _x.roll, _x.pitch, _x.dr_x, _x.dr_y, _x.speed, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w,) = _get_struct_12d().unpack(str[start:end])
+      end += 112
+      (_x.x, _x.y, _x.heading, _x.roll, _x.pitch, _x.dr_x, _x.dr_y, _x.hAcc, _x.speeed, _x.dis, _x.orientation.x, _x.orientation.y, _x.orientation.z, _x.orientation.w,) = _get_struct_7dq6d().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -153,9 +160,9 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_12d = None
-def _get_struct_12d():
-    global _struct_12d
-    if _struct_12d is None:
-        _struct_12d = struct.Struct("<12d")
-    return _struct_12d
+_struct_7dq6d = None
+def _get_struct_7dq6d():
+    global _struct_7dq6d
+    if _struct_7dq6d is None:
+        _struct_7dq6d = struct.Struct("<7dq6d")
+    return _struct_7dq6d

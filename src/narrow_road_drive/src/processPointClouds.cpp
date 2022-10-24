@@ -19,6 +19,7 @@ void ProcessPointClouds<PointT>::numPoints(typename pcl::PointCloud<PointT>::Ptr
 /*FilterCloud function filters the given cloud. Following operations are performed
  * Downsampling: points are converted to voxels using the dimensions provided.
  * */
+
 template<typename PointT>
 typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(typename pcl::PointCloud<PointT>::Ptr cloud)
 {
@@ -41,7 +42,7 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(ty
     //xroi.setInputCloud(cloud_filtered);
 	xroi.setInputCloud(cloud);
     xroi.setFilterFieldName("x");
-    xroi.setFilterLimits(-0.2, 10);
+    xroi.setFilterLimits(-0.2, 20);
     xroi.filter(*cloud_filtered);
 
     pcl::PassThrough<PointT> yroi;
@@ -53,7 +54,7 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(ty
     pcl::PassThrough<PointT> zroi;
 	zroi.setInputCloud(cloud_filtered);
     zroi.setFilterFieldName("z");
-    zroi.setFilterLimits(-0.7, 0);
+    zroi.setFilterLimits(-0.6, 0);
     zroi.filter(*cloud_filtered);
     cerr << "ROI " << cloud_filtered->points.size() << "\n";
 

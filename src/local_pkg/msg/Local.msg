@@ -5,5 +5,7 @@ float64 roll
 float64 pitch
 float64 dr_x
 float64 dr_y
-float64 speed
+int64 hAcc
+float64 speeed
+float64 dis
 geometry_msgs/Quaternion orientation
