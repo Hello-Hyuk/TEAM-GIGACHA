@@ -31,9 +31,9 @@ class BehaviorPlanner(threading.Thread):
 
                 if self.plan.state == "parking":
                     ### HANAMJA JUCHA ###
-                    # self.mission.Parking_KCity_diagonal()
+                    self.mission.Parking_KCity_diagonal()
                     #####################
-                    self.mission.Parking_KCity_diagonal_jeongseok()
+                    # self.mission.Parking_KCity_diagonal_jeongseok()
 
                 elif self.plan.state == "static_obstacle_detected":
                     self.mission.static_obstacle()

@@ -82,6 +82,6 @@ class Perception_():
 
    def parking_callback(self, msg):
       ### HANAMJA JUCHA ###
-      # self.parking_num = 2
+      self.parking_num = 2
       #####################
-      self.parking_num = msg.data
+      # self.parking_num = msg.data

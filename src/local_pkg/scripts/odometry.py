@@ -101,8 +101,8 @@ class DR():
             + int(data.encoder[2])*256**2 + \
             int(data.encoder[3])*256**3
 
-        if 0 <= left_pulse <= 255:
-            left_pulse = 256**4 - 1 + left_pulse
+        # if 0 <= left_pulse <= 255:
+        #     left_pulse = 256**4 - 1 + left_pulse
 
         if self.init == 0:
             self.init = left_pulse

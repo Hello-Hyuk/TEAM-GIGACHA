@@ -22,6 +22,6 @@ class LonController():
                 self.brake = 0
                 self.speed = 10
         else:
-            self.speed = 12
+            self.speed = 13
 
         return self.speed, self.brake

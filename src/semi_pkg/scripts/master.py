@@ -43,20 +43,17 @@ class Master(threading.Thread):
 
         while True:
             print("---------------------")
-            # # print('Localization')
 
-            print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
-               .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
+            # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
+            #    .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
+
+            print('index : ', self.shared.ego.index)
+            print('heading : ', self.shared.ego.heading)
             print('Mission_State : {}'.format(self.shared.plan.state))
             print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
-
-            # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
-            # print('Controller')
-            print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
-            # print('Speed : {},'.format(self.shared.ego.speed))
+            print('Input Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
 
             self.checker_all()
-            # print("running master")
 
             sleep(self.period)
 

@@ -159,11 +159,11 @@ class Mission():
         self.plan.behavior_decision = "static_obstacle_avoidance"
         index = len(self.perception.objx)
         
-        if (self.range(2175,50)) and self.obstacle_stop == False:
-            self.target_control(100,0)
-            sleep(3)
-            self.target_control(0,10)
-            self.obstacle_stop = True
+        # if (self.range(2175,50)) and self.obstacle_stop == False:
+        #     self.target_control(100,0)
+        #     sleep(3)
+        #     self.target_control(0,10)
+        #     self.obstacle_stop = True
 
         if (len(self.perception.objx) > 0):
             self.obs_dis = 15.5
@@ -207,7 +207,7 @@ class Mission():
         self.plan.behavior_decision = "emergency_avoidance"
         if self.shared.plan.obstac == True:
             self.target_control(150, 0)
-            sleep(3)
+            sleep(2)
             self.target_control(0, 10)
 
     def convert_lidar(self):

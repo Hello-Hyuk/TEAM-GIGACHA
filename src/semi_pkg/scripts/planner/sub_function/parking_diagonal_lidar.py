@@ -137,7 +137,7 @@ class PL():
         # diagonal
         result_number = -1 
         if 720 <= self.ego.index < 805:
-            for i in range(0, 2): 
+            for i in range(1, 2): 
                 if parking_result[i] < 5:
                     result_number = i + 1 
                     break
