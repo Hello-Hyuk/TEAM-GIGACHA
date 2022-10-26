@@ -29,15 +29,15 @@ from cubic_spline_planner import calc_spline_course
 # base_alt = 15.4
 
 # simul
-base_lat = 37.23873
-base_lon = 126.772383333333
-base_alt = 15.4
+# base_lat = 37.23873
+# base_lon = 126.772383333333
+# base_alt = 15.4
  
 
 # yonghyeon_navileguan
-# base_lat = 37.4508561
-# base_lon = 126.6492464
-# base_alt = 15.4
+base_lat = 37.4508561
+base_lon = 126.6492464
+base_alt = 15.4
 
 
 def get_xy(lat, lon, alt):  # 점들 사이의 새로운 점들을 설정
@@ -69,7 +69,7 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 
     colnames = ['lon', 'lat']
     # df = pd.read_csv(f'maps/Siheung/nodes/turn_right/turn_right_line.csv', names=colnames, header=None) # siheung
-    df = pd.read_csv(f'kcitySB.csv', names=colnames, header=None)
+    df = pd.read_csv(f'gpp.csv', names=colnames, header=None)
     x = []
     y = []
 
@@ -98,7 +98,8 @@ def cubic(name, *args):  # args에는 1,2,3,4,5,6 등 막 들어 수있음
 # cubic("left2", 2, 3, 4, 5, 6, 7, 8, 9, 10)
 # cubic("park3", 1, 2, 3, 4, 5, 6)
 
-cubic("SBSB", 1,2)
+cubic("inha_jongsul", 1,2)
+cubic("inha_jongsul1", 2,3)
 # cubic("kcitySTR",1,2)
 # enu('parking_1lane_siheung', 6)
 

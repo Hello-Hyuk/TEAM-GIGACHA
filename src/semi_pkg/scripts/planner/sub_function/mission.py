@@ -2,7 +2,6 @@ from math import sqrt
 from time import time, sleep
 from math import cos, sin, pi, sqrt
 
-
 class Mission():
     def __init__(self, sh, eg, pc, pl):
         self.perception = pc
@@ -58,18 +57,20 @@ class Mission():
     def Parking_KCity_diagonal(self):
         print(self.parking.select_num)
         if (self.parking_create == False):
-            if (self.range(805, 85)) and self.first_stop == False: # K-City
+            if (self.range(388, 35)) and self.first_stop == False: # K-City
                 self.plan.behavior_decision = "stop"
                 self.target_control(100, 0)
                 sleep(3)
-                self.parking.select_num = self.perception.parking_num
+                self.parking.select_num = 1
+                # self.parking.select_num = self.perception.parking_num
                 self.first_stop = True
-            if self.first_stop == True and ((self.parking.select_num == 1) or (self.parking.select_num == 2) or (self.parking.select_num == 3)):
+                print('111111111111')
+            if self.first_stop == True and ((self.parking.select_num == 1) or (self.parking.select_num == 2) or (self.parking.select_num == 3) or (self.parking.select_num == 4)):
                 self.target_control(0, 5)
                 self.parking_create = True
                 self.plan.behavior_decision = "parking_trajectory_Create"
-            elif self.first_stop == True and self.parking.select_num == -1 or self.parking.select_num == 4 or self.parking.select_num == 5 or self.parking.select_num == 6:
-                self.Parking_stop_function(865, 915) # K-City
+            # elif self.first_stop == True and self.parking.select_num == -1 or self.parking.select_num == 4 or self.parking.select_num == 5 or self.parking.select_num == 6:
+            #     self.Parking_stop_function(428, 475) # K-City
 
         if (self.parking_create and self.parking_switch == False):
             if (self.parking_forward_start == False and len(self.parking.forward_path.x) > 0):
