@@ -29,8 +29,8 @@ class PL():
         self.pub_roi6 = rospy.Publisher("Parking_ROI6", PolygonStamped, queue_size=1) 
 
         # simul kcity
-        self.base_lat = 37.23873
-        self.base_lon = 126.772383333333
+        self.base_lat = 37.4508561
+        self.base_lon = 126.6492464
         self.base_alt = 15.4
         with open('/home/gigacha/TEAM-GIGACHA/src/semi_pkg/scripts/planner/sub_function/parking_JSON/parking_inha_diagonal_roi.json') as pkc:
             self.parking_point = json.load(pkc)
@@ -64,7 +64,7 @@ class PL():
         self.parking_space_poly3 = Polygon(parking_space_3) 
         self.parking_space_poly4 = Polygon(parking_space_4) 
         self.parking_space_poly5 = Polygon(parking_space_5) 
-        self.parking_space_poly6 = Polygon(parking_space_6) 
+        self.parking_space_poly6 = Polygon(parking_space_6)
         
         p1, p2, p3, p4, p5, p6 = PolygonStamped(), PolygonStamped(), PolygonStamped(), PolygonStamped(), PolygonStamped(), PolygonStamped()
         p1.header.frame_id, p2.header.frame_id, p3.header.frame_id, p4.header.frame_id, p5.header.frame_id, p6.header.frame_id = "map", "map", "map", "map", "map", "map"
@@ -100,6 +100,8 @@ class PL():
                         Point32(x = parking_point_x_y[22][0], y = parking_point_x_y[22][1]),
                         Point32(x = parking_point_x_y[23][0], y = parking_point_x_y[23][1])]
 
+        print(p2)
+
         self.pub_roi1.publish(p1)
         self.pub_roi2.publish(p2)
         self.pub_roi3.publish(p3)
@@ -126,27 +128,28 @@ class PL():
                 parking_result[4]+=1 
             if test_code.within(self.parking_space_poly6): 
                 parking_result[5]+=1 
+
     
-        # print("parking 1 :", parking_result[0])  
-        # print("parking 2 :", parking_result[1]) 
-        # print("parking 3 :", parking_result[2]) 
-        # print("parking 4 :", parking_result[3]) 
-        # print("parking 5 :", parking_result[4]) 
-        # print("parking 6 :", parking_result[5]) 
+        print("parking 1 :", parking_result[0])  
+        print("parking 2 :", parking_result[1]) 
+        print("parking 3 :", parking_result[2]) 
+        print("parking 4 :", parking_result[3]) 
+        print("parking 5 :", parking_result[4]) 
+        print("parking 6 :", parking_result[5]) 
         
         # diagonal
         result_number = -1 
-        if 720 <= self.ego.index < 805:
-            for i in range(1, 2): 
+        if 353 <= self.ego.index < 395:
+            for i in range(4): 
                 if parking_result[i] < 5:
-                    result_number = i + 1 
+                    result_number = i + 1
                     break
 
-        elif 808 <= self.ego.index <= 855:
-            for i in range(2, 4): 
-                if parking_result[i] < 5: 
-                    result_number = i + 1 
-                    break
+        # elif 808 <= self.ego.index <= 855:
+        #     for i in range(2, 4): 
+        #         if parking_result[i] < 5: 
+        #             result_number = i + 1 
+        #             break
 
         # elif 866 <= self.ego.index <= 916:
         #     for i in range(4, 6): 
@@ -181,11 +184,11 @@ class PL():
             cnt += 1 
     
         parking_number = Int32() 
-        # print(type(test.points)) 
-        parking_number.data = self.parking(test.points) 
-        self.pub_num.publish(parking_number) 
+        # print(type(test.points))
+        parking_number.data = self.parking(test.points)
+        self.pub_num.publish(parking_number)
         # print('===================================================parking number published', parking_number) 
-    
+
         # print("Input :", cnt) 
         # test.channels.append(get_in) 
         test.header.frame_id = 'map' 

@@ -35,14 +35,14 @@ class BehaviorPlanner(threading.Thread):
                     #####################
                     # self.mission.Parking_KCity_diagonal_jeongseok()
 
-                elif self.plan.state == "static_obstacle_detected":
-                    self.mission.static_obstacle()
+                # elif self.plan.state == "static_obstacle_detected":
+                #     self.mission.static_obstacle()
 
-                elif self.plan.state == "left_sign_detected":
-                    self.mission.turn_left()
+                # elif self.plan.state == "left_sign_detected":
+                #     self.mission.turn_left()
 
-                elif self.plan.state == "emergency_stop":
-                    self.mission.emergency_stop()
+                # elif self.plan.state == "emergency_stop":
+                #     self.mission.emergency_stop()
 
                 else:
                     self.mission.go()

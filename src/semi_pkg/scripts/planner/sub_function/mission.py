@@ -57,14 +57,16 @@ class Mission():
     def Parking_KCity_diagonal(self):
         print(self.parking.select_num)
         if (self.parking_create == False):
-            if (self.range(388, 35)) and self.first_stop == False: # K-City
+            if (self.range(395, 35)) and self.first_stop == False: # K-City
                 self.plan.behavior_decision = "stop"
                 self.target_control(100, 0)
                 sleep(3)
-                self.parking.select_num = 1
-                # self.parking.select_num = self.perception.parking_num
+                self.parking.select_num = self.perception.parking_num
+                print("select number : ")
+                print(self.parking.select_num)
+                print("============")
+                # self.parking.select_num = 1
                 self.first_stop = True
-                print('111111111111')
             if self.first_stop == True and ((self.parking.select_num == 1) or (self.parking.select_num == 2) or (self.parking.select_num == 3) or (self.parking.select_num == 4)):
                 self.target_control(0, 5)
                 self.parking_create = True
