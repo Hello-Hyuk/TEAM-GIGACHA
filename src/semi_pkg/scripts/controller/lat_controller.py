@@ -15,6 +15,7 @@ class LatController():
         self.lookahead_default = 4 #look-ahead default
 
     def run(self):
+<<<<<<< Updated upstream
         while True:
             try:
                 if self.parking.on == "on":
@@ -51,6 +52,43 @@ class LatController():
 
             except IndexError:
                 print("++++++++lat_controller+++++++++")
+=======
+        try:
+            if self.parking.on == "on":
+                self.parking_run()
+            elif self.parking.on == "forced":
+                self.parking_run2()
+            elif self.parking.on == "U_turn":
+                self.U_turn()
+            elif self.parking.on == "off":
+                self.steer = self.pure_pursuit()
+
+            return self.steer
+
+        except IndexError:
+            print("++++++++lat_controller+++++++++")
+                
+    def pure_pursuit(self):
+        self.path = self.lattice_path[self.shared.selected_lane]
+        
+        # temp
+        target_index = len(self.path.x) - 49
+        # todo
+        # lookahead = min(self.k * self.ego.speed + self.lookahead_default, 7)
+        # target_index = int(lookahead * 10)
+        
+        target_x, target_y = self.path.x[target_index], self.path.y[target_index]
+        target_angle = degrees(atan2(target_y - self.ego.y, target_x - self.ego.x)) % 360
+        alpha = self.ego.heading - target_angle
+        steer = atan2(2 * self.WB * sin(radians(alpha)) / l_d, 1)
+        
+        if (degrees(steer) < 0.5 and degrees(steer) > -0.5):
+            steer = 0
+        
+        self.steer = max(min(degrees(steer), 27.0), -27.0)
+        
+        return self.steer
+>>>>>>> Stashed changes
 
     def parking_run(self):
         if self.parking.direction == 0:
