@@ -1,6 +1,6 @@
 from math import hypot, cos, sin, degrees, atan2, radians, pi
 
-class LatController():
+class Purepursuit():
     def __init__(self, eg, sh, lattice, pl, park):
  
         self.ego = eg

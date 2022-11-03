@@ -1,7 +1,8 @@
 import threading
 import rospy
 from time import sleep
-from .lat_controller import LatController
+from .lat_purepursuit import Purepursuit
+from .lat_stanley import Stanley
 # from .lon_controller import LonController
 from local_pkg.msg import Control_Info
 
@@ -17,7 +18,7 @@ class Controller(threading.Thread):
 
         self.serial_pub = rospy.Publisher("controller", Control_Info, queue_size=1)        
 
-        self.lat_controller = LatController(self.ego, self.shared, self.lattice_path, self.plan, self.parking)
+        self.lat_controller = Purepursuit(self.ego, self.shared, self.lattice_path, self.plan, self.parking)
         # self.lon_controller = LonController(self.ego, self.shared)
 
     def run(self):

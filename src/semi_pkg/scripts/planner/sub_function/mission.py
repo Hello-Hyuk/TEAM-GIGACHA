@@ -10,12 +10,6 @@ class Mission():
         self.plan = pl
         self.parking = self.shared.park
 
-        self.time_checker = False
-        
-        self.obstacle_checker = False
-        self.emergency_check = False
-        self.obstacle_stop = False
-
         self.now = 0
         self.parking_create = False
         self.parking_path_maker = False
@@ -157,61 +151,6 @@ class Mission():
                     self.ego.target_gear = 0
                     self.target_control(0, self.speed)
                     self.parking_switch = True
-
-    def static_obstacle(self):
-        self.plan.behavior_decision = "static_obstacle_avoidance"
-        index = len(self.perception.objx)
-        
-        # if (self.range(2175,50)) and self.obstacle_stop == False:
-        #     self.target_control(100,0)
-        #     sleep(3)
-        #     self.target_control(0,10)
-        #     self.obstacle_stop = True
-
-        if (len(self.perception.objx) > 0):
-            self.obs_dis = 15.5
-            for i in range(0, index):
-                self.dis = sqrt(
-                    (self.perception.objx[i] - self.ego.x)**2 + (self.perception.objy[i] - self.ego.y)**2)
-                self.obs_dis = min(self.obs_dis, self.dis)
-                print(len(self.perception.objx), " ", self.obs_dis)
-
-            if self.obs_dis <= 10:
-                self.target_control(0, 5)
-                self.obstacle_checker = True
-                self.time_checker = False
-                
-        elif self.obstacle_checker == True:
-            if self.time_checker == False:
-                self.cur_t = time()
-                self.time_checker = True
-            if time() - self.cur_t < 3:
-                self.target_control(0, 5)
-            else:
-                self.target_control(0, 7)
-            
-        else:
-            self.target_control(0, 7)
-
-    def turn_left(self):
-        if self.perception.tleft == 1 or self.perception.tgreen == 1:
-            self.plan.behavior_decision = "driving"
-            self.target_control(0, self.speed)
-        else:
-            if self.range(1610, 85):
-                self.plan.behavior_decision = "stop"
-                self.target_control(100, 0)
-            else:
-                self.plan.behavior_decision = "driving"
-                self.target_control(0, self.speed)
-
-    def emergency_stop(self):
-        self.target_control(0, 10)
-        self.plan.behavior_decision = "emergency_avoidance"
-        if self.shared.plan.obstac == True:
-            self.target_control(150, 0)
-            sleep(2)
-            self.target_control(0, 10)
 
     def convert_lidar(self):
         theta = (self.ego.heading) * pi / 180

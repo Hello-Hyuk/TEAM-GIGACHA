@@ -31,17 +31,10 @@ class MotionPlanner(threading.Thread):
                 findLocalPath(self.global_path, self.ego, self.cut_path)
                 self.motion.path_maker()  # lattice_path
 
-                # if self.shared.plan.behavior_decision == "static_obstacle_avoidance":
-                #     self.motion.weight_function_obstacle_avoidance()
-                #     self.motion.select_trajectory()
-
                 if self.shared.plan.behavior_decision == "driving":
                     self.motion.lane_weight = [10000, 1000, 0, 10000]
                     self.motion.select_trajectory()
 
-                # elif self.shared.plan.behavior_decision == "emergency_avoidance":
-                #     self.motion.weight_function_AEB()
-                #     self.motion.select_trajectory()
 
                 ################# parking ######################
                 elif self.shared.plan.behavior_decision == "parking_trajectory_Create":
