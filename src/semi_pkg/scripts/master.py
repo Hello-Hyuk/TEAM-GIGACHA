@@ -35,17 +35,19 @@ class Master(threading.Thread):
         self.motion_planner = MotionPlanner(self, rate=20)
         self.init_thread(self.motion_planner)
 
-        self.controller = Controller(self, rate=20)
+        self.controller = Controller(self, rate=10)
         self.init_thread(self.controller)
 
         self.visualizer = Visualizer(self, rate=10)
         self.init_thread(self.visualizer)
 
         while True:
-            print("---------------------")
 
-            # # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
-            # #    .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
+
+
+
+            # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
+            #    .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
 
             # print('index : ', self.shared.ego.index)
             # print('heading : ', self.shared.ego.heading)

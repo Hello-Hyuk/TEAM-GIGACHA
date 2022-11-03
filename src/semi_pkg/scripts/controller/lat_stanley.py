@@ -16,6 +16,7 @@ class Stanley():
 
         self.k = -0.8 # CTR parameter
         self.direction = 1
+        self.steer = 0
 
     def normalize(self, angle):
         while angle > pi:
@@ -27,53 +28,58 @@ class Stanley():
         return angle
 
     def make_yaw(self, path, yaw):
-        for i in range(len(path.x)-1):
+        for i in range(len(path.x)-30):
             yaw.append(atan2(path.y[i+1]-path.y[i],path.x[i+1]-path.x[i]))
 
     def run(self):
         while True:
-            try:
-                if self.parking.on == "on":
-                    self.parking_run()
-                elif self.parking.on == "forced":
-                    self.parking_run2()
-                elif self.parking.on == "off":
-                    self.path = self.lattice_path[self.shared.selected_lane]
-                    self.make_yaw(self.path, self.yaw)
+            if self.parking.on == "on":
+                self.parking_run()
+            elif self.parking.on == "forced":
+                self.parking_run2()
+            elif self.parking.on == "off":
+                self.yaw=[]
+                self.path = self.lattice_path[self.shared.selected_lane]
+                self.make_yaw(self.path, self.yaw)
 
-                    k_s = 0
+                k_s = 0.0
 
-                    front_x = self.ego.x
-                    front_y = self.ego.y
+                front_x = self.ego.x
+                front_y = self.ego.y
 
-                    map_x = self.path[self.ego.index]
-                    map_y = self.path[self.ego.index]
-                    map_yaw = self.yaw[self.ego.index]
+                map_x = self.path.x[0]
+                map_y = self.path.y[0]
+                map_yaw = self.yaw[0]
 
-                    dx = map_x - front_x
-                    dy = map_y - front_y
+                dx = map_x - front_x
+                dy = map_y - front_y
 
-                    perp_vec = [self.direction*cos(radians(self.ego.heading)+pi/2), self.direction*sin(radians(self.ego.heading)+pi/2)]
-                    cte = np.dot([dx, dy], perp_vec)
+                perp_vec = [self.direction*cos(radians(self.ego.heading)+pi/2), self.direction*sin(radians(self.ego.heading)+pi/2)]
+                cte = np.dot([dx, dy], perp_vec)
 
-                    final_yaw = -(map_yaw - radians(self.ego.heading))
-                    # control law
-                    yaw_term = self.normalize(final_yaw)
-                    # cte_term = atan2(self.k*cte, self.state.speed)
-                    cte_term = atan2(self.k*cte, self.ego.speed + k_s)
+                final_yaw = -(map_yaw - radians(self.ego.heading))
+                # control law
+                yaw_term = self.normalize(final_yaw)
+                # cte_term = atan2(self.k*cte, self.state.speed)
+                cte_term = atan2(self.k*cte, self.ego.speed + k_s)
 
-                    # steering
-                    steer = degrees(yaw_term + cte_term)
+                # steering
+                steer = degrees(yaw_term + cte_term)
+                # print("-----------============----------")
 
-                    if degrees(steer) < 0.5 and degrees(steer) > -0.5:
-                        steer = 0
+                # print("map yaw :", map_yaw)
+                # print("heading : ", radians(self.ego.heading))
+                # print("yaw_term : ",degrees(yaw_term))
+                # print("cte_term : ", degrees(cte_term))
+                # print("steer : ",steer)
 
-                    self.steer = max(min(degrees(steer), 27.0), -27.0)
+                # if steer < 3 and steer > -3:
+                #     steer = 0
 
-                return self.steer
+                self.steer = max(min(steer, 27.0), -27.0)
+                # print("self.steer : ",self.steer)
 
-            except IndexError:
-                print("++++++++lat_controller+++++++++")
+            return self.steer
 
     def parking_run(self):
         if self.parking.direction == 0:
@@ -142,7 +148,6 @@ class Stanley():
         # if self.ego.target_gear == 2:
         #     steer = -1.5*steer
         # ##########################
-
         if degrees(steer) < 3.5 and degrees(steer) > -3.5:
             steer = 0
 

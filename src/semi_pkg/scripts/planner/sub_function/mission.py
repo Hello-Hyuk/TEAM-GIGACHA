@@ -48,7 +48,7 @@ class Mission():
             self.parking_create = True
             self.plan.behavior_decision = "parking_trajectory_Create"
 
-    def Parking_KCity_diagonal(self):
+    def Parking_Yonghyeon_diagonal(self):
         print(self.parking.select_num)
         if (self.parking_create == False):
             if (self.range(395, 35)) and self.first_stop == False: # K-City
@@ -88,6 +88,42 @@ class Mission():
                     self.target_control(0, self.speed)
                     self.parking_switch = True
 
+    def Parking_KCity_diagonal(self):
+        print(self.parking.select_num)
+        if (self.parking_create == False):
+            if (self.range(805, 85)) and self.first_stop == False: # K-City
+                self.plan.behavior_decision = "stop"
+                self.target_control(100, 0)
+                sleep(3)
+                # self.parking.select_num = self.perception.parking_num
+                self.parking.select_num = 2
+                self.first_stop = True
+            if self.first_stop == True and ((self.parking.select_num == 1) or (self.parking.select_num == 2) or (self.parking.select_num == 3)):
+                self.target_control(0, 5)
+                self.parking_create = True
+                self.plan.behavior_decision = "parking_trajectory_Create"
+            elif self.first_stop == True and self.parking.select_num == -1 or self.parking.select_num == 4 or self.parking.select_num == 5 or self.parking.select_num == 6:
+                self.Parking_stop_function(865, 915) # K-City
+
+        if (self.parking_create and self.parking_switch == False):
+            if (self.parking_forward_start == False and len(self.parking.forward_path.x) > 0):
+                self.parking.on = "on"
+                self.plan.behavior_decision = "parkingForwardOn"
+                self.parking_forward_start = True
+            if (15 <= int(self.parking.stop_index - self.parking.index) <= 45) and (self.parking.direction == 0):
+                    self.target_control(100, 0)
+                    sleep(10)
+                    self.plan.behavior_decision = "parkingBackwardOn"
+                    self.ego.target_gear = 2
+                    self.target_control(0, 5)
+            elif (15 <= int(self.parking.stop_index - self.parking.index) <= 25) and (self.parking.direction == 2):
+                    self.target_control(100, 0)
+                    sleep(3)
+                    self.plan.behavior_decision = "driving"
+                    self.parking.on = "off"
+                    self.ego.target_gear = 0
+                    self.target_control(0, self.speed)
+                    self.parking_switch = True
     def Parking_KCity_diagonal_jeongseok(self):
         if (self.parking_create == False):
             if (self.range(805, 85)) and self.first_stop == False: # K-City

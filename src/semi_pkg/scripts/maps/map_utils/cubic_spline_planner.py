@@ -174,7 +174,6 @@ class Spline2D:
         yaw = math.atan2(dy, dx)
         return yaw
 
-
 def calc_spline_course(x, y, ds=0.1):
     sp = Spline2D(x, y)
     s = list(np.arange(0, sp.s[-1], ds))

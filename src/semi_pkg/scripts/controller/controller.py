@@ -18,12 +18,13 @@ class Controller(threading.Thread):
 
         self.serial_pub = rospy.Publisher("controller", Control_Info, queue_size=1)        
 
-        self.lat_controller = Purepursuit(self.ego, self.shared, self.lattice_path, self.plan, self.parking)
+        # self.lat_controller = Purepursuit(self.ego, self.shared, self.lattice_path, self.plan, self.parking)
+        self.lat_controller = Stanley(self.ego, self.shared, self.lattice_path, self.plan, self.parking)
         # self.lon_controller = LonController(self.ego, self.shared)
 
     def run(self):
         while True:
-            try:
+            try:  
                 self.ego.input_steer = self.lat_controller.run()
                 # self.ego.input_speed = self.lon_controller.run()
                 if self.plan.behavior_decision == "driving":
@@ -47,4 +48,4 @@ class Controller(threading.Thread):
             except IndexError:
                 print("+++++++controller++++++")
 
-            sleep(self.period)
+            sleep(self.period)  

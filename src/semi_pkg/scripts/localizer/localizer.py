@@ -45,7 +45,7 @@ class Localizer(threading.Thread):
                 self.global_path.x.append(x)
                 self.global_path.y.append(y)
                 self.global_path.mission.append(mission)
-                self.ego.map_speed.append(map_speed)
+                self.ego.map_speed.append(10)
 
     def index_finder(self):
         min_dis = -1
@@ -63,8 +63,8 @@ class Localizer(threading.Thread):
                 min_dis = dis
                 min_idx = i
                 save_idx = i
+        print("min_dis :", min_dis)
         self.ego.index = min_idx
-        
         self.perception.signname = self.global_path.mission[self.ego.index]
 
     def dead_reckoning(self):
