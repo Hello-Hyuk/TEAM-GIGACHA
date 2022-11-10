@@ -1,6 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/local_pkg_generate_messages_cpp"
-  "/home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Guii.h"
   "/home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Serial_Info.h"
   "/home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Control_Info.h"
   "/home/gigacha/TEAM-GIGACHA/devel/include/local_pkg/Local.h"

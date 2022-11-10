@@ -340,10 +340,10 @@
   "02900f6dd7ae8d0a3ed2e4e2d3c5c924")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<Local>)))
   "Returns full string definition for message of type '<Local>"
-  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%float64 roll~%float64 pitch~%float64 dr_x~%float64 dr_y~%int64 hAcc~%float64 speeed~%float64 dis~%geometry_msgs/Quaternion orientation~%================================================================================~%MSG: geometry_msgs/Quaternion~%# This represents an orientation in free space in quaternion form.~%~%float64 x~%float64 y~%float64 z~%float64 w~%~%~%"))
+  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%float64 roll~%float64 pitch~%float64 dr_x~%float64 dr_y~%int64 hAcc~%float64 speeed~%float64 dis~%geometry_msgs/Quaternion orientation~%~%================================================================================~%MSG: geometry_msgs/Quaternion~%# This represents an orientation in free space in quaternion form.~%~%float64 x~%float64 y~%float64 z~%float64 w~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'Local)))
   "Returns full string definition for message of type 'Local"
-  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%float64 roll~%float64 pitch~%float64 dr_x~%float64 dr_y~%int64 hAcc~%float64 speeed~%float64 dis~%geometry_msgs/Quaternion orientation~%================================================================================~%MSG: geometry_msgs/Quaternion~%# This represents an orientation in free space in quaternion form.~%~%float64 x~%float64 y~%float64 z~%float64 w~%~%~%"))
+  (cl:format cl:nil "float64 x~%float64 y~%float64 heading~%float64 roll~%float64 pitch~%float64 dr_x~%float64 dr_y~%int64 hAcc~%float64 speeed~%float64 dis~%geometry_msgs/Quaternion orientation~%~%================================================================================~%MSG: geometry_msgs/Quaternion~%# This represents an orientation in free space in quaternion form.~%~%float64 x~%float64 y~%float64 z~%float64 w~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <Local>))
   (cl:+ 0
      8

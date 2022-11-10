@@ -48,9 +48,9 @@ class Master(threading.Thread):
             #    .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
 
             print('index : ', self.shared.ego.index)
-            print('heading : ', self.shared.ego.heading)
-            print('Mission_State : {}'.format(self.shared.plan.state))
-            print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
+            print('heading : {:.2f}'.format(self.shared.ego.heading))
+            # print('Mission_State : {}'.format(self.shared.plan.state))
+            # print('Behavior_Decision : {}'.format(self.shared.plan.behavior_decision))
             print('Input Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
 
             self.checker_all()

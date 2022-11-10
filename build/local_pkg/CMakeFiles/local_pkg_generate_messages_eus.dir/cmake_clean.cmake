@@ -1,6 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/local_pkg_generate_messages_eus"
-  "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Guii.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Serial_Info.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Control_Info.l"
   "/home/gigacha/TEAM-GIGACHA/devel/share/roseus/ros/local_pkg/msg/Local.l"

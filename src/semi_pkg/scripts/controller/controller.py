@@ -23,7 +23,7 @@ class Controller(threading.Thread):
     def run(self):
         while True:
             try:
-                self.ego.input_steer = self.lat_controller.run()
+                self.ego.input_steer, self.ego.input_speed = self.lat_controller.run()
                 # self.ego.input_speed = self.lon_controller.run()
                 if self.plan.behavior_decision == "driving":
                     self.ego.input_speed = self.ego.map_speed[self.ego.index]

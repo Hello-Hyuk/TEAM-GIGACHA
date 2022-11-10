@@ -24,34 +24,21 @@ class LatController():
                 elif self.parking.on == "U_turn":
                     self.U_turn()
                 elif self.parking.on == "off":
-                    self.steer = self.pure_pursuit()
+                    self.steer, speed = self.pure_pursuit()
 
-                return self.steer
+                return self.steer, speed
 
             except IndexError:
                 print("++++++++lat_controller+++++++++")
-                
+    
+    # todo : lat controller
     def pure_pursuit(self):
-        self.path = self.lattice_path[self.shared.selected_lane]
+        steer = 0
+        speed = 0
         
-        # temp
-        target_index = len(self.path.x) - 49
-        # todo
-        # lookahead = min(self.k * self.ego.speed + self.lookahead_default, 7)
-        # target_index = int(lookahead * 10)
         
-        target_x, target_y = self.path.x[target_index], self.path.y[target_index]
-        target_distance = sqrt((target_x - self.ego.x)**2 + (target_y - self.ego.y)**2)
-        target_angle = degrees(atan2(target_y - self.ego.y, target_x - self.ego.x)) % 360
-        alpha = self.ego.heading - target_angle
-        steer = atan2(2 * self.WB * sin(radians(alpha)) / target_distance, 1)
-        
-        if (degrees(steer) < 0.5 and degrees(steer) > -0.5):
-            steer = 0
-        
-        self.steer = max(min(degrees(steer), 27.0), -27.0)
-        
-        return self.steer
+
+        return steer, speed
 
     def parking_run(self):
         if self.parking.direction == 0:

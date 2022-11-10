@@ -185,6 +185,7 @@ class Local {
     float64 speeed
     float64 dis
     geometry_msgs/Quaternion orientation
+    
     ================================================================================
     MSG: geometry_msgs/Quaternion
     # This represents an orientation in free space in quaternion form.

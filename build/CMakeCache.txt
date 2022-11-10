@@ -498,12 +498,6 @@ narrow_road_drive_BINARY_DIR:STATIC=/home/gigacha/TEAM-GIGACHA/build/narrow_road
 //Value Computed by CMake
 narrow_road_drive_SOURCE_DIR:STATIC=/home/gigacha/TEAM-GIGACHA/src/narrow_road_drive
 
-//Value Computed by CMake
-new_gigacha_BINARY_DIR:STATIC=/home/gigacha/TEAM-GIGACHA/build/new_gigacha
-
-//Value Computed by CMake
-new_gigacha_SOURCE_DIR:STATIC=/home/gigacha/TEAM-GIGACHA/src/new_gigacha
-
 //The directory containing a CMake configuration file for nodelet.
 nodelet_DIR:PATH=/opt/ros/melodic/share/nodelet/cmake
 
@@ -575,18 +569,6 @@ rtcm_msgs_BINARY_DIR:STATIC=/home/gigacha/TEAM-GIGACHA/build/ublox_f9p/rtcm_msgs
 
 //Value Computed by CMake
 rtcm_msgs_SOURCE_DIR:STATIC=/home/gigacha/TEAM-GIGACHA/src/ublox_f9p/rtcm_msgs
-
-//Value Computed by CMake
-semi_final_pkg_BINARY_DIR:STATIC=/home/gigacha/TEAM-GIGACHA/build/semi_final_pkg
-
-//Value Computed by CMake
-semi_final_pkg_SOURCE_DIR:STATIC=/home/gigacha/TEAM-GIGACHA/src/semi_final_pkg
-
-//Value Computed by CMake
-semi_mission_pkg_BINARY_DIR:STATIC=/home/gigacha/TEAM-GIGACHA/build/semi_mission_pkg
-
-//Value Computed by CMake
-semi_mission_pkg_SOURCE_DIR:STATIC=/home/gigacha/TEAM-GIGACHA/src/semi_mission_pkg
 
 //Value Computed by CMake
 semi_pkg_BINARY_DIR:STATIC=/home/gigacha/TEAM-GIGACHA/build/semi_pkg
