@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
-messages_str = "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Local.msg;/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Serial_Info.msg;/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Control_Info.msg;/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg"
+messages_str = "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Local.msg;/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Serial_Info.msg;/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Control_Info.msg"
 services_str = ""
 pkg_name = "local_pkg"
 dependencies_str = "std_msgs;geometry_msgs;local_pkg"

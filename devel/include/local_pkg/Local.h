@@ -218,6 +218,7 @@ struct Definition< ::local_pkg::Local_<ContainerAllocator> >
 "float64 speeed\n"
 "float64 dis\n"
 "geometry_msgs/Quaternion orientation\n"
+"\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Quaternion\n"
 "# This represents an orientation in free space in quaternion form.\n"

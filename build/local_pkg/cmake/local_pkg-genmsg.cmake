@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "local_pkg: 4 messages, 0 services")
+message(STATUS "local_pkg: 3 messages, 0 services")
 
 set(MSG_I_FLAGS "-Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg;-Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg;-Ilocal_pkg:/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg")
 
@@ -16,11 +16,6 @@ add_custom_target(local_pkg_generate_messages ALL)
 # verify that message/service dependencies have not changed since configure
 
 
-
-get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg" NAME_WE)
-add_custom_target(_local_pkg_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "local_pkg" "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg" ""
-)
 
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Local.msg" NAME_WE)
 add_custom_target(_local_pkg_generate_messages_check_deps_${_filename}
@@ -43,12 +38,6 @@ add_custom_target(_local_pkg_generate_messages_check_deps_${_filename}
 
 ### Section generating for lang: gencpp
 ### Generating Messages
-_generate_msg_cpp(local_pkg
-  "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg"
-  "${MSG_I_FLAGS}"
-  ""
-  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/local_pkg
-)
 _generate_msg_cpp(local_pkg
   "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Serial_Info.msg"
   "${MSG_I_FLAGS}"
@@ -82,8 +71,6 @@ add_custom_target(local_pkg_generate_messages_cpp
 add_dependencies(local_pkg_generate_messages local_pkg_generate_messages_cpp)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg" NAME_WE)
-add_dependencies(local_pkg_generate_messages_cpp _local_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Local.msg" NAME_WE)
 add_dependencies(local_pkg_generate_messages_cpp _local_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Control_Info.msg" NAME_WE)
@@ -100,12 +87,6 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS local_pkg_generate_messages_cpp)
 
 ### Section generating for lang: geneus
 ### Generating Messages
-_generate_msg_eus(local_pkg
-  "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg"
-  "${MSG_I_FLAGS}"
-  ""
-  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/local_pkg
-)
 _generate_msg_eus(local_pkg
   "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Serial_Info.msg"
   "${MSG_I_FLAGS}"
@@ -139,8 +120,6 @@ add_custom_target(local_pkg_generate_messages_eus
 add_dependencies(local_pkg_generate_messages local_pkg_generate_messages_eus)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg" NAME_WE)
-add_dependencies(local_pkg_generate_messages_eus _local_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Local.msg" NAME_WE)
 add_dependencies(local_pkg_generate_messages_eus _local_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Control_Info.msg" NAME_WE)
@@ -157,12 +136,6 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS local_pkg_generate_messages_eus)
 
 ### Section generating for lang: genlisp
 ### Generating Messages
-_generate_msg_lisp(local_pkg
-  "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg"
-  "${MSG_I_FLAGS}"
-  ""
-  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/local_pkg
-)
 _generate_msg_lisp(local_pkg
   "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Serial_Info.msg"
   "${MSG_I_FLAGS}"
@@ -196,8 +169,6 @@ add_custom_target(local_pkg_generate_messages_lisp
 add_dependencies(local_pkg_generate_messages local_pkg_generate_messages_lisp)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg" NAME_WE)
-add_dependencies(local_pkg_generate_messages_lisp _local_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Local.msg" NAME_WE)
 add_dependencies(local_pkg_generate_messages_lisp _local_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Control_Info.msg" NAME_WE)
@@ -214,12 +185,6 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS local_pkg_generate_messages_lisp)
 
 ### Section generating for lang: gennodejs
 ### Generating Messages
-_generate_msg_nodejs(local_pkg
-  "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg"
-  "${MSG_I_FLAGS}"
-  ""
-  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/local_pkg
-)
 _generate_msg_nodejs(local_pkg
   "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Serial_Info.msg"
   "${MSG_I_FLAGS}"
@@ -253,8 +218,6 @@ add_custom_target(local_pkg_generate_messages_nodejs
 add_dependencies(local_pkg_generate_messages local_pkg_generate_messages_nodejs)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg" NAME_WE)
-add_dependencies(local_pkg_generate_messages_nodejs _local_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Local.msg" NAME_WE)
 add_dependencies(local_pkg_generate_messages_nodejs _local_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Control_Info.msg" NAME_WE)
@@ -271,12 +234,6 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS local_pkg_generate_messages_nodejs)
 
 ### Section generating for lang: genpy
 ### Generating Messages
-_generate_msg_py(local_pkg
-  "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg"
-  "${MSG_I_FLAGS}"
-  ""
-  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/local_pkg
-)
 _generate_msg_py(local_pkg
   "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Serial_Info.msg"
   "${MSG_I_FLAGS}"
@@ -310,8 +267,6 @@ add_custom_target(local_pkg_generate_messages_py
 add_dependencies(local_pkg_generate_messages local_pkg_generate_messages_py)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg" NAME_WE)
-add_dependencies(local_pkg_generate_messages_py _local_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Local.msg" NAME_WE)
 add_dependencies(local_pkg_generate_messages_py _local_pkg_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Control_Info.msg" NAME_WE)

@@ -42,7 +42,6 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Local.msg"
     "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Serial_Info.msg"
     "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Control_Info.msg"
-    "/home/gigacha/TEAM-GIGACHA/src/local_pkg/msg/Guii.msg"
     )
 endif()
 
