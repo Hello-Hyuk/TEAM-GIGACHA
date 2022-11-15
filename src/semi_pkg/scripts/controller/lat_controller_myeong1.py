@@ -1,11 +1,10 @@
-from math import hypot, cos, sin, degrees, atan2, radians, pi, sqrt, tan
+from math import hypot, cos, sin, degrees, atan2, radians, pi, sqrt
 import numpy as np
-import matplotlib.pyplot as plt
 
 class LatController():
     def __init__(self, eg, sh, lattice, pl, park):
-        self.k = 0.1
-        self.Lfc = 1.0
+        self.k = 1
+        self.Lfc = 2.0
         self.ego = eg
         self.shared = sh
         self.plan = pl
@@ -29,7 +28,7 @@ class LatController():
                 elif self.parking.on == "U_turn":
                     self.U_turn()
                 elif self.parking.on == "off":
-                    self.steer, speed = self.pure_pursuit() #여깄다 요자식. 추후 수정. cute chu-1000
+                    self.steer, speed = self.pure_pursuit(self.ego) #여깄다 요자식. 추후 수정. cute chu-1000
 
                 return self.steer, speed
 
@@ -42,11 +41,9 @@ class LatController():
         dy = self.rear_y - point_y
         return hypot(dx, dy)
       
-    def search_target_index(self):
-        #print('yyyyy')
+    def search_target_index(self, ego):
         # To speed up nearest point search, doing it at only first time.
         if self.old_nearest_point_index is None: # 처음에만 실행되게끔(88번줄 참고)
-            #print('xxxxx')
             # dx, dy 선언에 사용된 문법은 list comprehension : https://semo-na.tistory.com/26
             dx = [self.rear_x - ix for ix in self.global_path.x] # pure pursuit: state.rear_x - cx[i]를 리스트로 저장
             dy = [self.rear_y - iy for iy in self.global_path.y] # pure pursuit: state.rear_y - cy[i]를 리스트로 저장
@@ -56,14 +53,11 @@ class LatController():
             d = np.hypot(dx, dy) # math.hypot은 인자 두개로 피타고라스 조지고 값 반환함
             ind  = np.argmin(d) # np.argmin([list])는 리스트의 최솟값의 index를 반환함
             self.old_nearest_point_index = ind # 가장 가까운 point의 index를 저장, 이제 본 if문은 다시 실행되지 않음
-           
         else: # 첫 실행 다음부터
-            #print('ccccccccc')
             ind = self.old_nearest_point_index # 가장 가까웠던 point의 index를 저장
             distance_this_index = self.calc_distance(self.global_path.x[ind], # 줄바꿈은 가독성을 위해; 별 의미 없음
                                                       self.global_path.y[ind]) # 차량 뒷바퀴축 중심과 가장 가까웠던 point 간 거리 계산하여 저장
             while ind + 1 < len(self.global_path.x):
-                #print('ddddd')
                 distance_next_index = self.calc_distance(self.global_path.x[ind + 1], ##? 인덱스 초과 오류로 인해 ind + 1가 경로 전체 길이보다 작을 때만 작동하도록 제한함. 줄바꿈은 가독성을 위해; 별 의미 없음
                                                           self.global_path.y[ind + 1]) # 차량 뒷바퀴축 중심과 다음 point간 거리 계산하여 저장 
                 if distance_this_index < distance_next_index: # 물리적으로 이전 index의 point에 가까우면
@@ -71,9 +65,9 @@ class LatController():
                 ind = ind + 1 if (ind + 1) < len(self.global_path.x) else ind # ind가 리스트 크기보다 커지지 않게 제한 / if else 문법 : https://wotres.tistory.com/entry/python-for-%EB%AC%B8-if-%EB%AC%B8-%ED%95%9C-%EC%A4%84-%EC%BD%94%EB%94%A9-%ED%95%98%EB%8A%94%EB%B2%95
                 distance_this_index = distance_next_index # distance_this_index 최신화
             self.old_nearest_point_index = ind # self.old_nearest_point_index 최신화
-            
-        Lf = self.k * self.ego.speed + self.Lfc  # update look ahead distance
-        
+
+        Lf = self.k * ego.speed + self.Lfc  # update look ahead distance
+
         # search look ahead target point index
         while Lf > self.calc_distance(self.global_path.x[ind], self.global_path.y[ind]):
             if (ind + 1) >= len(self.global_path.x):
@@ -82,25 +76,25 @@ class LatController():
 
         return ind, Lf
 
-    def pure_pursuit(self):
+    def pure_pursuit(self, ego):
+        self.rear_x = ego.x - ((self.WB/2) * cos(ego.heading))
+        self.rear_y = ego.y - ((self.WB/2) * sin(ego.heading))
 
-        self.rear_x = self.ego.x - ((self.WB/2) * cos(np.radians(self.ego.heading)))
-        self.rear_y = self.ego.y - ((self.WB/2) * sin(np.radians(self.ego.heading)))
-
-        ind, Lf = self.search_target_index() # trajectory에 target_course, 여기에 search_target_index 함수 적용. 이 때 현재 상태(state)를 기준으로함.     #i.e. 아래 main()에서 197번 줄 반복문을 통해 위의 Lf = k * state.v + Lfc값을 갱신하고, ind를 계속 찾는 역할을 함
+        ind, Lf = self.search_target_index(self.ego) # trajectory에 target_course, 여기에 search_target_index 함수 적용. 이 때 현재 상태(state)를 기준으로함.     #i.e. 아래 main()에서 197번 줄 반복문을 통해 위의 Lf = k * state.v + Lfc값을 갱신하고, ind를 계속 찾는 역할을 함
         #if pind >= ind: # pind에 target_ind, 현재 계산된 인덱스(ind)가 더 앞쪽에 있을 때만 바꾼다 이 소리(즉, 현재 ind가 과거 어떤 지점의 ind보다 작으면 굳이 바꾸지 않음. <- 바꾸면 역행함.)
             #ind = pind # i.e. 비교 후 인덱스를 둘 중 다음(큰) 것으로 갱신
 
-        
-        print("ind : ", ind, "ego_index : ", self.ego.index, "Lf : ", Lf)
-       
-        tx = self.global_path.x[ind] #i.e. tx = target_course.cx[ind], tx는 현재 가는 바라본 곳의 x좌표
-        ty = self.global_path.y[ind] # 바라본 곳의 y좌표
-            
-        alpha = (atan2(ty - self.rear_y, tx - self.rear_x) - np.radians(self.ego.heading)) # 기하학적 관계식
-        steer = np.degrees(atan2(2.0 * self.WB * sin(alpha) / Lf, 1.0)) #pure pursuit 알고리즘에 의한 식
-        speed = 20
-        
+        if ind < len(self.global_path.x): # 인덱스가 마지막 지점보다 작을 때,
+            tx = self.global_path.x[ind] #i.e. tx = target_course.cx[ind], tx는 현재 가는 바라본 곳의 x좌표
+            ty = self.global_path.y[ind] # 바라본 곳의 y좌표
+        else:  # toward goal
+            tx = self.global_path.x[-1] # point 가 골인지점을 넘어가면 그냥 마지막 지점을 바라보고 간다
+            ty = self.global_path.y[-1]
+            ind = len(self.global_path.x) - 1 # 마지막 지점 인덱스
+
+        alpha = atan2(ty - self.rear_y, tx - self.rear_x) - ego.heading # 기하학적 관계식
+        steer = 100*atan2(2.0 * self.WB * sin(alpha) / Lf, 1.0) #pure pursuit 알고리즘에 의한 식
+        speed =20
         #steer = 3
         #speed = 20
         return steer, speed
