@@ -53,6 +53,7 @@ class LatController():
             d = np.hypot(dx, dy) # math.hypot은 인자 두개로 피타고라스 조지고 값 반환함
             ind  = np.argmin(d) # np.argmin([list])는 리스트의 최솟값의 index를 반환함
             self.old_nearest_point_index = ind # 가장 가까운 point의 index를 저장, 이제 본 if문은 다시 실행되지 않음
+
         else: # 첫 실행 다음부터
             ind = self.old_nearest_point_index # 가장 가까웠던 point의 index를 저장
             distance_this_index = self.calc_distance(self.global_path.x[ind], # 줄바꿈은 가독성을 위해; 별 의미 없음
@@ -73,12 +74,14 @@ class LatController():
             if (ind + 1) >= len(self.global_path.x):
                 break  # not exceed goal
             ind += 1
-
+        #############################
+        Lf = 10
+        #############################
         return ind, Lf
 
     def pure_pursuit(self, ego):
-        self.rear_x = ego.x - ((self.WB/2) * cos(ego.heading))
-        self.rear_y = ego.y - ((self.WB/2) * sin(ego.heading))
+        self.rear_x = ego.x - ((self.WB/2) * cos(np.radians(ego.heading)))
+        self.rear_y = ego.y - ((self.WB/2) * sin(np.radians(ego.heading)))
 
         ind, Lf = self.search_target_index(self.ego) # trajectory에 target_course, 여기에 search_target_index 함수 적용. 이 때 현재 상태(state)를 기준으로함.     #i.e. 아래 main()에서 197번 줄 반복문을 통해 위의 Lf = k * state.v + Lfc값을 갱신하고, ind를 계속 찾는 역할을 함
         #if pind >= ind: # pind에 target_ind, 현재 계산된 인덱스(ind)가 더 앞쪽에 있을 때만 바꾼다 이 소리(즉, 현재 ind가 과거 어떤 지점의 ind보다 작으면 굳이 바꾸지 않음. <- 바꾸면 역행함.)
@@ -92,7 +95,7 @@ class LatController():
             ty = self.global_path.y[-1]
             ind = len(self.global_path.x) - 1 # 마지막 지점 인덱스
 
-        alpha = atan2(ty - self.rear_y, tx - self.rear_x) - ego.heading # 기하학적 관계식
+        alpha = atan2(ty - self.rear_y, tx - self.rear_x) - np.radians(ego.heading) # 기하학적 관계식
         steer = 100*atan2(2.0 * self.WB * sin(alpha) / Lf, 1.0) #pure pursuit 알고리즘에 의한 식
         speed =20
         #steer = 3
