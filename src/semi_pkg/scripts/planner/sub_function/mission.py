@@ -55,7 +55,8 @@ class Mission():
                 self.plan.behavior_decision = "stop"
                 self.target_control(100, 0)
                 sleep(3)
-                self.parking.select_num = self.perception.parking_num
+                # self.parking.select_num = self.perception.parking_num
+                self.parking.select_num = 4
                 print("select number : ")
                 print(self.parking.select_num)
                 print("============")
@@ -73,13 +74,15 @@ class Mission():
                 self.parking.on = "on"
                 self.plan.behavior_decision = "parkingForwardOn"
                 self.parking_forward_start = True
+            # if (15 <= int(self.parking.stop_index - self.parking.index) <= 45) and (self.parking.direction == 0):
             if (15 <= int(self.parking.stop_index - self.parking.index) <= 45) and (self.parking.direction == 0):
                     self.target_control(100, 0)
                     sleep(10)
                     self.plan.behavior_decision = "parkingBackwardOn"
                     self.ego.target_gear = 2
                     self.target_control(0, 5)
-            elif (15 <= int(self.parking.stop_index - self.parking.index) <= 25) and (self.parking.direction == 2):
+            # elif (15 <= int(self.parking.stop_index - self.parking.index) <= 25) and (self.parking.direction == 2):
+            elif (15 <= int(self.parking.stop_index - self.parking.index) <= 45) and (self.parking.direction == 2):
                     self.target_control(100, 0)
                     sleep(3)
                     self.plan.behavior_decision = "driving"

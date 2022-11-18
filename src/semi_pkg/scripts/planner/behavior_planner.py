@@ -31,7 +31,8 @@ class BehaviorPlanner(threading.Thread):
 
                 if self.plan.state == "parking":
                     ### HANAMJA JUCHA ###
-                    self.mission.Parking_KCity_diagonal()
+                    # self.mission.Parking_KCity_diagonal()
+                    self.mission.Parking_Yonghyeon_diagonal()
                     #####################
                     # self.mission.Parking_KCity_diagonal_jeongseok()
                 else:

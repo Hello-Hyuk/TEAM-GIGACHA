@@ -84,74 +84,42 @@ class Stanley():
     def parking_run(self):
         if self.parking.direction == 0:
             self.path = self.parking.forward_path
-            self.make_yaw(self.path, self.forward_yaw)
-            k_s = 3.0
-
-            front_x = self.ego.x
-            front_y = self.ego.y
-
-            map_x = self.path[self.parking.index]
-            map_y = self.path[self.parking.index]
-            map_yaw = self.yaw[self.parking.index]
-
-            dx = map_x - front_x
-            dy = map_y - front_y
-
-            perp_vec = [self.direction*cos(radians(self.ego.heading)+pi/2), self.direction*sin(radians(self.ego.heading)+pi/2)]
-            cte = np.dot([dx, dy], perp_vec)
-
-            final_yaw = -(map_yaw - radians(self.ego.heading))
-            # control law
-            yaw_term = self.normalize(final_yaw)
-            # cte_term = atan2(self.k*cte, self.state.speed)
-            cte_term = atan2(self.k*cte, self.ego.speed + k_s)
-
-            # steering
-            steer = degrees(yaw_term + cte_term)
+            if len(self.forward_yaw) == 0:
+                self.make_yaw(self.path, self.forward_yaw)
+            yaw = self.forward_yaw
         else:
             self.path = self.parking.backward_path
-            self.make_yaw(self.path, self.backward_yaw)
-            self.direction = -1
+            if len(self.backward_yaw) == 0:
+                self.make_yaw(self.path, self.backward_yaw)
+            yaw = self.backward_yaw
+        k_s = 3.0
+
+        front_x = self.ego.x
+        front_y = self.ego.y
+
+        map_x = self.path.x[self.parking.index]
+        map_y = self.path.y[self.parking.index]
+        map_yaw = yaw[self.parking.index]
+
+        dx = map_x - front_x
+        dy = map_y - front_y
+
+        perp_vec = [self.direction*cos(radians(self.ego.heading)+pi/2), self.direction*sin(radians(self.ego.heading)+pi/2)]
+        cte = np.dot([dx, dy], perp_vec)
+
+        final_yaw = -(map_yaw - radians(self.ego.heading))
+        # control law
+        yaw_term = self.normalize(final_yaw)
+        # cte_term = atan2(self.k*cte, self.state.speed)
+        cte_term = atan2(self.k*cte, self.ego.speed + k_s)
+
+        # steering
+        steer = degrees(yaw_term + cte_term)
         
-            k_s = 3.0
-
-            front_x = self.ego.x
-            front_y = self.ego.y
-
-            map_x = self.path[self.parking.index]
-            map_y = self.path[self.parking.index]
-            map_yaw = self.yaw[self.parking.index]
-
-            dx = map_x - front_x
-            dy = map_y - front_y
-
-            perp_vec = [self.direction*cos(radians(self.ego.heading)+pi/2), self.direction*sin(radians(self.ego.heading)+pi/2)]
-            cte = np.dot([dx, dy], perp_vec)
-
-            final_yaw = -(map_yaw - radians(self.ego.heading))
-            # control law
-            yaw_term = self.normalize(final_yaw)
-            # cte_term = atan2(self.k*cte, self.state.speed)
-            cte_term = atan2(self.k*cte, self.ego.speed + k_s)
-
-            # steering
-            steer = degrees(yaw_term + cte_term)
-
-        # heading = self.ego.heading
-        # ###### Back Driving ######
-        # if self.ego.target_gear == 2:
-        #     heading += 180
-        #     heading %= 360
-        # ##########################
-
-        # ###### Back Driving ######
-        # if self.ego.target_gear == 2:
-        #     steer = -1.5*steer
-        # ##########################
-        if degrees(steer) < 3.5 and degrees(steer) > -3.5:
+        if steer < 3.5 and steer > -3.5:
             steer = 0
 
-        self.steer = max(min(degrees(steer), 27.0), -27.0)
+        self.steer = max(min(steer, 27.0), -27.0)
 
     def parking_run2(self):
         self.steer = self.ego.target_steer

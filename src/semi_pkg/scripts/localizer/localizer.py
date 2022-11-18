@@ -63,7 +63,7 @@ class Localizer(threading.Thread):
                 min_dis = dis
                 min_idx = i
                 save_idx = i
-        print("min_dis :", min_dis)
+        # print("min_dis :", min_dis)
         self.ego.index = min_idx
         self.perception.signname = self.global_path.mission[self.ego.index]
 
