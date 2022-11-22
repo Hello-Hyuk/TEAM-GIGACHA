@@ -1,6 +1,6 @@
 from math import sqrt
 from time import time, sleep
-from math import cos, sin, pi, sqrt
+from math import cos, sin, pi, sqrt, tan
 
 class Mission():
     def __init__(self, sh, eg, pc, pl):
@@ -64,16 +64,18 @@ class Mission():
         self.ego.target_speed = speed
 
     def go(self):
-        if self.perception.tgreen == 1:
-            self.plan.behavior_decision = "driving"
-            self.target_control(0, self.speed)
-        else:
-            if self.range(1614, 85) or self.range(2172, 85) or self.range(3533, 85) or self.range(6708, 85) or self.range(8026, 85) or self.range(8497, 85):
-                self.plan.behavior_decision = "stop"
-                self.target_control(100,0)
-            else:
-                self.plan.behavior_decision = "driving"
-                self.target_control(0, self.speed)
+        # if self.perception.tgreen == 1:
+        #     self.plan.behavior_decision = "driving"
+        #     self.target_control(0, self.speed)
+        # else:
+        #     if self.range(1614, 85) or self.range(2172, 85) or self.range(3533, 85) or self.range(6708, 85) or self.range(8026, 85) or self.range(8497, 85):
+        #         self.plan.behavior_decision = "stop"
+        #         self.target_control(100,0)
+        #     else:
+        #         self.plan.behavior_decision = "driving"
+        #         self.target_control(0, self.speed)
+        curve_based_speed = (1.04 / tan(self.ego.steer)) - 2 # 2 will be tuned
+        self.target_control(0, curve_based_speed)
 
     def Parking_KCity_Parallel(self):
         if (self.parking_create == False):
