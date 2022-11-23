@@ -46,8 +46,8 @@ class Master(threading.Thread):
 
 
 
-            print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
-               .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
+            # print('x : {0:.2f}, y : {1:.2f}, index : {2}, \nheading : {3:.2f}'\
+            #    .format(self.shared.ego.x, self.shared.ego.y, self.shared.ego.index, self.shared.ego.heading))
 
             # print('index : ', self.shared.ego.index)
             # print('heading : ', self.shared.ego.heading)

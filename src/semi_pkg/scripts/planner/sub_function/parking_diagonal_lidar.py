@@ -100,7 +100,7 @@ class PL():
                         Point32(x = parking_point_x_y[22][0], y = parking_point_x_y[22][1]),
                         Point32(x = parking_point_x_y[23][0], y = parking_point_x_y[23][1])]
 
-        print(p2)
+        # print(p2)
 
         self.pub_roi1.publish(p1)
         self.pub_roi2.publish(p2)

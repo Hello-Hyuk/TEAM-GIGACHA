@@ -27,6 +27,10 @@ class Parking_Motion():
         self.base_lat = 37.4508561
         self.base_lon = 126.6492464
         self.base_alt = 15.4
+
+        self.track_err = []
+        self.track_index = 0
+        self.track_cnt = True
                
 
         # #siheung
@@ -200,6 +204,18 @@ class Parking_Motion():
                 min_dis = dis
                 min_idx = i
                 save_idx = i
+
+        if self.ego.target_gear == 2 and self.track_cnt == True:
+            self.track_index = 0
+            self.track_cnt = False
+            print('now Backward')
+
+
+        if self.track_index < save_idx:
+            # print(min_dis)
+            self.track_index = save_idx
+        
+
 
         return min_idx
 

@@ -47,9 +47,9 @@ class Stanley():
                 front_x = self.ego.x
                 front_y = self.ego.y
 
-                map_x = self.path.x[0]
-                map_y = self.path.y[0]
-                map_yaw = self.yaw[0]
+                map_x = self.path.x[0 + 0]
+                map_y = self.path.y[0+0]
+                map_yaw = self.yaw[0+ 0]
 
                 dx = map_x - front_x
                 dy = map_y - front_y
@@ -97,9 +97,9 @@ class Stanley():
         front_x = self.ego.x
         front_y = self.ego.y
 
-        map_x = self.path.x[self.parking.index]
-        map_y = self.path.y[self.parking.index]
-        map_yaw = yaw[self.parking.index]
+        map_x = self.path.x[self.parking.index+ 12]
+        map_y = self.path.y[self.parking.index+ 12]
+        map_yaw = yaw[self.parking.index+ 12]
 
         dx = map_x - front_x
         dy = map_y - front_y

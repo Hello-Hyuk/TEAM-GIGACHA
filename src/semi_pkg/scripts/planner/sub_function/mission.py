@@ -49,7 +49,7 @@ class Mission():
             self.plan.behavior_decision = "parking_trajectory_Create"
 
     def Parking_Yonghyeon_diagonal(self):
-        print(self.parking.select_num)
+        # print(self.parking.select_num)
         if (self.parking_create == False):
             if (self.range(395, 35)) and self.first_stop == False: # K-City
                 self.plan.behavior_decision = "stop"

@@ -22,6 +22,7 @@ class Localizer(threading.Thread):
         self.hAcc = 100000
         self.x = 0
         self.y = 0
+        self.track_index = 0
 
     def local_callback(self, msg):
         self.x = msg.x
@@ -66,6 +67,10 @@ class Localizer(threading.Thread):
         # print("min_dis :", min_dis)
         self.ego.index = min_idx
         self.perception.signname = self.global_path.mission[self.ego.index]
+
+        if self.track_index < min_idx:
+            print(min_dis)
+            self.track_index = min_idx
 
     def dead_reckoning(self):
         if self.hAcc < 50 :
