@@ -66,6 +66,7 @@ class Localization():
 
         self.msg.x = self.gps.x
         self.msg.y = self.gps.y
+        self.msg.z = self.gps.z
         self.msg.hAcc = self.gps.hAcc
         self.msg.speeed = self.dr.speed
         self.msg.dis = self.dr.pulse / 58.82

@@ -17,6 +17,7 @@ class GPS():
 
         self.x = 0.0
         self.y = 0.0
+        self.z = 0.0
         self.heading = 0.0
         self.hAcc = 0
         self.heading_switch = False
@@ -35,7 +36,7 @@ class GPS():
         self.alt = self.base['alt']
 
     def gps_call_back(self, data):
-        self.x, self.y, _ = pymap3d.geodetic2enu(data.latitude, data.longitude, self.alt,
+        self.x, self.y, self.z = pymap3d.geodetic2enu(data.latitude, data.longitude, data.altitude,
                                                  self.lat, self.lon, self.alt)
 
     def gps_call_back_simul(self, data):

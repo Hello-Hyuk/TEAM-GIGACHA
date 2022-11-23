@@ -22,10 +22,22 @@
         "lon" : 126.6492464, 
         "alt" : 15.4 
     }, 
- 
+  
     "Yonghyeon_parking" : { 
         "lat" : 37.45107175, 
         "lon" : 126.6494964, 
         "alt" : 15.4 
+    },
+    
+    "Yonghyeon_nabillae" : {
+        "lat" : 37.4514030, 
+        "lon" : 126.6505572, 
+        "alt" : 38.515
+    },
+
+    "Yonghyeon_Millyoung" : {
+        "lat" : 37.4512435, 
+        "lon" : 126.6506353, 
+        "alt" : 15.4
     }
 }
