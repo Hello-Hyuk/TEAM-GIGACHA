@@ -26,7 +26,7 @@ class Controller(threading.Thread):
                 self.ego.input_steer = self.lat_controller.run()
                 # self.ego.input_speed = self.lon_controller.run()
                 if self.plan.behavior_decision == "driving":
-                    self.ego.input_speed = self.ego.map_speed[self.ego.index]
+                    self.ego.input_speed = 7
                 else:
                     self.ego.input_speed = self.ego.target_speed
                 self.ego.input_brake = self.ego.target_brake

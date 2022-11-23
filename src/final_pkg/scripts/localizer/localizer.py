@@ -49,6 +49,15 @@ class Localizer(threading.Thread):
                 self.global_path.mission.append(mission)
                 # self.ego.map_speed.append(map_speed)
 
+    # def read_global_path(self):
+    #     with open(f"maps/{self.mapname}.csv", mode="r") as csv_file:
+    #         csv_reader = csv.reader(csv_file)
+    #         for line in csv_reader:
+    #             self.global_path.x.append(float(line[0]))
+    #             self.global_path.y.append(float(line[1]))
+    #             self.global_path.mission.append("driving")
+    #             # self.global_path.yaw.append(float(line[3]))
+
     def index_finder(self):
         min_dis = -1
         min_idx = 0

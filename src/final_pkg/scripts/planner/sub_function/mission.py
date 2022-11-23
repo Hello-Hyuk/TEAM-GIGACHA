@@ -64,18 +64,9 @@ class Mission():
         self.ego.target_speed = speed
 
     def go(self):
-        # if self.perception.tgreen == 1:
-        #     self.plan.behavior_decision = "driving"
-        #     self.target_control(0, self.speed)
-        # else:
-        #     if self.range(1614, 85) or self.range(2172, 85) or self.range(3533, 85) or self.range(6708, 85) or self.range(8026, 85) or self.range(8497, 85):
-        #         self.plan.behavior_decision = "stop"
-        #         self.target_control(100,0)
-        #     else:
-        #         self.plan.behavior_decision = "driving"
-        #         self.target_control(0, self.speed)
-        curve_based_speed = (1.04 / tan(self.ego.steer)) - 2 # 2 will be tuned
-        self.target_control(0, curve_based_speed)
+        # curve_based_speed = (1.04 / tan(self.ego.steer)) - 2 # 2 will be tuned
+        # self.target_control(0, curve_based_speed)
+        self.target_control(0,5)
 
     def Parking_KCity_Parallel(self):
         if (self.parking_create == False):
