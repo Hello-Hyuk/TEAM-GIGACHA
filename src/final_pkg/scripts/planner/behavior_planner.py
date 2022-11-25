@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import threading
 from time import sleep
-from .sub_function.mission import Mission
+from .sub_function.mission_Siheung import Mission
 from .sub_function.parking_parallel_lidar import PL
 
 class BehaviorPlanner(threading.Thread):
@@ -53,6 +53,10 @@ class BehaviorPlanner(threading.Thread):
 
                 elif self.plan.state == "delivery":
                     self.mission.delivery()
+                    
+                elif self.plan.state == "emergency_stop":
+                    self.mission.convert_lidar()
+                    self.mission.emergency_stop()
 
                 elif self.plan.state == "go":
                     self.mission.go()

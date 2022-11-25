@@ -57,6 +57,10 @@ class MotionPlanner(threading.Thread):
                 elif self.shared.plan.behavior_decision == "parkingBackwardOn":
                     self.park_motion.parking_drive(2)
 
+                elif self.shared.plan.behavior_decision == "emergency_avoidance":
+                    self.motion.weight_function_AEB()
+                    self.motion.select_trajectory()
+
                 ######################delivery###########################
 
                 elif self.shared.plan.behavior_decision == "pickup_mode":

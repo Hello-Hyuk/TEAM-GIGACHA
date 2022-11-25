@@ -35,6 +35,9 @@ class MissionPlanner(threading.Thread):
 
                 elif self.perception.signname == "U-TURN":
                     self.plan.state = "U-TURN"
+                    
+                elif self.perception.signname == "AEB":
+                    self.plan.state = "emergency_stop"
 
                 else:
                     self.plan.state = "go"

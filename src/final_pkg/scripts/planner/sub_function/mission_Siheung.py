@@ -49,8 +49,11 @@ class Mission():
 
         self.save = 0
 
-    def range(self, a):
-        return (a-85) <= self.ego.index <= a
+    # def range(self, a):
+    #     return (a-85) <= self.ego.index <= a
+
+    def range(self, a, b =85):
+        return (a-b) <= self.ego.index <= a
 
     def target_control(self, brake, speed):
         self.ego.target_brake = brake
@@ -230,6 +233,7 @@ class Mission():
 
     def u_turn(self):
         self.perception.tleft = 1
+        self.target_control
         if self.perception.tleft == 1 :
             self.plan.behavior_decision = "driving"
             if (5175 < self.ego.index < 5335):
@@ -315,13 +319,13 @@ class Mission():
         #         self.target_control(0, self.speed)
 
     def non_traffic_right(self):
-        # if (self.range(2032, 20) and self.non_traffic_right_checker == 0) or (self.range(2146, 20) and self.non_traffic_right_checker == 1):
-        #     self.plan.behavior_decision = "stop"
-        #     self.target_control(200, 0)
-        #     sleep(3)
-        #     self.plan.behavior_decision = "driving"
-        #     self.target_control(0, self.speed)
-        #     self.non_traffic_right_checker += 1
+        if (self.range(2032, 20) and self.non_traffic_right_checker == 0) or (self.range(2146, 20) and self.non_traffic_right_checker == 1):
+            self.plan.behavior_decision = "stop"
+            self.target_control(200, 0)
+            sleep(3)
+            self.plan.behavior_decision = "driving"
+            self.target_control(0, self.speed)
+            self.non_traffic_right_checker += 1
         pass
 
     def convert_lidar(self):
@@ -431,7 +435,13 @@ class Mission():
                 sleep(6)
                 self.target_control(0, self.speed)
                 self.plan.behavior_decision = "delivery_end"
-
+                
+    def emergency_stop(self):
+        self.plan.behavior_decision = "emergency_avoidance"
+        if self.shared.plan.obstac == True:
+            self.target_control(150, 0)
+            sleep(3)
+            self.target_control(0, 10)
 
     # def pickup(self):
     #     self.plan.behavior_decision = "delivery_mode"

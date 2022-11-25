@@ -46,7 +46,7 @@ class Localization():
 
             if (main_time - self.gps.time) < 0.2 and (main_time - self.imu.time) < 0.2:
                 time_sync = "Sync"
-                if self.gps.heading_switch == True:
+                if self.gps.heading_switch == True and self.dr.speed > 5:
                     self.offset = self.gps.heading - self.imu.heading
                     self.heading = (self.imu.heading + self.offset)
                 else:
@@ -119,7 +119,7 @@ if __name__ == '__main__':
     basename_input = parser.parse_args().base_names
 
     if len(basename_input) == 0:
-        base_name = "KCity"
+        base_name = "Siheung"
 
     elif len(basename_input) == 1:
         base_name = basename_input[0]
