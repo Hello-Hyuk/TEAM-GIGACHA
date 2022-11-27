@@ -23,42 +23,41 @@ class BehaviorPlanner(threading.Thread):
     def run(self):
         while True:
             try:
-                self.perception.delivery_lidar_lock.acquire()
-                if (self.perception.sign_num != 0):
-                    self.mission.convert_delivery()
-                self.perception.delivery_lidar_lock.release()
+                # self.perception.delivery_lidar_lock.acquire()
+                # if (self.perception.sign_num != 0):
+                #     self.mission.convert_delivery()
+                # self.perception.delivery_lidar_lock.release()
 
-                if self.state_remember != self.plan.state:
-                    self.state_remember = self.plan.state
-                    self.mission.time_checker = False
+                # if self.state_remember != self.plan.state:
+                #     self.state_remember = self.plan.state
+                #     self.mission.time_checker = False
 
-                if self.plan.state == "parking":
-                    self.mission.Parking_KCity_Parallel()
+                # if self.plan.state == "parking":
+                #     self.mission.Parking_KCity_Parallel()
                 
-                elif self.plan.state == "U-TURN":
-                    self.mission.u_turn()
+                # elif self.plan.state == "U-TURN":
+                #     self.mission.u_turn()
 
-                elif self.plan.state == "static_obstacle_detected":
-                    self.mission.convert_lidar()
-                    self.mission.static_obstacle()
+                # elif self.plan.state == "static_obstacle_detected":
+                #     self.mission.convert_lidar()
+                #     self.mission.static_obstacle()
 
-                elif self.plan.state == "left_sign_detected":
-                    self.mission.turn_left()
+                # elif self.plan.state == "left_sign_detected":
+                #     self.mission.turn_left()
 
-                elif self.plan.state == "non_right_sign":
-                    self.mission.non_traffic_right()
+                # elif self.plan.state == "non_right_sign":
+                #     self.mission.non_traffic_right()
 
-                elif self.plan.state == "pickup":
-                    self.mission.pickup()
+                # elif self.plan.state == "pickup":
+                #     self.mission.pickup()
 
-                elif self.plan.state == "delivery":
-                    self.mission.delivery()
+                # elif self.plan.state == "delivery":
+                #     self.mission.delivery()
 
-                elif self.plan.state == "go":
-                    self.mission.go()
+                # elif self.plan.state == "go":
+                #     self.mission.go()
 
-                else:
-                    self.mission.go()
+                self.mission.go()
 
             except IndexError:
                 # pass

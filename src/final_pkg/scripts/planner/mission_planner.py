@@ -15,29 +15,28 @@ class MissionPlanner(threading.Thread):
     def run(self):
         while True:
             try:
-                if self.shared.perception.signname == "static_obstacle":
-                    self.plan.state = "static_obstacle_detected"           
+                # if self.shared.perception.signname == "static_obstacle":
+                #     self.plan.state = "static_obstacle_detected"           
 
-                elif self.shared.perception.signname == "delivery":
-                    self.plan.state = "delivery"
+                # elif self.shared.perception.signname == "delivery":
+                #     self.plan.state = "delivery"
 
-                elif self.shared.perception.signname == "pickup":
-                    self.plan.state = "pickup"
+                # elif self.shared.perception.signname == "pickup":
+                #     self.plan.state = "pickup"
 
-                elif self.shared.perception.signname == "turn_left_traffic_light":
-                    self.plan.state = "left_sign_detected"
+                # elif self.shared.perception.signname == "turn_left_traffic_light":
+                #     self.plan.state = "left_sign_detected"
 
-                elif self.shared.perception.signname == "non_traffic_right":
-                    self.plan.state ="non_right_sign"
+                # elif self.shared.perception.signname == "non_traffic_right":
+                #     self.plan.state ="non_right_sign"
                 
-                elif self.perception.signname == "parking":
-                    self.plan.state = "parking"
+                # elif self.perception.signname == "parking":
+                #     self.plan.state = "parking"
 
-                elif self.perception.signname == "U-TURN":
-                    self.plan.state = "U-TURN"
+                # elif self.perception.signname == "U-TURN":
+                #     self.plan.state = "U-TURN"
 
-                else:
-                    self.plan.state = "go"
+                self.plan.state = "go"
 
             except IndexError:
                 print("++++++++mission_planner+++++++++")

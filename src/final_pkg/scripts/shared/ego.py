@@ -29,7 +29,7 @@ class Ego():
 
         # Planner to Controller
         self.target_estop = 0x00
-        self.target_speed = 10
+        self.target_speed = 0
         self.target_gear = 0
         self.target_brake = 0
         self.target_estop = 0
@@ -38,6 +38,6 @@ class Ego():
         # Controller to Serial (writer)
         self.input_estop = 0x00
         self.input_gear = 0
-        self.input_speed = 10
+        self.input_speed = 0
         self.input_steer = 0
         self.input_brake = 0
