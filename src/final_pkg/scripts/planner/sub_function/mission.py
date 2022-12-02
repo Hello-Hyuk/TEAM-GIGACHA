@@ -53,6 +53,7 @@ class Mission():
         self.speed_check = False
         self.sp = 0
         self.curve_based_speed = 0
+        self.rad_steer = 0
 
 
     def range(self, a, b = 50):
@@ -64,11 +65,12 @@ class Mission():
 
     def go(self):
         if self.ego.input_steer != 0:
-            self.curve_based_speed = abs((1.04 / tan(self.ego.input_steer)) - 2) # 2 will be tuned
+            self.rad_steer = abs(self.ego.input_steer) * pi / 180
+            self.curve_based_speed = sqrt(1.04 / tan(self.rad_steer) + 25 -(1.04 / tan(26*pi/180))) 
             # print("curve based speed : ", self.curve_based_speed)
             self.target_control(0, self.curve_based_speed)
         else:
-            self.target_control(0, 7)
+            self.target_control(0, 9.09)
         # self.target_control(0,5)
         pass
 

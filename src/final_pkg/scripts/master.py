@@ -90,7 +90,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='curve_based_control/1',
+        default='curve_based_control/2',
         help='kcity_simul/final_map, Siheung/delivery2, Siheung/sibaedal'
     )
 
