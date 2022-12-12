@@ -82,7 +82,7 @@ class Mission():
                     self.ego.target_gear = 2
                     self.target_control(0, 5)
             # elif (15 <= int(self.parking.stop_index - self.parking.index) <= 25) and (self.parking.direction == 2):
-            elif (15 <= int(self.parking.stop_index - self.parking.index) <= 45) and (self.parking.direction == 2):
+            elif (15 <= int(self.parking.stop_index - self.parking.index) <= 55) and (self.parking.direction == 2):
                     self.target_control(100, 0)
                     sleep(3)
                     self.plan.behavior_decision = "driving"

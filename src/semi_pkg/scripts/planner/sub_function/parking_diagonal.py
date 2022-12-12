@@ -212,7 +212,7 @@ class Parking_Motion():
 
 
         if self.track_index < save_idx:
-            # print(min_dis)
+            print(min_dis)
             self.track_index = save_idx
         
 

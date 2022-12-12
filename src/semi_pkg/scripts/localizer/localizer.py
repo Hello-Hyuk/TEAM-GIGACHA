@@ -68,9 +68,9 @@ class Localizer(threading.Thread):
         self.ego.index = min_idx
         self.perception.signname = self.global_path.mission[self.ego.index]
 
-        if self.track_index < min_idx:
-            print(min_dis)
-            self.track_index = min_idx
+        # if self.track_index < min_idx:
+        #     print(min_dis)
+        #     self.track_index = min_idx
 
     def dead_reckoning(self):
         if self.hAcc < 50 :
