@@ -5,8 +5,8 @@ import time
 import numpy as np
 from local_pkg.msg import Displacement
 
-class DR_imu():
-    def __init__(self, ego, imu):
+class DR_imu(): # imu, encoder를 통해 dead reckoning을 수행하는 클래스
+    def __init__(self, ego, imu): # init 함수, encoder 값을 ros subscriber를 통해 받아오고 변수 선언
         rospy.Subscriber('/encoder', Displacement, self.encoderCallback)
         self.imu = imu
         self.ego = ego
@@ -23,7 +23,7 @@ class DR_imu():
         self.linear_accel_x = 0.0
         self.linear_accel_y = 0.0
 
-    def calc_location(self):
+    def calc_location(self): # location 계산 함수
         self.linear_accel_x = self.imu.linear_accel_x
         self.linear_accel_y = self.imu.linear_accel_y
         self.delta_theta = self.imu.angular_velocity_z
@@ -43,7 +43,7 @@ class DR_imu():
 
         self.routes.append(self.new_loc)
 
-    def encoderCallback(self):
+    def encoderCallback(self): # encoder callback
         self.calc_location()
 
 if __name__ == '__main__':

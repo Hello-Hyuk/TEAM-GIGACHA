@@ -7,10 +7,10 @@ from local_pkg.msg import Local
 from math import hypot
 from time import sleep
 
-class Localizer(threading.Thread):
+class Localizer(threading.Thread): # localizer thread class
     def __init__(self, parent, rate):
         super().__init__()
-        rospy.Subscriber('/local_msgs', Local, self.local_callback)
+        rospy.Subscriber('/local_msgs', Local, self.local_callback) # 별도의 local pkg에서 정보를 받아오는 ros subscriber
 
         self.mapname = parent.args.map
         self.period = 1.0 / rate
@@ -23,7 +23,7 @@ class Localizer(threading.Thread):
         self.x = 0
         self.y = 0
 
-    def local_callback(self, msg):
+    def local_callback(self, msg): # 필요한 값들을 msg로 받아와 저장하는 callback 함수
         self.x = msg.x
         self.y = msg.y
         self.hAcc = msg.hAcc
@@ -39,7 +39,7 @@ class Localizer(threading.Thread):
         self.ego.x = msg.x
         self.ego.y = msg.y
         
-    def read_global_path(self):
+    def read_global_path(self): # map을 읽어옴 (한번만 돈다)
         with open(f"maps/{self.mapname}.json", 'r') as json_file:
             json_data = json.load(json_file)
             for n, (x, y , mission, map_speed) in enumerate(json_data.values()):
@@ -48,7 +48,7 @@ class Localizer(threading.Thread):
                 self.global_path.mission.append(mission)
                 self.ego.map_speed.append(map_speed)
 
-    def index_finder(self):
+    def index_finder(self): # 현재 내 인덱스가 어디인지 찾아주는 함수
         min_dis = -1
         min_idx = 0
         step_size = 50
@@ -68,7 +68,7 @@ class Localizer(threading.Thread):
         
         self.perception.signname = self.global_path.mission[self.ego.index]
 
-    def dead_reckoning(self):
+    def dead_reckoning(self): # dead reckoning을 통한 내 위치
         if self.hAcc < 50 :
             self.ego.x = self.x
             self.ego.y = self.y
@@ -76,7 +76,7 @@ class Localizer(threading.Thread):
             self.ego.x = self.ego.dr_x
             self.ego.y = self.ego.dr_y
 
-    def run(self):
+    def run(self): # index_finder, dead_reckoning 함수를 run하는 함수. thread가 실행되면 돌아감
         while True:
             self.index_finder()
             self.dead_reckoning()

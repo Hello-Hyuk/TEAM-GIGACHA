@@ -5,8 +5,8 @@ import time
 import numpy as np
 from local_pkg.msg import Displacement
 
-class DR_enc():
-    def __init__(self, ego):
+class DR_enc(): # 엔코더를 통해 dead reckoning을 수행하는 클래스
+    def __init__(self, ego): # init함수, encoder 값을 ros subscriber를 통해 받아오고 변수 선언
         rospy.Subscriber('/encoder', Displacement, self.encoderCallback)
         self.ego = ego
         
@@ -25,7 +25,7 @@ class DR_enc():
         self.radius_wheel = 0.25
         self.distance_btw_wheel = 0.97
 
-    def serialTopulse(self):
+    def serialTopulse(self): # serial에서 나온 encoder 데이터를 pulse로 변환하는 과정 
         if self.init == 0:
             self.init = int(self.ego.encoder[0]) + int(self.ego.encoder[1])*256\
                 + int(self.ego.encoder[2])*256**2 + \
@@ -63,7 +63,7 @@ class DR_enc():
         
         self.routes.append(self.new_loc)
 
-    def encoderCallback(self, msg):
+    def encoderCallback(self, msg): # encoder callback 함수
         self.rotate_right_callback = msg.data/100
         self.rotate_left_callback = self.serialTopulse()
 
