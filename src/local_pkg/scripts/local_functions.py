@@ -1,7 +1,8 @@
+# 계산용 함수들을 모아둔 파일
 import math
 import numpy as np
 
-def euler_from_quaternion(x, y, z, w):
+def euler_from_quaternion(x, y, z, w): # 쿼터니안 각을 오일러 각으로 변환해주는 함수
     t0 = +2.0 * (w * x + y * z)
     t1 = +1.0 - 2.0 * (x * x + y * y)
     roll_x = math.atan2(t0, t1)
@@ -17,7 +18,7 @@ def euler_from_quaternion(x, y, z, w):
     
     return roll_x, pitch_y, yaw_z # in radians
 
-def circumradius(xvals, yvals):
+def circumradius(xvals, yvals): # 점 세개로 원을 만들어 그 원의 반지름을 반환하는 함수
     x1, x2, x3, y1, y2, y3 = xvals[0], xvals[1], xvals[2],\
     yvals[0], yvals[1], yvals[2]
 
@@ -31,7 +32,7 @@ def circumradius(xvals, yvals):
 
     return r
 
-def low_pass_filter(data, size, alpha):
+def low_pass_filter(data, size, alpha): # 저주파 통과 필터
     meas = []
     meas.append(data)
     mean = np.mean(meas)
@@ -44,7 +45,7 @@ def low_pass_filter(data, size, alpha):
 
     return filter_mean
 
-def quaternion_from_euler(roll, pitch, yaw):
+def quaternion_from_euler(roll, pitch, yaw): # 오일러 각을 쿼터니안 각으로 변환해주는 함수
 
         qx = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
         qy = np.cos(roll/2) * np.sin(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.cos(pitch/2) * np.sin(yaw/2)

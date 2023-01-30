@@ -1,7 +1,7 @@
 import sys
 import signal
 
-class Activate_Signal_Interrupt_Handler:
+class Activate_Signal_Interrupt_Handler: # ROS signal interrupt handler
     def __init__(self):
         signal.signal(signal.SIGINT, self.signal_handler)
 
