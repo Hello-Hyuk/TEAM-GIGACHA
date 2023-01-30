@@ -1,6 +1,6 @@
 from geometry_msgs.msg import Quaternion
 
-class Ego():
+class Ego(): # 차량 정보에 관한 변수들을 담고 있는 클래스
     def __init__(self):
         # Local to Ego
         self.x = 0.0

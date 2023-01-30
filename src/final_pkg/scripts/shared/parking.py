@@ -1,6 +1,6 @@
 from .path import Path
 
-class Parking():
+class Parking(): # 주차에 필요한 변수들을 담고 있는 클래스
     def __init__(self):
         self.on = "off"
         self.mindex = 0

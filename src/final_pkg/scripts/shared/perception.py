@@ -7,12 +7,12 @@ from vision_msgs.msg import Detection2DArray
 from sensor_msgs.msg import PointCloud
 from geometry_msgs.msg import PoseArray
 
-class Perception_():
+class Perception_(): # 인지 정보를 담고 있는 클래스
    def __init__(self):
-      rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback)
-      rospy.Subscriber("/traffic_bbox", Detection2DArray, self.traffic_callback)
-      rospy.Subscriber("/Parking_num", Int32, self.parking_callback)
-      rospy.Subscriber("/pcd", PoseArray, self.delivery_callback)
+      rospy.Subscriber("/obstacles_markers", MarkerArray, self.lidar_callback) # LiDAR subscriber
+      rospy.Subscriber("/traffic_bbox", Detection2DArray, self.traffic_callback) # 신호등 정보 subscriber
+      rospy.Subscriber("/Parking_num", Int32, self.parking_callback) # 주차 정보 subscriber
+      rospy.Subscriber("/pcd", PoseArray, self.delivery_callback) # 배달에 필요한 sensor fusion 정보 subscriber
       
       self.objx = []
       self.objy = []
@@ -33,21 +33,10 @@ class Perception_():
       self.parking_num = ""
       self.target = 0
 
-      #for input_callback
-      self.signx = 0
-      self.signy = 0
-      self.B_x = [0,0,0]
-      self.B_y = [0,0,0]
-      self.first_sign = 0
-      self.second_sign = 0
-      self.third_sign = 0
-
       self.sign_num = 0
 
    # without tracking
-   def delivery_callback(self, msg):
-      # pickup
-      # print("===================PICKUP===================:{0}".format(len(msg.poses)))
+   def delivery_callback(self, msg): # 배달 미션 callback 함수
 
       self.delivery_lidar_lock.acquire()
       self.sign_num = len(msg.poses)
@@ -78,14 +67,9 @@ class Perception_():
                self.B_x[2] = msg.poses[i].orientation.x
                self.B_y[2] = msg.poses[i].orientation.y
       self.delivery_lidar_lock.release()
-      # print('perception : ')
-      # print(self.B_x[0], self.B_x[1], self.B_x[2] )
-         # self.first_sign = int(msg.poses[0].orientation.w)
-         # self.second_sign = int(msg.poses[1].orientation.w)
-         # self.third_sign = int(msg.poses[2].orientation.w)
 
    
-   def lidar_callback(self, msg):
+   def lidar_callback(self, msg): # LiDAR callback 함수
       if len(msg.markers) != 0:
          self.tmp_lidar_lock.acquire()
          tmp_objx = []
@@ -109,7 +93,7 @@ class Perception_():
          self.tmp_objh = []
 
          
-   def traffic_callback(self, msg):
+   def traffic_callback(self, msg): # 신호등 callback 함수
       if len(msg.detections) > 0:
          if msg.detections[0].results[0].id == 0:
             self.tred = True
@@ -137,8 +121,5 @@ class Perception_():
             self.tleft = True
             self.tgreen = True
 
-   def parking_callback(self, msg):
-      ### HANAMJA JUCHA ###
-      # self.parking_num = 3
-      #####################
+   def parking_callback(self, msg): # 주차 callback 함수
       self.parking_num = msg.data
