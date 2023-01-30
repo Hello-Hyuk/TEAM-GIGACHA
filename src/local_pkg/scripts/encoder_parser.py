@@ -5,14 +5,14 @@ import signal
 from std_msgs.msg import Int64
 from sig_int_handler import Activate_Signal_Interrupt_Handler
 
-class Encoder_Parsing():
-    def __init__(self):
+class Encoder_Parsing(): 
+    def __init__(self): 
         rospy.init_node('Displacement_right', anonymous = False)
         self.pub = rospy.Publisher('/Displacement_right', Int64, queue_size = 1)
         self.ser = serial.Serial(port = '/dev/encoder', baudrate = 115200)
         self.init_data = 0
 
-    def main(self):
+    def main(self): # 시리얼 통신을 통해 encoder 에서 받은 값을 ros통신할 수 있도록 publish 한다
         res = self.ser.readline()
         while True:
             try:

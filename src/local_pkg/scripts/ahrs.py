@@ -24,7 +24,7 @@ class IMU():
          
         self.orientation_q = Quaternion() 
  
-    def imu_call_back(self, data):
+    def imu_call_back(self, data): # ahrs_parser.py에서 parsing한 data의 쿼터니안 값을 오일러값으로 변환하여 변수에 입력
         self.time = time.time() 
         self.orientation_q = data.orientation 
         roll, pitch, yaw = efq(self.orientation_q.x, self.orientation_q.y, self.orientation_q.z, self.orientation_q.w) 
@@ -35,7 +35,7 @@ class IMU():
         self.heading = np.rad2deg(-1*yaw)%360
         self.battery = data.linear_acceleration.z 
 
-    def imu_call_back_simul(self, data):
+    def imu_call_back_simul(self, data): # 위와 같은 값을 시뮬레이터에서 이용가능하도록 입력
         self.time = time.time() 
         self.orientation_q = data.orientation 
         roll, pitch, yaw = efq(self.orientation_q.x, self.orientation_q.y, self.orientation_q.z, self.orientation_q.w) 
