@@ -25,6 +25,7 @@ class AHRS_Parsing:
 
         try:
             sdata = self.data.split(",")
+            # print("sdata :", sdata)
             self.raw_data.orientation.x = float(sdata[3])
             self.raw_data.orientation.y = float(sdata[2])
             self.raw_data.orientation.z = float(sdata[1])

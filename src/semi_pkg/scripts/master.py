@@ -52,7 +52,7 @@ class Master(threading.Thread):
 
             # print('Motion_Selected lane : {}'.format(self.shared.selected_lane))
             # print('Controller')
-            print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
+            # print('Speed : {}, Steer : {:.2f}'.format(self.shared.ego.input_speed, self.shared.ego.input_steer))
             # print('Speed : {},'.format(self.shared.ego.speed))
 
             self.checker_all()
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         '--map',
-        default='kcity_simul/semi_map',
+        default='VIP_obstacle/static_obstacle',
         help='kcity/map1, songdo/map2, yonghyeon/Yonghyeon, kcity_simul/left_lane, kcity_simul/right_lane, kcity_simul/final, inha_parking/gpp, kcity_simul/semi_map'
     )
 

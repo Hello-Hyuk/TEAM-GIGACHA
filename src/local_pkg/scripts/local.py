@@ -99,6 +99,9 @@ class Localization():
         self.msg.roll = self.imu.roll
         self.msg.pitch = self.imu.pitch
         self.msg.heading = self.heading
+        print("imu_heading :", self.imu.heading)
+        print("gps_heading :", self.gps.heading)
+        print("final_heading :", self.msg.heading)
         self.msg.orientation.x = orientation[0]
         self.msg.orientation.y = orientation[1]
         self.msg.orientation.z = orientation[2]
@@ -119,7 +122,7 @@ if __name__ == '__main__':
     basename_input = parser.parse_args().base_names
 
     if len(basename_input) == 0:
-        base_name = "Yonghyeon_parking"
+        base_name = "Yonghyeon_nabillae"
 
     elif len(basename_input) == 1:
         base_name = basename_input[0]
