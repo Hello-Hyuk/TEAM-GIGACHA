@@ -107,6 +107,7 @@ class Localization():
         self.pub.publish(self.msg)
 
         rospy.loginfo(self.msg)
+        # rospy.loginfo(self.imu.heading)
         # rospy.loginfo(self.msg.heading)
 
 
